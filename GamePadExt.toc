@@ -1,0 +1,17 @@
+## Interface: 90207
+## X-Interface: 90207
+## Title: |cff1784d1GamePadExt|r
+## Notes: GamePad Extensions
+## Author: kangze25@hotmail.com
+## Version: 1.0.0
+## SavedVariables: GamePadExtDB
+
+
+Load_libs.xml
+Configuration.lua
+HeaderExt.lua
+GamePadVribration.lua
+ActionBarExt.lua
+BuffFrom.lua
+Fonts.lua
+Core.lua
