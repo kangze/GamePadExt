@@ -14,4 +14,5 @@ GamePadVribration.lua
 ActionBarExt.lua
 BuffFrom.lua
 Fonts.lua
+NamePlate.lua
 Core.lua

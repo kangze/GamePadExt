@@ -56,9 +56,9 @@ function E:ProccessVibration(eventName, ...)
 end
 
 function E:ProccessCamera(eventName, ...)
-    if (IsMounted() == false) then
-        SetCVar("test_cameraOverShoulder", "0")
-    else
-        SetCVar("test_cameraOverShoulder", "5")
-    end
+    -- if (IsMounted() == false) then
+    --     SetCVar("test_cameraOverShoulder", "0")
+    -- else
+    --     SetCVar("test_cameraOverShoulder", "5")
+    -- end
 end

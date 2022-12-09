@@ -3,6 +3,7 @@ local E = addonTable.E;
 local F =addonTable.F;
 local H =addonTable.H;
 local B=addonTable.B;
+local N=addonTable.N;
 local GamePadExtAddon = LibStub("AceAddon-3.0"):NewAddon("GamePadExt", "AceEvent-3.0","AceConsole-3.0")
 local unpack = unpack;
 
@@ -17,11 +18,12 @@ end
 
 
 PlayerCastingBarFrame:HookScript("OnEvent", function(arg)
-    arg:SetSize(240, 15);
     arg.Text:SetFont("Fonts\\FRIZQT__.TTF", 10, "OUTLINE");
     arg.Text:SetPoint("TOP", 0, -12);
-    --arg.Icon:Show();
+    arg.Icon:Show();
 end);
+
+
 
 WorldMapFrame:HookScript("OnShow", function(arg)
     arg:SetScale(1.3);
@@ -93,7 +95,7 @@ function GamePadExtAddon:OnInitialize()
     F:InitSettingPanel();
     
     H:InitHeaderExt();
-
+    N:InitNamePlate();
     E:ActionBarExt();
     E:InitGamePadVirbration();
     B:InitBuffFrom();
