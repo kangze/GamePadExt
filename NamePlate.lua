@@ -37,7 +37,7 @@ function N:NAME_PLATE_UNIT_ADDED(...)
     healthbarborder:SetPoint("CENTER",10,-1);
     
 
-    plate.UnitFrame.castBar:SetPoint("TOP",healthbarborder,0,0)
+    --plate.UnitFrame.castBar:SetPoint("TOP",healthbarborder,0,0)
     --create texture
     local tex = healthbarborder:CreateTexture();
     tex:SetAllPoints(healthbarborder);
