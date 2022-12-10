@@ -20,7 +20,7 @@ end
 PlayerCastingBarFrame:HookScript("OnEvent", function(arg)
     arg.Text:SetFont("Fonts\\FRIZQT__.TTF", 10, "OUTLINE");
     arg.Text:SetPoint("TOP", 0, -12);
-    arg.Icon:Show();
+    arg.Icon:Show();    
 end);
 
 
