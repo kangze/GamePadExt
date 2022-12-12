@@ -1,6 +1,25 @@
 local addonName, addonTable = ...
 
-local N = {};
+local N = {
+    --profile and defaults
+    profile={     
+        showBlizzardNamePlate=true,
+    },
+
+    --config settings
+    configArg={
+        nameplate={
+            name="姓名版",
+            type="group",
+            args={
+                name="老版",
+                type="toggle",
+                set=function(info,value) end;
+                get=function(info) end;
+            }
+        }
+    }
+};
 addonTable.N = N;
 
 --local GetNamePlateForUnit=GetNamePlateForUnit;
@@ -18,6 +37,9 @@ end
 function N:NAME_PLATE_UNIT_ADDED(...)
     local unitID=...;
     local plate=C_NamePlate.GetNamePlateForUnit(unitID);
+    if(plate==nil) then return;end
+
+
     local level=UnitLevel(unitID);
     if(plate.gpe_healthbarborder~=nil) then
         plate.gpe_healthbarborder.levelfont:SetText(level);
