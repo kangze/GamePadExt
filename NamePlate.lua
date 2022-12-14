@@ -30,7 +30,30 @@ function N:InitNamePlate()
     GamePadExtAddon:RegisterEvent("NAME_PLATE_UNIT_REMOVED",self.NAME_PLATE_UNIT_REMOVED);
     --var s="PLAYER_TARGET_CHANGED";
     C_CVar.SetCVar("NamePlateHorizontalScale",1.2);
-    C_CVar.SetCVar("NamePlateVerticalScale",2.7);
+    C_CVar.SetCVar("NamePlateVerticalScale",1.8);
+
+    C_CVar.SetCVar("nameplateMaxAlpha",0.95);
+    C_CVar.SetCVar("nameplateSelectedAlpha",1);
+
+    C_CVar.SetCVar("nameplateMinScale",1.5);
+    N:Temp();
+end
+
+function N:Temp()
+    QueueStatusButton:SetMovable(true);
+    QueueStatusButton:EnableMouse(true);
+    QueueStatusButton:RegisterForDrag("LeftButton");
+    QueueStatusButton:SetScript("OnDragStart", function(self) self:StartMoving() end);
+    QueueStatusButton:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end);
+
+    -- StatusTrackingBarManager:SetMovable(false);
+    -- StatusTrackingBarManager:EnableMouse(false);
+    -- StatusTrackingBarManager:RegisterForDrag("LeftButton");
+    -- StatusTrackingBarManager:SetScript("OnDragStart", function(self) self:StartMoving() end);
+    -- StatusTrackingBarManager:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end);
+    -- for k,v in pairs(StatusTrackingBarManager) do
+    --     if(type(v) ~= 'function' and type(v) ~= 'userdata' and v.SetWidth) then v:SetWidth(895) end
+    -- end
 end
 
 
@@ -54,9 +77,10 @@ function N:NAME_PLATE_UNIT_ADDED(...)
     --plate.UnitFrame.castBar:SetSize(width,height);
     
     --create nameplate_healther_border frame
+    plate.UnitFrame.healthBar:SetWidth(120);
     local healthbarborder = CreateFrame("Frame", nil, plate.UnitFrame.healthBar);
     healthbarborder:SetSize(width, height);
-    healthbarborder:SetPoint("CENTER",10,-1);
+    healthbarborder:SetPoint("CENTER",6,-1);
     
 
     --plate.UnitFrame.castBar:SetPoint("TOP",healthbarborder,0,0)
