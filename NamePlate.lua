@@ -29,12 +29,11 @@ function N:InitNamePlate()
     GamePadExtAddon:RegisterEvent("NAME_PLATE_UNIT_ADDED",self.NAME_PLATE_UNIT_ADDED);
     GamePadExtAddon:RegisterEvent("NAME_PLATE_UNIT_REMOVED",self.NAME_PLATE_UNIT_REMOVED);
     --var s="PLAYER_TARGET_CHANGED";
-    C_CVar.SetCVar("NamePlateHorizontalScale",1.2);
-    C_CVar.SetCVar("NamePlateVerticalScale",1.8);
-    C_CVar.SetCVar("nameplateMaxAlpha",0.95);
-    C_CVar.SetCVar("nameplateSelectedAlpha",1);
-    C_CVar.SetCVar("nameplateMinScale",1.5);
-    
+        C_CVar.SetCVar("NamePlateHorizontalScale",1.2);
+        --C_CVar.SetCVar("NamePlateVerticalScale",2);
+        C_CVar.SetCVar("nameplateMaxAlpha",0.95);
+        C_CVar.SetCVar("nameplateSelectedAlpha",1);
+        C_CVar.SetCVar("nameplateMinScale",1.5);
 end
 
 function N:NAME_PLATE_UNIT_ADDED(...)
