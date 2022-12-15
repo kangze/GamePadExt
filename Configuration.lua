@@ -6,8 +6,12 @@ local config = LibStub("AceConfig-3.0");
 local configDialog = LibStub("AceConfigDialog-3.0");
 
 local F, H = {}, {};
+local T={};
+
 addonTable.F = F;
 addonTable.H = H;
+addonTable.T=T;
+addonTable.T=T;
 
 
 local defaults = {
