@@ -107,7 +107,7 @@ function F:InitSettingPanel()
     }
 
     config:RegisterOptionsTable("GamePadExt", GamePadExtOptions);
-    configDialog:Open("GamePadExt", frame);
+    --configDialog:Open("GamePadExt", frame);
 end
 
 function F:OpenSettingPanle()
@@ -126,5 +126,6 @@ function CreateContainer()
     frame:SetLayout("Flow");
     AceGUI:RegisterAsContainer(frame);
     GPESettingContainer = frame;
+    frame:Hide();
     return frame;
 end

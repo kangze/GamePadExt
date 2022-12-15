@@ -17,17 +17,13 @@ function GamePadExtAddon:HandleCommand(input)
 end
 
 
-PlayerCastingBarFrame:HookScript("OnEvent", function(arg)
-    arg.Text:SetFont("Fonts\\FRIZQT__.TTF", 10, "OUTLINE");
-    arg.Text:SetPoint("TOP", 0, -12);
-    arg.Icon:Show();    
-end);
 
 
 
-WorldMapFrame:HookScript("OnShow", function(arg)
-    arg:SetScale(1.3);
-end);
+
+-- WorldMapFrame:HookScript("OnShow", function(arg)
+--     arg:SetScale(1.3);
+-- end);
 
 CharacterFrame:HookScript("OnShow", function(arg)
     arg:SetScale(1.12);
@@ -96,7 +92,7 @@ function GamePadExtAddon:OnInitialize()
     
     H:InitHeaderExt();
     N:InitNamePlate();
-    E:ActionBarExt();
+    E:OnLoad();
     E:InitGamePadVirbration();
     B:InitBuffFrom();
 

@@ -7,11 +7,11 @@ function E:LoadTrackingBar()
     for _,v in pairs(StatusTrackingBarManager) do
         if(type(v) ~= 'function' and type(v) ~= 'userdata' and v.SetWidth) then 
             v:SetWidth(895);
+            v:ClearAllPoints();
+            v:SetPoint("BOTTOM",UIParent,"BOTTOM",0,50);
         end
     end
-
-    StatusTrackingBarManager:ClearAllPoints();
-    StatusTrackingBarManager:SetPoint("BOTTOM",-90,50);
+    
 
     -- set trackingBarManager movable
     -- StatusTrackingBarManager:SetMovable(false);

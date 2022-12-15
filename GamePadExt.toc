@@ -11,7 +11,9 @@ Load_libs.xml
 Configuration.lua
 HeaderExt.lua
 GamePadVribration.lua
-ActionBarExt.lua
+ActionBar/ActionBar.lua
+ActionBar/OldBlzzardActionBar.lua
+ActionBar/TrackingBar.lua
 BuffFrom.lua
 Fonts.lua
 NamePlate.lua
