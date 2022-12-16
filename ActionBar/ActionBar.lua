@@ -1,6 +1,45 @@
 local addonName, addonTable = ...
 
+
+local db=addonTable.D;
+local E={
+    profile={
+        actionBar={
+            style={
+                show_old_blizzard_action_bar=true,
+            }   
+        }
+    },
+    args={
+        actionBar={
+            name="动作条",
+            type="group",
+            args={
+                style={
+                    name="样式",
+                    type="group",
+                    args={
+                        show_old_blizzard_action_bar={
+                            name="显示旧的暴雪动作条",
+                            type="toggle",
+                            set=function(info,value)
+                                db.profile.actionBar.style.show_old_blizzard_action_bar=value;
+                                --E:LoadOldBlizzardActionBar();
+                            end,
+                            get=function(info)
+                                return db.profile.actionBar.style.show_old_blizzard_action_bar;
+                            end
+                        }
+                    }
+                }
+            }
+        }
+    }
+};
+
 local E=addonTable.E;
+
+
 
 function E:OnLoad()
     self:LoadOldBlizzardActionBar();
