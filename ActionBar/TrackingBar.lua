@@ -1,9 +1,9 @@
 local addonName, addonTable = ...
 
-local E=addonTable.E;
+local A=addonTable.A;
 local StatusTrackingBarManager=StatusTrackingBarManager;
 
-function E:LoadTrackingBar()
+function A:LoadTrackingBar()
     for _,v in pairs(StatusTrackingBarManager) do
         if(type(v) ~= 'function' and type(v) ~= 'userdata' and v.SetWidth) then 
             v:SetWidth(895);

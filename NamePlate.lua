@@ -28,14 +28,18 @@ function N:InitNamePlate()
     local GamePadExtAddon = addonTable.GamePadExtAddon;
     GamePadExtAddon:RegisterEvent("NAME_PLATE_UNIT_ADDED", self.NAME_PLATE_UNIT_ADDED);
     GamePadExtAddon:RegisterEvent("NAME_PLATE_UNIT_REMOVED", self.NAME_PLATE_UNIT_REMOVED);
-    GamePadExtAddon:RegisterEvent("VARIABLES_LOADED", self.VARIABLES_LOADED);
+    hooksecurefunc(SettingsRegistrar,"OnLoad",function()
+        VARIABLES_LOADED();
+    end);
+    
+    --GamePadExtAddon:RegisterEvent("VARIABLES_LOADED", self.VARIABLES_LOADED);
+    --GamePadExtAddon:RegisterEvent("PLAYER_ENTERING_WORLD",self.VARIABLES_LOADED);
 end
 
 function N:NAME_PLATE_UNIT_ADDED(...)
     local unitID = ...;
     local plate = C_NamePlate.GetNamePlateForUnit(unitID);
     if (plate == nil) then return; end
-
 
     local level = UnitLevel(unitID);
     if (plate.gpe_healthbarborder ~= nil) then
@@ -77,13 +81,14 @@ function N:NAME_PLATE_UNIT_REMOVED(...)
     local plate = C_NamePlate.GetNamePlateForUnit(unitID);
 end
 
-function N:VARIABLES_LOADED()
+function VARIABLES_LOADED()
     --big nameplate settings
-    C_CVar.SetCVar("NamePlateHorizontalScale", 1.2);
-    C_CVar.SetCVar("NamePlateVerticalScale", 1);
-    C_CVar.SetCVar("nameplateMaxAlpha", 0.95);
-    C_CVar.SetCVar("nameplateSelectedAlpha", 1);
-    C_CVar.SetCVar("nameplateMinScale", 1.2);
-    C_CVar.SetCVar("nameplateMinAlpha", 0.5);
-    C_CVar.SetCVar("nameplateMaxAlpha", 0.5);
+    SetCVar("NamePlateHorizontalScale", 1.2);
+	SetCVar("NamePlateVerticalScale", 2.7);
+	SetCVar("NamePlateClassificationScale", 1.25);
+    SetCVar("nameplateMaxAlpha", 0.65);
+    SetCVar("nameplateSelectedAlpha", 1);
+    SetCVar("nameplateMinScale", 1.2);
+    SetCVar("nameplateMinAlpha", 0.5);
+    SetCVar("nameplateMaxAlpha", 0.5);
 end

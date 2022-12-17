@@ -2,7 +2,7 @@ local addonName, addonTable = ...
 
 
 local db=addonTable.D;
-local E={
+local A={
     profile={
         actionBar={
             style={
@@ -37,17 +37,17 @@ local E={
     }
 };
 
-local E=addonTable.E;
+addonTable.A=A;
 
 
 
-function E:OnLoad()
+function A:OnLoad()
     self:LoadOldBlizzardActionBar();
     self:LoadTrackingBar();
 end
 
 
-function E:SetNewPanel()
+function A:SetNewPanel()
     -- 小眼睛
     -- QueueStatusButton:SetMovable(true);
     -- QueueStatusButton:EnableMouse(true);

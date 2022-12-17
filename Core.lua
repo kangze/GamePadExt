@@ -4,6 +4,7 @@ local F =addonTable.F;
 local H =addonTable.H;
 local B=addonTable.B;
 local N=addonTable.N;
+local A=addonTable.A;
 local GamePadExtAddon = LibStub("AceAddon-3.0"):NewAddon("GamePadExt", "AceEvent-3.0","AceConsole-3.0")
 local unpack = unpack;
 
@@ -89,10 +90,9 @@ end
 function GamePadExtAddon:OnInitialize()
 
     F:InitSettingPanel();
-    
     H:InitHeaderExt();
     N:InitNamePlate();
-    E:OnLoad();
+    A:OnLoad();
     E:InitGamePadVirbration();
     B:InitBuffFrom();
 
