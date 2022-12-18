@@ -89,12 +89,14 @@ end
 
 function GamePadExtAddon:OnInitialize()
 
+    
     F:InitSettingPanel();
     H:InitHeaderExt();
     N:InitNamePlate();
     A:OnLoad();
     E:InitGamePadVirbration();
     B:InitBuffFrom();
+    
 
 
 
