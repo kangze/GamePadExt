@@ -1,10 +1,11 @@
 local addonName, addonTable = ...;
-local H                     = addonTable.H;
 local PlayerName            = PlayerName;
 local HealthBar             = PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.HealthBarArea.HealthBar;
+local H                     = {};
+addonTable.H=H;
 
 function H:InitHeaderExt()
-    local db = addonTable.D;
+    local db = addonTable.db;
     self:SetPlayerNameSize(db.profile.headerExt.playerExt.namefontsize);
     self:SetPlayerHealthStatusText(db.profile.headerExt.playerExt.healthfontsize);
 end

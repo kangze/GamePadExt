@@ -1,13 +1,9 @@
-local addonName, addonTable = ...
-
-local A = addonTable.A;
-
+local _, Addon = ...
 
 local MainMenuBar = MainMenuBar;
 local MultiBarBottomLeft = MultiBarBottomLeft;
 
-
-function A:LoadOldBlizzardActionBar()
+function Addon:OnLoad_OldBlizzardActionBar()
     local frame = CreateFrame("Frame", nil, MainMenuBar);
     frame:SetMovable(true);
     frame:SetPoint("TOPLEFT", -7, 4)
@@ -42,7 +38,7 @@ function A:LoadOldBlizzardActionBar()
 end
 
 --
-function A:ApplyCapDecoration(backframe, mirror)
+function Addon:ApplyCapDecoration(backframe, mirror)
     local cap = CreateFrame("Frame", nil, UIParent);
     cap:SetSize(128, 128);
     if (mirror) then

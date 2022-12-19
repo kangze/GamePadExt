@@ -87,13 +87,32 @@ local function SetFont(obj, font, size, style, sr, sg, sb, sa, sox, soy, r, g, b
     end
 end
 
-function GamePadExtAddon:OnInitialize()
+local defaults = {
+    profile = {
+        headerExt = {
+            playerExt = {
+                namefontsize = 12,
+                healthfontsize = 11,
+            }
+        },
+        buffer={
+            from=true
+        }
+    }
+}
+for k,v in pairs(A.profile) do
+    defaults.profile[k]=v;
+end
 
+
+function GamePadExtAddon:OnInitialize()
+    local db = LibStub("AceDB-3.0"):New('GamePadExtDB', defaults, true)
+    addonTable.db = db;
     
     F:InitSettingPanel();
     H:InitHeaderExt();
     N:InitNamePlate();
-    A:OnLoad();
+    addonTable:OnLoad_ActionBar();
     E:InitGamePadVirbration();
     B:InitBuffFrom();
     
@@ -224,33 +243,9 @@ function GamePadExtAddon:OnInitialize()
 end
 
 function GamePadExtAddon:OnEnable()
-    --GamePadExt:RegisterEvent("CURRENCY_DISPLAY_UPDATE");
+    
 end
 
 function GamePadExtAddon:OnDisable()
-    --GamePadExt:UnregisterEvent("CURRENCY_DISPLAY_UPDATE");
-end
-
---init the
-function GamePadExtAddon:InitActionBar()
-    --创建动作条
-    local frame = CreateFrame("Frame", nil, UIParent);
-    frame:SetSize(800, 45);
-    frame:SetMovable(true);
-    frame:SetPoint("BOTTOM", 0, 10)
-    -- frame.tex=frame:CreateTexture();
-    -- frame.tex:SetAllPoints(frame);
-    -- frame.tex:SetTexture("Interface/MAINMENUBAR/MainMenuBar","CLAMPTOWHITE");
-    -- frame.tex:SetSize(950,88);
-    -- frame.tex:SetTexCoord(0.03,0.15,0.33,0.62);
-    --frame.tex:SetColorTexture(1, 1, 1, 0.5);
-
-
-
-    frame.tex2 = frame:CreateTexture();
-    frame.tex2:SetAllPoints(frame);
-    frame.tex2:SetTexture("Interface/MAINMENUBAR/MainMenuBar", "CLAMPTOWHITE");
-    frame.tex2:SetSize(800, 45);
-    frame.tex2:SetTexCoord(0.16, 0.94, 0.39, 0.58);
-    --frame.tex2:Hide();
+    
 end

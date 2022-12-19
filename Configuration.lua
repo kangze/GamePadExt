@@ -5,35 +5,16 @@ local AceGUI = LibStub("AceGUI-3.0");
 local config = LibStub("AceConfig-3.0");
 local configDialog = LibStub("AceConfigDialog-3.0");
 
-local F, H = {}, {};
-local T={};
 
+local F={};
 addonTable.F = F;
-addonTable.H = H;
-addonTable.T=T;
-addonTable.T=T;
 
 
-local defaults = {
-    profile = {
-        headerExt = {
-            playerExt = {
-                namefontsize = 12,
-                healthfontsize = 11,
-            }
-        },
-        buffer={
-            from=true
-        }
-    }
-}
+
 
 function F:InitSettingPanel()
-    local db = LibStub("AceDB-3.0"):New('GamePadExtDB', defaults, true)
-    addonTable.D = db;
-    local frame = CreateContainer();
-
-
+    local A=addonTable.A;
+    local db=addonTable.db;
     local GamePadExtOptions = {
         type = "group",
         args = {
@@ -91,7 +72,7 @@ function F:InitSettingPanel()
                                 type = "toggle",
                                 set = function(info, value)
                                     db.profile.buffer.from = value;
-                                    --H:SetPlayerNameSize(value);
+                                    H:SetPlayerNameSize(value);
                                 end,
                                 get = function(info)
                                     return db.profile.buffer.from;
@@ -105,7 +86,9 @@ function F:InitSettingPanel()
             profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(db);
         }
     }
-
+    for k,v in pairs(A.args) do
+        GamePadExtOptions.args[k]=v;
+    end
     config:RegisterOptionsTable("GamePadExt", GamePadExtOptions);
     --configDialog:Open("GamePadExt", frame);
 end

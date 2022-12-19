@@ -8,7 +8,6 @@
 
 
 Load_libs.xml
-Configuration.lua
 HeaderExt.lua
 GamePadVribration.lua
 ActionBar/ActionBar.lua
@@ -17,4 +16,8 @@ ActionBar/TrackingBar.lua
 BuffFrom.lua
 Fonts.lua
 NamePlate.lua
+
+
+Configuration.lua
 Core.lua
+
