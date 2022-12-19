@@ -17,7 +17,7 @@ BuffFrom.lua
 Fonts.lua
 NamePlate.lua
 
-
+Demo.lua
 Configuration.lua
 Core.lua
 

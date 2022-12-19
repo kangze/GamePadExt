@@ -40,6 +40,13 @@ end
 --
 function Addon:ApplyCapDecoration(backframe, mirror)
     local cap = CreateFrame("Frame", nil, UIParent);
+     cap:EnableGamePadButton(true);
+    -- cap:SetScript("OnGamePadButtonDown",function(arg1,arg2,arg3)
+    --     print(arg1);
+    --     print(arg2);
+    --     print(arg3);
+    --     print("-----------------");
+    -- end)
     cap:SetSize(128, 128);
     if (mirror) then
         cap:SetPoint("BOTTOMLEFT", backframe, "BOTTOMRIGHT", -35, 0);
