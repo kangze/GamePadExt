@@ -20,6 +20,7 @@ function GamePadExtAddon:OnInitialize()
     Addon:InitConfig_BufferFrom();
 
     local defaults=Addon:GetDefaultProfile();
+    --print(defaults.headerExt.playerExt.namefontsize);
     local db = LibStub("AceDB-3.0"):New('GamePadExtDB', defaults, true)
     Addon.db = db;
 
@@ -31,6 +32,7 @@ function GamePadExtAddon:OnInitialize()
     Addon:OnLoad_CastingBar()
     Addon:OnLoad_GamePadVirbration();
     Addon:OnLoad_BufferFrom();
+    Addon:InitFoints();
     
 end
 

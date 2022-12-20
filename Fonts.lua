@@ -1,9 +1,8 @@
-local addonName, addonTable = ...;
-local E = addonTable.E;
+local _, Addon = ...;
 
 
 
-function E:InitFoints()
+function Addon:InitFoints()
     PlayerName:SetFont("Fonts\\FRIZQT__.TTF", 12, "OUTLINE");
 
     --PlayerFrameHealthBarTextLeft:SetFont("Fonts\\FRIZQT__.TTF", 11, "");

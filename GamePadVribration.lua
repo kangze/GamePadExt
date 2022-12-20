@@ -9,9 +9,9 @@ local GamePadExtConfig_IntensityAndTimes =
 
 function Addon:OnLoad_GamePadVirbration()
     local GamePadExtAddon=Addon.GamePadExtAddon;
-    GamePadExtAddon:RegisterEvent("CURRENCY_DISPLAY_UPDATE",function(eventName,...) E:Event(eventName,...) end);
-    GamePadExtAddon:RegisterEvent("SPELLS_CHANGED",function(eventName,...) E:Event(eventName,...) end);
-    GamePadExtAddon:RegisterEvent("PLAYER_MOUNT_DISPLAY_CHANGED",function(eventName,...) E:Event(eventName,...) end);
+    GamePadExtAddon:RegisterEvent("CURRENCY_DISPLAY_UPDATE",function(eventName,...) self:Event(eventName,...) end);
+    GamePadExtAddon:RegisterEvent("SPELLS_CHANGED",function(eventName,...) self:Event(eventName,...) end);
+    GamePadExtAddon:RegisterEvent("PLAYER_MOUNT_DISPLAY_CHANGED",function(eventName,...) self:Event(eventName,...) end);
 end
 
 function Addon:Event(eventName,...)

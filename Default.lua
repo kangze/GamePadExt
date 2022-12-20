@@ -29,7 +29,7 @@ function Addon:RegisterConfig(config)
 end
 
 function Addon:GetDefaultProfile()
-    return self.registration.default_profile;
+    return {profile=self.registration.default_profile};
 end
 
 function Addon:GetDefaultOptions()

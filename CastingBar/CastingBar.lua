@@ -4,7 +4,7 @@ local _, Addon = ...;
 
 function Addon:InitConfig_CastingBar()
     local config = {
-        profile = {
+        default_profile = {
             castingBar = {
                 style = {
                     width = 255,
@@ -19,7 +19,8 @@ function Addon:InitConfig_CastingBar()
 end
 
 function Addon:OnLoad_CastingBar()
-    local width, height, icon, iconWidth = unpack(self.db.profile.castingBar.style);
+    local style=self.db.profile.castingBar.style;
+    local width, height, icon, iconWidth = style.width,style.height,style.icon,style.iconWidth;
     PlayerCastingBarFrame:HookScript("OnEvent", function(arg)
         arg.Text:SetFont("Fonts\\FRIZQT__.TTF", 10, "OUTLINE");
         arg.Text:SetPoint("TOP", 0, -12);

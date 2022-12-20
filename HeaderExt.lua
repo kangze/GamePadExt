@@ -72,7 +72,7 @@ function Addon:SetPlayerNameSize(size)
     PlayerName:SetFont("Fonts\\FRIZQT__.TTF", size, "OUTLINE");
 end
 
-function H:SetPlayerHealthStatusText(size)
+function Addon:SetPlayerHealthStatusText(size)
     local HealthBar = PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.HealthBarArea.HealthBar;
     if (HealthBar.LeftText) then
         HealthBar.LeftText:SetFont("Fonts\\FRIZQT__.TTF", size, "");
