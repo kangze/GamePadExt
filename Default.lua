@@ -43,3 +43,8 @@ CharacterFrame:HookScript("OnShow", function(arg)
 end);
 
 --CameraMover:Enter()
+--SetCVar("test_cameraDynamicPitch", 1);
+----MoveViewRightStart
+--MoveViewRightStop
+--ConsoleExec( "pitchlimit "..PL)
+--相机的镜头和人物的夹角
