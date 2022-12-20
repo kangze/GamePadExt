@@ -29,7 +29,7 @@ function Addon:InitConfig_NamePlate()
     self:RegisterConfig(config);
 end
 
-function Addon:InitNamePlate()
+function Addon:OnLoad_NamePlate()
     local GamePadExtAddon = self.GamePadExtAddon;
     GamePadExtAddon:RegisterEvent("NAME_PLATE_UNIT_ADDED", self.NAME_PLATE_UNIT_ADDED);
     GamePadExtAddon:RegisterEvent("NAME_PLATE_UNIT_REMOVED", self.NAME_PLATE_UNIT_REMOVED);

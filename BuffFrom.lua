@@ -1,15 +1,10 @@
-local addonName, addonTable = ...
+local _,Addon = ...
 
-local unpack = unpack;
-local AceGUI = LibStub("AceGUI-3.0");
-local config = LibStub("AceConfig-3.0");
-local configDialog = LibStub("AceConfigDialog-3.0");
 
-local db=addonTable.D;
 
-local B = {};
-addonTable.B = B;
 local mountData={};
+
+
 
 local function LoadMountData()
     local mountIDs = C_MountJournal.GetMountIDs()
@@ -75,7 +70,43 @@ local function SetCaster(self, unit, index, filter)
     end
 end
 
-function B:InitBuffFrom()
+function Addon:InitConfig_BufferFrom()
+    local db=self.db;
+    local config={
+        default_profile={
+            buffer={
+                from=true
+            }
+        },
+        options={
+            buffer={
+                name="增益",
+                type="group",
+                args={
+                    arg1={
+                        name="玩家增益",
+                        type="group",
+                        args={
+                            bufferFrom = {
+                                name = "开启或者关闭增益来源",
+                                type = "toggle",
+                                set = function(info, value)
+                                    db.profile.buffer.from = value;
+                                end,
+                                get = function(info)
+                                    return db.profile.buffer.from;
+                                end,
+
+                            },
+                        }
+                    }
+                }
+            },
+        }
+    }
+end
+
+function Addon:OnLoad_BufferFrom()
     --加载坐骑数据
     LoadMountData();
 

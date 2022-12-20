@@ -1,12 +1,4 @@
-local addonName, addonTable = ...
-
-local unpack = unpack;
-local AceGUI = LibStub("AceGUI-3.0");
-local config = LibStub("AceConfig-3.0");
-local configDialog = LibStub("AceConfigDialog-3.0");
-
-local E = {};
-addonTable.E = E;
+local _, Addon = ...
 
 --震动的强度和时间长短
 local GamePadExtConfig_IntensityAndTimes =
@@ -15,26 +7,25 @@ local GamePadExtConfig_IntensityAndTimes =
     extraAction = { "High", 0.7, 0.3 }
 }
 
-function E:InitGamePadVirbration()
-    local db=addonTable.D;
-    local GamePadExtAddon=addonTable.GamePadExtAddon;
+function Addon:OnLoad_GamePadVirbration()
+    local GamePadExtAddon=Addon.GamePadExtAddon;
     GamePadExtAddon:RegisterEvent("CURRENCY_DISPLAY_UPDATE",function(eventName,...) E:Event(eventName,...) end);
     GamePadExtAddon:RegisterEvent("SPELLS_CHANGED",function(eventName,...) E:Event(eventName,...) end);
     GamePadExtAddon:RegisterEvent("PLAYER_MOUNT_DISPLAY_CHANGED",function(eventName,...) E:Event(eventName,...) end);
 end
 
-function E:Event(eventName,...)
+function Addon:Event(eventName,...)
     if(eventName=='CURRENCY_DISPLAY_UPDATE') then
-        E:ProccessVibration(eventName,...);
+        self:ProccessVibration(eventName,...);
     elseif(eventName=='SPELLS_CHANGED') then
-        E:ProccessVibration(eventName,...);
+        self:ProccessVibration(eventName,...);
     elseif(eventName=='PLAYER_MOUNT_DISPLAY_CHANGED') then
-        E:ProccessCamera(eventName,...);
+        self:ProccessCamera(eventName,...);
     end
 end
 
 
-function E:ProccessVibration(eventName, ...)
+function Addon:ProccessVibration(eventName, ...)
     local config = nil;
     local arg1 = ...;
     local ablits = C_ZoneAbility.GetActiveAbilities();
@@ -55,7 +46,7 @@ function E:ProccessVibration(eventName, ...)
     end);
 end
 
-function E:ProccessCamera(eventName, ...)
+function Addon:ProccessCamera(eventName, ...)
     -- if (IsMounted() == false) then
     --     SetCVar("test_cameraOverShoulder", "0")
     -- else

@@ -7,77 +7,14 @@ local configDialog = LibStub("AceConfigDialog-3.0");
 
 
 
-function Addon:InitSettingPanel()
+function Addon:OnLoad_SettingPanel()
     local db=self.db;
     local options=self:GetDefaultOptions();
     local GamePadExtOptions = {
         type = "group",
         args = {
-            plyerframeext = {
-                name = "头像增强",
-                type = "group",
-                args = {
-                    arg1 = {
-                        name = "玩家头像",
-                        type = "group",
-                        args = {
-                            playerName = {
-                                name = "姓名大小",
-                                type = "select",
-                                values = { [12] = "12 px", [13] = "13 px", [14] = "14 px", [15] = "15 px", [16] = "16 px",
-                                    [17] = "17 px" },
-                                set = function(info, value)
-                                    db.profile.headerExt.playerExt.namefontsize = value;
-                                    H:SetPlayerNameSize(value);
-
-                                end,
-                                get = function(info)
-                                    return db.profile.headerExt.playerExt.namefontsize;
-                                end,
-
-                            },
-                            playerHealth = {
-                                name = "生命大小",
-                                type = "select",
-                                values = { [12] = "12 px", [13] = "13 px", [14] = "14 px", [15] = "15 px", [16] = "16 px",
-                                    [17] = "17 px" },
-                                set = function(info, value)
-                                    db.profile.headerExt.playerExt.healthfontsize = value;
-                                    H:SetPlayerHealthStatusText(value);
-                                end,
-                                get = function(info)
-                                    return db.profile.headerExt.playerExt.healthfontsize;
-                                end,
-
-                            },
-                        }
-                    }
-                }
-            },
-            buffer={
-                name="增益",
-                type="group",
-                args={
-                    arg1={
-                        name="玩家增益",
-                        type="group",
-                        args={
-                            bufferFrom = {
-                                name = "开启或者关闭增益来源",
-                                type = "toggle",
-                                set = function(info, value)
-                                    db.profile.buffer.from = value;
-                                    H:SetPlayerNameSize(value);
-                                end,
-                                get = function(info)
-                                    return db.profile.buffer.from;
-                                end,
-
-                            },
-                        }
-                    }
-                }
-            },
+            
+           
             
         }
     }

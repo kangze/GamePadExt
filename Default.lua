@@ -3,12 +3,7 @@ local _, Addon = ...;
 
 Addon.registration = {
     default_profile = {
-        headerExt = {
-            playerExt = {
-                namefontsize = 12,
-                healthfontsize = 11,
-            }
-        },
+       
         buffer = {
             from = true
         }
@@ -40,3 +35,9 @@ end
 function Addon:GetDefaultOptions()
     return self.registration.options;
 end
+
+
+--无处安放的代码
+CharacterFrame:HookScript("OnShow", function(arg)
+    arg:SetScale(1.12);
+end);
