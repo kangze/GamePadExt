@@ -1,43 +1,44 @@
 local _, Addon = ...
 
 
-local config = {
-    profile = {
-        actionBar = {
-            style = {
-                show_old_blizzard_action_bar = true,
-            }
-        }
-    },
-    args = {
-        actionBar = {
-            name = "动作条",
-            type = "group",
-            args = {
+function Addon:InitConfig_ActionBar()
+    local config = {
+        default_profile = {
+            actionBar = {
                 style = {
-                    name = "样式",
-                    type = "group",
-                    args = {
-                        show_old_blizzard_action_bar = {
-                            name = "显示旧的暴雪动作条",
-                            type = "toggle",
-                            set = function(info, value)
-                                local db = Addon.db;
-                                db.profile.actionBar.style.show_old_blizzard_action_bar = value;
-                            end,
-                            get = function(info)
-                                local db = Addon.db;
-                                return db.profile.actionBar.style.show_old_blizzard_action_bar;
-                            end
+                    show_old_blizzard_action_bar = true,
+                }
+            }
+        },
+        options = {
+            actionBar = {
+                name = "动作条",
+                type = "group",
+                args = {
+                    style = {
+                        name = "样式",
+                        type = "group",
+                        args = {
+                            show_old_blizzard_action_bar = {
+                                name = "显示旧的暴雪动作条",
+                                type = "toggle",
+                                set = function(info, value)
+                                    local db = Addon.db;
+                                    db.profile.actionBar.style.show_old_blizzard_action_bar = value;
+                                end,
+                                get = function(info)
+                                    local db = Addon.db;
+                                    return db.profile.actionBar.style.show_old_blizzard_action_bar;
+                                end
+                            }
                         }
                     }
                 }
             }
         }
-    }
-};
-
-Addon.A = config;
+    };
+    self:RegisterConfig(config);
+end
 
 function Addon:OnLoad_ActionBar()
     if (self.db.profile.actionBar.style.show_old_blizzard_action_bar) then

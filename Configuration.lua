@@ -1,20 +1,15 @@
-local addonName, addonTable = ...
+local _, Addon = ...
 
-local unpack = unpack;
 local AceGUI = LibStub("AceGUI-3.0");
 local config = LibStub("AceConfig-3.0");
 local configDialog = LibStub("AceConfigDialog-3.0");
 
 
-local F={};
-addonTable.F = F;
 
 
-
-
-function F:InitSettingPanel()
-    local A=addonTable.A;
-    local db=addonTable.db;
+function Addon:InitSettingPanel()
+    local db=self.db;
+    local options=self:GetDefaultOptions();
     local GamePadExtOptions = {
         type = "group",
         args = {
@@ -83,17 +78,15 @@ function F:InitSettingPanel()
                     }
                 }
             },
-            profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(db);
+            
         }
     }
-    for k,v in pairs(A.args) do
-        GamePadExtOptions.args[k]=v;
-    end
-    config:RegisterOptionsTable("GamePadExt", GamePadExtOptions);
+    options["profiles"] = LibStub("AceDBOptions-3.0"):GetOptionsTable(db);
+    config:RegisterOptionsTable("GamePadExt", options);
     --configDialog:Open("GamePadExt", frame);
 end
 
-function F:OpenSettingPanle()
+function Addon:OpenSettingPanle()
     local frame = CreateContainer();
     configDialog:Open("GamePadExt", frame);
 end

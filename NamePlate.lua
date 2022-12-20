@@ -1,42 +1,47 @@
-local addonName, addonTable = ...
+local _, Addon = ...
 
-local N = {
-    --profile and defaults
-    profile = {
-        showBlizzardNamePlate = true,
-    },
 
-    --config settings
-    configArg = {
-        nameplate = {
-            name = "姓名版",
-            type = "group",
-            args = {
-                name = "老版",
-                type = "toggle",
-                set = function(info, value) end;
-                get = function(info) end;
+
+function Addon:InitConfig_NamePlate()
+    local config = {
+        default_profile = {
+            namePlate = {
+                style = {
+                    show_old_blizzard_border = true,
+                }
+            }
+        },
+        options = {
+            nameplate = {
+                name = "姓名版",
+                type = "group",
+                args = {
+                    showBlizzardBorder = {
+                        name = "老版",
+                        type = "toggle",
+                        set = function(info, value) end;
+                        get = function(info) end;
+                    }
+                }
             }
         }
-    }
-};
-addonTable.N = N;
+    };
+    self:RegisterConfig(config);
+end
 
---local GetNamePlateForUnit=GetNamePlateForUnit;
-
-function N:InitNamePlate()
-    local GamePadExtAddon = addonTable.GamePadExtAddon;
+function Addon:InitNamePlate()
+    local GamePadExtAddon = self.GamePadExtAddon;
     GamePadExtAddon:RegisterEvent("NAME_PLATE_UNIT_ADDED", self.NAME_PLATE_UNIT_ADDED);
     GamePadExtAddon:RegisterEvent("NAME_PLATE_UNIT_REMOVED", self.NAME_PLATE_UNIT_REMOVED);
-    hooksecurefunc(SettingsRegistrar,"OnLoad",function()
+    hooksecurefunc(SettingsRegistrar, "OnLoad", function()
         VARIABLES_LOADED();
     end);
-    
+
     --GamePadExtAddon:RegisterEvent("VARIABLES_LOADED", self.VARIABLES_LOADED);
     --GamePadExtAddon:RegisterEvent("PLAYER_ENTERING_WORLD",self.VARIABLES_LOADED);
 end
 
-function N:NAME_PLATE_UNIT_ADDED(...)
+function Addon:NAME_PLATE_UNIT_ADDED(...)
     local unitID = ...;
     local plate = C_NamePlate.GetNamePlateForUnit(unitID);
     if (plate == nil) then return; end
@@ -46,7 +51,7 @@ function N:NAME_PLATE_UNIT_ADDED(...)
         plate.gpe_healthbarborder.levelfont:SetText(level);
         return;
     end
-    
+
     local width = plate.UnitFrame.healthBar.border:GetWidth();
     width = width + width * 0.21;
     local height = plate.UnitFrame.healthBar.border:GetHeight();
@@ -76,7 +81,7 @@ function N:NAME_PLATE_UNIT_ADDED(...)
     plate.gpe_healthbarborder = healthbarborder;
 end
 
-function N:NAME_PLATE_UNIT_REMOVED(...)
+function Addon:NAME_PLATE_UNIT_REMOVED(...)
     local unitID = ...;
     local plate = C_NamePlate.GetNamePlateForUnit(unitID);
 end
@@ -84,8 +89,8 @@ end
 function VARIABLES_LOADED()
     --big nameplate settings
     SetCVar("NamePlateHorizontalScale", 1.2);
-	SetCVar("NamePlateVerticalScale", 2.7);
-	SetCVar("NamePlateClassificationScale", 1.25);
+    SetCVar("NamePlateVerticalScale", 2.7);
+    SetCVar("NamePlateClassificationScale", 1.25);
     SetCVar("nameplateMaxAlpha", 0.65);
     SetCVar("nameplateSelectedAlpha", 1);
     SetCVar("nameplateMinScale", 1.2);

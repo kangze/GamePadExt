@@ -24,17 +24,7 @@ function Addon:OnLoad_OldBlizzardActionBar()
     self:ApplyCapDecoration(frame);
     self:ApplyCapDecoration(frame, true);
 
-    PlayerCastingBarFrame:HookScript("OnEvent", function(arg)
-        arg.Text:SetFont("Fonts\\FRIZQT__.TTF", 10, "OUTLINE");
-        arg.Text:SetPoint("TOP", 0, -12);
-        arg:SetHeight(12);
-        arg:SetWidth(255);
-        arg.Icon:SetWidth(24);
-        arg.Icon:SetHeight(24);
-        arg.Icon:Show();
-        arg.Icon:ClearAllPoints();
-        arg.Icon:SetPoint("RIGHT",arg,"LEFT",0,-4);
-    end);
+
 end
 
 --
