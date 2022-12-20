@@ -31,7 +31,7 @@ function Addon:OnLoad_CastingBar()
             arg.Icon:SetWidth(iconWidth);
             arg.Icon:SetHeight(iconWidth);
             arg.Icon:ClearAllPoints();
-            arg.Icon:SetPoint("RIGHT", arg, "LEFT", 0, -4);
+            arg.Icon:SetPoint("RIGHT", arg, "LEFT", -2, -5);
         end
     end);
 end
