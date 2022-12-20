@@ -41,3 +41,5 @@ end
 CharacterFrame:HookScript("OnShow", function(arg)
     arg:SetScale(1.12);
 end);
+
+--CameraMover:Enter()
