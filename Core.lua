@@ -33,6 +33,9 @@ function GamePadExtAddon:OnInitialize()
     Addon:OnLoad_GamePadVirbration();
     Addon:OnLoad_BufferFrom();
     Addon:InitFoints();
+
+    --Info Panel
+    Addon:OnLoad_InfoPanel();
     
 end
 
