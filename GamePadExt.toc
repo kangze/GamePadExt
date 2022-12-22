@@ -12,6 +12,7 @@ Load_libs.xml
 ToolKit/EasingFunctions.lua
 Default.lua
 InfoPanel/Core.lua
+InfoPanel/Frame.lua
 ActionBar/ActionBar.xml
 CastingBar/CastingBar.lua
 HeaderExt.lua
@@ -21,7 +22,6 @@ Fonts.lua
 NamePlate.lua
 
 
-Demo.lua
 Configuration.lua
 Core.lua
 

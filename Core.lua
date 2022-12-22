@@ -36,6 +36,7 @@ function GamePadExtAddon:OnInitialize()
 
     --Info Panel
     Addon:OnLoad_InfoPanel();
+    Addon:OnLoad_InfoFrame();
     
 end
 
