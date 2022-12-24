@@ -25,43 +25,4 @@
   <Script file="Libs\LibGetFrame-1.0\LibGetFrame-1.0.lua"/>
   <Include file="Libs\Archivist\Archivist.xml"/>
   <Include file="Libs\LibSerialize\lib.xml"/>
-
-  <Frame parentKey="StoryHeader" mixin="StoryHeaderMixin" hidden="false">
-                <Size x="260" y="62"/>
-                <Anchors>
-                  <Anchor point="TOPLEFT" x="1" y="1"/>
-                </Anchors>
-                <Layers>
-                  <Layer level="BACKGROUND">
-                    <Texture parentKey="Background" atlas="StoryHeader-BG" useAtlasSize="true">
-                      <Anchors>
-                        <Anchor point="TOP" x="0" y="-5"/>
-                      </Anchors>
-                    </Texture>
-                  </Layer>
-                  <Layer level="ARTWORK">
-                    <FontString parentKey="Text" inherits="GameFontHighlightMedium">
-                      <Anchors>
-                        <Anchor point="TOPLEFT" x="18" y="-15"/>
-                      </Anchors>
-                    </FontString>
-                    <FontString parentKey="Progress" inherits="GameFontHighlightSmall">
-                      <Anchors>
-                        <Anchor point="TOPLEFT" relativeKey="$parent.Text" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
-                      </Anchors>
-                    </FontString>
-                  </Layer>
-                  <Layer level="HIGHLIGHT">
-                    <Texture parentKey="HighlightTexture" hidden="false" file="Interface\QuestFrame\UI-QuestLogTitleHighlight" alphaMode="ADD">
-                      <Size x="248" y="44"/>
-                      <Anchors>
-                        <Anchor point="BOTTOM" x="0" y="10"/>
-                      </Anchors>
-                      <Color color="HIGHLIGHT_LIGHT_BLUE"/>
-                    </Texture>
-                  </Layer>
-                </Layers>
-                <Scripts>
-                </Scripts>
-                </Frame>
 </Ui>
