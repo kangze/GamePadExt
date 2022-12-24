@@ -1,5 +1,27 @@
 local _,Addon=...;
 
+local AnimationFrame={};
+
+function AnimationFrame:New(duration,callback)
+    local frame=CreateFrame("Frame");
+    self.total=0;
+    self.frame=frame;
+    frame:Hide();
+    local outSine=Addon.EasingFunctions.outSine;
+    frame:SetScript("OnUpdate",function(selfs,elapsed)
+        selfs.total=selfs.total+elapsed;
+        local value=outSine(selfs.total,0, 0.79, duration);
+        callback(value);
+        if(selfs.total>=duration) then
+            selfs.frame:Hide();
+        end
+    end);
+end
+
+local AnimationShoulderFrame={};
+setmetatable(AnimationShoulderFrame,)
+
+
 local CameraMover = {};
 
 
