@@ -1,58 +1,79 @@
-local _,Addon=...;
+local _, Addon = ...;
 
-local AnimationFrame={};
+local outSine = Addon.EasingFunctions.outSine;
+local inOutSine = Addon.EasingFunctions.inOutSine;
 
-function AnimationFrame:New(duration,callback)
-    local frame=CreateFrame("Frame");
-    self.total=0;
-    self.frame=frame;
+local After = C_Timer.After;
+
+local AnimationFrame = {};
+local ShoulderAnimationFrame = {};
+local MoveViewAnimationFrame = {};
+local ViewPitchLimitAnimationFrame = {};
+local CameraFocus = {};
+
+
+function AnimationFrame.New(duration, callback)
+    local frame = CreateFrame("Frame");
+    frame.total = 0;
     frame:Hide();
-    local outSine=Addon.EasingFunctions.outSine;
-    frame:SetScript("OnUpdate",function(selfs,elapsed)
-        selfs.total=selfs.total+elapsed;
-        local value=outSine(selfs.total,0, 0.79, duration);
-        callback(value);
-        if(selfs.total>=duration) then
-            selfs.frame:Hide();
-        end
-    end);
-end
 
-local AnimationShoulderFrame={};
-setmetatable(AnimationShoulderFrame,)
-
-
-local CameraMover = {};
-
-
---Move Shoulder
-function CameraMover:MoveShoulder()
-    local frame=CreateFrame("Frame");
-    frame:Hide();
-    frame.total=0;
-    local outSine=Addon.EasingFunctions.outSine;
-    frame:SetScript("OnUpdate",function(selfs,elapsed)
-        selfs.total=selfs.total+elapsed;
-        local value = outSine(frame.total,0, 0.79, 1.5); --shoulder
-        SetCVar("test_cameraOverShoulder", value);
-        if(frame.total>=1.5) then
-            frame:Hide();
-        end
-    end);
-end
-
-function CameraMover:CameraMoveView()
-    local frame=CreateFrame("Frame");
-    frame:Hide();
-    frame.total=0;
-    local inOutSine=Addon.EasingFunctions.inOutSine;
-    frame:SetScript("OnUpdate",function(selfs,elapsed)
-        selfs.total=selfs.total+elapsed;
-        local speed = inOutSine(frame.total, 1, 0.004, 1.5);
-        MoveViewRightStart(speed);
-        if(frame.total>=1.5) then
+    frame:SetScript("OnUpdate", function(selfs, elapsed)
+        selfs.total = selfs.total + elapsed;
+        if (callback) then callback(selfs.total) end
+        if (selfs.total >= duration) then
+            selfs:Hide();
             MoveViewRightStop();
-            frame:Hide();
         end
     end);
+    return frame;
 end
+
+function ShoulderAnimationFrame.New(duration)
+    local callback = function(total)
+        local value = outSine(total, 0, 0.79, duration);
+        SetCVar("test_cameraOverShoulder", value);
+    end
+    local animationFrame = AnimationFrame.New(duration, callback);
+    SetCVar("test_cameraOverShoulder", "0");
+    return animationFrame;
+end
+
+function MoveViewAnimationFrame.New(duration)
+    local callback = function(total)
+        local speed = inOutSine(total, 1.05, 0.004, duration);
+        print(speed);
+        MoveViewRightStart(speed);
+    end
+    local animatioFrame = AnimationFrame.New(duration, callback);
+    return animatioFrame;
+end
+
+function ViewPitchLimitAnimationFrame.New(duration)
+    local callback = function(total)
+        local PL = tostring(outSine(total, 88, 1, duration));
+        ConsoleExec("pitchlimit " .. PL);
+    end
+    local animatioFrame = AnimationFrame.New(duration, callback);
+    return animatioFrame;
+end
+
+function CameraFocus:Enter()
+    After(0, function()
+        local shoulder  = ShoulderAnimationFrame.New(1.5);
+        local moveView  = MoveViewAnimationFrame.New(1.5);
+        local pitchView = ViewPitchLimitAnimationFrame.New(1.5);
+        local goal=2.5;
+        moveView:Show();
+        shoulder:Show();
+        pitchView:Show();
+        After(0.1, function()
+            local target = GetCameraZoom() - goal;
+            CameraZoomIn(target);
+        end);
+    end);
+end
+
+Addon.ShoulderAnimationFrame = ShoulderAnimationFrame;
+Addon.MoveViewAnimationFrame = MoveViewAnimationFrame;
+Addon.ViewPitchLimitAnimationFrame = ViewPitchLimitAnimationFrame;
+Addon.CameraFocus=CameraFocus;
