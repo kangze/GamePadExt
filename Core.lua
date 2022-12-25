@@ -1,7 +1,7 @@
 local _, Addon = ...;
-local GamePadExtAddon = LibStub("AceAddon-3.0"):NewAddon("GamePadExt", "AceEvent-3.0","AceConsole-3.0")
+local GamePadExtAddon = LibStub("AceAddon-3.0"):NewAddon("GamePadExt", "AceEvent-3.0", "AceConsole-3.0")
 
-Addon.GamePadExtAddon=GamePadExtAddon;
+Addon.GamePadExtAddon = GamePadExtAddon;
 
 
 
@@ -9,7 +9,6 @@ GamePadExtAddon:RegisterChatCommand("gpe", "HandleCommand");
 function GamePadExtAddon:HandleCommand(input)
     Addon:OpenSettingPanle();
 end
-
 
 function GamePadExtAddon:OnInitialize()
     --init the config
@@ -19,7 +18,7 @@ function GamePadExtAddon:OnInitialize()
     Addon:InitConfig_HeaderExt();
     Addon:InitConfig_BufferFrom();
 
-    local defaults=Addon:GetDefaultProfile();
+    local defaults = Addon:GetDefaultProfile();
     --print(defaults.headerExt.playerExt.namefontsize);
     local db = LibStub("AceDB-3.0"):New('GamePadExtDB', defaults, true)
     Addon.db = db;
@@ -37,13 +36,13 @@ function GamePadExtAddon:OnInitialize()
     --Info Panel
     Addon:OnLoad_InfoPanel();
     Addon:OnLoad_InfoFrame();
-    
+
 end
 
 function GamePadExtAddon:OnEnable()
-    
+
 end
 
 function GamePadExtAddon:OnDisable()
-    
+
 end
