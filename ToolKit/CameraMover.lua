@@ -78,7 +78,7 @@ function CameraFocus:Enter()
         local shoulder  = ShoulderAnimationFrame.New(1.5);
         local moveView  = MoveViewAnimationFrame.New(1.5);
         local pitchView = ViewPitchLimitAnimationFrame.New(1.5);
-        local goal=2.5;
+        local goal=2;
         moveView:Show();
         shoulder:Show();
         pitchView:Show();

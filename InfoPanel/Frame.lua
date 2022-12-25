@@ -88,21 +88,6 @@ function Addon:OnLoad_InfoFrame()
         expansionFactionIndex = 2
     }
 
-    local numFactions = GetNumFactions()
-    local factionIndex = 1
-    while (factionIndex <= numFactions) do
-	local name, description, standingId, bottomValue, topValue, earnedValue, atWarWith, canToggleAtWar,
-		isHeader, isCollapsed, hasRep, isWatched, isChild, factionID, hasBonusRepGain, canBeLFGBonus = GetFactionInfo(factionIndex)
-	if isHeader and isCollapsed then
-		ExpandFactionHeader(factionIndex)
-		numFactions = GetNumFactions()
-	end
-	if hasRep or not isHeader then
-		print("Faction: " .. name .. " - " .. factionID)
-	end
-	factionIndex = factionIndex + 1
-    end
-
     local mainFrame = CreateFrame("Frame");
     local width = UIParent:GetWidth();
     local height = UIParent:GetHeight();
@@ -129,10 +114,53 @@ function Addon:OnLoad_InfoFrame()
     end);
     --mainFrame:Hide();
 
+    --创建横幅 高度45
+    local headerContainerFrame=CreateFrame("Frame",nil,mainFrame);
+    headerContainerFrame:SetSize(width,45);
+    headerContainerFrame:SetPoint("TOPLEFT",mainFrame,0,0);
+
+    -------阵营
+    --背景1
+    headerContainerFrame.background=headerContainerFrame:CreateTexture(nil,"BACKGROUND");
+    headerContainerFrame.background:SetTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\TalkingHeads");
+    headerContainerFrame.background:SetAllPoints();
+    --headerContainerFrame.background:SetAtlas("TalkingHeads-Alliance-TextBackground");
+    headerContainerFrame.background:SetTexCoord(0.017,0.767,0.2,0.29);
+
+    headerContainerFrame.background2=headerContainerFrame:CreateTexture(nil,"ARTWORK");
+    --headerContainerFrame.background2:SetTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\UI-Classes-Circles");
+    headerContainerFrame.background2:SetPoint("TOPLEFT",0,0);
+    headerContainerFrame.background2:SetSize(45,45);
+    --UI_AllianceIcon-round
+    --interface/icons/ClassIcon_Mage
+    SetPortraitToTexture(headerContainerFrame.background2,"interface/icons/UI_AllianceIcon-round");
+    --背景3
+    headerContainerFrame.background3=headerContainerFrame:CreateTexture(nil,"ARTWORK");
+    headerContainerFrame.background3:SetTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\Artifacts-PerkRing-Final-Mask");
+    headerContainerFrame.background3:SetPoint("TOPLEFT",0,0);
+    headerContainerFrame.background3:SetSize(45,45);
+    headerContainerFrame.background3:SetTexCoord(0.12,0.89,0.12,0.87);
+
+    ---------职业
+
+    headerContainerFrame.background4=headerContainerFrame:CreateTexture(nil,"ARTWORK");
+    --headerContainerFrame.background2:SetTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\UI-Classes-Circles");
+    headerContainerFrame.background4:SetPoint("TOPLEFT",45,0);
+    headerContainerFrame.background4:SetSize(45,45);
+    --UI_AllianceIcon-round
+    --interface/icons/ClassIcon_Mage
+    SetPortraitToTexture(headerContainerFrame.background4,"interface/icons/ClassIcon_Mage");
+    --背景3
+    headerContainerFrame.background5=headerContainerFrame:CreateTexture(nil,"ARTWORK");
+    headerContainerFrame.background5:SetTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\Artifacts-PerkRing-Final-Mask");
+    headerContainerFrame.background5:SetPoint("TOPLEFT",45,0);
+    headerContainerFrame.background5:SetSize(45,45);
+    headerContainerFrame.background5:SetTexCoord(0.12,0.89,0.12,0.87);
+
     --创建版本的主框体
     local expansionContainerFrame = CreateFrame("Frame", nil, mainFrame);
-    expansionContainerFrame:SetSize(265, height);
-    expansionContainerFrame:SetPoint("TOPLEFT", mainFrame, 200, 0);
+    expansionContainerFrame:SetSize(265, height-45);
+    expansionContainerFrame:SetPoint("TOPLEFT", mainFrame, 0, -45);
     expansionContainerFrame.background = expansionContainerFrame:CreateTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\QuestMapLogAtlas");
     expansionContainerFrame.background:SetTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\QuestMapLogAtlas");
     expansionContainerFrame.background:SetTexCoord(0.28, 0.564, 0.454, 0.912);
@@ -146,7 +174,7 @@ function Addon:OnLoad_InfoFrame()
 
     local factionContainerFrame = CreateFrame("Frame", nil, mainFrame);
     factionContainerFrame:SetSize(265, height);
-    factionContainerFrame:SetPoint("TOPLEFT", mainFrame, 465, 0);
+    factionContainerFrame:SetPoint("TOPLEFT", mainFrame, 265, -45);
     factionContainerFrame.background = factionContainerFrame:CreateTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\QuestMapLogAtlas");
     factionContainerFrame.background:SetTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\QuestMapLogAtlas");
     factionContainerFrame.background:SetTexCoord(0.28, 0.564, 0.454, 0.912);
