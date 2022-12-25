@@ -2,6 +2,7 @@ local _, Addon = ...;
 
 local outSine = Addon.EasingFunctions.outSine;
 local inOutSine = Addon.EasingFunctions.inOutSine;
+local linear=Addon.EasingFunctions.linear;
 
 local After = C_Timer.After;
 
@@ -9,6 +10,7 @@ local AnimationFrame = {};
 local ShoulderAnimationFrame = {};
 local MoveViewAnimationFrame = {};
 local ViewPitchLimitAnimationFrame = {};
+local UIParentAlphaAnimtationFrame={};
 local CameraFocus = {};
 
 
@@ -57,6 +59,20 @@ function ViewPitchLimitAnimationFrame.New(duration)
     return animatioFrame;
 end
 
+function UIParentAlphaAnimtationFrame.New(duration)
+    local callback=function(total)
+        local alpha = linear(total, 1, 0, duration);
+        print(alpha);
+        if(alpha>1 or alpha<0) then return end;
+        UIParent:SetAlpha(alpha);
+    end
+    local animationFrame=AnimationFrame.New(duration,callback);
+    return animationFrame;
+end
+
+
+
+--Instance
 function CameraFocus:Enter()
     After(0, function()
         local shoulder  = ShoulderAnimationFrame.New(1.5);
@@ -76,4 +92,5 @@ end
 Addon.ShoulderAnimationFrame = ShoulderAnimationFrame;
 Addon.MoveViewAnimationFrame = MoveViewAnimationFrame;
 Addon.ViewPitchLimitAnimationFrame = ViewPitchLimitAnimationFrame;
+Addon.UIParentAlphaAnimtationFrame=UIParentAlphaAnimtationFrame;
 Addon.CameraFocus=CameraFocus;
