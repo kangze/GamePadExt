@@ -91,8 +91,9 @@ function Addon:OnLoad_InfoFrame()
     local mainFrame = CreateFrame("Frame");
     local width = UIParent:GetWidth();
     local height = UIParent:GetHeight();
-    mainFrame:SetSize(width, height);
-    mainFrame:SetPoint("TOPLEFT", 0, 0);
+    --mainFrame:SetSize(width, height);
+    --mainFrame:SetPoint("TOPLEFT", 0, 0);
+    mainFrame:SetAllPoints(UIParent);
     mainFrame:EnableGamePadButton(true);
     mainFrame:SetScript("OnGamePadButtonDown", function(arg1, arg2)
         --PADDUP PADDDOWN
@@ -112,7 +113,7 @@ function Addon:OnLoad_InfoFrame()
         self.focusInfo.expansionIndex = newIndex;
         self:Focus(newIndex);
     end);
-    --mainFrame:Hide();
+    mainFrame:Hide();
 
     --创建横幅 高度45
     local headerContainerFrame=CreateFrame("Frame",nil,mainFrame);
@@ -157,10 +158,20 @@ function Addon:OnLoad_InfoFrame()
     headerContainerFrame.background5:SetSize(45,45);
     headerContainerFrame.background5:SetTexCoord(0.12,0.89,0.12,0.87);
 
+
+
+    ---------职业扩展
+
+    headerContainerFrame.background6=headerContainerFrame:CreateTexture(nil,"ARTWORK");
+    headerContainerFrame.background6:SetTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\artifactbook-priest-cover");
+    headerContainerFrame.background6:SetPoint("CENTER",0,0);
+    headerContainerFrame.background6:SetSize(45,45);
+    --headerContainerFrame.background6:SetTexCoord(0.12,0.89,0.12,0.87);
+
     --创建版本的主框体
     local expansionContainerFrame = CreateFrame("Frame", nil, mainFrame);
     expansionContainerFrame:SetSize(265, height-45);
-    expansionContainerFrame:SetPoint("TOPLEFT", mainFrame, 0, -45);
+    expansionContainerFrame:SetPoint("TOPLEFT", mainFrame, 600, -45);
     expansionContainerFrame.background = expansionContainerFrame:CreateTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\QuestMapLogAtlas");
     expansionContainerFrame.background:SetTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\QuestMapLogAtlas");
     expansionContainerFrame.background:SetTexCoord(0.28, 0.564, 0.454, 0.912);
@@ -174,7 +185,7 @@ function Addon:OnLoad_InfoFrame()
 
     local factionContainerFrame = CreateFrame("Frame", nil, mainFrame);
     factionContainerFrame:SetSize(265, height);
-    factionContainerFrame:SetPoint("TOPLEFT", mainFrame, 265, -45);
+    factionContainerFrame:SetPoint("TOPLEFT", mainFrame, 865, -45);
     factionContainerFrame.background = factionContainerFrame:CreateTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\QuestMapLogAtlas");
     factionContainerFrame.background:SetTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\QuestMapLogAtlas");
     factionContainerFrame.background:SetTexCoord(0.28, 0.564, 0.454, 0.912);

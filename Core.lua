@@ -3,28 +3,34 @@ local GamePadExtAddon = LibStub("AceAddon-3.0"):NewAddon("GamePadExt", "AceEvent
 
 Addon.GamePadExtAddon = GamePadExtAddon;
 
-UIParentAlphaAnimtationFrame=Addon.UIParentAlphaAnimtationFrame;
+AlphaAnimationFrame=Addon.AlphaAnimationFrame;
 CameraFocus=Addon.CameraFocus;
 
+_G.GamePadExtAddon=GamePadExtAddon;
 
 
 GamePadExtAddon:RegisterChatCommand("gpe", "HandleCommand");
-GamePadExtAddon:RegisterChatCommand("gpe1", "HandleCommand1");
-GamePadExtAddon:RegisterChatCommand("gpe2", "HandleCommand2");
 
 function GamePadExtAddon:HandleCommand(input)
     Addon:OpenSettingPanle();
 end
-function GamePadExtAddon:HandleCommand1(input)
+function GamePadExtAddon:Open()
     CameraFocus:Enter();
-end
+    UIParent.startAlpha=1;
+    UIParent.endAlpha=0;
 
-function GamePadExtAddon:HandleCommand2(input)
-    local frame = UIParentAlphaAnimtationFrame.New(0.5);
+    Addon.mainFrame.startAlpha=0;
+    Addon.mainFrame.endAlpha=1;
+    local frame = AlphaAnimationFrame.New(0.5,UIParent);
+    local main = AlphaAnimationFrame.New(0.5,Addon.mainFrame);
     frame:Show();
+    main:Show();
 end
 
 function GamePadExtAddon:OnInitialize()
+
+    StaticPopup1.Show=StaticPopup1.Hide;
+
     --init the config
     Addon:InitConfig_ActionBar();
     Addon:InitConfig_NamePlate();

@@ -7,10 +7,10 @@ local linear=Addon.EasingFunctions.linear;
 local After = C_Timer.After;
 
 local AnimationFrame = {};
+local AlphaAnimationFrame={};
 local ShoulderAnimationFrame = {};
 local MoveViewAnimationFrame = {};
 local ViewPitchLimitAnimationFrame = {};
-local UIParentAlphaAnimtationFrame={};
 local CameraFocus = {};
 
 
@@ -30,6 +30,25 @@ function AnimationFrame.New(duration, callback)
     return frame;
 end
 
+function AlphaAnimationFrame.New(duration,frame)
+    --0 是完全透明的
+    local startAlpha,endAlpha=frame.startAlpha,frame.endAlpha;
+    frame:SetAlpha(startAlpha);
+    frame:Show();
+    local callback=function(total)
+        local alpha = linear(total, startAlpha, endAlpha, duration);
+        if(alpha>1 or alpha<0) then return end;
+        frame:SetAlpha(alpha);
+        if(total>=duration or endAlpha==0) then
+            frame:Hide();
+        end
+    end
+    local animationFrame=AnimationFrame.New(duration,callback);
+    return animationFrame;
+end
+
+
+
 function ShoulderAnimationFrame.New(duration)
     local callback = function(total)
         local value = outSine(total, 0, 0.79, duration);
@@ -43,7 +62,6 @@ end
 function MoveViewAnimationFrame.New(duration)
     local callback = function(total)
         local speed = inOutSine(total, 1.05, 0.004, duration);
-        print(speed);
         MoveViewRightStart(speed);
     end
     local animatioFrame = AnimationFrame.New(duration, callback);
@@ -59,38 +77,23 @@ function ViewPitchLimitAnimationFrame.New(duration)
     return animatioFrame;
 end
 
-function UIParentAlphaAnimtationFrame.New(duration)
-    local callback=function(total)
-        local alpha = linear(total, 1, 0, duration);
-        print(alpha);
-        if(alpha>1 or alpha<0) then return end;
-        UIParent:SetAlpha(alpha);
-    end
-    local animationFrame=AnimationFrame.New(duration,callback);
-    return animationFrame;
-end
-
 
 
 --Instance
 function CameraFocus:Enter()
-    After(0, function()
-        local shoulder  = ShoulderAnimationFrame.New(1.5);
+    local shoulder  = ShoulderAnimationFrame.New(1.5);
         local moveView  = MoveViewAnimationFrame.New(1.5);
         local pitchView = ViewPitchLimitAnimationFrame.New(1.5);
         local goal=2;
+        local target = GetCameraZoom() - goal;
+        CameraZoomIn(target);
         moveView:Show();
         shoulder:Show();
         pitchView:Show();
-        After(0.1, function()
-            local target = GetCameraZoom() - goal;
-            CameraZoomIn(target);
-        end);
-    end);
 end
 
 Addon.ShoulderAnimationFrame = ShoulderAnimationFrame;
 Addon.MoveViewAnimationFrame = MoveViewAnimationFrame;
 Addon.ViewPitchLimitAnimationFrame = ViewPitchLimitAnimationFrame;
-Addon.UIParentAlphaAnimtationFrame=UIParentAlphaAnimtationFrame;
+Addon.AlphaAnimationFrame=AlphaAnimationFrame;
 Addon.CameraFocus=CameraFocus;

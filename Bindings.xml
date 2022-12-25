@@ -1,0 +1,9 @@
+<Bindings>
+    <Binding name="GamePadExt" runOnUp="false" header="WOWPEDIAUIDEMO" default="F1" category="ADDONS">
+        GamePadExtAddon:Open();
+    </Binding>
+    <Binding name="GamePadExt1" runOnUp="false" header="WOWPEDIAUIDEMO1" default="F2" category="ADDONS">
+        UIParent:Show();
+        UIParent:SetAlpha(1);
+    </Binding>
+</Bindings>
