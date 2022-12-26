@@ -13,6 +13,9 @@ ToolKit/EasingFunctions.lua
 ToolKit/CameraMover.lua
 Default.lua
 InfoPanel/Core.lua
+InfoPanel/Container.lua
+InfoPanel/Expansion.lua
+InfoPanel/Faction.lua
 InfoPanel/Frame.lua
 ActionBar/ActionBar.xml
 CastingBar/CastingBar.lua

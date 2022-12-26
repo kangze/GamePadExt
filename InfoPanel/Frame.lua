@@ -6,7 +6,10 @@ local MoveViewAnimationFrame = Addon.MoveViewAnimationFrame;
 local ViewPitchLimitAnimationFrame = Addon.ViewPitchLimitAnimationFrame;
 local UIParentAlphaAnimtationFrame = Addon.UIParentAlphaAnimtationFrame;
 local CameraFocus = Addon.CameraFocus;
-
+local VerticalContainer=Addon.VerticalContainer;
+local HorizontalContainer=Addon.HorizontalContainer;
+local Expansion=Addon.Expansion;
+local Faction=Addon.Faction;
 --Campaign_Dragonflight
 --Campaign_Shadowlands
 --Campaign_Alliance
@@ -29,12 +32,12 @@ local expansions = {
         name = "暗影国度",
         index = 1,
         tex = "Campaign_Shadowlands",
-        factionIds={
-            2410,   --不朽军团
-            2432,   --威*娜莉
-            2478,   --开悟者
-            2413,   --收割者之庭
-            2407,   --晋升者
+        factionIds = {
+            2410, --不朽军团
+            2432, --威*娜莉
+            2478, --开悟者
+            2413, --收割者之庭
+            2407, --晋升者
         }
     },
     {
@@ -56,27 +59,27 @@ local expansions = {
         name = "熊猫人之谜",
         index = 5,
         tex = "Campaign_Horde"
-    },
-    {
-        name = "大地的裂变",
-        index = 6,
-        tex = "Campaign_Horde"
-    },
-    {
-        name = "巫妖王之怒",
-        index = 7,
-        tex = "Campaign_Alliance"
-    },
-    {
-        name = "燃烧的远征",
-        index = 8,
-        tex = "Campaign_Horde"
-    },
-    {
-        name = "经典旧世",
-        index = 9,
-        tex = "Campaign_Alliance"
     }
+    -- {
+    --     name = "大地的裂变",
+    --     index = 6,
+    --     tex = "Campaign_Horde"
+    -- },
+    -- {
+    --     name = "巫妖王之怒",
+    --     index = 7,
+    --     tex = "Campaign_Alliance"
+    -- },
+    -- {
+    --     name = "燃烧的远征",
+    --     index = 8,
+    --     tex = "Campaign_Horde"
+    -- },
+    -- {
+    --     name = "经典旧世",
+    --     index = 9,
+    --     tex = "Campaign_Alliance"
+    -- }
 }
 
 
@@ -113,69 +116,15 @@ function Addon:OnLoad_InfoFrame()
         self.focusInfo.expansionIndex = newIndex;
         self:Focus(newIndex);
     end);
-    mainFrame:Hide();
+    --mainFrame:Hide();
 
     --创建横幅 高度45
-    local headerContainerFrame=CreateFrame("Frame",nil,mainFrame);
-    headerContainerFrame:SetSize(width,45);
-    headerContainerFrame:SetPoint("TOPLEFT",mainFrame,0,0);
-
-    -------阵营
-    --背景1
-    headerContainerFrame.background=headerContainerFrame:CreateTexture(nil,"BACKGROUND");
-    headerContainerFrame.background:SetTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\TalkingHeads");
-    headerContainerFrame.background:SetAllPoints();
-    --headerContainerFrame.background:SetAtlas("TalkingHeads-Alliance-TextBackground");
-    headerContainerFrame.background:SetTexCoord(0.017,0.767,0.2,0.29);
-
-    headerContainerFrame.background2=headerContainerFrame:CreateTexture(nil,"ARTWORK");
-    --headerContainerFrame.background2:SetTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\UI-Classes-Circles");
-    headerContainerFrame.background2:SetPoint("TOPLEFT",0,0);
-    headerContainerFrame.background2:SetSize(45,45);
-    --UI_AllianceIcon-round
-    --interface/icons/ClassIcon_Mage
-    SetPortraitToTexture(headerContainerFrame.background2,"interface/icons/UI_AllianceIcon-round");
-    --背景3
-    headerContainerFrame.background3=headerContainerFrame:CreateTexture(nil,"ARTWORK");
-    headerContainerFrame.background3:SetTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\Artifacts-PerkRing-Final-Mask");
-    headerContainerFrame.background3:SetPoint("TOPLEFT",0,0);
-    headerContainerFrame.background3:SetSize(45,45);
-    headerContainerFrame.background3:SetTexCoord(0.12,0.89,0.12,0.87);
-
-    ---------职业
-
-    headerContainerFrame.background4=headerContainerFrame:CreateTexture(nil,"ARTWORK");
-    --headerContainerFrame.background2:SetTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\UI-Classes-Circles");
-    headerContainerFrame.background4:SetPoint("TOPLEFT",45,0);
-    headerContainerFrame.background4:SetSize(45,45);
-    --UI_AllianceIcon-round
-    --interface/icons/ClassIcon_Mage
-    SetPortraitToTexture(headerContainerFrame.background4,"interface/icons/ClassIcon_Mage");
-    --背景3
-    headerContainerFrame.background5=headerContainerFrame:CreateTexture(nil,"ARTWORK");
-    headerContainerFrame.background5:SetTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\Artifacts-PerkRing-Final-Mask");
-    headerContainerFrame.background5:SetPoint("TOPLEFT",45,0);
-    headerContainerFrame.background5:SetSize(45,45);
-    headerContainerFrame.background5:SetTexCoord(0.12,0.89,0.12,0.87);
-
-
-
-    ---------职业扩展
-
-    headerContainerFrame.background6=headerContainerFrame:CreateTexture(nil,"ARTWORK");
-    headerContainerFrame.background6:SetTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\artifactbook-priest-cover");
-    headerContainerFrame.background6:SetPoint("CENTER",0,0);
-    headerContainerFrame.background6:SetSize(45,45);
-    --headerContainerFrame.background6:SetTexCoord(0.12,0.89,0.12,0.87);
+    
+    local headerContainerFrame = HorizontalContainer:Create(mainFrame,45);
+    mainFrame.headerContainerFrame=headerContainerFrame;
 
     --创建版本的主框体
-    local expansionContainerFrame = CreateFrame("Frame", nil, mainFrame);
-    expansionContainerFrame:SetSize(265, height-45);
-    expansionContainerFrame:SetPoint("TOPLEFT", mainFrame, 600, -45);
-    expansionContainerFrame.background = expansionContainerFrame:CreateTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\QuestMapLogAtlas");
-    expansionContainerFrame.background:SetTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\QuestMapLogAtlas");
-    expansionContainerFrame.background:SetTexCoord(0.28, 0.564, 0.454, 0.912);
-    expansionContainerFrame.background:SetAllPoints();
+    local expansionContainerFrame = VerticalContainer:Create(mainFrame,600);
     expansionContainerFrame.total = 0;
     expansionContainerFrame.index = focusInfo.expansionIndex;
     expansionContainerFrame.items = {};
@@ -183,13 +132,7 @@ function Addon:OnLoad_InfoFrame()
 
     --创建声望主要框体
 
-    local factionContainerFrame = CreateFrame("Frame", nil, mainFrame);
-    factionContainerFrame:SetSize(265, height);
-    factionContainerFrame:SetPoint("TOPLEFT", mainFrame, 865, -45);
-    factionContainerFrame.background = factionContainerFrame:CreateTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\QuestMapLogAtlas");
-    factionContainerFrame.background:SetTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\QuestMapLogAtlas");
-    factionContainerFrame.background:SetTexCoord(0.28, 0.564, 0.454, 0.912);
-    factionContainerFrame.background:SetAllPoints();
+    local factionContainerFrame = VerticalContainer:Create(mainFrame,865);
     factionContainerFrame.total = 0;
     factionContainerFrame.index = focusInfo.expansionFactionIndex;
     factionContainerFrame.items = {};
@@ -197,16 +140,21 @@ function Addon:OnLoad_InfoFrame()
 
 
 
-    --创建每一个项,
-    for i = 1, #expansions do
-        local expansionItemFrame = self:AppendExpansion(expansionContainerFrame, expansions[i]);
-        expansionItemFrame.factionIds = expansions[i].factionIds;
-        if (expansions[i].factionIds) then
-            for j = 1, #expansions[i].factionIds do
-                --self:AppendFactionItem(factionContainerFrame, expansions[i].factionIds[j]);
-            end
-        end
+    --创建每一个资料片
+    for i = 0, #expansions-1 do
+        local expansionItemFrame = Expansion:Create({index=i,name=expansions[i+1].name,factionIds=expansions[i+1].factionIds})    --self:AppendExpansion(expansionContainerFrame, expansions[i]);
+        expansionItemFrame:SetParent(expansionContainerFrame);
+        local offsetY = expansionContainerFrame.total * 52;
+        expansionContainerFrame.total=expansionContainerFrame.total+1;
+        expansionItemFrame:SetPoint("TOPLEFT", expansionContainerFrame, 0, -1 - offsetY);
+    end
 
+    for i=1,#(expansions[1].factionIds) do
+        local factionItemFrame=Faction:Create({factionId=expansions[1].factionIds[i]});
+        factionItemFrame:SetParent(factionContainerFrame);
+        local offsetY = factionContainerFrame.total * -(22 + 64) - (10 * factionContainerFrame.total);
+        factionContainerFrame.total=factionContainerFrame.total+1;
+        factionItemFrame:SetPoint("TOPLEFT",factionContainerFrame,0,offsetY);
     end
 
     self.mainFrame = mainFrame;
@@ -221,7 +169,7 @@ function Addon:AppendFactionItem(factionContainerFrame, factionID)
     --MajorFactions_Icons_Centaur512
     local name, description, standingID, barMin, barMax, barValue, atWarWith, canToggleAtWar, isHeader, isCollapsed, hasRep, isWatched, isChild, factionID, hasBonusRepGain, canBeLFGBonus = GetFactionInfoByID(factionID);
 
-    local offsetY = factionContainerFrame.total * -(22 + 64)-(10*factionContainerFrame.total);
+    local offsetY = factionContainerFrame.total * -(22 + 64) - (10 * factionContainerFrame.total);
     local factionItemFrame = CreateFrame("Frame", nil, factionContainerFrame);
     factionItemFrame:SetSize(265, 64);
     factionItemFrame:SetPoint("TOPLEFT", factionContainerFrame, 0, offsetY);
@@ -253,7 +201,7 @@ function Addon:AppendFactionItem(factionContainerFrame, factionID)
     local item = CreateFrame("Frame", nil, factionItemFrame);
 
     item:SetSize(265, 20);
-    item:SetPoint("TOP",factionItemFrame,"BOTTOM", 0,2);
+    item:SetPoint("TOP", factionItemFrame, "BOTTOM", 0, 2);
 
     item.background = item:CreateTexture();
     item.background:SetAtlas("ui-castingbar-background"); --背景
@@ -274,6 +222,7 @@ function Addon:AppendFactionItem(factionContainerFrame, factionID)
 
     factionContainerFrame.total = factionContainerFrame.total + 1;
     table.insert(factionContainerFrame.items, factionItemFrame);
+
     return factionItemFrame;
 end
 
@@ -322,7 +271,7 @@ function Addon:AppendExpansion(expansionContainerFrame, expansion)
 
     expansionItemFrame:SetScript("OnEnter", function(selfs, arg)
         self:Focus(selfs.index);
-
+        selfs:tp(selfs);
         --DEMO:
         -- local animationGroup=selfs:CreateAnimationGroup();
         -- local tran1=animationGroup:CreateAnimation("translation");
@@ -342,6 +291,42 @@ function Addon:AppendExpansion(expansionContainerFrame, expansion)
 
     expansionContainerFrame.total = expansionContainerFrame.total + 1;
     table.insert(expansionContainerFrame.items, expansionItemFrame);
+
+    local tp = function(selfs)
+        local function AddRenownRewardsToTooltip(renownRewards)
+            GameTooltip_AddHighlightLine(GameTooltip, MAJOR_FACTION_BUTTON_TOOLTIP_NEXT_REWARDS);
+            for i, rewardInfo in ipairs(renownRewards) do
+                local renownRewardString;
+                local icon, name, description = RenownRewardUtil.GetRenownRewardInfo(rewardInfo,
+                    GenerateClosure(self.ShowMajorFactionRenownTooltip, self));
+                if icon then
+                    local file, width, height = icon, 16, 16;
+                    local rewardTexture = CreateSimpleTextureMarkup(file, width, height);
+                    renownRewardString = rewardTexture .. " " .. name;
+                end
+                local wrapText = false;
+                GameTooltip_AddNormalLine(GameTooltip, renownRewardString, wrapText);
+            end
+        end
+
+        GameTooltip:SetOwner(selfs, "ANCHOR_RIGHT");
+        local majorFactionData = C_MajorFactions.GetMajorFactionData(2503);
+        local tooltipTitle = majorFactionData.name;
+        GameTooltip_SetTitle(GameTooltip, tooltipTitle, NORMAL_FONT_COLOR);
+        GameTooltip_AddColoredLine(GameTooltip, RENOWN_LEVEL_LABEL .. majorFactionData.renownLevel, BLUE_FONT_COLOR);
+        GameTooltip_AddBlankLineToTooltip(GameTooltip);
+        GameTooltip_AddHighlightLine(GameTooltip, MAJOR_FACTION_RENOWN_TOOLTIP_PROGRESS:format(majorFactionData.name));
+        GameTooltip_AddBlankLineToTooltip(GameTooltip);
+        local nextRenownRewards = C_MajorFactions.GetRenownRewardsForLevel(2503,
+            C_MajorFactions.GetCurrentRenownLevel(2503) + 1);
+        if #nextRenownRewards > 0 then
+            AddRenownRewardsToTooltip(nextRenownRewards);
+        end
+        GameTooltip:Show();
+    end
+    expansionItemFrame.tp = tp;
+
+
     return expansionItemFrame;
 end
 
@@ -354,14 +339,14 @@ function Addon:Focus(expansionIndex)
             item.tex_selectedGlow:Show();
             item.tex_highlight:Show();
             --加载声望
-            if(self.mainFrame.factionContainerFrame.items) then 
-                for k=1,#self.mainFrame.factionContainerFrame.items do
+            if (self.mainFrame.factionContainerFrame.items) then
+                for k = 1, #self.mainFrame.factionContainerFrame.items do
                     self.mainFrame.factionContainerFrame.items[k]:Hide();
                 end
-            end;
+            end
             --垃圾回收,重置计数
-            self.mainFrame.factionContainerFrame.total=0;
-            self.mainFrame.factionContainerFrame.items={};
+            self.mainFrame.factionContainerFrame.total = 0;
+            self.mainFrame.factionContainerFrame.items = {};
             if (expansionItems[i].factionIds) then
                 for j = 1, #expansionItems[i].factionIds do
                     self:AppendFactionItem(self.mainFrame.factionContainerFrame, expansionItems[i].factionIds[j])
