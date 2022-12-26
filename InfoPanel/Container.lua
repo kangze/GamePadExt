@@ -42,8 +42,8 @@ function HorizontalContainer:Create(parent)
     --background
     container.tex_background = container:CreateTexture(nil, "BACKGROUND");
     container.tex_background:SetTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\TalkingHeads");
-    container.tex_background:SetAllPoints();
-    container.tex_background:SetTexCoord(0.017, 0.767, 0.2, 0.29);
+    container.tex_background:SetAllPoints(container);
+    container.tex_background:SetTexCoord(0.017, 0.540, 0.2, 0.29);
 
     --camp_item
     container.tex_camp = container:CreateTexture(nil, "ARTWORK");
