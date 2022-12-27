@@ -1,5 +1,7 @@
 local _,Addon=...;
 
+local PlaySound=PlaySound;
+local CreateFrame=CreateFrame;
 
 local Expansion={};
 

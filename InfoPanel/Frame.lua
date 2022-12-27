@@ -10,6 +10,8 @@ local VerticalContainer=Addon.VerticalContainer;
 local HorizontalContainer=Addon.HorizontalContainer;
 local Expansion=Addon.Expansion;
 local Faction=Addon.Faction;
+local CreateFrame=CreateFrame;
+local UIParent=UIParent;
 --Campaign_Dragonflight
 --Campaign_Shadowlands
 --Campaign_Alliance
@@ -82,6 +84,44 @@ local expansions = {
     -- }
 }
 
+local indexer={
+    current="reputaion_expansion",
+    reputation={
+        expansion={
+            index=0, -- -1等于没有选中
+        },
+        faction={
+            index=-1,  -- 表明选中第一个
+        }
+    }
+}
+
+local HandleGamepadButtonDown=function(self,button)
+    if (button ~= "PADDUP" and button ~= "PADDDOWN") then return end
+        local indexer= self.indexer;
+        local currents=indexer.current:split('_');
+        if(currents[1]=="reputation") then
+            local frame=self.reputaionContainerFrame;
+            if(currents[2]=="expansion") then
+                frame=frame.expansionContainerFrame;
+                
+            end
+        end
+        local container = self.expansionContainerFrame;
+        local newIndex = 0;
+        if (button == "PADDUP") then
+            newIndex = container.index - 1;
+        else if (button == "PADDDOWN") then
+                newIndex = container.index + 1;
+            end
+        end
+
+        newIndex = newIndex % container.total;
+        container.index = newIndex;
+        self.focusInfo.expansionIndex = newIndex;
+        self:Focus(newIndex);
+end
+
 
 function Addon:OnLoad_InfoFrame()
 
@@ -143,10 +183,12 @@ function Addon:OnLoad_InfoFrame()
     --创建每一个资料片
     for i = 0, #expansions-1 do
         local expansionItemFrame = Expansion:Create({index=i,name=expansions[i+1].name,factionIds=expansions[i+1].factionIds})    --self:AppendExpansion(expansionContainerFrame, expansions[i]);
-        expansionItemFrame:SetParent(expansionContainerFrame);
         local offsetY = expansionContainerFrame.total * 52;
         expansionContainerFrame.total=expansionContainerFrame.total+1;
+
+        expansionItemFrame:SetParent(expansionContainerFrame);
         expansionItemFrame:SetPoint("TOPLEFT", expansionContainerFrame, 0, -1 - offsetY);
+        
     end
 
     for i=1,#(expansions[1].factionIds) do

@@ -11,6 +11,7 @@ Load_libs.xml
 
 ToolKit/EasingFunctions.lua
 ToolKit/CameraMover.lua
+ToolKit/String.lua
 Default.lua
 InfoPanel/Core.lua
 InfoPanel/Container.lua
