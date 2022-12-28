@@ -104,7 +104,6 @@ local HandleGamepadButtonDown=function(self,button)
             local frame=self.reputaionContainerFrame;
             if(currents[2]=="expansion") then
                 frame=frame.expansionContainerFrame;
-                
             end
         end
         local container = self.expansionContainerFrame;
@@ -162,6 +161,17 @@ function Addon:OnLoad_InfoFrame()
     
     local headerContainerFrame = HorizontalContainer:Create(mainFrame,45);
     mainFrame.headerContainerFrame=headerContainerFrame;
+
+
+    local item=CreateFrame("Frame",nil,headerContainerFrame);
+    item:SetFrameLevel(1000);
+    item:SetWidth(200);
+    item:SetHeight(45);
+    item:SetPoint("CENTER",-200,0);
+    local tex=item:CreateTexture(nil,"OVERLAY");
+    --tex:SetTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\TalkingHeads");
+    tex:SetAtlas("TalkingHeads-Horde-TextBackground");
+    tex:SetAllPoints();
 
     --创建版本的主框体
     local expansionContainerFrame = VerticalContainer:Create(mainFrame,600);
