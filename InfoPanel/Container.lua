@@ -86,6 +86,7 @@ function HorizontalContainer:Create(parent)
     container.tex_class_ext:SetPoint("CENTER", 0, 0);
     container.tex_class_ext:SetSize(45, 45);
     --headerContainerFrame.background6:SetTexCoord(0.12,0.89,0.12,0.87);
+    return container;
 end
 
 Addon.VerticalContainer = VerticalContainer;
