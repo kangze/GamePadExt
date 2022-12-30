@@ -1,0 +1,42 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\FrameXML\UI.xsd">
+    <Frame virtul="true">
+        <Size x="265" y="64"/>
+
+        <Layers>
+            <!--tex_background-->
+            <Layer>
+                <Texture parentKey="tex_background" file="Interface\AddOns\GamePadExt\media\texture\UI-Character-Reputation-DetailBackground" setAllPoints="true">
+                    <TexCoords left="0" right="0.74" top="0" bottom="1"/>
+                </Texture>
+            </Layer>
+
+            <!--tex_icon-->
+            <Layer>
+                <Texture parentKey="tex_icon" atlas="MajorFactions_Icons_Expedition512" >
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <!--font_name-->
+            <Layer>
+                <FontString parentKey="font_name" inherits="GameTooltipText" justifyH="LEFT" justifyV="TOP">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="64" y="-5"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+
+            <!--font_description-->
+            <Layer>
+                <FontString parentKey="font_description" inherits="GameTooltipText" maxlens="3">
+                    <Anchors>
+                        <Anchor point="LEFT" x="64" y="-5"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+    </Frame>
+</Ui>
