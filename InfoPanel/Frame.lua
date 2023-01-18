@@ -155,7 +155,7 @@ function Addon:OnLoad_InfoFrame()
         self.focusInfo.expansionIndex = newIndex;
         self:Focus(newIndex);
     end);
-    --mainFrame:Hide();
+    mainFrame:Hide();
 
     --创建横幅 高度45
     
@@ -169,8 +169,8 @@ function Addon:OnLoad_InfoFrame()
     item:SetHeight(45);
     item:SetPoint("CENTER",-200,0);
     local tex=item:CreateTexture(nil,"OVERLAY");
-    --tex:SetTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\TalkingHeads");
-    tex:SetAtlas("TalkingHeads-Horde-TextBackground");
+    --tex:SetTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\1.tga");
+    --tex:SetAtlas("TalkingHeads-Horde-TextBackground");
     tex:SetAllPoints();
 
     --创建版本的主框体

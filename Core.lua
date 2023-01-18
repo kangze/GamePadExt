@@ -29,7 +29,7 @@ end
 
 function GamePadExtAddon:OnInitialize()
 
-    StaticPopup1.Show=StaticPopup1.Hide;
+    --StaticPopup1.Show=StaticPopup1.Hide;
 
     --init the config
     Addon:InitConfig_ActionBar();
