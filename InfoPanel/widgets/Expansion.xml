@@ -1,0 +1,32 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\FrameXML\UI.xsd">
+    <Frame virtul="true">
+        <Size x="200" y="45">
+
+        <Layers>
+            <!--background-->
+            <Layer level="OVERLAY" textureSubLevel="1">
+                <Texture parentKey="tex_background" atlas="Campaign_Dragonflight" setAllPoints="true">
+                </Texture>
+            </Layer>
+
+            <!--tex_selectedGlow-->
+            <Layer level="OVERLAY" textureSubLevel="2">
+                <Texture parentKey="tex_selectedGlow" inherits="Campaign-SelectedGlow" setAllPoints="true" alphaMode="ADD">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="0" y="-3"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <!--font_name-->
+            <Layer level="OVERLAY" textureSubLevel="2">
+                <FontString parentKey="font_name" inherits="GameFontNormalSmall" justifyH="LEFT" justifyV="TOP">
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+    </Frame>
+</Ui>

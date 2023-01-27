@@ -1,0 +1,48 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\FrameXML\UI.xsd">
+    <Script file="HeaderTitleMixin.lua"/>
+    <Frame name="HeaderTitle" mixin="HeaderTitleFrameMixin" virtul="true">
+        <KeyValues>
+        </KeyValues>
+        <Size x="200" y="45">
+        
+        <Layers>
+            <!--background-->
+            <Layer level="OVERLAY" textureSubLevel="1">
+                <Texture parentKey="tex_background" atlas="TalkingHeads-Horde-TextBackground" setAllPoints="true">
+                </Texture>
+            </Layer>
+            
+            <!--icon-->
+            <Layer level="OVERLAY" textureSubLevel="2">
+                <Texture parentKey="tex_icon" atlas="TalkingHeads-Horde-TextBackground" setAllPoints="true">
+                    <Size x="32" y="32"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativePoint="CENTER" x="-10" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <!--font_title-->
+            <Layer level="OVERLAY" textureSubLevel="2">
+                <FontString parentKey="font_title" inherits="inherits="GameFontNormalSmall"" justifyH="LEFT" justifyV="TOP">
+                    <Size x="200" y="45"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativePoint="CENTER" x="10" y="0"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+
+            <!--tex_highlight-->
+            <Layer level="OVERLAY" textureSubLevel="3">
+                <Texture parentKey="tex_highlight" inherits="TalkingHeads-TextHighlight" setAllPoints="true">
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnEnter method="OnEnter"/>
+            <OnLeave method="OnLeave"/>
+        </Scripts>
+    </Frame>
+</Ui>
