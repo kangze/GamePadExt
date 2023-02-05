@@ -9,6 +9,8 @@
 
 Load_libs.xml
 
+InfoPanel/widgets/Faction.xml
+
 ToolKit/EasingFunctions.lua
 ToolKit/CameraMover.lua
 ToolKit/String.lua

@@ -204,10 +204,22 @@ function Addon:OnLoad_InfoFrame()
     for i=1,#(expansions[1].factionIds) do
         local factionItemFrame=Faction:Create({factionId=expansions[1].factionIds[i]});
         factionItemFrame:SetParent(factionContainerFrame);
-        local offsetY = factionContainerFrame.total * -(22 + 64) - (10 * factionContainerFrame.total);
+        local offsetY = factionContainerFrame.total * - (52+10);
         factionContainerFrame.total=factionContainerFrame.total+1;
         factionItemFrame:SetPoint("TOPLEFT",factionContainerFrame,0,offsetY);
+
+        --local item=CreateFrame("Frame",nil,UIParent,"FactionTemplate");
     end
+
+
+    -- for factionIndex = 1, GetNumFactions() do
+    --     local name, description, standingId, bottomValue, topValue, earnedValue, atWarWith, canToggleAtWar,
+    --         isHeader, isCollapsed, hasRep, isWatched, isChild, factionID = GetFactionInfo(factionIndex)
+    --     if hasRep or not isHeader then
+    --         DEFAULT_CHAT_FRAME:AddMessage("Faction: " .. name .. " - " .. earnedValue)
+    --     end
+    -- end
+
 
     self.mainFrame = mainFrame;
     self.focusInfo = focusInfo;

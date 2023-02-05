@@ -3,7 +3,6 @@
         GamePadExtAddon:Open();
     </Binding>
     <Binding name="GamePadExt1" runOnUp="false" header="WOWPEDIAUIDEMO1" default="F2" category="ADDONS">
-        UIParent:Show();
-        UIParent:SetAlpha(1);
+        GamePadExtAddon:Close();
     </Binding>
 </Bindings>

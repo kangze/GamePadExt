@@ -1,42 +1,96 @@
-<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\..\FrameXML\UI.xsd">
-    <Frame virtul="true">
-        <Size x="265" y="64"/>
-
+    <Script file="FactionTemplateMixin.lua"/>
+    <Frame name="FactionTemplate" toplevel="true" enableMouse="true" virtual="true" mixin="FactionTemplateMixin">
+        <Size x="220" y="52"/>
+        <Anchors>
+            <Anchor point="CENTER" />
+        </Anchors>
         <Layers>
             <!--tex_background-->
-            <Layer>
-                <Texture parentKey="tex_background" file="Interface\AddOns\GamePadExt\media\texture\UI-Character-Reputation-DetailBackground" setAllPoints="true">
-                    <TexCoords left="0" right="0.74" top="0" bottom="1"/>
+            <Layer level="BACKGROUND">
+                <!-- Interface\AddOns\GamePadExt\media\texture\UI-Character-Reputation-DetailBackground -->
+                <!-- <TexCoords left="0" right="0.74" top="0" bottom="1"/> -->
+                <Texture parentKey="tex_background" atlas="dragonflight-scenario-TrackerHeader" setAllPoints="true">
+                    <!-- <Color r="0.2" g="0.2" b="0.3"/> -->
                 </Texture>
             </Layer>
 
             <!--tex_icon-->
-            <Layer>
-                <Texture parentKey="tex_icon" atlas="MajorFactions_Icons_Expedition512" >
+
+            <Layer level="BACKGROUND">
+                <Texture parentKey="tex_icon" atlas="MajorFactions_Icons_Expedition512">
+                    <Size x="38" y="35"/>
                     <Anchors>
-                        <Anchor point="TOPLEFT" x="0" y="0"/>
+                        <Anchor point="TOPLEFT" x="8" y="-8"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <!-- auctionhouse-itemicon-border-green -->
+                <!-- Interface\AddOns\GamePadExt\media\texture\Artifacts-PerkRing-Final-Mask -->
+                <Texture parentKey="tex_icon_ring" atlas="auctionhouse-itemicon-border-orange">
+                    <Size x="55" y="55"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="-1" y="1"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture parentKey="tex_statusbar" atlas="bonusobjectives-bar-frame-5">
+                    <Size x="200" y="35"/>
+                    <Anchors>
+                        <Anchor point="BOTTOM" x="35" y="-7"/>
                     </Anchors>
                 </Texture>
             </Layer>
 
             <!--font_name-->
             <Layer>
-                <FontString parentKey="font_name" inherits="GameTooltipText" justifyH="LEFT" justifyV="TOP">
+                <FontString parentKey="font_name" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
+                    <Size x="180" y="15"/>
                     <Anchors>
-                        <Anchor point="TOPLEFT" x="64" y="-5"/>
+                        <Anchor point="TOPLEFT" x="50" y="-10"/>
                     </Anchors>
                 </FontString>
             </Layer>
 
-            <!--font_description-->
+            <!--font_level-->
             <Layer>
-                <FontString parentKey="font_description" inherits="GameTooltipText" maxlens="3">
+                <FontString parentKey="font_level" inherits="GameFontNormalLeft" justifyH="CENTER" justifyV="TOP">
+                    <Size x="15" y="15"/>
                     <Anchors>
-                        <Anchor point="LEFT" x="64" y="-5"/>
+                        <Anchor point="TOPRIGHT" x="-12" y="-10"/>
                     </Anchors>
                 </FontString>
             </Layer>
+
+            <Layer level="ARTWORK">
+                <!-- auctionhouse-itemicon-border-green -->
+                <!-- Interface\AddOns\GamePadExt\media\texture\Artifacts-PerkRing-Final-Mask -->
+                <Texture parentKey="tex_level_ring" atlas="pvpqueue-rewardring-large">
+                    <Size x="30" y="30"/>
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" x="-5" y="-3"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
         </Layers>
+        <Frames>
+            <StatusBar parentKey="statusbaar" drawLayer="BACKGROUND">
+                <Size x="160" y="10"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" x="-10" y="7"/>
+                </Anchors>
+                <BarTexture atlas="_pvpqueue-conquestbar-fill-blue"/>
+            </StatusBar>
+        </Frames>
+        <Scripts>
+            <OnLoad method="OnLoad"/>
+            <OnEnter method="OnEnter"/>
+        </Scripts>
     </Frame>
 </Ui>

@@ -15,16 +15,20 @@ function GamePadExtAddon:HandleCommand(input)
     Addon:OpenSettingPanle();
 end
 function GamePadExtAddon:Open()
-    CameraFocus:Enter();
-    UIParent.startAlpha=1;
-    UIParent.endAlpha=0;
+    --CameraFocus:Enter();
+    --UIParent.startAlpha=1;
+    --UIParent.endAlpha=0;
 
     Addon.mainFrame.startAlpha=0;
     Addon.mainFrame.endAlpha=1;
-    local frame = AlphaAnimationFrame.New(0.5,UIParent);
+    --local frame = AlphaAnimationFrame.New(0.5,UIParent);
     local main = AlphaAnimationFrame.New(0.5,Addon.mainFrame);
-    frame:Show();
+    --frame:Show();
     main:Show();
+end
+
+function GamePadExtAddon:Close()
+    Addon.mainFrame:Hide();
 end
 
 function GamePadExtAddon:OnInitialize()
