@@ -39,14 +39,7 @@
                 </Texture>
             </Layer>
 
-            <Layer level="ARTWORK">
-                <Texture parentKey="tex_statusbar" atlas="bonusobjectives-bar-frame-5">
-                    <Size x="200" y="35"/>
-                    <Anchors>
-                        <Anchor point="BOTTOM" x="35" y="-7"/>
-                    </Anchors>
-                </Texture>
-            </Layer>
+
 
             <!--font_name-->
             <Layer>
@@ -80,17 +73,28 @@
             </Layer>
         </Layers>
         <Frames>
-            <StatusBar parentKey="statusbaar" drawLayer="BACKGROUND">
-                <Size x="160" y="10"/>
+            <StatusBar parentKey="statusbaar" drawLayer="BORDER">
+                <Size x="160" y="11"/>
                 <Anchors>
-                    <Anchor point="BOTTOMRIGHT" x="-10" y="7"/>
+                    <Anchor point="BOTTOMRIGHT" x="-10" y="6"/>
                 </Anchors>
                 <BarTexture atlas="_pvpqueue-conquestbar-fill-blue"/>
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture parentKey="tex_statusbar" atlas="bonusobjectives-bar-frame-5">
+                            <Size x="200" y="35"/>
+                            <Anchors>
+                                <Anchor point="CENTER" x="14" y="0"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
             </StatusBar>
         </Frames>
         <Scripts>
             <OnLoad method="OnLoad"/>
             <OnEnter method="OnEnter"/>
+            <OnLeave method="OnLeave"/>
         </Scripts>
     </Frame>
 </Ui>

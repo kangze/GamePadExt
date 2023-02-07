@@ -1,0 +1,37 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\FrameXML\UI.xsd">
+    <GameTooltip name="GpeGameTooltip" drawLayer="BORDER">
+        <Size x="220" y="52"/>
+        <Layers>
+		<Layer level="ARTWORK">
+			<FontString name="$parentTextLeft1" inherits="TooltipTextLeftTemplate" />
+			<FontString name="$parentTextRight1" inherits="TooltipTextRightTemplate" />
+		</Layer>
+	</Layers>
+        <Frames>
+            <Frame parentKey="tipframe" toplevel="true" enableMouse="true">
+                <Size x="220" y="52"/>
+                <Anchors>
+                    <Anchor point="LEFT" />
+                </Anchors>
+                <Layers>
+                    <!--tex_background-->
+                    <Layer level="BACKGROUND">
+                        <!-- Interface\AddOns\GamePadExt\media\texture\UI-Character-Reputation-DetailBackground -->
+                        <!-- <TexCoords left="0" right="0.74" top="0" bottom="1"/> -->
+                        <Texture parentKey="tex_background" atlas="dragonflight-scenario-TrackerHeader" setAllPoints="true">
+                            <!-- <Color r="0.2" g="0.2" b="0.3"/> -->
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+            self:SetFrameStrata("TOOLTIP");
+            self:SetFixedFrameStrata(true);
+            </OnLoad>
+        </Scripts>
+    </GameTooltip>
+</Ui>

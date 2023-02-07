@@ -206,7 +206,7 @@ function Addon:OnLoad_InfoFrame()
         factionItemFrame:SetParent(factionContainerFrame);
         local offsetY = factionContainerFrame.total * - (52+10);
         factionContainerFrame.total=factionContainerFrame.total+1;
-        factionItemFrame:SetPoint("TOPLEFT",factionContainerFrame,0,offsetY);
+        factionItemFrame:SetPoint("TOP",factionContainerFrame,0,offsetY);
 
         --local item=CreateFrame("Frame",nil,UIParent,"FactionTemplate");
     end
