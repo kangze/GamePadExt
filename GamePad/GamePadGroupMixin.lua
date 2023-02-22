@@ -1,9 +1,6 @@
 local _, addon = ...
 
-local GamePadGroupMixin = {
-    index = 1,
-    description = ""
-}
+local GamePadGroupMixin = {}
 local function CreateGamePadGroup(name, index, frame, parentFrame, description)
     if not name then
         print("A name is required");
@@ -14,7 +11,10 @@ local function CreateGamePadGroup(name, index, frame, parentFrame, description)
         currentFrame = frame,
         parentFrame = parentFrame,
         index = index,
-        description = description
+        name = name,
+        description = description,
+        leftGroupName = "",
+        rightGroupName = "",
     };
     for k, v in pairs(GamePadGroupMixin) do
         object[k] = v;
@@ -33,15 +33,17 @@ addon.GetGamePadGroup = GetGamePadGroup;
 addon.actionGroups = {};
 
 
-function GamePadGroupMixin:Navgate(x, y)
+function GamePadGroupMixin:NavgateX(x)
     --上下移动
     self.currentFrame:OnLeave();
-    if (y == 0) then
-        local group = addon.GetGamePadGroup(self.parentGroup, self.index + x);
-        if (group) then
-            group:OnEnter();
-        end
+    local group = addon.GetGamePadGroup(self.name, self.index + x);
+    if (group) then
+        group:OnEnter();
     end
+end
+
+function GamePadGroupMixin:NavgateY(y)
+
 end
 
 function GamePadGroupMixin:OnEnter()
