@@ -5,7 +5,7 @@ local StatusTrackingBarManager=StatusTrackingBarManager;
 function Addon:OnLoad_TrackingBar()
     for _,v in pairs(StatusTrackingBarManager) do
         if(type(v) ~= 'function' and type(v) ~= 'userdata' and v.SetWidth) then 
-            v:SetWidth(895);
+            v:SetWidth(1000);
             v:ClearAllPoints();
             v:SetPoint("BOTTOM",UIParent,"BOTTOM",0,50);
         end

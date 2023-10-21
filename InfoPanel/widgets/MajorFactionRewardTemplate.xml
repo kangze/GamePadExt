@@ -1,0 +1,58 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\FrameXML\UI.xsd">
+
+    <Frame name="MajorFactionRewordTemplate" virtual="true">
+        <Size x="200" y="50"/>
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="tex_background" atlas="UI-Valdrakken-Reward-Slate" setAllPoints="true"/>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture parentKey="Icon" atlas="TalkingHeads-Horde-TextBackground">
+                    <Size x="35" y="35"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="9" y="2"/>
+                    </Anchors>
+                </Texture>
+                <MaskTexture parentKey="CircleMask" file="Interface\CharacterFrame\TempPortraitAlphaMask" hWrapMode="CLAMPTOBLACKADDITIVE" vWrapMode="CLAMPTOBLACKADDITIVE">
+                    <Size x="30" y="30"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeKey="$parent.Icon" relativePoint="CENTER"/>
+                    </Anchors>
+                    <MaskedTextures>
+                        <MaskedTexture childKey="Icon"/>
+                    </MaskedTextures>
+                </MaskTexture>
+                <FontString parentKey="Name" font="Fonts\FRIZQT__.TTF" justifyH="LEFT" wordwrap="true">
+                    <Color r="1" g="0.8" b="1" a="1"/>
+                    <Size x="130" y="0"/>
+                    <FontHeight val="15"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="50" y="0"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+            <Layer level="OVERLAY">
+                <Texture parentKey="IconBorder" atlas="UI-Valdrakken-RewardFrame" scale="0.85">
+                    <Size x="55" y="55"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="5" y="1"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY" textureSubLevel="1">
+                <Texture parentKey="Check" atlas="CovenantSanctum-Renown-Checkmark-Large">
+                    <Size x="20" y="20"/>
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" relativeKey="$parent.IconBorder" x="-6" y="6"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+    </Frame>
+</Ui>

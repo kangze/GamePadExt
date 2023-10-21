@@ -25,11 +25,11 @@ function VerticalContainer:Create(parent, offsetX)
     local container = CreateFrame("Frame", nil, parent);
     container:SetSize(265, height - 45);
     container:SetPoint("TOPLEFT", parent, offsetX, -45);
-    container.background = container:CreateTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\QuestMapLogAtlas");
-    container.background:SetAtlas("QuestBG-Fey");
+    --container.background = container:CreateTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\QuestMapLogAtlas");
+    --container.background:SetAtlas("QuestBG-Fey");
     --container.background:SetTexture("Interface\\AddOns\\GamePadExt\\media\\texture\\QuestMapLogAtlas");
     --container.background:SetTexCoord(0.28, 0.564, 0.454, 0.912);
-    container.background:SetAllPoints();
+    --container.background:SetAllPoints();
     return container;
 end
 

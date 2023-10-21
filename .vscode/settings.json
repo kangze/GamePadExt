@@ -83,6 +83,26 @@
         "C_GamePad",
         "C_ZoneAbility",
         "PlaySound",
-        "GetFactionInfoByID"
+        "GetFactionInfoByID",
+        "C_Reputation",
+        "C_MajorFactions",
+        "Add",
+        "GameTooltip_SetDefaultAnchor",
+        "AFK",
+        "DND",
+        "PVP",
+        "LEVEL",
+        "FRIENDS_LIST_OFFLINE",
+        "FACTION_HORDE",
+        "FACTION_ALLIANCE",
+        "QuestMapLogTitleButton_OnEnter",
+        "HybridScrollFrame_CreateButtons",
+        "GameTooltip_Hide",
+        "YOU",
+        "NONE",
+        "EMPTY",
+        "TARGET",
+        "TOOLTIP_UPDATE_TIME",
+        "GameTooltip_UnitColor"
     ]
 }

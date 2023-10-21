@@ -59,7 +59,7 @@ function Addon:NAME_PLATE_UNIT_ADDED(...)
     plate.UnitFrame.healthBar.border:Hide();
     local healthbarborder = CreateFrame("Frame", nil, plate.UnitFrame.healthBar);
     healthbarborder:SetSize(width, height);
-    healthbarborder:SetPoint("CENTER", 8, -1);
+    healthbarborder:SetPoint("CENTER", 10, -1);
 
     --create texture
     local tex = healthbarborder:CreateTexture();

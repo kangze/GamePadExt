@@ -3,10 +3,10 @@ local GamePadExtAddon = LibStub("AceAddon-3.0"):NewAddon("GamePadExt", "AceEvent
 
 Addon.GamePadExtAddon = GamePadExtAddon;
 
-AlphaAnimationFrame=Addon.AlphaAnimationFrame;
-CameraFocus=Addon.CameraFocus;
+AlphaAnimationFrame = Addon.AlphaAnimationFrame;
+CameraFocus = Addon.CameraFocus;
 
-_G.GamePadExtAddon=GamePadExtAddon;
+_G.GamePadExtAddon = GamePadExtAddon;
 
 
 GamePadExtAddon:RegisterChatCommand("gpe", "HandleCommand");
@@ -14,15 +14,16 @@ GamePadExtAddon:RegisterChatCommand("gpe", "HandleCommand");
 function GamePadExtAddon:HandleCommand(input)
     Addon:OpenSettingPanle();
 end
+
 function GamePadExtAddon:Open()
     --CameraFocus:Enter();
     --UIParent.startAlpha=1;
     --UIParent.endAlpha=0;
 
-    Addon.mainFrame.startAlpha=0;
-    Addon.mainFrame.endAlpha=1;
+    Addon.mainFrame.startAlpha = 0;
+    Addon.mainFrame.endAlpha = 1;
     --local frame = AlphaAnimationFrame.New(0.5,UIParent);
-    local main = AlphaAnimationFrame.New(0.5,Addon.mainFrame);
+    local main = AlphaAnimationFrame.New(0.5, Addon.mainFrame);
     --frame:Show();
     main:Show();
 end
@@ -32,7 +33,6 @@ function GamePadExtAddon:Close()
 end
 
 function GamePadExtAddon:OnInitialize()
-
     --StaticPopup1.Show=StaticPopup1.Hide;
 
     --init the config
@@ -48,6 +48,7 @@ function GamePadExtAddon:OnInitialize()
     Addon.db = db;
 
     --load the addons
+    Addon:OnLoad_SoftTargetTooltip();
     Addon:OnLoad_SettingPanel();
     Addon:OnLoad_HeaderExt();
     Addon:OnLoad_NamePlate();
@@ -61,6 +62,12 @@ function GamePadExtAddon:OnInitialize()
     Addon:OnLoad_InfoPanel();
     Addon:OnLoad_InfoFrame();
 
+
+    hooksecurefunc("LFG_SetRoleIconIncentive", function(roleButton, incentiveIndex)
+        if (incentiveIndex) then
+            -- print("有奖励了,快去看看");
+        end
+    end);
 end
 
 function GamePadExtAddon:OnEnable()

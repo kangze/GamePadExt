@@ -7,8 +7,8 @@ function Addon:InitConfig_CastingBar()
         default_profile = {
             castingBar = {
                 style = {
-                    width = 255,
-                    height = 15,
+                    width =450, --255,
+                    height =18,-- 15,
                     icon = true,
                     iconWidth = 24,
                 }

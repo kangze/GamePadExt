@@ -9,9 +9,12 @@
 
 Load_libs.xml
 
+media/Init.lua
 InfoPanel/widgets/Faction.xml
 InfoPanel/widgets/GpeGameTooltip.xml
+InfoPanel/widgets/MajorFactionRewardTemplate.xml
 
+SoftTargetTooltip/SoftTargetTooltip.lua
 ToolKit/EasingFunctions.lua
 ToolKit/CameraMover.lua
 ToolKit/String.lua

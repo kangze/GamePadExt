@@ -174,7 +174,7 @@ function Addon:OnLoad_InfoFrame()
     tex:SetAllPoints();
 
     --创建版本的主框体
-    local expansionContainerFrame = VerticalContainer:Create(mainFrame,600);
+    local expansionContainerFrame = VerticalContainer:Create(mainFrame,0);
     expansionContainerFrame.total = 0;
     expansionContainerFrame.index = focusInfo.expansionIndex;
     expansionContainerFrame.items = {};
@@ -182,7 +182,7 @@ function Addon:OnLoad_InfoFrame()
 
     --创建声望主要框体
 
-    local factionContainerFrame = VerticalContainer:Create(mainFrame,865);
+    local factionContainerFrame = VerticalContainer:Create(mainFrame,265);
     factionContainerFrame.total = 0;
     factionContainerFrame.index = focusInfo.expansionFactionIndex;
     factionContainerFrame.items = {};
@@ -201,6 +201,7 @@ function Addon:OnLoad_InfoFrame()
         
     end
 
+    --创建每一个声望矿体
     for i=1,#(expansions[1].factionIds) do
         local factionItemFrame=Faction:Create({factionId=expansions[1].factionIds[i]});
         factionItemFrame:SetParent(factionContainerFrame);
@@ -211,7 +212,27 @@ function Addon:OnLoad_InfoFrame()
         --local item=CreateFrame("Frame",nil,UIParent,"FactionTemplate");
     end
 
-
+    --创建每个名望的奖励信息
+    local rewardContainerFrame=VerticalContainer:Create(mainFrame,500);
+    rewardContainerFrame.total=0;
+    local rewards = C_MajorFactions.GetRenownRewardsForLevel(2510,11);
+    for i=1,#rewards do
+        local reward=rewards[i];
+        local icon, name, description = RenownRewardUtil.GetRenownRewardInfo(reward,function()end);
+        --local iconPath = C_Texture.GetAtlasInfo(icon).file
+        --local textureAddress = "Interface\\Icons\\" .. iconPath
+        local rewardItemFrame=CreateFrame("Frame",nil,rewardContainerFrame,"MajorFactionRewordTemplate");
+        rewardItemFrame:SetParent(rewardContainerFrame);
+        local offsetY = rewardContainerFrame.total * - (50);
+        rewardContainerFrame.total=rewardContainerFrame.total+1;
+        rewardItemFrame:SetPoint("TOP",rewardContainerFrame,0,offsetY);
+        --rewardItemFrame.Name:SetText(description);
+        rewardItemFrame.Name:SetText(name);
+        rewardItemFrame.Icon:SetTexture(icon);
+        
+        print(icon);
+    end
+    
     -- for factionIndex = 1, GetNumFactions() do
     --     local name, description, standingId, bottomValue, topValue, earnedValue, atWarWith, canToggleAtWar,
     --         isHeader, isCollapsed, hasRep, isWatched, isChild, factionID = GetFactionInfo(factionIndex)

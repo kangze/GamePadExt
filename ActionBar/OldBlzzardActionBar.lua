@@ -6,13 +6,13 @@ local MultiBarBottomLeft = MultiBarBottomLeft;
 function Addon:OnLoad_OldBlizzardActionBar()
     local frame = CreateFrame("Frame", nil, MainMenuBar);
     frame:SetMovable(true);
-    frame:SetPoint("TOPLEFT", -7, 4)
+    frame:SetPoint("TOPLEFT", -4, 8)
     frame:SetFrameStrata("LOW");
     frame:SetFrameLevel(0);
     frame.tex2 = frame:CreateTexture();
     frame.tex2:SetAllPoints(frame);
     frame.tex2:SetTexture("Interface/MAINMENUBAR/MainMenuBar", "CLAMPTOWHITE");
-    frame.tex2:SetTexCoord(0.16, 0.94, 0.39, 0.58);
+    frame.tex2:SetTexCoord(0.16, 0.90, 0.39, 0.58);
     frame:SetPoint("BOTTOM", MainMenuBar, 162, -3);
     C_Timer.NewTimer(2, function()
         MultiBarBottomLeft:ClearAllPoints();
