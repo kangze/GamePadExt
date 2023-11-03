@@ -36,6 +36,11 @@ function GamePadExtAddon:OnInitialize()
     --StaticPopup1.Show=StaticPopup1.Hide;
 
     --init the config
+    
+end
+
+function GamePadExtAddon:OnEnable()
+
     Addon:InitConfig_ActionBar();
     Addon:InitConfig_NamePlate();
     Addon:InitConfig_CastingBar();
@@ -68,9 +73,6 @@ function GamePadExtAddon:OnInitialize()
             -- print("有奖励了,快去看看");
         end
     end);
-end
-
-function GamePadExtAddon:OnEnable()
 
 end
 
