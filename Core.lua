@@ -1,21 +1,82 @@
-local _, Addon = ...;
-local GamePadExtAddon = LibStub("AceAddon-3.0"):NewAddon("GamePadExt", "AceEvent-3.0", "AceConsole-3.0")
+local _, AddonData = ...
 
-Addon.GamePadExtAddon = GamePadExtAddon;
+local _G = _G;
 
-AlphaAnimationFrame = Addon.AlphaAnimationFrame;
-CameraFocus = Addon.CameraFocus;
+local AceAddon, AceAddonMinor = _G.LibStub('AceAddon-3.0');
+local CallbackHandler = _G.LibStub('CallbackHandler-1.0');
+local AceDB = _G.LibStub("AceDB-3.0");
 
-_G.GamePadExtAddon = GamePadExtAddon;
+--创建插件Addon对象
+local Gpe = AceAddon:NewAddon("GamePadExt", "AceEvent-3.0", "AceConsole-3.0")
+_G["Gpe"] = Gpe;
 
 
-GamePadExtAddon:RegisterChatCommand("gpe", "HandleCommand");
 
-function GamePadExtAddon:HandleCommand(input)
-    Addon:OpenSettingPanle();
+--创建ActionBarModule
+local ActionBarModule = Gpe:NewModule("ActionBarModule", "AceEvent-3.0", "AceConsole-3.0");
+local SettingModule = Gpe:NewModule("SettingModule");
+local CastingBarModule = Gpe:NewModule("CastingBarModule");
+local SoftTargetToolipModule = Gpe:NewModule("SoftTargetToolipModule", "AceEvent-3.0");
+local NamePlateModule = Gpe:NewModule("NamePlateModule","AceEvent-3.0");
+
+
+function Gpe:OnInitialize()
+    --配置配置的默认值存储
+    AddonData.registration = { profile = {}, options = { type = "group", args = {} } };
 end
 
-function GamePadExtAddon:Open()
+function Gpe:OnEnable()
+    -- Addon:InitConfig_ActionBar();
+    -- Addon:InitConfig_NamePlate();
+    -- Addon:InitConfig_CastingBar();
+    -- Addon:InitConfig_HeaderExt();
+    -- Addon:InitConfig_BufferFrom();
+
+    --配置db
+    local db = AceDB:New('GamePadExtDB', { profile = AddonData.registration.profile }, true)
+    AddonData.db = db;
+
+
+    -- --load the addons
+    -- Addon:OnLoad_SoftTargetTooltip();
+    -- Addon:OnLoad_SettingPanel();
+    -- Addon:OnLoad_HeaderExt();
+    -- Addon:OnLoad_NamePlate();
+    -- Addon:OnLoad_ActionBar();
+    -- Addon:OnLoad_CastingBar()
+    -- Addon:OnLoad_GamePadVirbration();
+    -- Addon:OnLoad_BufferFrom();
+    -- Addon:InitFoints();
+
+    -- --Info Panel
+    -- Addon:OnLoad_InfoPanel();
+    -- Addon:OnLoad_InfoFrame();
+end
+
+function Gpe:OnDisable()
+
+end
+
+Gpe:RegisterChatCommand("gpe", "HandleCommand");
+
+function Gpe:HandleCommand(input)
+    SettingModule:OpenSettingPanle();
+end
+
+function Gpe:RegisterConfig(config)
+    if config and config.profile then
+        for k, v in pairs(config.profile) do
+            AddonData.registration.profile[k] = v;
+        end
+    end
+    if config and config.options then
+        for k, v in pairs(config.options) do
+            AddonData.registration.options.args[k] = v;
+        end
+    end
+end
+
+function Gpe:Open()
     --CameraFocus:Enter();
     --UIParent.startAlpha=1;
     --UIParent.endAlpha=0;
@@ -28,54 +89,6 @@ function GamePadExtAddon:Open()
     main:Show();
 end
 
-function GamePadExtAddon:Close()
-    Addon.mainFrame:Hide();
-end
-
-function GamePadExtAddon:OnInitialize()
-    --StaticPopup1.Show=StaticPopup1.Hide;
-
-    --init the config
-    
-end
-
-function GamePadExtAddon:OnEnable()
-
-    Addon:InitConfig_ActionBar();
-    Addon:InitConfig_NamePlate();
-    Addon:InitConfig_CastingBar();
-    Addon:InitConfig_HeaderExt();
-    Addon:InitConfig_BufferFrom();
-
-    local defaults = Addon:GetDefaultProfile();
-    --print(defaults.headerExt.playerExt.namefontsize);
-    local db = LibStub("AceDB-3.0"):New('GamePadExtDB', defaults, true)
-    Addon.db = db;
-
-    --load the addons
-    Addon:OnLoad_SoftTargetTooltip();
-    Addon:OnLoad_SettingPanel();
-    Addon:OnLoad_HeaderExt();
-    Addon:OnLoad_NamePlate();
-    Addon:OnLoad_ActionBar();
-    Addon:OnLoad_CastingBar()
-    Addon:OnLoad_GamePadVirbration();
-    Addon:OnLoad_BufferFrom();
-    Addon:InitFoints();
-
-    --Info Panel
-    Addon:OnLoad_InfoPanel();
-    Addon:OnLoad_InfoFrame();
-
-
-    hooksecurefunc("LFG_SetRoleIconIncentive", function(roleButton, incentiveIndex)
-        if (incentiveIndex) then
-            -- print("有奖励了,快去看看");
-        end
-    end);
-
-end
-
-function GamePadExtAddon:OnDisable()
-
+function Gpe:Close()
+    --Addon.mainFrame:Hide();
 end

@@ -1,9 +1,15 @@
-local _, Addon = ...
+local _, AddonData = ...;
+local Gpe = _G["Gpe"];
+
+local db = AddonData.db;
+
+local ActionBarModule = Gpe:GetModule('ActionBarModule')
 
 
-function Addon:InitConfig_ActionBar()
+function ActionBarModule:OnInitialize()
+    --配置db
     local config = {
-        default_profile = {
+        profile = {
             actionBar = {
                 style = {
                     show_old_blizzard_action_bar = true,
@@ -23,11 +29,12 @@ function Addon:InitConfig_ActionBar()
                                 name = "显示旧的暴雪动作条",
                                 type = "toggle",
                                 set = function(info, value)
-                                    local db = Addon.db;
+                                    local db = AddonData.db;
                                     db.profile.actionBar.style.show_old_blizzard_action_bar = value;
+                                    self:ShowBlizzardStyleActionBar(value);
                                 end,
                                 get = function(info)
-                                    local db = Addon.db;
+                                    local db = AddonData.db;
                                     return db.profile.actionBar.style.show_old_blizzard_action_bar;
                                 end
                             }
@@ -37,21 +44,18 @@ function Addon:InitConfig_ActionBar()
             }
         }
     };
-    self:RegisterConfig(config);
+    Gpe:RegisterConfig(config);
 end
 
-function Addon:OnLoad_ActionBar()
-    if (self.db.profile.actionBar.style.show_old_blizzard_action_bar) then
-        self:OnLoad_OldBlizzardActionBar();
-        self:OnLoad_TrackingBar();
+function ActionBarModule:OnEnable()
+    self:ShowBlizzardStyleActionBar(AddonData.db.profile.actionBar.style.show_old_blizzard_action_bar)
+end
+
+function ActionBarModule:ShowBlizzardStyleActionBar(enable)
+    if (enable) then
+        self:ApplyOldBlizzardActionBar();
+        self:AdjustTrackingBar();
+    else
+        self:NoApplyBlizzardBar();
     end
-end
-
-function Addon:SetNewPanel()
-    -- 小眼睛
-    -- QueueStatusButton:SetMovable(true);
-    -- QueueStatusButton:EnableMouse(true);
-    -- QueueStatusButton:RegisterForDrag("LeftButton");
-    -- QueueStatusButton:SetScript("OnDragStart", function(self) self:StartMoving() end);
-    -- QueueStatusButton:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end);
 end

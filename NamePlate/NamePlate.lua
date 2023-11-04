@@ -1,10 +1,12 @@
-local _, Addon = ...
+local _, AddonData = ...;
+local Gpe = _G["Gpe"];
+
+local NamePlateModule = Gpe:GetModule('NamePlateModule')
 
 
-
-function Addon:InitConfig_NamePlate()
+function NamePlateModule:OnInitialize()
     local config = {
-        default_profile = {
+        profile = {
             namePlate = {
                 style = {
                     show_old_blizzard_border = true,
@@ -19,29 +21,38 @@ function Addon:InitConfig_NamePlate()
                     showBlizzardBorder = {
                         name = "老版",
                         type = "toggle",
-                        set = function(info, value) end;
-                        get = function(info) end;
+                        set = function(info, value)
+                            local db = AddonData.db;
+                            db.profile.namePlate.style.show_old_blizzard_border = value;
+                        end,
+                        get = function(info)
+                            local db = AddonData.db;
+                            return db.profile.namePlate.style.show_old_blizzard_border;
+                        end,
                     }
                 }
             }
         }
     };
-    self:RegisterConfig(config);
+    Gpe:RegisterConfig(config);
 end
 
-function Addon:OnLoad_NamePlate()
-    local GamePadExtAddon = self.GamePadExtAddon;
-    GamePadExtAddon:RegisterEvent("NAME_PLATE_UNIT_ADDED", self.NAME_PLATE_UNIT_ADDED);
-    GamePadExtAddon:RegisterEvent("NAME_PLATE_UNIT_REMOVED", self.NAME_PLATE_UNIT_REMOVED);
-    hooksecurefunc(SettingsRegistrar, "OnLoad", function()
-        VARIABLES_LOADED();
-    end);
+function NamePlateModule:OnEnable()
+    local db=AddonData.db;
+    if (db.profile.namePlate.style.show_old_blizzard_border) then
+        self:RegisterEvent("NAME_PLATE_UNIT_ADDED", self.NAME_PLATE_UNIT_ADDED);
+        self:RegisterEvent("NAME_PLATE_UNIT_REMOVED", self.NAME_PLATE_UNIT_REMOVED);
+        hooksecurefunc(SettingsRegistrar, "OnLoad", function()
+            VARIABLES_LOADED();
+        end);
+    end
+
 
     --GamePadExtAddon:RegisterEvent("VARIABLES_LOADED", self.VARIABLES_LOADED);
     --GamePadExtAddon:RegisterEvent("PLAYER_ENTERING_WORLD",self.VARIABLES_LOADED);
 end
 
-function Addon:NAME_PLATE_UNIT_ADDED(...)
+function NamePlateModule:NAME_PLATE_UNIT_ADDED(...)
     local unitID = ...;
     local plate = C_NamePlate.GetNamePlateForUnit(unitID);
     if (plate == nil) then return; end
@@ -81,7 +92,7 @@ function Addon:NAME_PLATE_UNIT_ADDED(...)
     plate.gpe_healthbarborder = healthbarborder;
 end
 
-function Addon:NAME_PLATE_UNIT_REMOVED(...)
+function NamePlateModule:NAME_PLATE_UNIT_REMOVED(...)
     local unitID = ...;
     local plate = C_NamePlate.GetNamePlateForUnit(unitID);
 end

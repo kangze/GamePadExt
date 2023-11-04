@@ -14,25 +14,32 @@ InfoPanel/widgets/Faction.xml
 InfoPanel/widgets/GpeGameTooltip.xml
 InfoPanel/widgets/MajorFactionRewardTemplate.xml
 
-SoftTargetTooltip/SoftTargetTooltip.lua
-ToolKit/EasingFunctions.lua
-ToolKit/CameraMover.lua
-ToolKit/String.lua
-Default.lua
-InfoPanel/Core.lua
-InfoPanel/Container.lua
-InfoPanel/Expansion.lua
-InfoPanel/Faction.lua
-InfoPanel/Frame.lua
-ActionBar/ActionBar.xml
-CastingBar/CastingBar.lua
-HeaderExt.lua
-GamePadVribration.lua
-BuffFrom.lua
-Fonts.lua
-NamePlate.lua
 
-
-Configuration.lua
 Core.lua
+ActionBar/ActionBar.xml
+Configuration.lua
+CastingBar/CastingBar.lua
+SoftTargetTooltip/SoftTargetTooltip.lua
+NamePlate/NamePlate.lua
+
+# ToolKit/EasingFunctions.lua
+# ToolKit/CameraMover.lua
+# ToolKit/String.lua
+# Default.lua
+# InfoPanel/Core.lua
+# InfoPanel/Container.lua
+# InfoPanel/Expansion.lua
+# InfoPanel/Faction.lua
+# InfoPanel/Frame.lua
+
+# CastingBar/CastingBar.lua
+# HeaderExt.lua
+# GamePadVribration.lua
+# BuffFrom.lua
+# Fonts.lua
+
+
+
+# Configuration.lua
+
 

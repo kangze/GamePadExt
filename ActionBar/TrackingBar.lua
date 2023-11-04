@@ -1,8 +1,13 @@
-local _, Addon = ...
+local _, AddonData = ...;
+local Gpe = _G["Gpe"];
+
+local ActionBarModule = Gpe:GetModule('ActionBarModule')
+
+
 local StatusTrackingBarManager=StatusTrackingBarManager;
 
 
-function Addon:OnLoad_TrackingBar()
+function ActionBarModule:AdjustTrackingBar()
     for _,v in pairs(StatusTrackingBarManager) do
         if(type(v) ~= 'function' and type(v) ~= 'userdata' and v.SetWidth) then 
             v:SetWidth(1000);

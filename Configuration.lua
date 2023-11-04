@@ -1,34 +1,34 @@
-local _, Addon = ...
+local _, AddonData = ...
 
 local AceGUI = LibStub("AceGUI-3.0");
 local config = LibStub("AceConfig-3.0");
 local configDialog = LibStub("AceConfigDialog-3.0");
 
 
+local _G = _G;
+local Gpe = _G["Gpe"];
 
 
-function Addon:OnLoad_SettingPanel()
-    local db=self.db;
-    local options=self:GetDefaultOptions();
-    local GamePadExtOptions = {
-        type = "group",
-        args = {
-            
-           
-            
-        }
-    }
-    options["profiles"] = LibStub("AceDBOptions-3.0"):GetOptionsTable(db);
-    config:RegisterOptionsTable("GamePadExt", options);
-    --configDialog:Open("GamePadExt", frame);
+local SettingModule = Gpe:GetModule('SettingModule')
+
+
+function SettingModule:OnInitialize()
+    local options = AddonData.registration.options;
+    self.options = options;
 end
 
-function Addon:OpenSettingPanle()
-    local frame = CreateContainer();
+function SettingModule:OnEnable()
+    local db = AddonData.db;
+    self.options.args["profiles"] = LibStub("AceDBOptions-3.0"):GetOptionsTable(db);
+    config:RegisterOptionsTable("GamePadExt", self.options);
+end
+
+function SettingModule:OpenSettingPanle()
+    local frame = self:CreateContainer();
     configDialog:Open("GamePadExt", frame);
 end
 
-function CreateContainer()
+function SettingModule:CreateContainer()
     if (GPESettingContainer) then
         return GPESettingContainer;
     end

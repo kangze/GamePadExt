@@ -3,7 +3,6 @@ local _, Addon = ...;
 
 Addon.registration = {
     default_profile = {
-       
         buffer = {
             from = true
         }
