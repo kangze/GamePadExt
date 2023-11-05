@@ -191,6 +191,10 @@
         "MoveViewRightStart",
         "ConsoleExec",
         "GetCameraZoom",
-        "MoveViewRightStop"
+        "MoveViewRightStop",
+        "ReloadUI",
+        "IsSecureCmd",
+        "NUM_CHAT_WINDOWS",
+        "ChatEdit_GetActiveWindow"
     ]
 }
