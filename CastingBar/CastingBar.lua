@@ -62,6 +62,12 @@ function CastingBarModule:OnEnable()
     PlayerCastingBarFrame:Show();
     
     --TODO:必须是一个Button才能AddButton
+
+    local frame = CreateFrame("Button", "YourAddonAuraButton", UIParent)
+    frame:SetSize(64, 64)  -- 设置按钮的大小
+    frame:SetPoint("CENTER", 0, 0)  -- 将按钮放在屏幕中央
+    frame:SetNormalTexture("Interface\\Icons\\ability_mage_coldasice")  -- 设置按钮的图标
+    self.myGroup:AddButton(frame);
     local module=self;
     PlayerCastingBarFrame:HookScript("OnEvent", function(arg)
         arg.Text:SetFont("Fonts\\FRIZQT__.TTF", 10, "OUTLINE");
@@ -69,9 +75,9 @@ function CastingBarModule:OnEnable()
         arg:SetHeight(style.height);
         arg:SetWidth(style.width);
         if (style.icon) then
-            arg.Icon:HookScript("OnEvent",function(arg1)
-                module.myGroup:AddButton(arg1);
-            end);
+            -- arg.Icon:HookScript("OnEvent",function(arg1)
+            --     module.myGroup:AddButton(arg1);
+            -- end);
             arg.Icon:Show();
             arg.Icon:SetWidth(style.iconWidth*3);
             arg.Icon:SetHeight(style.iconWidth*3);
