@@ -195,6 +195,18 @@
         "ReloadUI",
         "IsSecureCmd",
         "NUM_CHAT_WINDOWS",
-        "ChatEdit_GetActiveWindow"
+        "ChatEdit_GetActiveWindow",
+        "StoreMicroButton",
+        "CharacterMicroButton",
+        "MicroButtonAndBagsBar",
+        "SpellbookMicroButton",
+        "TalentMicroButton",
+        "AchievementMicroButton",
+        "QuestLogMicroButton",
+        "GuildMicroButton",
+        "LFDMicroButton",
+        "CollectionsMicroButton",
+        "EJMicroButton",
+        "MainMenuMicroButton"
     ]
 }
