@@ -3,8 +3,8 @@ local Gpe = _G["Gpe"];
 
 local unpack = unpack;
 
-
-local CastingBarModule = Gpe:GetModule('CastingBarModule')
+local CastingBarModule = Gpe:GetModule('CastingBarModule');
+local Masque, MSQ_Version = LibStub("Masque", true);
 
 
 
@@ -51,19 +51,30 @@ function CastingBarModule:OnInitialize()
         }
     }
     Gpe:RegisterConfig(config);
+    if Masque then
+        local myGroup = Masque:Group("GamePadExt", "myBar1");
+        self.myGroup = myGroup;
+    end
 end
 
 function CastingBarModule:OnEnable()
     local style = AddonData.db.profile.castingBar.style;
+    PlayerCastingBarFrame:Show();
+    
+    --TODO:必须是一个Button才能AddButton
+    local module=self;
     PlayerCastingBarFrame:HookScript("OnEvent", function(arg)
         arg.Text:SetFont("Fonts\\FRIZQT__.TTF", 10, "OUTLINE");
         arg.Text:SetPoint("TOP", 0, -12);
         arg:SetHeight(style.height);
         arg:SetWidth(style.width);
         if (style.icon) then
+            arg.Icon:HookScript("OnEvent",function(arg1)
+                module.myGroup:AddButton(arg1);
+            end);
             arg.Icon:Show();
-            arg.Icon:SetWidth(style.iconWidth);
-            arg.Icon:SetHeight(style.iconWidth);
+            arg.Icon:SetWidth(style.iconWidth*3);
+            arg.Icon:SetHeight(style.iconWidth*3);
             arg.Icon:ClearAllPoints();
             arg.Icon:SetPoint("RIGHT", arg, "LEFT", -2, -5);
         end

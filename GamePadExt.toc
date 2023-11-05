@@ -5,6 +5,7 @@
 ## Author: kangze25@hotmail.com
 ## Version: 1.0.0
 ## SavedVariables: GamePadExtDB
+## OptionalDeps: SharedMedia,Masque
 
 
 Load_libs.xml

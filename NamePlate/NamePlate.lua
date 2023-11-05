@@ -1,7 +1,9 @@
 local _, AddonData = ...;
 local Gpe = _G["Gpe"];
 
-local NamePlateModule = Gpe:GetModule('NamePlateModule')
+local LSM = LibStub("LibSharedMedia-3.0") 
+local NamePlateModule = Gpe:GetModule('NamePlateModule');
+
 
 
 function NamePlateModule:OnInitialize()
@@ -29,7 +31,20 @@ function NamePlateModule:OnInitialize()
                             local db = AddonData.db;
                             return db.profile.namePlate.style.show_old_blizzard_border;
                         end,
-                    }
+                    },
+                    font = {
+                        type = 'select',
+                        dialogControl = 'LSM30_Statusbar', --Select your widget here
+                        name = 'Some Name',
+                        desc = 'Some Description',
+                        values = LSM:HashTable("statusbar"), -- pull in your font list from LSM
+                        get = function()
+                             
+                        end,
+                        set = function(self,key)
+                             
+                        end,
+                   }
                 }
             }
         }

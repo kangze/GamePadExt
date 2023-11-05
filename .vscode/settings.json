@@ -207,6 +207,8 @@
         "LFDMicroButton",
         "CollectionsMicroButton",
         "EJMicroButton",
-        "MainMenuMicroButton"
+        "MainMenuMicroButton",
+        "MultiBarBottomRight",
+        "MultiBarBottomRightButton1"
     ]
 }
