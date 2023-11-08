@@ -12,6 +12,8 @@ end
 
 function BussniessTradeModule:MERCHANT_SHOW()
     local numItems = GetMerchantNumItems()
+    self.shadow.animation:Show();
+    
 
     -- 遍历所有商品
     for i = 1, numItems do
@@ -23,6 +25,7 @@ end
 function BussniessTradeModule:OnEnable()
     local group = Masque:Group("GamePadExt", "MerchantItem");
     group:AddButton(MerchantItem.button);
+    
     -- local frame = CreateFrame("Frame", "MyBlackFrame", UIParent)
     -- frame:SetAllPoints(UIParent);
 
