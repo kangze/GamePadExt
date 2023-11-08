@@ -17,11 +17,15 @@ InfoPanel/widgets/MajorFactionRewardTemplate.xml
 
 
 Core.lua
+ToolKit/ShadowFunctions.lua
 ActionBar/ActionBar.xml
 Configuration.lua
 CastingBar/CastingBar.lua
 SoftTargetTooltip/SoftTargetTooltip.lua
 NamePlate/NamePlate.lua
+Bussniess/frames/MerchantItem.xml
+Bussniess/Bussniess.lua
+
 
 # ToolKit/EasingFunctions.lua
 # ToolKit/CameraMover.lua

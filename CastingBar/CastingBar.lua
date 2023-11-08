@@ -65,7 +65,7 @@ function CastingBarModule:OnEnable()
 
     local frame = CreateFrame("Button", "YourAddonAuraButton", UIParent)
     frame:SetSize(64, 64)  -- 设置按钮的大小
-    frame:SetPoint("CENTER", 0, 0)  -- 将按钮放在屏幕中央
+    --frame:SetPoint("CENTER", 0, 0)  -- 将按钮放在屏幕中央
     frame:SetNormalTexture("Interface\\Icons\\ability_mage_coldasice")  -- 设置按钮的图标
     self.myGroup:AddButton(frame);
     local module=self;

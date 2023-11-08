@@ -1,0 +1,63 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\FrameXML\UI.xsd">
+    <Script file="MerchantItemMixin.lua"/>
+    <Frame name="MerchantItem" toplevel="true" inherits="BackdropTemplate" mixin="MerchantItemMixin">
+        <Size x="230" y="45"/>
+        <Anchors>
+            <Anchor point="CENTER" />
+        </Anchors>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="tex_background">
+                    <Color r="0.1725" g="0.2431" b="0.3137" a="1"/>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Button parentKey="button">
+                <Size x="50" y="50"/>
+                <Anchors>
+                    <Anchor point="LEFT" />
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="icon" file="Interface\Icons\INV_Drink_Milk_01">
+                            <Size x="32" y="32"/>
+                            <Anchors>
+                                <Anchor point="CENTER" />
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="ARTWORK">
+                        <Texture parentKey="border" file="Interface\AddOns\GamePadExt\media\texture\UI-Achievement-IconFrame">
+                            <Size x="50" y="50"/>
+                            <Anchors>
+                                <Anchor point="CENTER" x="2" y="-2"/>
+                            </Anchors>
+                            <TexCoords left="0.0" right="0.6" top="0.0" bottom="0.6"/>
+                        </Texture>
+                    </Layer>
+
+                    <Layer>
+                        <FontString parentKey="text" text="冰镇牛奶" font="Fonts/FRIZQT__.TTF" outline="OUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
+                            <FontHeight val="16"/>
+                            <Size x="180" y="15"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="50" y="-10"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+
+                </Layers>
+            </Button>
+        </Frames>
+
+        <Scripts>
+            <OnLoad method="OnLoad"/>
+        </Scripts>
+    </Frame>
+
+</Ui>

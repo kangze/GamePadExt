@@ -209,6 +209,7 @@
         "EJMicroButton",
         "MainMenuMicroButton",
         "MultiBarBottomRight",
-        "MultiBarBottomRightButton1"
+        "MultiBarBottomRightButton1",
+        "DeveloperConsole"
     ]
 }
