@@ -18,9 +18,9 @@ _G.test = {};
 local function CreateShadow(frame)
     local shadow = CreateFrame("Frame", nil, frame, "BackdropTemplate")
     shadow:SetFrameStrata(frame:GetFrameStrata())
-    shadow:SetFrameLevel(1)
-    shadow:SetOutside(frame, 2, 2);
-    shadow:SetBackdrop({ edgeFile = edgeFile, edgeSize = 2 })
+    shadow:SetFrameLevel(2)
+    shadow:SetOutside(frame, 0, 0);
+    shadow:SetBackdrop({ edgeFile = edgeFile, edgeSize = 0 })
     shadow:SetBackdropColor(0, 0, 0, 0)
     shadow:SetBackdropBorderColor(0, 0, 0, 1);
     return shadow;
