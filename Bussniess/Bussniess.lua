@@ -19,11 +19,11 @@ end
 
 function BussniessTradeModule:OnEnable()
     
-    -- local frame=CreateFrame("Frame",nil,UIParent,"MerchantItemTemplate");
-    -- frame:SetPoint("TOP",UIParent,0,0);
-
-    -- local frame1=CreateFrame("Frame",nil,UIParent,"MerchantItemTemplate");
-    -- frame1:SetPoint("TOP",UIParent,0,-400);
+    
+    for i=1,10 do
+        local frame=CreateFrame("Frame",nil,UIParent,"MerchantItemTemplate1");
+        frame:SetPoint("TOP",UIParent,0,-75*(i-1));
+    end
     
     -- local frame = CreateFrame("Frame", "MyBlackFrame", UIParent)
     -- frame:SetAllPoints(UIParent);

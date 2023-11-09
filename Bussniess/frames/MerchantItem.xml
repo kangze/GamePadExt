@@ -2,8 +2,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\..\FrameXML\UI.xsd">
     <Script file="MerchantItemMixin.lua"/>
-    <Frame name="MerchantItemTemplate" virtual="true" enableMouse="true" inherits="BackdropTemplate" mixin="MerchantItemMixin">
-        <Size x="230" y="45"/>
+    <Frame name="MerchantItemTemplate1" virtual="true" enableMouse="true" inherits="BackdropTemplate" mixin="MerchantItemMixin">
+        <Size x="350" y="75"/>
         <Anchors>
             <Anchor point="CENTER" />
         </Anchors>
