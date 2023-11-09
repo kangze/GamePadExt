@@ -1,6 +1,7 @@
 {
     "Lua.diagnostics.disable": [
-        "undefined-field"
+        "undefined-field",
+        "inject-field"
     ],
     "Lua.diagnostics.globals": [
         "MainMenuBar",

@@ -1,9 +1,16 @@
 local _, AddonData = ...;
 local Gpe = _G["Gpe"];
 
+
+
 local ShadowFunctions = {};
 AddonData.ShadowFunctions = ShadowFunctions;
-local linear = AddonData.EasingFunctions.linear;
+
+local linear = AddonData.EasingFunctions.outSine;
+local linear1 = AddonData.EasingFunctions.inOutSine;
+local AnimationFrame = AddonData.AnimationFrame;
+
+local edgeFile = "Interface\\AddOns\\ElvUI\\Core\\Media\\Textures\\GlowTex";
 _G.test = {};
 
 local function Point(obj, arg1, arg2, arg3, arg4, arg5)
@@ -17,78 +24,33 @@ local function SetOutside(obj, anchor, xOffset, yOffset, anchor2)
     Point(obj, "TOPLEFT", anchor, "TOPLEFT", -xOffset, yOffset)
     Point(obj, "BOTTOMRIGHT", anchor, "BOTTOMRIGHT", xOffset, -yOffset)
 end
-local AnimationFrame = {};
 
-function AnimationFrame.New(duration, callback)
-    local frame = CreateFrame("Frame");
-    frame.total = 0;
-    frame:Hide();
-    frame:SetScript("OnUpdate", function(selfs, elapsed)
-        selfs.total = selfs.total + elapsed;
-        if (selfs.total >= duration) then
-            selfs:Hide();
-        end
-        if (callback) then
-            callback(selfs.total)
-        end
-        
-    end);
-    return frame;
-end
-
-function ShadowFunctions.Create(frame)
+--创建一个阴影frame,然后返回
+local function CreateShadow(frame)
     local shadow = CreateFrame("Frame", nil, frame, "BackdropTemplate")
     shadow:SetFrameStrata(frame:GetFrameStrata())
     shadow:SetFrameLevel(1)
     SetOutside(shadow, frame, 2, 2);
-    shadow:SetBackdrop({ edgeFile = "Interface\\AddOns\\ElvUI\\Core\\Media\\Textures\\GlowTex", edgeSize = 3 })
+    shadow:SetBackdrop({ edgeFile = edgeFile, edgeSize = 2 })
     shadow:SetBackdropColor(0, 0, 0, 0)
     shadow:SetBackdropBorderColor(0, 0, 0, 1);
 
-    --动画效果
-    local function callback(total)
-        local alpha = linear(total, 3, 8, 0.5);
-        print(alpha);
-        shadow:ClearBackdrop();
-        shadow:SetBackdrop({ edgeFile = "Interface\\AddOns\\ElvUI\\Core\\Media\\Textures\\GlowTex", edgeSize = alpha })
-        SetOutside(shadow, frame, alpha - 1, alpha - 1);
-        shadow:SetBackdropColor(0, 0, 0, 0)
-        shadow:SetBackdropBorderColor(0, 0, 0, 1);
-        if (total >= duration or endAlpha == 0) then
-            frame:Hide();
-        end
-    end
-
-    local function callback2(total)
-        local alpha = linear(total, 8, 3, 0.5);
-        print(alpha);
-        shadow:ClearBackdrop();
-        shadow:SetBackdrop({ edgeFile = "Interface\\AddOns\\ElvUI\\Core\\Media\\Textures\\GlowTex", edgeSize = alpha })
-        SetOutside(shadow, frame, alpha - 1, alpha - 1);
-        shadow:SetBackdropColor(0, 0, 0, 0)
-        shadow:SetBackdropBorderColor(0, 0, 0, 1);
-        if (total >= duration or endAlpha == 0) then
-            frame:Hide();
-        end
-    end
-
-    shadow.animation = AnimationFrame.New(0.4, callback);
-    shadow.animation2 = AnimationFrame.New(0.2, callback2);
+    frame.shadowFrame = shadow;
     return shadow;
 end
 
---shadow专有动画
-function ShadowFunctions.CreateAnimation1(frame)
-    local function callback(total)
-        local alpha = linear(total, 3, 8, 0.5);
-        print(alpha);
-        shadow:ClearBackdrop();
-        shadow:SetBackdrop({ edgeFile = "Interface\\AddOns\\ElvUI\\Core\\Media\\Textures\\GlowTex", edgeSize = alpha })
-        SetOutside(shadow, frame, alpha - 1, alpha - 1);
-        shadow:SetBackdropColor(0, 0, 0, 0)
-        shadow:SetBackdropBorderColor(0, 0, 0, 1);
-        if (total >= duration or endAlpha == 0) then
-            frame:Hide();
-        end
+Gpe:AddFrameApi()
+
+--shadow专有动画,所以可以直接调用.shadow属性
+function ShadowFunctions.CreateAnimation(frame, start_val, end_val, duration)
+    local function callback(current)
+        local current = linear(current, start_val, end_val, duration);
+        frame.shadowFrame:ClearBackdrop();
+        SetOutside(frame.shadowFrame, frame, current, current);
+        frame.shadowFrame:SetBackdrop({ edgeFile = edgeFile, edgeSize = current })
+        frame.shadowFrame:SetBackdropColor(0, 0, 0, 0)
+        frame.shadowFrame:SetBackdropBorderColor(0, 0, 0, 1);
     end
+    local animation = AnimationFrame.New(duration, callback);
+    return animation;
 end

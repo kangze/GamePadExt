@@ -17,8 +17,8 @@ local ActionBarModule = Gpe:NewModule("ActionBarModule", "AceEvent-3.0", "AceCon
 local SettingModule = Gpe:NewModule("SettingModule");
 local CastingBarModule = Gpe:NewModule("CastingBarModule");
 local SoftTargetToolipModule = Gpe:NewModule("SoftTargetToolipModule", "AceEvent-3.0");
-local NamePlateModule = Gpe:NewModule("NamePlateModule","AceEvent-3.0");
-local BussniessTradeModule=Gpe:NewModule("BussniessTradeModule","AceEvent-3.0");
+local NamePlateModule = Gpe:NewModule("NamePlateModule", "AceEvent-3.0");
+local BussniessTradeModule = Gpe:NewModule("BussniessTradeModule", "AceEvent-3.0");
 
 
 function Gpe:OnInitialize()
@@ -93,3 +93,14 @@ end
 function Gpe:Close()
     --Addon.mainFrame:Hide();
 end
+
+function Gpe:AddApi(frameType,name, func)
+    self:AddFrameApi(name,func);
+end
+
+function Gpe:AddFrameApi(name, func)
+    local frame=CreateFrame("Frame");
+    local mk = getmetatable(frame).__index;
+    if not mk[name] then mk[name] = func end
+end
+
