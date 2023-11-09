@@ -3,10 +3,13 @@ MerchantItemMixin = {};
 
 
 function MerchantItemMixin:OnLoad()
-    AddonData.ShadowFunctions.Create(self);
-    self.shadowFrame.animationInFrame=AddonData.ShadowFunctions.CreateAnimation(self,2,4,0.2);
-    self.shadowFrame.animationOutFrame=AddonData.ShadowFunctions.CreateAnimation(self,4,2,0.2);
-    _G.test = self;
+    local shadow = self:CreateShadow();
+    local animationIn = shadow:CreateAnimation1(2, 4, 0.2);
+    local animationOut = shadow:CreateAnimation1(4, 2, 0.2);
+    shadow.animationInFrame = animationIn;
+    shadow.animationOutFrame = animationOut;
+    self.shadowFrame = shadow;
+    print(1);
 end
 
 function MerchantItemMixin:OnLeave()

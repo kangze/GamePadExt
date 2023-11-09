@@ -17,6 +17,8 @@ InfoPanel/widgets/MajorFactionRewardTemplate.xml
 
 
 Core.lua
+
+ToolKit/Default.lua
 ToolKit/AnimationFrame.lua
 ToolKit/EasingFunctions.lua
 ToolKit/ShadowFunctions.lua
@@ -26,7 +28,6 @@ CastingBar/CastingBar.lua
 SoftTargetTooltip/SoftTargetTooltip.lua
 NamePlate/NamePlate.lua
 Bussniess/frames/MerchantItem.xml
-Bussniess/Bussniess.lua
 
 
 

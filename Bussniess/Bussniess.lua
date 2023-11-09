@@ -11,20 +11,19 @@ function BussniessTradeModule:OnInitialize()
 end
 
 function BussniessTradeModule:MERCHANT_SHOW()
-    local numItems = GetMerchantNumItems()
-    self.shadow.animation:Show();
+    --GetMerchantNumItems()
+    
     
 
-    -- 遍历所有商品
-    for i = 1, numItems do
-        -- 获取商品的信息
-        local name, texture, price, quantity, numAvailable, isUsable, extendedCost, isReadable, quality, _, itemID = GetMerchantItemInfo(i)
-    end
 end
 
 function BussniessTradeModule:OnEnable()
-    local group = Masque:Group("GamePadExt", "MerchantItem");
-    group:AddButton(MerchantItem.button);
+    
+    -- local frame=CreateFrame("Frame",nil,UIParent,"MerchantItemTemplate");
+    -- frame:SetPoint("TOP",UIParent,0,0);
+
+    -- local frame1=CreateFrame("Frame",nil,UIParent,"MerchantItemTemplate");
+    -- frame1:SetPoint("TOP",UIParent,0,-400);
     
     -- local frame = CreateFrame("Frame", "MyBlackFrame", UIParent)
     -- frame:SetAllPoints(UIParent);
@@ -36,3 +35,9 @@ function BussniessTradeModule:OnEnable()
     -- frame:Show()
     
 end
+
+
+
+--Sample:Masque
+-- local group = Masque:Group("GamePadExt", "MerchantItem");
+-- group:AddButton(MerchantItem.button);
