@@ -1,4 +1,4 @@
-local _,Addon=...;
+local _, Addon = ...;
 
 local split = function(str, sep)
     if str == nil or str == "" or sep == nil or sep == "" then
@@ -23,4 +23,15 @@ local split = function(str, sep)
     return result
 end
 
-string.split=split;
+string.split = split;
+
+function isInTable(tbl, value)
+    for k, v in ipairs(tbl) do
+        if v == value then
+            return true;
+        end
+    end
+    return false;
+end
+
+table.isInTable = isInTable;

@@ -13,8 +13,6 @@ end
 function BussniessTradeModule:MERCHANT_SHOW()
     --GetMerchantNumItems()
     
-    
-
 end
 
 function BussniessTradeModule:OnEnable()
@@ -22,7 +20,14 @@ function BussniessTradeModule:OnEnable()
     
     for i=1,10 do
         local frame=CreateFrame("Frame",nil,UIParent,"MerchantItemTemplate1");
-        frame:SetPoint("TOP",UIParent,0,-75*(i-1));
+        frame:SetPoint("TOP",UIParent,0,-76*(i-1));
+        frame:Group("group1");
+    end
+
+    for i=1,10 do
+        local frame=CreateFrame("Frame",nil,UIParent,"MerchantItemTemplate1");
+        frame:SetPoint("TOP",UIParent,380,-76*(i-1));
+        frame:Group("group2");
     end
     
     -- local frame = CreateFrame("Frame", "MyBlackFrame", UIParent)

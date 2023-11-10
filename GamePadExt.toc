@@ -22,6 +22,7 @@ ToolKit/Default.lua
 ToolKit/AnimationFrame.lua
 ToolKit/EasingFunctions.lua
 ToolKit/ShadowFunctions.lua
+ToolKit/String.lua
 ActionBar/ActionBar.xml
 Configuration.lua
 CastingBar/CastingBar.lua

@@ -211,6 +211,7 @@
         "MainMenuMicroButton",
         "MultiBarBottomRight",
         "MultiBarBottomRightButton1",
-        "DeveloperConsole"
+        "DeveloperConsole",
+        "xx"
     ]
 }

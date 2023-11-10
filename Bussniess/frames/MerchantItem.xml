@@ -59,6 +59,7 @@
             <OnLoad method="OnLoad"/>
             <OnEnter method="OnEnter"/>
             <OnLeave method="OnLeave"/>
+            <OnGamePadButtonDown method="OnGamePadButtonDown"/>
         </Scripts>
     </Frame>
 

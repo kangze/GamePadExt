@@ -15,10 +15,13 @@ _G.test = {};
 
 
 --创建一个阴影frame,然后返回
-local function CreateShadow(frame)
+local function CreateShadow(frame,edgeSize)
     local shadow = CreateFrame("Frame", nil, frame, "BackdropTemplate")
     shadow:SetFrameStrata(frame:GetFrameStrata())
     shadow:SetFrameLevel(2)
+    shadow:SetOutside(shadow:GetParent(), edgeSize, edgeSize);
+    shadow:SetBackdrop({ edgeFile = edgeFile, edgeSize = edgeSize })
+    shadow:SetBackdropColor(0, 0, 0, 0);
     shadow:SetBackdropBorderColor(0, 0, 0, 1);
     return shadow;
 end
