@@ -18,7 +18,7 @@ local SettingModule = Gpe:NewModule("SettingModule");
 local CastingBarModule = Gpe:NewModule("CastingBarModule");
 local SoftTargetToolipModule = Gpe:NewModule("SoftTargetToolipModule", "AceEvent-3.0");
 local NamePlateModule = Gpe:NewModule("NamePlateModule", "AceEvent-3.0");
-local BussniessTradeModule = Gpe:NewModule("BussniessTradeModule", "AceEvent-3.0");
+local BussniessTradeModule = Gpe:NewModule("BussniessTradeModule", "AceEvent-3.0","AceHook-3.0");
 
 
 function Gpe:OnInitialize()

@@ -2,7 +2,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\..\FrameXML\UI.xsd">
     <Script file="MerchantItemMixin.lua"/>
-    <Frame name="MerchantItemTemplate1" virtual="true" enableMouse="true" inherits="BackdropTemplate" mixin="MerchantItemMixin">
+    <Frame name="MerchantItemTemplate1" virtual="true" frameStrata="DIALOG" enableMouse="true" inherits="BackdropTemplate" mixin="MerchantItemMixin">
         <Size x="350" y="75"/>
         <Anchors>
             <Anchor point="CENTER" />
@@ -14,46 +14,77 @@
                     <Color r="0.1725" g="0.2431" b="0.3137" a="1"/>
                 </Texture>
             </Layer>
+
+            <!--图标层-->
+            <Layer level="ARTWORK">
+                <Texture parentKey="icon" file="Interface\Icons\ClassIcon_Mage">
+                    <Size x="52" y="52"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="10"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+
+                <!--PS X 图标的背景-->
+                <Texture parentKey="psx_background" file="Interface\AddOns\GamePadExt\media\texture\BuyButtonMask">
+                    <Size x="100" y="35"/>
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" x="-4" y="4"/>
+                    </Anchors>
+                    <TexCoords left="0.1" right="0.9" top="0" bottom="1"/>
+                </Texture>
+
+                <!--PS图标-->
+                <Texture parentKey="psx" file="Interface\AddOns\GamePadExt\media\gamepad\ps_r_cross">
+                    <Size x="33" y="33"/>
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" x="-4" y="5"/>
+                    </Anchors>
+                </Texture>
+
+                <!--购买文字-->
+                <FontString parentKey="text" text="购买" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
+                    <FontHeight val="22"/>
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" x="-40" y="9"/>
+                    </Anchors>
+                </FontString>
+
+                <!--价格花费-->
+                <FontString parentKey="cost" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
+                    <FontHeight val="14"/>
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" x="-110" y="0"/>
+                    </Anchors>
+                </FontString>
+
+                <!--商品名称-->
+                 <FontString parentKey="productName" text="咸湿的鲨鱼饵的咸饼干" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
+                    <FontHeight val="21"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="70" y="12"/>
+                    </Anchors>
+                </FontString>
+
+            </Layer>
+
+            <Layer level="ARTWORK">
+
+            </Layer>
+
+            <!--图标的边框-->
+            <Layer level="OVERLAY">
+                <Texture parentKey="border" file="Interface\AddOns\GamePadExt\media\texture\UI-Achievement-IconFrame">
+                    <Size x="67" y="67"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="5" y="-2"/>
+                    </Anchors>
+                    <TexCoords left="0.0" right="0.6" top="0.0" bottom="0.6"/>
+                </Texture>
+            </Layer>
         </Layers>
-        <Frames>
-            <Button parentKey="button">
-                <Size x="50" y="50"/>
-                <Anchors>
-                    <Anchor point="LEFT" />
-                </Anchors>
-                <Layers>
-                    <Layer level="BACKGROUND">
-                        <Texture parentKey="icon" file="Interface\Icons\INV_Drink_Milk_01">
-                            <Size x="32" y="32"/>
-                            <Anchors>
-                                <Anchor point="CENTER" />
-                            </Anchors>
-                        </Texture>
-                    </Layer>
-
-                    <Layer level="ARTWORK">
-                        <Texture parentKey="border" file="Interface\AddOns\GamePadExt\media\texture\UI-Achievement-IconFrame">
-                            <Size x="50" y="50"/>
-                            <Anchors>
-                                <Anchor point="CENTER" x="2" y="-2"/>
-                            </Anchors>
-                            <TexCoords left="0.0" right="0.6" top="0.0" bottom="0.6"/>
-                        </Texture>
-                    </Layer>
-
-                    <Layer>
-                        <FontString parentKey="text" text="冰镇牛奶" font="Fonts/FRIZQT__.TTF" outline="OUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
-                            <FontHeight val="16"/>
-                            <Size x="180" y="15"/>
-                            <Anchors>
-                                <Anchor point="TOPLEFT" x="50" y="-10"/>
-                            </Anchors>
-                        </FontString>
-                    </Layer>
-
-                </Layers>
-            </Button>
-        </Frames>
 
         <Scripts>
             <OnLoad method="OnLoad"/>

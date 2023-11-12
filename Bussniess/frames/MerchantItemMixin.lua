@@ -1,5 +1,6 @@
 local _, AddonData = ...;
 MerchantItemMixin = {};
+MerchatItemGroups = {};
 
 function MerchantItemMixin:OnLoad()
     local shadow = self:CreateShadow(2);
@@ -9,20 +10,14 @@ function MerchantItemMixin:OnLoad()
     shadow.animationOutFrame = animationOut;
     self.shadowFrame = shadow;
 
-    local parent = self:GetParent();
-
-    --自己保存一份集合
-    if (not parent.items) then parent.items = {} end
-    table.insert(parent.items, self);
-
     --开启手柄功能
-    parent:EnableGamePadButton(true);
+    self:EnableGamePadButton(true);
 
     --记录索引
-    if (not parent.gamepadenable) then
-        parent.gamepadenable = true;
-        parent.currentIndex = 0;
-        parent.currentGroupIndex = 1;
+    if (not MerchatItemGroups.gamepadenable) then
+        MerchatItemGroups.gamepadenable = true;
+        MerchatItemGroups.currentIndex = 0;
+        MerchatItemGroups.currentGroupIndex = 0;
     end
 end
 
@@ -32,12 +27,15 @@ end
 
 function MerchantItemMixin:OnEnter()
     self.shadowFrame.animationInFrame:Show();
+    -- GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+    -- GameTooltip:SetHyperlink(self.productName:GetText());
+    -- GameTooltip:Show()
 end
 
 function MerchantItemMixin:OnGamePadButtonDown(...)
     --PADDDOWN PADDUP PADDLEFT PADDRIGHT
     local key = ...;
-    local parent = self:GetParent();
+    local parent = MerchatItemGroups;
 
     local groupCount = #parent._group;
 
@@ -46,53 +44,62 @@ function MerchantItemMixin:OnGamePadButtonDown(...)
 
 
     if (key == "PADDRIGHT") then
-        currentGroupIndex = currentGroupIndex % (groupCount);
         currentGroupIndex = currentGroupIndex + 1;
+        currentGroupIndex = currentGroupIndex % (groupCount);
     elseif (key == "PADDLEFT") then
         print(currentGroupIndex);
+        currentGroupIndex = currentGroupIndex - 1;
         currentGroupIndex = currentGroupIndex % (groupCount);
-        currentGroupIndex = currentGroupIndex -1;
     end
 
 
-    parent.currentGroupIndex = currentGroupIndex;
 
-    print(currentGroupIndex);
-    local count = #parent._group[currentGroupIndex];
+
+    local count = #parent._group[currentGroupIndex + 1];
     local currentIndex = parent.currentIndex;
     local preIndex = currentIndex;
 
-    --换页
-    -- if (parent.currentGroupIndex ~= preGroupIndex) then
-    --     currentIndex = 1;
-    --     preIndex = 0;
-    -- end
+
 
     if (key == "PADDDOWN") then
-        currentIndex = currentIndex % count;
         currentIndex = currentIndex + 1;
+        currentIndex = currentIndex % count;
     elseif (key == "PADDUP") then
         currentIndex = currentIndex - 1;
         currentIndex = currentIndex % count;
     end
 
-    parent.currentIndex = currentIndex;
-    if (preIndex ~= 0 and preGroupIndex ~= 0) then
-        parent._group[preGroupIndex][preIndex]:OnLeave();
+
+
+
+    MerchatItemGroups.currentIndex = currentIndex;
+    MerchatItemGroups.currentGroupIndex = currentGroupIndex;
+
+    MerchatItemGroups._group[preGroupIndex + 1][preIndex + 1]:OnLeave();
+    MerchatItemGroups._group[currentGroupIndex + 1][currentIndex + 1]:OnEnter();
+
+    --开始购买 X:PAD1 O:PAD2 []:PAD3
+    print(key);
+    if (key == "PAD1") then
+        BuyMerchantItem(currentIndex + 1, 1);
     end
-    parent._group[currentGroupIndex][currentIndex]:OnEnter();
+
+    --关闭所有的窗口
+    if (key == "PAD2") then
+        print("关闭关闭")
+        self:EnableGamePadButton(false);
+    end
 end
 
 --主要区分左右排列，二组永远在第一组右边
 function MerchantItemMixin:Group(name)
-    local parent = self:GetParent();
-    local group = parent._group;
-    local groupNames = parent._groupNames;
+    local group = MerchatItemGroups._group;
+    local groupNames = MerchatItemGroups._groupNames;
     if (not group) then
         group = {};
         groupNames = {};
-        parent._group = group;
-        parent._groupNames = groupNames;
+        MerchatItemGroups._group = group;
+        MerchatItemGroups._groupNames = groupNames;
     end
     if (not table.isInTable(groupNames, name)) then
         table.insert(group, {});
