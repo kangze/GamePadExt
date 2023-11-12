@@ -22,7 +22,7 @@ local function CreateShadow(frame,edgeSize)
     shadow:SetOutside(shadow:GetParent(), edgeSize, edgeSize);
     shadow:SetBackdrop({ edgeFile = edgeFile, edgeSize = edgeSize })
     shadow:SetBackdropColor(0, 0, 0, 0);
-    shadow:SetBackdropBorderColor(0, 0, 0, 1);
+    shadow:SetBackdropBorderColor(0.5, 0.5, 0.5, 1);
     return shadow;
 end
 
@@ -36,7 +36,7 @@ local function CreateAnimation1(frame, start_val, end_val, duration)
         frame:SetOutside(frame:GetParent(), current, current);
         frame:SetBackdrop({ edgeFile = edgeFile, edgeSize = current })
         frame:SetBackdropColor(0, 0, 0, 0)
-        frame:SetBackdropBorderColor(0, 0, 0, 1);
+        frame:SetBackdropBorderColor(0.5, 0.5, 0.5, 1);
     end
     local animation = AnimationFrame.New(duration, callback);
     return animation;
