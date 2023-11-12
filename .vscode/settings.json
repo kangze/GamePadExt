@@ -238,6 +238,7 @@
         "MerchantMoneyFrame",
         "MerchantMoneyInset",
         "MerchantPageText",
-        "MERCHANT"
+        "MERCHANT",
+        "OpenAllBags"
     ]
 }

@@ -34,6 +34,10 @@ end
 
 function MerchantItemMixin:OnGamePadButtonDown(...)
     --PADDDOWN PADDUP PADDLEFT PADDRIGHT
+    --Interface\AddOns\GamePadExt\media
+    --Sound\\Music\\ZoneMusic\\DMF_L70ETC01.mp3
+    --\Interface\AddOns\WeakAuras\\Media\\Sounds\\Blast.ogg
+    PlaySoundFile("Interface\\AddOns\\GamePadExt\\media\\sound\\1.mp3","Master");
     local key = ...;
     local parent = MerchatItemGroups;
 
@@ -81,6 +85,7 @@ function MerchantItemMixin:OnGamePadButtonDown(...)
     --开始购买 X:PAD1 O:PAD2 []:PAD3
     print(key);
     if (key == "PAD1") then
+        --BUG:有一个分组的情况要进行一个考虑
         BuyMerchantItem(currentIndex + 1, 1);
     end
 

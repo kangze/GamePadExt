@@ -8,8 +8,12 @@ local BussniessTradeModule = Gpe:GetModule('BussniessTradeModule');
 
 function BussniessTradeModule:OnInitialize()
     --DeveloperConsole:Toggle()
+    OpenAllBags = function()
+
+    end
     self:RegisterEvent("MERCHANT_SHOW");
     self:SecureHook("MerchantFrame_UpdateMerchantInfo", "UpdateMerchantPositions");
+    self:SecureHook("OpenAllBags", "test");
 
     _G.MERCHANT_ITEMS_PER_PAG = 60;
     for i = 1, _G.MERCHANT_ITEMS_PER_PAG do
@@ -24,15 +28,18 @@ function BussniessTradeModule:MERCHANT_SHOW()
     self:HiddeMerchantSomeFrame();
 
     local count = GetMerchantNumItems();
-    --local pages = math.floor(count / 10);
-    local pages = 3
+    local pages = math.ceil(count / 10);
     for page = 1, pages do
-        for i = (page - 1) * 10 + 1, page * 10 do
+        local endIndex = page * 10;
+        if (page == count) then
+            endIndex = count - page * 10
+        end
+        for i = (page - 1) * 10 + 1, endIndex do
             local source = _G["MerchantItem" .. i];
-            if (not source:IsShown()) then
-                source:SetPoint("CENTER");
-                source:Show();
-            end
+            -- if (not source:IsShown()) then
+            --     source:SetPoint("CENTER");
+            --     source:Show();
+            -- end
 
             if (source.item) then return; end
             source:ClearAllPoints();
@@ -41,8 +48,8 @@ function BussniessTradeModule:MERCHANT_SHOW()
             local itemLink, cost, texture = self:GetItemInfoByMerchantItemIndex(i);
             local frame = CreateFrame("Frame", nil, _G["MerchantItem" .. i], "MerchantItemTemplate1");
             frame:SetPoint("LEFT");
-            itemLink=string.gsub(itemLink,"%[","",1);
-            itemLink=string.gsub(itemLink,"%]","",1);
+            -- itemLink = string.gsub(itemLink, "%[", "", 1);
+            -- itemLink = string.gsub(itemLink, "%]", "", 1);
             frame.productName:SetText(itemLink);
             frame.itemLink = itemLink;
             frame.cost:SetText(cost);
@@ -100,11 +107,14 @@ end
 function BussniessTradeModule:UpdateMerchantPositions()
     self:HiddeMerchantSomeFrame();
     local count = GetMerchantNumItems();
-    local pages = math.floor(count / 10);
-
-    local pages = 3
+    local pages = math.ceil(count / 10);
     for page = 1, pages do
-        for i = (page - 1) * 10 + 1, page * 10 do
+        local endIndex = page * 10;
+        if (page == count) then
+            endIndex = count - page * 10
+        end
+
+        for i = (page - 1) * 10 + 1, endIndex do
             local source = _G["MerchantItem" .. i];
             local offsetY = -1 * i + 10 * (page - 1);
             source:ClearAllPoints();
@@ -163,4 +173,7 @@ function BussniessTradeModule:HiddeMerchantSomeFrame()
 
     --边框
     MerchantFrame.NineSlice:Hide();
+end
+
+function BussniessTradeModule:test()
 end
