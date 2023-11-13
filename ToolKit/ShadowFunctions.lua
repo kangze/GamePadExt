@@ -15,7 +15,7 @@ _G.test = {};
 
 
 --创建一个阴影frame,然后返回
-local function CreateShadow(frame,edgeSize)
+local function CreateShadow(frame, edgeSize)
     local shadow = CreateFrame("Frame", nil, frame, "BackdropTemplate")
     shadow:SetFrameStrata(frame:GetFrameStrata())
     shadow:SetFrameLevel(2)
@@ -40,6 +40,10 @@ local function CreateAnimation1(frame, start_val, end_val, duration)
     end
     local animation = AnimationFrame.New(duration, callback);
     return animation;
+end
+
+local function ShowShadowFadeIn(frame, edgeSize, duration)
+    local shadow = frame:CreateShadow(edgeSize);
 end
 
 Gpe:AddFrameApi("CreateShadow", CreateShadow);

@@ -31,20 +31,23 @@ function BussniessTradeModule:MERCHANT_SHOW()
     for i = 1, count do
         local page = math.ceil(i / 10)
         local source = _G["MerchantItem" .. i];
-        -- if (not source:IsShown()) then
-        --     source:SetPoint("CENTER");
-        --     source:Show();
-        -- end
 
-        if (source.item) then return; end
+        if (source.item) then
+            source.item:EnableGamePadButton(false);
+            source.item:Hide();
+            source.item = nil;
+        end
         source:ClearAllPoints();
         local offsetY = -1 * i + 10 * (page - 1);
         source:SetPoint("TOPLEFT", 400 * (page - 1), (offsetY) * 80)
         local itemLink, cost, texture = self:GetItemInfoByMerchantItemIndex(i);
         local frame = CreateFrame("Frame", nil, _G["MerchantItem" .. i], "MerchantItemTemplate1");
         frame:SetPoint("LEFT");
-        itemLink = string.gsub(itemLink, "%[", "", 1);
-        itemLink = string.gsub(itemLink, "%]", "", 1);
+        if (itemLink) then
+            itemLink = string.gsub(itemLink, "%[", "", 1);
+            itemLink = string.gsub(itemLink, "%]", "", 1);
+        end
+
         frame.productName:SetText(itemLink);
         frame.itemLink = itemLink;
         frame.cost:SetText(cost);
@@ -101,72 +104,104 @@ end
 function BussniessTradeModule:UpdateMerchantPositions()
     self:HiddeMerchantSomeFrame();
     local count = GetMerchantNumItems();
-    local pages = math.ceil(count / 10);
-    for page = 1, pages do
-        local endIndex = page * 10;
-        if (page == count) then
-            endIndex = count - page * 10
-        end
-
-        for i = (page - 1) * 10 + 1, endIndex do
-            local source = _G["MerchantItem" .. i];
-            local offsetY = -1 * i + 10 * (page - 1);
-            source:ClearAllPoints();
-            source:SetPoint("TOPLEFT", 400 * (page - 1), offsetY * 80)
-            source:Show();
-        end
+    for i = 1, count do
+        local page = math.ceil(i / 10)
+        local source = _G["MerchantItem" .. i];
+        local offsetY = -1 * i + 10 * (page - 1);
+        source:ClearAllPoints();
+        source:SetPoint("TOPLEFT", 400 * (page - 1), offsetY * 80)
+        source:Show();
     end
 end
 
 function BussniessTradeModule:HiddeMerchantSomeFrame()
-    --买回
-    MerchantBuyBackItem:Hide();
-    --自己的货币
-    MerchantExtraCurrencyBg:Hide();
-    MerchantExtraCurrencyInset:Hide();
-
-    --下一页
-    MerchantNextPageButton:Hide();
-    MerchantPrevPageButton:Hide();
-
-    MerchantFrameBottomLeftBorder:Hide();
-
-    --商人名称
-    MerchantFrame.TitleContainer:Hide();
-
-    MerchantFrame.TopTileStreaks:Hide();
-
-    MerchantFrameTab1:Hide();
-    MerchantFrameTab2:Hide();
-
-    --头像
-    MerchantFrame.PortraitContainer:Hide();
-
-    --过滤器
-    MerchantFrameLootFilter:Hide();
-
-    --售卖垃圾
-    MerchantSellAllJunkButton:Hide();
-
-    --自己的金钱
-    MerchantMoneyBg:Hide();
-    MerchantMoneyInset:Hide();
-    MerchantMoneyFrame:Hide();
-    if (MerchantToken1) then
-        MerchantToken1:Hide();
+    if MerchantBuyBackItem then
+        MerchantBuyBackItem:Hide()
     end
 
-    --翻页组件
-    MerchantPageText:Hide();
+    if MerchantExtraCurrencyBg then
+        MerchantExtraCurrencyBg:Hide()
+    end
 
-    MerchantFrameBg:Hide();
-    MerchantFrameCloseButton:Hide();
+    if MerchantExtraCurrencyInset then
+        MerchantExtraCurrencyInset:Hide()
+    end
 
-    --透明了
-    MerchantFrameInset:Hide();
+    if MerchantNextPageButton then
+        MerchantNextPageButton:Hide()
+    end
 
-    --边框
-    MerchantFrame.NineSlice:Hide();
+    if MerchantPrevPageButton then
+        MerchantPrevPageButton:Hide()
+    end
+
+    if MerchantFrameBottomLeftBorder then
+        MerchantFrameBottomLeftBorder:Hide()
+    end
+
+    if MerchantFrame.TitleContainer then
+        MerchantFrame.TitleContainer:Hide()
+    end
+
+    if MerchantFrame.TopTileStreaks then
+        MerchantFrame.TopTileStreaks:Hide()
+    end
+
+    if MerchantFrameTab1 then
+        MerchantFrameTab1:Hide()
+    end
+
+    if MerchantFrameTab2 then
+        MerchantFrameTab2:Hide()
+    end
+
+    if MerchantFrame.PortraitContainer then
+        MerchantFrame.PortraitContainer:Hide()
+    end
+
+    if MerchantFrameLootFilter then
+        MerchantFrameLootFilter:Hide()
+    end
+
+    if MerchantSellAllJunkButton then
+        MerchantSellAllJunkButton:Hide()
+    end
+
+    if MerchantMoneyBg then
+        MerchantMoneyBg:Hide()
+    end
+
+    if MerchantMoneyInset then
+        MerchantMoneyInset:Hide()
+    end
+
+    if MerchantMoneyFrame then
+        MerchantMoneyFrame:Hide()
+    end
+
+    if MerchantToken1 then
+        MerchantToken1:Hide()
+    end
+
+    if MerchantPageText then
+        MerchantPageText:Hide()
+    end
+
+    if MerchantFrameBg then
+        MerchantFrameBg:Hide()
+    end
+
+    if MerchantFrameCloseButton then
+        MerchantFrameCloseButton:Hide()
+    end
+
+    if MerchantFrameInset then
+        MerchantFrameInset:Hide()
+    end
+
+    if MerchantFrame.NineSlice then
+        MerchantFrame.NineSlice:Hide()
+    end
 end
 
 function BussniessTradeModule:test()

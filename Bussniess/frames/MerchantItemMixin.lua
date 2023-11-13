@@ -37,33 +37,28 @@ function MerchantItemMixin:OnGamePadButtonDown(...)
     --Interface\AddOns\GamePadExt\media
     --Sound\\Music\\ZoneMusic\\DMF_L70ETC01.mp3
     --\Interface\AddOns\WeakAuras\\Media\\Sounds\\Blast.ogg
-    PlaySoundFile("Interface\\AddOns\\GamePadExt\\media\\sound\\1.mp3","Master");
+    PlaySoundFile("Interface\\AddOns\\GamePadExt\\media\\sound\\1.mp3", "Master");
     local key = ...;
     local parent = MerchatItemGroups;
 
     local groupCount = #parent._group;
-
     local currentGroupIndex = parent.currentGroupIndex;
     local preGroupIndex = currentGroupIndex;
-
-
-    if (key == "PADDRIGHT") then
-        currentGroupIndex = currentGroupIndex + 1;
-        currentGroupIndex = currentGroupIndex % (groupCount);
-    elseif (key == "PADDLEFT") then
-        print(currentGroupIndex);
-        currentGroupIndex = currentGroupIndex - 1;
-        currentGroupIndex = currentGroupIndex % (groupCount);
-    end
-
-
-
 
     local count = #parent._group[currentGroupIndex + 1];
     local currentIndex = parent.currentIndex;
     local preIndex = currentIndex;
 
 
+    if (key == "PADDRIGHT") then
+        currentGroupIndex = currentGroupIndex + 1;
+        currentGroupIndex = currentGroupIndex % (groupCount);
+    elseif (key == "PADDLEFT") then
+        currentGroupIndex = currentGroupIndex - 1;
+        currentGroupIndex = currentGroupIndex % (groupCount);
+    end
+
+    currentIndex = math.min(currentIndex, #parent._group[currentGroupIndex + 1] - 1);
 
     if (key == "PADDDOWN") then
         currentIndex = currentIndex + 1;
@@ -73,9 +68,6 @@ function MerchantItemMixin:OnGamePadButtonDown(...)
         currentIndex = currentIndex % count;
     end
 
-
-
-
     MerchatItemGroups.currentIndex = currentIndex;
     MerchatItemGroups.currentGroupIndex = currentGroupIndex;
 
@@ -83,16 +75,9 @@ function MerchantItemMixin:OnGamePadButtonDown(...)
     MerchatItemGroups._group[currentGroupIndex + 1][currentIndex + 1]:OnEnter();
 
     --开始购买 X:PAD1 O:PAD2 []:PAD3
-    print(key);
     if (key == "PAD1") then
         --BUG:有一个分组的情况要进行一个考虑
         BuyMerchantItem(currentIndex + 1, 1);
-    end
-
-    --关闭所有的窗口
-    if (key == "PAD2") then
-        print("关闭关闭")
-        self:EnableGamePadButton(false);
     end
 end
 
