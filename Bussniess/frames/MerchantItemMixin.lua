@@ -3,10 +3,9 @@ MerchantItemMixin = {};
 MerchatItemGroups = {};
 
 function MerchantItemMixin:OnLoad()
-    local shadow = self:CreateShadow(2);
-    local animationIn = shadow:CreateAnimation1(2, 8, 0.3);
-    local animationOut = shadow:CreateAnimation1(8, 2, 0.3);
-    shadow.animationInFrame = animationIn;
+    local shadow = self:CreateShadow(3);
+    local animationOut = shadow:CreateAnimation1(8, 3, 0.3);
+
     shadow.animationOutFrame = animationOut;
     self.shadowFrame = shadow;
 
@@ -22,11 +21,11 @@ function MerchantItemMixin:OnLoad()
 end
 
 function MerchantItemMixin:OnLeave()
-    self.shadowFrame.animationOutFrame:Show();
+    self:ShowShadowFadeOut();
 end
 
 function MerchantItemMixin:OnEnter()
-    self.shadowFrame.animationInFrame:Show();
+    self:ShowShadowFadeIn();
     -- GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
     -- GameTooltip:SetHyperlink(self.productName:GetText());
     -- GameTooltip:Show()
