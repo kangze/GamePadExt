@@ -4,7 +4,7 @@ local Gpe = _G["Gpe"];
 local Masque, MSQ_Version = LibStub("Masque", true);
 local BussniessTradeModule = Gpe:GetModule('BussniessTradeModule');
 
-
+local currentItems = {};
 
 function BussniessTradeModule:OnInitialize()
     --DeveloperConsole:Toggle()
@@ -12,6 +12,7 @@ function BussniessTradeModule:OnInitialize()
 
     end
     self:RegisterEvent("MERCHANT_SHOW");
+    self:RegisterEvent("MERCHANT_CLOSED")
     self:SecureHook("MerchantFrame_UpdateMerchantInfo", "UpdateMerchantPositions");
     self:SecureHook("OpenAllBags", "test");
 
@@ -31,17 +32,11 @@ function BussniessTradeModule:MERCHANT_SHOW()
     for i = 1, count do
         local page = math.ceil(i / 10)
         local source = _G["MerchantItem" .. i];
-
-        if (source.item) then
-            source.item:EnableGamePadButton(false);
-            source.item:Hide();
-            source.item = nil;
-        end
         source:ClearAllPoints();
         local offsetY = -1 * i + 10 * (page - 1);
         source:SetPoint("TOPLEFT", 400 * (page - 1), (offsetY) * 80)
         local itemLink, cost, texture = self:GetItemInfoByMerchantItemIndex(i);
-        local frame = CreateFrame("Frame", nil, _G["MerchantItem" .. i], "MerchantItemTemplate1");
+        local frame = CreateFrame("Frame", nil, _G["MerchantItem" .. i], "MerchantItemTemplate1", true);
         frame:SetPoint("LEFT");
         if (itemLink) then
             itemLink = string.gsub(itemLink, "%[", "", 1);
@@ -54,30 +49,20 @@ function BussniessTradeModule:MERCHANT_SHOW()
         frame.icon:SetTexture(texture);
         frame:Group("group" .. page);
         frame:Show();
-        source.item = frame;
+        table.insert(currentItems, frame);
+    end
+end
+
+function BussniessTradeModule:MERCHANT_CLOSED()
+    for i = 1, #currentItems do
+        currentItems[i]:EnableGamePadButton(false);
+        currentItems[i]:UnregisterAllEvents();
+        currentItems[i]:Hide();
+        MerchatItemGroups = {};
     end
 end
 
 function BussniessTradeModule:OnEnable()
-    -- local frame=CreateFrame("Frame",nil,UIParent,"MerchantItemTemplate1");
-    --     frame:SetPoint("CENTER");
-
-    -- for i=1,10 do
-    --     local frame=CreateFrame("Frame",nil,UIParent,"MerchantItemTemplate1");
-    --     frame:SetPoint("TOP",UIParent,0,-76*(i-1));
-    --     frame:Group("group1");
-    --     --frame.text2:SetText("500|TInterface\\AddOns\\GamePadExt\\media\\texture\\UI-GoldIcon:18:18:0:0|t");
-    -- end
-
-    -- for i=1,10 do
-    --     local frame=CreateFrame("Frame",nil,UIParent,"MerchantItemTemplate1");
-    --     frame:SetPoint("TOP",UIParent,380,-76*(i-1));
-    --     frame:Group("group2");
-    -- end
-
-    -- local frame = CreateFrame("Frame", "MyBlackFrame", UIParent)
-    -- frame:SetAllPoints(UIParent);
-
     -- -- 创建一个纯黑色背景 Texture
     -- frame.background = frame:CreateTexture(nil, "BACKGROUND")
     -- frame.background:SetAllPoints(frame)

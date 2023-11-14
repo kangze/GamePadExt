@@ -3,13 +3,7 @@ MerchantItemMixin = {};
 MerchatItemGroups = {};
 
 function MerchantItemMixin:OnLoad()
-    local shadow = self:CreateShadow(3);
-    local animationOut = shadow:CreateAnimation1(8, 3, 0.3);
-
-    shadow.animationOutFrame = animationOut;
-    self.shadowFrame = shadow;
-
-    --开启手柄功能
+    self:InitShadowAndAnimation();
     self:EnableGamePadButton(true);
 
     --记录索引

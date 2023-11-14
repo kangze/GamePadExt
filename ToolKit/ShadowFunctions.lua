@@ -10,8 +10,14 @@ local linear = AddonData.EasingFunctions.outSine;
 local linear1 = AddonData.EasingFunctions.inOutSine;
 local AnimationFrame = AddonData.AnimationFrame;
 
+local originalCreateFrame = CreateFrame
+
 local edgeFile = "Interface\\AddOns\\ElvUI\\Core\\Media\\Textures\\GlowTex";
 _G.test = {};
+
+local start_val = 3;
+local end_val = 8;
+local duration = 0.3;
 
 
 --创建一个阴影frame,然后返回
@@ -29,8 +35,7 @@ end
 
 
 
---shadow专有动画,所以可以直接调用.shadow属性
-local function CreateAnimation1(frame, start_val, end_val, duration)
+local function CreateAnimation(frame, start_val, end_val, duration)
     local function callback(current)
         local current = linear(current, start_val, end_val, duration);
         frame:ClearBackdrop();
@@ -43,39 +48,23 @@ local function CreateAnimation1(frame, start_val, end_val, duration)
     return animation;
 end
 
-local function ShowShadowAnimation(frame, options, isFadeIn)
-    if (not frame._shadow) then
-        local shadow = frame:CreateShadow();
-        frame._shadow = shadow;
-    end
-
-    local animationKey = isFadeIn and "_fadeIn" or "_fadeOut"
-    if (frame._shadow[animationKey]) then
-        frame._shadow[animationKey]:Show();
-        return;
-    end
-
-    options = options or {}
-    local start_val = isFadeIn and (options.start_val or 2) or (options.start_val or 8)
-    local end_val = isFadeIn and (options.end_val or 8) or (options.end_val or 2)
-    local duration = options.duration or 0.3
-
-    frame._shadow[animationKey] = frame._shadow:CreateAnimation1(start_val, end_val, duration)
-    frame._shadow[animationKey]:Show();
+local function InitShadowAndAnimation(frame)
+    local shadow = CreateShadow(frame, start_val);
+    local fadeIn = CreateAnimation(shadow, start_val, end_val, duration);
+    local fadeOut = CreateAnimation(shadow, end_val, start_val, duration);
+    shadow._fadeIn = fadeIn;
+    shadow._fadeOut = fadeOut;
+    frame._shadow = shadow;
 end
 
-local function ShowShadowFadeIn(frame, options)
-    ShowShadowAnimation(frame, options, true)
+local function ShowShadowFadeIn(frame)
+    frame._shadow._fadeIn:Show();
 end
 
-local function ShowShadowFadeOut(frame, options)
-    ShowShadowAnimation(frame, options, false)
+local function ShowShadowFadeOut(frame)
+    frame._shadow._fadeOut:Show();
 end
 
-
-Gpe:AddFrameApi("CreateShadow", CreateShadow);
-Gpe:AddFrameApi("CreateAnimation1", CreateAnimation1);
+Gpe:AddFrameApi("InitShadowAndAnimation",InitShadowAndAnimation);
 Gpe:AddFrameApi("ShowShadowFadeIn", ShowShadowFadeIn);
 Gpe:AddFrameApi("ShowShadowFadeOut", ShowShadowFadeOut);
-
-
