@@ -18,7 +18,8 @@ local SettingModule = Gpe:NewModule("SettingModule");
 local CastingBarModule = Gpe:NewModule("CastingBarModule");
 local SoftTargetToolipModule = Gpe:NewModule("SoftTargetToolipModule", "AceEvent-3.0");
 local NamePlateModule = Gpe:NewModule("NamePlateModule", "AceEvent-3.0");
-local BussniessTradeModule = Gpe:NewModule("BussniessTradeModule", "AceEvent-3.0","AceHook-3.0");
+local BussniessTradeModule = Gpe:NewModule("BussniessTradeModule", "AceEvent-3.0", "AceHook-3.0");
+local ToolKitModule = Gpe:NewModule("ToolKitModule");
 
 
 function Gpe:OnInitialize()
@@ -27,31 +28,9 @@ function Gpe:OnInitialize()
 end
 
 function Gpe:OnEnable()
-    -- Addon:InitConfig_ActionBar();
-    -- Addon:InitConfig_NamePlate();
-    -- Addon:InitConfig_CastingBar();
-    -- Addon:InitConfig_HeaderExt();
-    -- Addon:InitConfig_BufferFrom();
-
     --配置db
     local db = AceDB:New('GamePadExtDB', { profile = AddonData.registration.profile }, true)
     AddonData.db = db;
-
-
-    -- --load the addons
-    -- Addon:OnLoad_SoftTargetTooltip();
-    -- Addon:OnLoad_SettingPanel();
-    -- Addon:OnLoad_HeaderExt();
-    -- Addon:OnLoad_NamePlate();
-    -- Addon:OnLoad_ActionBar();
-    -- Addon:OnLoad_CastingBar()
-    -- Addon:OnLoad_GamePadVirbration();
-    -- Addon:OnLoad_BufferFrom();
-    -- Addon:InitFoints();
-
-    -- --Info Panel
-    -- Addon:OnLoad_InfoPanel();
-    -- Addon:OnLoad_InfoFrame();
 end
 
 function Gpe:OnDisable()
@@ -94,13 +73,12 @@ function Gpe:Close()
     --Addon.mainFrame:Hide();
 end
 
-function Gpe:AddApi(frameType,name, func)
-    self:AddFrameApi(name,func);
+function Gpe:AddApi(frameType, name, func)
+    self:AddFrameApi(name, func);
 end
 
 function Gpe:AddFrameApi(name, func)
-    local frame=CreateFrame("Frame");
+    local frame = CreateFrame("Frame");
     local mk = getmetatable(frame).__index;
     if not mk[name] then mk[name] = func end
 end
-

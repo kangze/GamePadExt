@@ -9,49 +9,45 @@ AddonData.ShadowFunctions = ShadowFunctions;
 local linear = AddonData.EasingFunctions.outSine;
 local linear1 = AddonData.EasingFunctions.inOutSine;
 local AnimationFrame = AddonData.AnimationFrame;
-
-local originalCreateFrame = CreateFrame
-
 local edgeFile = "Interface\\AddOns\\ElvUI\\Core\\Media\\Textures\\GlowTex";
-_G.test = {};
 
-local start_val = 3;
-local end_val = 8;
-local duration = 0.3;
+
 
 
 --创建一个阴影frame,然后返回
-local function CreateShadow(frame, edgeSize)
+local function CreateShadow(frame, edgeSize, color)
     local edgeSize = edgeSize or 0;
     local shadow = CreateFrame("Frame", nil, frame, "BackdropTemplate")
     shadow:SetFrameStrata(frame:GetFrameStrata())
     shadow:SetFrameLevel(2)
     shadow:SetOutside(shadow:GetParent(), edgeSize, edgeSize);
     shadow:SetBackdrop({ edgeFile = edgeFile, edgeSize = edgeSize })
-    shadow:SetBackdropColor(0, 0, 0, 0);
-    shadow:SetBackdropBorderColor(0.5, 0.5, 0.5, 1);
+    shadow:SetBackdropColor(color.r, color.g, color.b, color.a);
+    shadow:SetBackdropBorderColor(color.r, color.g, color.b, color.a);
     return shadow;
 end
 
-
-
-local function CreateAnimation(frame, start_val, end_val, duration)
+local function CreateAnimation(frame, start_val, end_val, duration, color)
     local function callback(current)
         local current = linear(current, start_val, end_val, duration);
         frame:ClearBackdrop();
         frame:SetOutside(frame:GetParent(), current, current);
         frame:SetBackdrop({ edgeFile = edgeFile, edgeSize = current })
-        frame:SetBackdropColor(0, 0, 0, 0)
-        frame:SetBackdropBorderColor(0.5, 0.5, 0.5, 1);
+        frame:SetBackdropColor(color.r, color.g, color.b, color.a)
+        frame:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
     end
     local animation = AnimationFrame.New(duration, callback);
     return animation;
 end
 
 local function InitShadowAndAnimation(frame)
-    local shadow = CreateShadow(frame, start_val);
-    local fadeIn = CreateAnimation(shadow, start_val, end_val, duration);
-    local fadeOut = CreateAnimation(shadow, end_val, start_val, duration);
+    local start_val, end_val, duration = AddonData.db.profile.shadow.style.start_val,
+        AddonData.db.profile.shadow.style.end_val, AddonData.db.profile.shadow.style.duration;
+    local color = AddonData.db.profile.shadow.style.color;
+    print(color.r);
+    local shadow = CreateShadow(frame, start_val, color);
+    local fadeIn = CreateAnimation(shadow, start_val, end_val, duration, color);
+    local fadeOut = CreateAnimation(shadow, end_val, start_val, duration, color);
     shadow._fadeIn = fadeIn;
     shadow._fadeOut = fadeOut;
     frame._shadow = shadow;
@@ -65,6 +61,6 @@ local function ShowShadowFadeOut(frame)
     frame._shadow._fadeOut:Show();
 end
 
-Gpe:AddFrameApi("InitShadowAndAnimation",InitShadowAndAnimation);
+Gpe:AddFrameApi("InitShadowAndAnimation", InitShadowAndAnimation);
 Gpe:AddFrameApi("ShowShadowFadeIn", ShowShadowFadeIn);
 Gpe:AddFrameApi("ShowShadowFadeOut", ShowShadowFadeOut);

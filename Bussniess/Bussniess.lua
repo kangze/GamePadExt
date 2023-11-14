@@ -5,12 +5,11 @@ local Masque, MSQ_Version = LibStub("Masque", true);
 local BussniessTradeModule = Gpe:GetModule('BussniessTradeModule');
 
 local currentItems = {};
+local sourceOpenAllBags = OpenAllBags;
 
 function BussniessTradeModule:OnInitialize()
     --DeveloperConsole:Toggle()
-    OpenAllBags = function()
 
-    end
     self:RegisterEvent("MERCHANT_SHOW");
     self:RegisterEvent("MERCHANT_CLOSED")
     self:SecureHook("MerchantFrame_UpdateMerchantInfo", "UpdateMerchantPositions");
@@ -25,9 +24,18 @@ function BussniessTradeModule:OnInitialize()
 end
 
 function BussniessTradeModule:MERCHANT_SHOW()
+    -- -- 创建一个纯黑色背景 Texture
+    -- local frame = CreateFrame("Frame", nil, UIParent);
+    -- frame:SetAllPoints(UIParent);
+    -- frame.background = frame:CreateTexture(nil, "BACKGROUND")
+    -- frame.background:SetAllPoints(frame)
+    -- frame.background:SetColorTexture(0, 0, 0, 1) -- 设置背景颜色为纯黑色
+    -- frame:Show()
+
     MerchantFrame:SetSize(1000, 900)
     self:HiddeMerchantSomeFrame();
-
+    --replace
+    OpenAllBags = function() end
     local count = GetMerchantNumItems();
     for i = 1, count do
         local page = math.ceil(i / 10)
@@ -54,6 +62,7 @@ function BussniessTradeModule:MERCHANT_SHOW()
 end
 
 function BussniessTradeModule:MERCHANT_CLOSED()
+    OpenAllBags = sourceOpenAllBags();
     for i = 1, #currentItems do
         currentItems[i]:EnableGamePadButton(false);
         currentItems[i]:UnregisterAllEvents();
@@ -63,11 +72,7 @@ function BussniessTradeModule:MERCHANT_CLOSED()
 end
 
 function BussniessTradeModule:OnEnable()
-    -- -- 创建一个纯黑色背景 Texture
-    -- frame.background = frame:CreateTexture(nil, "BACKGROUND")
-    -- frame.background:SetAllPoints(frame)
-    -- frame.background:SetColorTexture(0.1725, 0.2431, 0.3137, 0.5) -- 设置背景颜色为纯黑色
-    -- frame:Show()
+
 end
 
 --Sample:Masque
