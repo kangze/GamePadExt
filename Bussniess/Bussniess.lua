@@ -25,14 +25,19 @@ end
 
 function BussniessTradeModule:MERCHANT_SHOW()
     -- -- 创建一个纯黑色背景 Texture
-    -- local frame = CreateFrame("Frame", nil, UIParent);
-    -- frame:SetAllPoints(UIParent);
-    -- frame.background = frame:CreateTexture(nil, "BACKGROUND")
-    -- frame.background:SetAllPoints(frame)
-    -- frame.background:SetColorTexture(0, 0, 0, 1) -- 设置背景颜色为纯黑色
-    -- frame:Show()
+    local frame = CreateFrame("Frame", nil, UIParent);
+    frame:SetAllPoints(UIParent);
+    frame.background = frame:CreateTexture(nil, "BACKGROUND")
+    frame.background:SetAllPoints(frame)
+    --frame.background:SetColorTexture(0, 0, 0, 1) -- 设置背景颜色为纯黑色
+    frame.background:SetAtlas("talents-background-priest-shadow");
+    frame:Show()
 
     MerchantFrame:SetSize(1000, 900)
+    MerchantFrame:ClearAllPoints();
+    MerchantFrame:SetPoint("CENTER", UIParent);
+    
+    
     self:HiddeMerchantSomeFrame();
     --replace
     OpenAllBags = function() end
@@ -50,7 +55,7 @@ function BussniessTradeModule:MERCHANT_SHOW()
             itemLink = string.gsub(itemLink, "%[", "", 1);
             itemLink = string.gsub(itemLink, "%]", "", 1);
         end
-
+        print(cost);
         frame.productName:SetText(itemLink);
         frame.itemLink = itemLink;
         frame.cost:SetText(cost);
@@ -80,26 +85,37 @@ end
 -- group:AddButton(MerchantItem.button);
 
 function BussniessTradeModule:GetItemInfoByMerchantItemIndex(index)
-    local _, texture = GetMerchantItemInfo(index)
+    local cost = "";
+    local _, texture, price = GetMerchantItemInfo(index)
     local itemLink = GetMerchantItemLink(index)
     local currencyCount = GetMerchantItemCostInfo(index)
-    local cost = "";
-    for j = 1, currencyCount do
-        local itemTexture, itemValue, itemLink, currencyName = GetMerchantItemCostItem(index, j);
-        cost = cost .. itemValue .. " " .. itemLink .. " ";
+    if (currencyCount == 0) then
+        cost = price;
+    else
+        for j = 0, currencyCount do
+            local itemTexture, itemValue, itemLink, currencyName = GetMerchantItemCostItem(index, j);
+            cost = cost .. itemValue .. " fdafdafa";
+            if (itemLink) then
+                cost = cost .. itemLink
+            else
+                cost = cost .. currencyName
+            end
+        end
     end
     return itemLink, cost, texture;
 end
 
 function BussniessTradeModule:UpdateMerchantPositions()
     self:HiddeMerchantSomeFrame();
+    MerchantFrame:ClearAllPoints();
+    MerchantFrame:SetPoint("CENTER", UIParent);
     local count = GetMerchantNumItems();
     for i = 1, count do
         local page = math.ceil(i / 10)
         local source = _G["MerchantItem" .. i];
         local offsetY = -1 * i + 10 * (page - 1);
         source:ClearAllPoints();
-        source:SetPoint("TOPLEFT", 400 * (page - 1), offsetY * 80)
+        source:SetPoint("TOP", 400 * (page - 1), offsetY * 80)
         source:Show();
     end
 end

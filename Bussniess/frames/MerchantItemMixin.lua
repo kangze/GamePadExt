@@ -20,9 +20,9 @@ end
 
 function MerchantItemMixin:OnEnter()
     self:ShowShadowFadeIn();
-    -- GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-    -- GameTooltip:SetHyperlink(self.productName:GetText());
-    -- GameTooltip:Show()
+    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+    GameTooltip:SetHyperlink(self.productName:GetText());
+    GameTooltip:Show()
 end
 
 function MerchantItemMixin:OnGamePadButtonDown(...)

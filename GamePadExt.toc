@@ -29,6 +29,7 @@ CastingBar/CastingBar.lua
 SoftTargetTooltip/SoftTargetTooltip.lua
 NamePlate/NamePlate.lua
 Bussniess/frames/MerchantItem.xml
+Bussniess/frames/Header.xml
 Bussniess/Bussniess.lua
 
 

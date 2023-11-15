@@ -10,8 +10,8 @@
 
         <Layers>
             <Layer level="BACKGROUND">
-                <Texture parentKey="tex_background">
-                    <Color r="0.1725" g="0.2431" b="0.3137" a="1"/>
+                <Texture parentKey="tex_background" atlas="auctionhouse-background-auctions">
+                    
                 </Texture>
             </Layer>
 
