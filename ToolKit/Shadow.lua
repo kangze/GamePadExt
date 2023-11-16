@@ -59,11 +59,11 @@ local function InitShowFadeInAndOut(frame)
     local duration = 0.2
     local callbackOut = function(current)
         local current = linear(current, start, ends, duration);
-        UIParent:SetAlpha(current);
+        frame:SetAlpha(current);
     end;
     local callbackIn = function(current)
         local current = linear(current, ends, start, duration);
-        UIParent:SetAlpha(current);
+        frame:SetAlpha(current);
     end;
     local animationOut = AnimationFrame.New(duration, callbackOut);
     local animationIn = AnimationFrame.New(duration, callbackIn);
