@@ -10,7 +10,7 @@
 
         <Layers>
             <Layer level="BACKGROUND">
-                <Texture parentKey="tex_background" atlas="auctionhouse-background-auctions">
+                <Texture parentKey="tex_background" atlas="loottoast-dragonriding">
                     
                 </Texture>
             </Layer>

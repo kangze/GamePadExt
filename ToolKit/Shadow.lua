@@ -2,17 +2,10 @@ local _, AddonData = ...;
 local Gpe = _G["Gpe"];
 
 
-
-local ShadowFunctions = {};
-AddonData.ShadowFunctions = ShadowFunctions;
-
 local linear = AddonData.EasingFunctions.outSine;
 local linear1 = AddonData.EasingFunctions.inOutSine;
 local AnimationFrame = AddonData.AnimationFrame;
 local edgeFile = "Interface\\AddOns\\ElvUI\\Core\\Media\\Textures\\GlowTex";
-
-
-
 
 --创建一个阴影frame,然后返回
 local function CreateShadow(frame, edgeSize, color)
@@ -44,7 +37,6 @@ local function InitShadowAndAnimation(frame)
     local start_val, end_val, duration = AddonData.db.profile.shadow.style.start_val,
         AddonData.db.profile.shadow.style.end_val, AddonData.db.profile.shadow.style.duration;
     local color = AddonData.db.profile.shadow.style.color;
-    print(color.r);
     local shadow = CreateShadow(frame, start_val, color);
     local fadeIn = CreateAnimation(shadow, start_val, end_val, duration, color);
     local fadeOut = CreateAnimation(shadow, end_val, start_val, duration, color);
@@ -61,6 +53,36 @@ local function ShowShadowFadeOut(frame)
     frame._shadow._fadeOut:Show();
 end
 
+local function InitShowFadeInAndOut(frame)
+    local start = 1;
+    local ends = 0;
+    local duration = 0.2
+    local callbackOut = function(current)
+        local current = linear(current, start, ends, duration);
+        UIParent:SetAlpha(current);
+    end;
+    local callbackIn = function(current)
+        local current = linear(current, ends, start, duration);
+        UIParent:SetAlpha(current);
+    end;
+    local animationOut = AnimationFrame.New(duration, callbackOut);
+    local animationIn = AnimationFrame.New(duration, callbackIn);
+    frame._showFadeOut = animationOut;
+    frame._showFadeIn = animationIn;
+end
+
+local function ShowFadeIn(frame)
+    frame._showFadeIn:Show();
+end
+
+local function ShowFadeOut(frame)
+    frame._showFadeOut:Show();
+end
+
 Gpe:AddFrameApi("InitShadowAndAnimation", InitShadowAndAnimation);
 Gpe:AddFrameApi("ShowShadowFadeIn", ShowShadowFadeIn);
 Gpe:AddFrameApi("ShowShadowFadeOut", ShowShadowFadeOut);
+
+Gpe:AddFrameApi("InitShowFadeInAndOut", InitShowFadeInAndOut)
+Gpe:AddFrameApi("ShowFadeIn", ShowFadeIn)
+Gpe:AddFrameApi("ShowFadeOut", ShowFadeOut)

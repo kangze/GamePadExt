@@ -21,7 +21,7 @@ Core.lua
 ToolKit/Default.lua
 ToolKit/AnimationFrame.lua
 ToolKit/EasingFunctions.lua
-ToolKit/ShadowFunctions.lua
+ToolKit/Shadow.lua
 ToolKit/String.lua
 ActionBar/ActionBar.xml
 Configuration.lua
@@ -29,8 +29,8 @@ CastingBar/CastingBar.lua
 SoftTargetTooltip/SoftTargetTooltip.lua
 NamePlate/NamePlate.lua
 Bussniess/frames/MerchantItem.xml
-Bussniess/frames/Header.xml
 Bussniess/Bussniess.lua
+Main/frames/Header.xml
 
 
 

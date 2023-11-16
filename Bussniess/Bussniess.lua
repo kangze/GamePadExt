@@ -25,13 +25,13 @@ end
 
 function BussniessTradeModule:MERCHANT_SHOW()
     -- -- 创建一个纯黑色背景 Texture
-    local frame = CreateFrame("Frame", nil, UIParent);
-    frame:SetAllPoints(UIParent);
-    frame.background = frame:CreateTexture(nil, "BACKGROUND")
-    frame.background:SetAllPoints(frame)
-    --frame.background:SetColorTexture(0, 0, 0, 1) -- 设置背景颜色为纯黑色
-    frame.background:SetAtlas("talents-background-priest-shadow");
-    frame:Show()
+    -- local frame = CreateFrame("Frame", nil, UIParent);
+    -- frame:SetAllPoints(UIParent);
+    -- frame.background = frame:CreateTexture(nil, "BACKGROUND")
+    -- frame.background:SetAllPoints(frame)
+    -- --frame.background:SetColorTexture(0, 0, 0, 1) -- 设置背景颜色为纯黑色
+    -- frame.background:SetAtlas("talents-background-priest-shadow");
+    -- frame:Show()
 
     MerchantFrame:SetSize(1000, 900)
     MerchantFrame:ClearAllPoints();

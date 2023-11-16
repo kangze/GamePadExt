@@ -1,8 +1,8 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\..\FrameXML\UI.xsd">
-
-    <Frame name="test" frameStrata="DIALOG" enableMouse="true">
+    <Script file="HeaderMixin.lua"/>
+    <Frame hidden="true" frameStrata="DIALOG" enableMouse="true" mixin="HeaderMixin">
         <Anchors>
             <Anchor point="TOP" />
         </Anchors>
@@ -14,7 +14,7 @@
 
             <Layer level="ARTWORK">
                 <Texture parentKey="coin" atlas="lootroll-rollicon-yourolled-greed">
-                <Size x="40" y="40"/>
+                    <Size x="40" y="40"/>
                     <Anchors>
                         <Anchor point="RIGHT" x="-300"/>
                     </Anchors>
