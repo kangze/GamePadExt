@@ -16,10 +16,12 @@ end
 
 function MerchantItemMixin:OnLeave()
     self:ShowShadowFadeOut();
+    self:ScaleFadeOut();
 end
 
 function MerchantItemMixin:OnEnter()
     self:ShowShadowFadeIn();
+    self:ScaleFadeIn();
     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
     GameTooltip:SetHyperlink(self.productName:GetText());
     GameTooltip:Show()

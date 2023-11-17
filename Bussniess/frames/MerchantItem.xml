@@ -10,8 +10,8 @@
 
         <Layers>
             <Layer level="BACKGROUND">
-                <Texture parentKey="tex_background" atlas="loottoast-dragonriding">
-                    
+                <Texture parentKey="tex_background">
+                    <Color r="0.27450980392157" g="0.27058823529412" b="0.27843137254902" a="1"/>
                 </Texture>
             </Layer>
 
@@ -53,16 +53,16 @@
                 </FontString>
 
                 <!--价格花费-->
-                <FontString parentKey="cost" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
-                    <FontHeight val="14"/>
+                <FontString parentKey="costmoney" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
+                    <FontHeight val="17"/>
                     <Anchors>
-                        <Anchor point="BOTTOMRIGHT" x="-110" y="0"/>
+                        <Anchor point="BOTTOMRIGHT" x="-110" y="3"/>
                     </Anchors>
                 </FontString>
 
                 <!--商品名称-->
-                 <FontString parentKey="productName" text="咸湿的鲨鱼饵的咸饼干" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
-                    <FontHeight val="21"/>
+                <FontString parentKey="productName" text="咸湿的鲨鱼饵的咸饼干" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
+                    <FontHeight val="19"/>
                     <Anchors>
                         <Anchor point="LEFT" x="70" y="12"/>
                     </Anchors>
@@ -76,12 +76,12 @@
 
             <!--图标的边框-->
             <Layer level="OVERLAY">
-                <Texture parentKey="border" file="Interface\AddOns\GamePadExt\media\texture\UI-Achievement-IconFrame">
-                    <Size x="67" y="67"/>
+                <Texture parentKey="iconBorder" atlas="loottoast-itemborder-orange">
+                    <Size x="60" y="60"/>
                     <Anchors>
-                        <Anchor point="LEFT" x="5" y="-2"/>
+                        <Anchor point="LEFT" x="5" y=""/>
                     </Anchors>
-                    <TexCoords left="0.0" right="0.6" top="0.0" bottom="0.6"/>
+                    <!-- <TexCoords left="0.0" right="0.6" top="0.0" bottom="0.6"/> -->
                 </Texture>
             </Layer>
         </Layers>

@@ -2,9 +2,6 @@ local _, AddonData = ...;
 local Gpe = _G["Gpe"];
 
 
-local linear = AddonData.EasingFunctions.outSine;
-local linear1 = AddonData.EasingFunctions.inOutSine;
-local AnimationFrame = AddonData.AnimationFrame;
 local edgeFile = "Interface\\AddOns\\ElvUI\\Core\\Media\\Textures\\GlowTex";
 
 --创建一个阴影frame,然后返回
@@ -22,14 +19,14 @@ end
 
 local function CreateAnimation(frame, start_val, end_val, duration, color)
     local function callback(current)
-        local current = linear(current, start_val, end_val, duration);
+        local current = OutSine(current, start_val, end_val, duration);
         frame:ClearBackdrop();
         frame:SetOutside(frame:GetParent(), current, current);
         frame:SetBackdrop({ edgeFile = edgeFile, edgeSize = current })
         frame:SetBackdropColor(color.r, color.g, color.b, color.a)
         frame:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
     end
-    local animation = AnimationFrame.New(duration, callback);
+    local animation = CreateAnimationFrame(duration, callback);
     return animation;
 end
 
@@ -45,6 +42,24 @@ local function InitShadowAndAnimation(frame)
     frame._shadow = shadow;
 end
 
+local function ScaleFadeIn(frame)
+    local callback = function(current)
+        local current = OutSine(current, 1, 1.04, 0.1);
+        frame:SetScale(current);
+    end
+    local animation = CreateAnimationFrame(0.1, callback);
+    animation:Show();
+end
+
+local function ScaleFadeOut(frame)
+    local callback = function(current)
+        local current = OutSine(current, 1.04,1, 0.1);
+        frame:SetScale(current);
+    end
+    local animation = CreateAnimationFrame(0.1, callback);
+    animation:Show();
+end
+
 local function ShowShadowFadeIn(frame)
     frame._shadow._fadeIn:Show();
 end
@@ -53,20 +68,24 @@ local function ShowShadowFadeOut(frame)
     frame._shadow._fadeOut:Show();
 end
 
+local function ShowShadow(frame)
+    frame._shadow:Show();
+end
+
 local function InitShowFadeInAndOut(frame)
     local start = 1;
     local ends = 0;
     local duration = 0.2
     local callbackOut = function(current)
-        local current = linear(current, start, ends, duration);
+        local current = OutSine(current, start, ends, duration);
         frame:SetAlpha(current);
     end;
     local callbackIn = function(current)
-        local current = linear(current, ends, start, duration);
+        local current = OutSine(current, ends, start, duration);
         frame:SetAlpha(current);
     end;
-    local animationOut = AnimationFrame.New(duration, callbackOut);
-    local animationIn = AnimationFrame.New(duration, callbackIn);
+    local animationOut = CreateAnimationFrame(duration, callbackOut);
+    local animationIn = CreateAnimationFrame(duration, callbackIn);
     frame._showFadeOut = animationOut;
     frame._showFadeIn = animationIn;
 end
@@ -86,3 +105,7 @@ Gpe:AddFrameApi("ShowShadowFadeOut", ShowShadowFadeOut);
 Gpe:AddFrameApi("InitShowFadeInAndOut", InitShowFadeInAndOut)
 Gpe:AddFrameApi("ShowFadeIn", ShowFadeIn)
 Gpe:AddFrameApi("ShowFadeOut", ShowFadeOut)
+Gpe:AddFrameApi("ShowShadow", ShowShadow)
+
+Gpe:AddFrameApi("ScaleFadeIn", ScaleFadeIn)
+Gpe:AddFrameApi("ScaleFadeOut",ScaleFadeOut)

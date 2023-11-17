@@ -2,13 +2,14 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\..\FrameXML\UI.xsd">
     <Script file="HeaderMixin.lua"/>
-    <Frame hidden="true" frameStrata="DIALOG" enableMouse="true" mixin="HeaderMixin">
+    <Frame frameStrata="DIALOG" enableMouse="true" mixin="HeaderMixin">
         <Anchors>
             <Anchor point="TOP" />
         </Anchors>
         <Layers>
             <Layer level="BACKGROUND">
-                <Texture parentKey="background1" atlas="auctionhouse-background-auctions">
+                <Texture parentKey="background1">
+                    <Color r="0.27450980392157" g="0.27058823529412" b="0.27843137254902" a="1"/>
                 </Texture>
             </Layer>
 
@@ -16,14 +17,14 @@
                 <Texture parentKey="coin" atlas="lootroll-rollicon-yourolled-greed">
                     <Size x="40" y="40"/>
                     <Anchors>
-                        <Anchor point="RIGHT" x="-300"/>
+                        <Anchor point="RIGHT" x="-270"/>
                     </Anchors>
                 </Texture>
 
                 <FontString parentKey="text" text="5,000" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
                     <FontHeight val="14"/>
                     <Anchors>
-                        <Anchor point="RIGHT" relativeKey="$parent.coin" relativePoint="LEFT" x="10"/>
+                        <Anchor point="RIGHT" relativeKey="$parent.coin" relativePoint="LEFT" x="10" y="-2"/>
                     </Anchors>
                 </FontString>
             </Layer>
@@ -31,10 +32,8 @@
 
 
         <Scripts>
-            <OnLoad>
-            local width=UIParent:GetWidth();
-            self:SetSize(1920,30);
-            </OnLoad>
+            <OnLoad method="OnLoad"/>
+            <OnEnter method="OnEnter"/>
         </Scripts>
     </Frame>
 

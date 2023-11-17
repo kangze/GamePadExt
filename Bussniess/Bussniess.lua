@@ -7,6 +7,40 @@ local BussniessTradeModule = Gpe:GetModule('BussniessTradeModule');
 local currentItems = {};
 local sourceOpenAllBags = OpenAllBags;
 
+-- 0：粗糙（灰色）
+-- 1：普通（白色）
+-- 2：优秀（绿色）
+-- 3：稀有（蓝色）
+-- 4：史诗（紫色）
+-- 5：传说（橙色）
+-- 6：神器（金色）
+-- 7：绑定（绿色）
+-- 8：任务（白色）
+local QualityTexs = {
+    [0] = "loottoast-itemborder-gray",
+    [1] = "loottoast-itemborder-gray",
+    [2] = "loottoast-itemborder-green",
+    [3] = "loottoast-itemborder-blue",
+    [4] = "loottoast-itemborder-purple",
+    [5] = "loottoast-itemborder-orange",
+    [6] = "loottoast-itemborder-artifact",
+    [7] = "loottoast-itemborder-green",
+    [8] = "loottoast-itemborder-gray",
+}
+
+local function ApplyMoney(fontString, copper)
+    local gold = math.floor(copper / 10000)
+    copper = copper - gold * 10000
+    local silver = math.floor(copper / 100)
+    copper = copper - silver * 100
+
+    local goldIcon = "|TInterface\\MoneyFrame\\UI-GoldIcon:14:14:2:0|t"
+    local silverIcon = "|TInterface\\MoneyFrame\\UI-SilverIcon:14:14:2:0|t"
+    local copperIcon = "|TInterface\\MoneyFrame\\UI-CopperIcon:14:14:2:0|t"
+
+    fontString:SetFormattedText("%d%s %d%s %d%s", gold, goldIcon, silver, silverIcon, copper, copperIcon)
+end
+
 function BussniessTradeModule:OnInitialize()
     --DeveloperConsole:Toggle()
 
@@ -33,33 +67,44 @@ function BussniessTradeModule:MERCHANT_SHOW()
     -- frame.background:SetAtlas("talents-background-priest-shadow");
     -- frame:Show()
 
-    MerchantFrame:SetSize(1000, 900)
+    --legioninvasion-ScenarioTrackerToast
+
+
+
+    self:HiddeMerchantSomeFrame();
     MerchantFrame:ClearAllPoints();
     MerchantFrame:SetPoint("CENTER", UIParent);
-    
-    
-    self:HiddeMerchantSomeFrame();
-    --replace
-    OpenAllBags = function() end
+
     local count = GetMerchantNumItems();
+
+    local templeteWidth = 350;
+    local pages = math.ceil(count / 10);
+    MerchantFrame:SetSize(templeteWidth * pages + 100, UIParent:GetHeight());
+
+    OpenAllBags = function() end
+
     for i = 1, count do
         local page = math.ceil(i / 10)
         local source = _G["MerchantItem" .. i];
         source:ClearAllPoints();
         local offsetY = -1 * i + 10 * (page - 1);
-        source:SetPoint("TOPLEFT", 400 * (page - 1), (offsetY) * 80)
-        local itemLink, cost, texture = self:GetItemInfoByMerchantItemIndex(i);
-        local frame = CreateFrame("Frame", nil, _G["MerchantItem" .. i], "MerchantItemTemplate1", true);
-        frame:SetPoint("LEFT");
+        source:SetPoint("TOPLEFT", 400 * (page - 1), (offsetY) * 82);
+        local itemLink, cost, texture, itemQuality, isMoney = self:GetItemInfoByMerchantItemIndex(i);
+        local frame = CreateFrame("Frame", nil, _G["MerchantItem" .. i], "MerchantItemTemplate1");
+        frame:SetPoint("CENTER");
         if (itemLink) then
             itemLink = string.gsub(itemLink, "%[", "", 1);
             itemLink = string.gsub(itemLink, "%]", "", 1);
         end
-        print(cost);
         frame.productName:SetText(itemLink);
         frame.itemLink = itemLink;
-        frame.cost:SetText(cost);
+        if (isMoney) then
+            ApplyMoney(frame.costmoney, cost);
+        else
+            frame.costmoney:SetText(cost);
+        end
         frame.icon:SetTexture(texture);
+        frame.iconBorder:SetAtlas(QualityTexs[itemQuality]);
         frame:Group("group" .. page);
         frame:Show();
         table.insert(currentItems, frame);
@@ -85,24 +130,32 @@ end
 -- group:AddButton(MerchantItem.button);
 
 function BussniessTradeModule:GetItemInfoByMerchantItemIndex(index)
-    local cost = "";
-    local _, texture, price = GetMerchantItemInfo(index)
     local itemLink = GetMerchantItemLink(index)
+    local _, texture, price = GetMerchantItemInfo(index)
     local currencyCount = GetMerchantItemCostInfo(index)
+    local _, _, itemQuality = GetItemInfo(itemLink);
     if (currencyCount == 0) then
-        cost = price;
-    else
-        for j = 0, currencyCount do
-            local itemTexture, itemValue, itemLink, currencyName = GetMerchantItemCostItem(index, j);
-            cost = cost .. itemValue .. " fdafdafa";
-            if (itemLink) then
-                cost = cost .. itemLink
+        return itemLink, price, texture, itemQuality, true; --表示只要金币
+    end
+
+    local cost = "";
+    for j = 1, currencyCount do
+        local itemTexture, itemValue, itemLink, currencyName = GetMerchantItemCostItem(index, j);
+        cost = cost .. itemValue;
+        if (itemLink) then
+            local currencyID = tonumber(string.match(itemLink, "currency:(%d+)"))
+            local currencyInfo = C_CurrencyInfo.GetCurrencyInfo(currencyID)
+            if currencyInfo and currencyInfo.iconFileID then
+                local iconString = "|T" .. currencyInfo.iconFileID .. ":0|t"
+                cost = cost .." ".. iconString .. " " .. itemLink
             else
-                cost = cost .. currencyName
+                print("Invalid currency ID: " .. currencyID)
             end
+        else
+            cost = cost .. currencyName
         end
     end
-    return itemLink, cost, texture;
+    return itemLink, cost, texture, itemQuality, false;
 end
 
 function BussniessTradeModule:UpdateMerchantPositions()
@@ -115,9 +168,11 @@ function BussniessTradeModule:UpdateMerchantPositions()
         local source = _G["MerchantItem" .. i];
         local offsetY = -1 * i + 10 * (page - 1);
         source:ClearAllPoints();
-        source:SetPoint("TOP", 400 * (page - 1), offsetY * 80)
+        source:SetPoint("TOPLEFT", 400 * (page - 1), offsetY * 82)
         source:Show();
     end
+
+    --其余的都给ClearPoint掉 TODO:kangze
 end
 
 function BussniessTradeModule:HiddeMerchantSomeFrame()

@@ -2,7 +2,8 @@
     "Lua.diagnostics.disable": [
         "undefined-field",
         "inject-field",
-        "unused-function"
+        "unused-function",
+        "param-type-mismatch"
     ],
     "Lua.diagnostics.globals": [
         "MainMenuBar",

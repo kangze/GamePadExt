@@ -19,8 +19,6 @@ InfoPanel/widgets/MajorFactionRewardTemplate.xml
 Core.lua
 
 ToolKit/Default.lua
-ToolKit/AnimationFrame.lua
-ToolKit/EasingFunctions.lua
 ToolKit/Shadow.lua
 ToolKit/String.lua
 ActionBar/ActionBar.xml
