@@ -41,6 +41,27 @@ local function ApplyMoney(fontString, copper)
     fontString:SetFormattedText("%d%s %d%s %d%s", gold, goldIcon, silver, silverIcon, copper, copperIcon)
 end
 
+local function GetCannotBuyReason(index)
+    local tooltip = CreateFrame("GameTooltip", "MyTooltip", nil, "GameTooltipTemplate")
+    tooltip:SetOwner(WorldFrame, "ANCHOR_NONE")
+    tooltip:SetMerchantItem(index);
+
+    local reason = nil
+    for i = 1, tooltip:NumLines() do
+        local line = _G["MyTooltipTextLeft" .. i]
+        if line and line:GetText() then
+            local text = line:GetText();
+            if string.find(text, "获得") or string.find(text, "无法使用") then
+                reason = text
+                break
+            end
+        end
+    end
+
+    tooltip:Hide()
+    return reason
+end
+
 function BussniessTradeModule:OnInitialize()
     --DeveloperConsole:Toggle()
 
@@ -58,14 +79,14 @@ function BussniessTradeModule:OnInitialize()
 end
 
 function BussniessTradeModule:MERCHANT_SHOW()
-    -- -- 创建一个纯黑色背景 Texture
-    -- local frame = CreateFrame("Frame", nil, UIParent);
-    -- frame:SetAllPoints(UIParent);
-    -- frame.background = frame:CreateTexture(nil, "BACKGROUND")
-    -- frame.background:SetAllPoints(frame)
-    -- --frame.background:SetColorTexture(0, 0, 0, 1) -- 设置背景颜色为纯黑色
-    -- frame.background:SetAtlas("talents-background-priest-shadow");
-    -- frame:Show()
+    -- 创建一个纯黑色背景 Texture
+    local frame = CreateFrame("Frame", nil, UIParent);
+    frame:SetAllPoints(UIParent);
+    frame.background = frame:CreateTexture(nil, "BACKGROUND")
+    frame.background:SetAllPoints(frame)
+    --frame.background:SetColorTexture(0, 0, 0, 1) -- 设置背景颜色为纯黑色
+    frame.background:SetAtlas("talents-background-priest-shadow");
+    frame:Show()
 
     --legioninvasion-ScenarioTrackerToast
 
@@ -89,7 +110,7 @@ function BussniessTradeModule:MERCHANT_SHOW()
         source:ClearAllPoints();
         local offsetY = -1 * i + 10 * (page - 1);
         source:SetPoint("TOPLEFT", 400 * (page - 1), (offsetY) * 82);
-        local itemLink, cost, texture, itemQuality, isMoney = self:GetItemInfoByMerchantItemIndex(i);
+        local itemLink, cost, texture, itemQuality, isMoney, isUsable = self:GetItemInfoByMerchantItemIndex(i);
         local frame = CreateFrame("Frame", nil, _G["MerchantItem" .. i], "MerchantItemTemplate1");
         frame:SetPoint("CENTER");
         if (itemLink) then
@@ -104,6 +125,11 @@ function BussniessTradeModule:MERCHANT_SHOW()
             frame.costmoney:SetText(cost);
         end
         frame.icon:SetTexture(texture);
+        if (not isUsable) then
+            frame.icon:SetVertexColor(0.96078431372549, 0.50980392156863, 0.12549019607843, 1);
+            local reason = GetCannotBuyReason(i);
+            frame.forbidden:SetText(reason);
+        end
         frame.iconBorder:SetAtlas(QualityTexs[itemQuality]);
         frame:Group("group" .. page);
         frame:Show();
@@ -131,11 +157,11 @@ end
 
 function BussniessTradeModule:GetItemInfoByMerchantItemIndex(index)
     local itemLink = GetMerchantItemLink(index)
-    local _, texture, price = GetMerchantItemInfo(index)
+    local _, texture, price, _, _, isUsable = GetMerchantItemInfo(index)
     local currencyCount = GetMerchantItemCostInfo(index)
     local _, _, itemQuality = GetItemInfo(itemLink);
     if (currencyCount == 0) then
-        return itemLink, price, texture, itemQuality, true; --表示只要金币
+        return itemLink, price, texture, itemQuality, true, isUsable; --表示只要金币
     end
 
     local cost = "";
@@ -143,19 +169,33 @@ function BussniessTradeModule:GetItemInfoByMerchantItemIndex(index)
         local itemTexture, itemValue, itemLink, currencyName = GetMerchantItemCostItem(index, j);
         cost = cost .. itemValue;
         if (itemLink) then
-            local currencyID = tonumber(string.match(itemLink, "currency:(%d+)"))
-            local currencyInfo = C_CurrencyInfo.GetCurrencyInfo(currencyID)
-            if currencyInfo and currencyInfo.iconFileID then
-                local iconString = "|T" .. currencyInfo.iconFileID .. ":0|t"
-                cost = cost .." ".. iconString .. " " .. itemLink
-            else
-                print("Invalid currency ID: " .. currencyID)
+            if string.match(itemLink, "currency:(%d+)") then
+                -- This is a currency link
+                local currencyID = tonumber(string.match(itemLink, "currency:(%d+)"))
+                local currencyInfo = C_CurrencyInfo.GetCurrencyInfo(currencyID)
+                if currencyInfo and currencyInfo.iconFileID then
+                    local iconString = "|T" .. currencyInfo.iconFileID .. ":0|t"
+                    cost = cost .. " " .. iconString .. " " .. itemLink
+                else
+                    print("Invalid currency ID: " .. currencyID)
+                end
+            elseif string.match(itemLink, "item:(%d+)") then
+                -- This is an item link
+                local itemID = tonumber(string.match(itemLink, "item:(%d+)"))
+                local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemIcon, vendorPrice, itemClassID, itemSubClassID, bindType, expacID, itemSetID, isCraftingReagent =
+                    GetItemInfo(itemID)
+                if itemIcon then
+                    local iconString = "|T" .. itemIcon .. ":0|t"
+                    cost = cost .. " " .. iconString .. " " .. itemLink
+                else
+                    print("Invalid item ID: " .. itemID)
+                end
             end
         else
             cost = cost .. currencyName
         end
     end
-    return itemLink, cost, texture, itemQuality, false;
+    return itemLink, cost, texture, itemQuality, false, isUsable;
 end
 
 function BussniessTradeModule:UpdateMerchantPositions()

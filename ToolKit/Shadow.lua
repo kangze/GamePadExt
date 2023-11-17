@@ -44,19 +44,19 @@ end
 
 local function ScaleFadeIn(frame)
     local callback = function(current)
-        local current = OutSine(current, 1, 1.04, 0.1);
+        local current = OutSine(current, 1, 1.04, 0.3);
         frame:SetScale(current);
     end
-    local animation = CreateAnimationFrame(0.1, callback);
+    local animation = CreateAnimationFrame(0.3, callback);
     animation:Show();
 end
 
 local function ScaleFadeOut(frame)
     local callback = function(current)
-        local current = OutSine(current, 1.04,1, 0.1);
+        local current = OutSine(current, 1.04,1, 0.3);
         frame:SetScale(current);
     end
-    local animation = CreateAnimationFrame(0.1, callback);
+    local animation = CreateAnimationFrame(0.3, callback);
     animation:Show();
 end
 

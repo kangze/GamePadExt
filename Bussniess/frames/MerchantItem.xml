@@ -18,6 +18,7 @@
             <!--图标层-->
             <Layer level="ARTWORK">
                 <Texture parentKey="icon" file="Interface\Icons\ClassIcon_Mage">
+                    <!-- <Color r="0.96078431372549" g="0.50980392156863" b="0.12549019607843" a="1"/> -->
                     <Size x="52" y="52"/>
                     <Anchors>
                         <Anchor point="LEFT" x="10"/>
@@ -65,6 +66,15 @@
                     <FontHeight val="19"/>
                     <Anchors>
                         <Anchor point="LEFT" x="70" y="12"/>
+                    </Anchors>
+                </FontString>
+
+                <!--购买要求-->
+                <FontString parentKey="forbidden" text="" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
+                    <FontHeight val="9"/>
+                    <Color r="1" g="0" b="0"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="70" y="-5"/>
                     </Anchors>
                 </FontString>
 
