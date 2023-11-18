@@ -58,12 +58,6 @@ function MerchantModule:MERCHANT_SHOW()
     local pages = math.ceil(count / 10);
     MerchantFrame:SetSize(templeteWidth * pages + 100, UIParent:GetHeight());
 
-    local callback2 = function(currentItem)
-        HeaderFrameModule:SetFullScreen();
-        currentItem:SetParent(nil);
-        currentItem:SetFrameStrata("FullScreen");
-    end
-
     local callback = function(index, page, itemLink, cost, texture, itemQuality, isMoney, isUsable)
         local source = _G["MerchantItem" .. index];
         source:ClearAllPoints();
@@ -71,7 +65,7 @@ function MerchantModule:MERCHANT_SHOW()
         source:SetPoint("TOPLEFT", 230 * (page - 1), (offsetY) * 55);
         local frame = CreateFrame("Frame", nil, _G["MerchantItem" .. index], "MerchantItemTemplate1");
         frame:SetPoint("CENTER");
-        frame:RegisterGamePadButtonDown("PAD2", callback2);
+        MerchantModule:RegisterMerchantItemGamepadButtonDown(frame);
         if (itemLink) then
             itemLink = string.gsub(itemLink, "%[", "", 1);
             itemLink = string.gsub(itemLink, "%]", "", 1);
@@ -129,6 +123,21 @@ function MerchantModule:UpdateMerchantPositions()
     end
 
     --其余的都给ClearPoint掉 TODO:kangze
+end
+
+function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
+    local callback_select = function(currentItem)
+        HeaderFrameModule:SetFullScreen();
+        currentItem:SetParent(nil);
+        currentItem:SetFrameStrata("FullScreen");
+    end
+
+    local callback_up_down = function(currentItem)
+        HeaderFrameModule:SetBackground();
+    end
+    frame:RegisterGamePadButtonDown("PAD2", callback_select);
+    frame:RegisterGamePadButtonDown("PADDDOWN", callback_up_down);
+    frame:RegisterGamePadButtonDown("PADDUP", callback_up_down);
 end
 
 function MerchantModule:HiddeMerchantSomeFrame()
