@@ -26,8 +26,10 @@ Configuration.lua
 CastingBar/CastingBar.lua
 SoftTargetTooltip/SoftTargetTooltip.lua
 NamePlate/NamePlate.lua
-Bussniess/frames/MerchantItem.xml
-Bussniess/Bussniess.lua
+Merchant/frames/MerchantItem.xml
+Merchant/MerchantApi.lua
+Merchant/MerchantModule.lua
+
 Main/frames/Header.xml
 
 

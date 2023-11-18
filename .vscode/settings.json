@@ -3,7 +3,8 @@
         "undefined-field",
         "inject-field",
         "unused-function",
-        "param-type-mismatch"
+        "param-type-mismatch",
+        "undefined-global"
     ],
     "Lua.diagnostics.globals": [
         "MainMenuBar",
@@ -241,6 +242,7 @@
         "MerchantMoneyInset",
         "MerchantPageText",
         "MERCHANT",
-        "OpenAllBags"
+        "OpenAllBags",
+        "BussniessApi"
     ]
 }
