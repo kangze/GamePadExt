@@ -21,16 +21,18 @@ local NamePlateModule = Gpe:NewModule("NamePlateModule", "AceEvent-3.0");
 local MerchantModule = Gpe:NewModule("MerchantModule", "AceEvent-3.0", "AceHook-3.0");
 local ToolKitModule = Gpe:NewModule("ToolKitModule");
 
+--配置配置的默认值存储
+AddonData.registration = { profile = {}, options = { type = "group", args = {} } };
+
 
 function Gpe:OnInitialize()
-    --配置配置的默认值存储
-    AddonData.registration = { profile = {}, options = { type = "group", args = {} } };
-end
-
-function Gpe:OnEnable()
     --配置db
     local db = AceDB:New('GamePadExtDB', { profile = AddonData.registration.profile }, true)
     AddonData.db = db;
+end
+
+function Gpe:OnEnable()
+    
 end
 
 function Gpe:OnDisable()
@@ -73,12 +75,4 @@ function Gpe:Close()
     --Addon.mainFrame:Hide();
 end
 
-function Gpe:AddApi(frameType, name, func)
-    self:AddFrameApi(name, func);
-end
 
-function Gpe:AddFrameApi(name, func)
-    local frame = CreateFrame("Frame");
-    local mk = getmetatable(frame).__index;
-    if not mk[name] then mk[name] = func end
-end

@@ -13,14 +13,14 @@ local SettingModule = Gpe:GetModule('SettingModule')
 
 
 function SettingModule:OnInitialize()
-    local options = AddonData.registration.options;
-    self.options = options;
+    
 end
 
 function SettingModule:OnEnable()
+    local options = AddonData.registration.options;
     local db = AddonData.db;
-    self.options.args["profiles"] = LibStub("AceDBOptions-3.0"):GetOptionsTable(db);
-    config:RegisterOptionsTable("GamePadExt", self.options);
+    options.args["profiles"] = LibStub("AceDBOptions-3.0"):GetOptionsTable(db);
+    config:RegisterOptionsTable("GamePadExt", options);
 end
 
 function SettingModule:OpenSettingPanle()

@@ -17,42 +17,13 @@ InfoPanel/widgets/MajorFactionRewardTemplate.xml
 
 
 Core.lua
-
-ToolKit/Default.lua
-ToolKit/Shadow.lua
-ToolKit/String.lua
-Configuration.lua
-
-
-
+ToolKit/loads.xml
 
 modules/merchant/loads.xml
 modules/actionbar/loads.xml
 modules/CastingBar/loads.xml
 modules/SoftTargetTooltip/loads.xml
 modules/NamePlate/loads.xml
+modules/Setting/loads.xml
 
 Main/frames/Header.xml
-
-
-
-# ToolKit/CameraMover.lua
-# ToolKit/String.lua
-# Default.lua
-# InfoPanel/Core.lua
-# InfoPanel/Container.lua
-# InfoPanel/Expansion.lua
-# InfoPanel/Faction.lua
-# InfoPanel/Frame.lua
-
-# CastingBar/CastingBar.lua
-# HeaderExt.lua
-# GamePadVribration.lua
-# BuffFrom.lua
-# Fonts.lua
-
-
-
-# Configuration.lua
-
-
