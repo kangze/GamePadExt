@@ -3,7 +3,7 @@
 ..\..\FrameXML\UI.xsd">
     <Script file="MerchantItemMixin.lua"/>
     <Frame name="MerchantItemTemplate1" hidden="false" virtual="true" frameStrata="FULLSCREEN" enableMouse="true" inherits="BackdropTemplate" mixin="MerchantItemMixin">
-        <Size x="350" y="75"/>
+        <Size x="210" y="45"/>
         <Anchors>
             <Anchor point="CENTER" />
         </Anchors>
@@ -19,33 +19,43 @@
             <Layer level="ARTWORK">
                 <Texture parentKey="icon" file="Interface\Icons\ClassIcon_Mage">
                     <!-- <Color r="0.96078431372549" g="0.50980392156863" b="0.12549019607843" a="1"/> -->
-                    <Size x="52" y="52"/>
+                    <Size x="32" y="32"/>
                     <Anchors>
                         <Anchor point="LEFT" x="10"/>
                     </Anchors>
                 </Texture>
             </Layer>
+            <!--图标的边框-->
+            <Layer level="OVERLAY">
+                <Texture parentKey="iconBorder" atlas="loottoast-itemborder-orange">
+                    <Size x="35" y="35"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="8" y=""/>
+                    </Anchors>
+                    <!-- <TexCoords left="0.0" right="0.6" top="0.0" bottom="0.6"/> -->
+                </Texture>
+            </Layer>
 
             <Layer level="ARTWORK">
                 <!--价格花费-->
-                <FontString parentKey="costmoney" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
-                    <FontHeight val="17"/>
+                <FontString parentKey="costmoney" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="RIGHT" justifyV="TOP">
+                    <FontHeight val="10"/>
                     <Anchors>
-                        <Anchor point="BOTTOMRIGHT" x="-110" y="3"/>
+                        <Anchor point="BOTTOMRIGHT" x="-65" y="3"/>
                     </Anchors>
                 </FontString>
 
                 <!--商品名称-->
                 <FontString parentKey="productName" text="咸湿的鲨鱼饵的咸饼干" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
-                    <FontHeight val="19"/>
+                    <FontHeight val="12"/>
                     <Anchors>
-                        <Anchor point="LEFT" x="70" y="12"/>
+                        <Anchor point="LEFT" x="48" y="9"/>
                     </Anchors>
                 </FontString>
 
                 <!--购买要求-->
                 <FontString parentKey="forbidden" text="" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
-                    <FontHeight val="9"/>
+                    <FontHeight val="7"/>
                     <Color r="1" g="0" b="0"/>
                     <Anchors>
                         <Anchor point="LEFT" x="70" y="-5"/>
@@ -53,26 +63,12 @@
                 </FontString>
 
             </Layer>
-
-            <Layer level="ARTWORK">
-
-            </Layer>
-
-            <!--图标的边框-->
-            <Layer level="OVERLAY">
-                <Texture parentKey="iconBorder" atlas="loottoast-itemborder-orange">
-                    <Size x="60" y="60"/>
-                    <Anchors>
-                        <Anchor point="LEFT" x="5" y=""/>
-                    </Anchors>
-                    <!-- <TexCoords left="0.0" right="0.6" top="0.0" bottom="0.6"/> -->
-                </Texture>
-            </Layer>
+            
         </Layers>
 
         <Frames>
             <Frame parentKey="buyFrame">
-                <Size x="100" y="35"/>
+                <Size x="60" y="25"/>
                 <Anchors>
                     <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
                 </Anchors>
@@ -85,7 +81,7 @@
 
                         <!--PS图标-->
                         <Texture parentKey="psx" file="Interface\AddOns\GamePadExt\media\gamepad\ps_r_cross">
-                            <Size x="30" y="30"/>
+                            <Size x="20" y="20"/>
                             <Anchors>
                                 <Anchor point="BOTTOMRIGHT" x="-4" y="2"/>
                             </Anchors>
@@ -93,9 +89,9 @@
 
                         <!--购买文字-->
                         <FontString parentKey="text" text="购买" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
-                            <FontHeight val="18"/>
+                            <FontHeight val="12"/>
                             <Anchors>
-                                <Anchor point="CENTER" x="-15"/>
+                                <Anchor point="CENTER" x="-12"/>
                             </Anchors>
                         </FontString>
 

@@ -9,6 +9,7 @@ function MerchantApi:PreProccessItemsInfo(callback)
     local numItems = GetMerchantNumItems();
     local itemProcesseds = {};
 
+
     for i = 1, numItems do
         local itemLink = GetMerchantItemLink(i)
         if itemLink then
@@ -33,40 +34,40 @@ function MerchantApi:ProccessMerchantItemsInfo(callback)
         local _, _, itemQuality = GetItemInfo(itemLink);
         if (currencyCount == 0) then
             callback(index, page, itemLink, price, texture, itemQuality, true, isUsable);
-        end
-
-        local cost = "";
-        for j = 1, currencyCount do
-            local itemTexture, itemValue, itemLink, currencyName = GetMerchantItemCostItem(index, j);
-            cost = cost .. itemValue;
-            if (itemLink) then
-                if string.match(itemLink, "currency:(%d+)") then
-                    -- This is a currency link
-                    local currencyID = tonumber(string.match(itemLink, "currency:(%d+)"))
-                    local currencyInfo = C_CurrencyInfo.GetCurrencyInfo(currencyID)
-                    if currencyInfo and currencyInfo.iconFileID then
-                        local iconString = "|T" .. currencyInfo.iconFileID .. ":0|t"
-                        cost = cost .. " " .. iconString .. " " .. itemLink
-                    else
-                        print("Invalid currency ID: " .. currencyID)
+        else
+            local cost = "";
+            for j = 1, currencyCount do
+                local itemTexture, itemValue, itemLink, currencyName = GetMerchantItemCostItem(index, j);
+                cost = cost .. itemValue;
+                if (itemLink) then
+                    if string.match(itemLink, "currency:(%d+)") then
+                        -- This is a currency link
+                        local currencyID = tonumber(string.match(itemLink, "currency:(%d+)"))
+                        local currencyInfo = C_CurrencyInfo.GetCurrencyInfo(currencyID)
+                        if currencyInfo and currencyInfo.iconFileID then
+                            local iconString = "|T" .. currencyInfo.iconFileID .. ":0|t"
+                            cost = cost .. " " .. iconString .. " " .. itemLink
+                        else
+                            print("Invalid currency ID: " .. currencyID)
+                        end
+                    elseif string.match(itemLink, "item:(%d+)") then
+                        -- This is an item link
+                        local itemID = tonumber(string.match(itemLink, "item:(%d+)"))
+                        local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemIcon, vendorPrice, itemClassID, itemSubClassID, bindType, expacID, itemSetID, isCraftingReagent =
+                            GetItemInfo(itemID)
+                        if itemIcon then
+                            local iconString = "|T" .. itemIcon .. ":0|t"
+                            cost = cost .. " " .. iconString .. " " .. itemLink
+                        else
+                            print("Invalid item ID: " .. itemID)
+                        end
                     end
-                elseif string.match(itemLink, "item:(%d+)") then
-                    -- This is an item link
-                    local itemID = tonumber(string.match(itemLink, "item:(%d+)"))
-                    local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemIcon, vendorPrice, itemClassID, itemSubClassID, bindType, expacID, itemSetID, isCraftingReagent =
-                        GetItemInfo(itemID)
-                    if itemIcon then
-                        local iconString = "|T" .. itemIcon .. ":0|t"
-                        cost = cost .. " " .. iconString .. " " .. itemLink
-                    else
-                        print("Invalid item ID: " .. itemID)
-                    end
+                else
+                    cost = cost .. currencyName
                 end
-            else
-                cost = cost .. currencyName
             end
+            callback(index, page, itemLink, cost, texture, itemQuality, false, isUsable);
         end
-        callback(index, page, itemLink, cost, texture, itemQuality, false, isUsable);
     end
 end
 

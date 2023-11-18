@@ -19,7 +19,7 @@
         <Frames>
 
             <Frame parentKey="buyFrame">
-                <Size x="130" y="45"/>
+                <Size x="130" y="30"/>
                 <Anchors>
                     <Anchor point="LEFT" x="40"/>
                 </Anchors>
@@ -40,7 +40,7 @@
             </Frame>
 
             <Frame parentKey="rebuyFrame">
-                <Size x="130" y="45"/>
+                <Size x="130" y="30"/>
                 <Anchors>
                     <Anchor point="LEFT" relativeKey="$parent.buyFrame" relativePoint="RIGHT"/>
                 </Anchors>
@@ -61,7 +61,7 @@
             </Frame>
 
             <Frame parentKey="money">
-                <Size x="100" y="45"/>
+                <Size x="100" y="35"/>
                 <Anchors>
                     <Anchor point="RIGHT" />
                 </Anchors>
@@ -73,7 +73,7 @@
                     </Layer>
                     <Layer level="ARTWORK">
                         <Texture parentKey="coin" atlas="lootroll-rollicon-yourolled-greed">
-                            <Size x="40" y="40"/>
+                            <Size x="40" y="35"/>
                             <Anchors>
                                 <Anchor point="RIGHT" x=""/>
                             </Anchors>

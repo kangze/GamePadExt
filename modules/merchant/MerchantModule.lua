@@ -13,7 +13,6 @@ function MerchantModule:OnInitialize()
 
     self:RegisterEvent("MERCHANT_SHOW");
     self:RegisterEvent("MERCHANT_CLOSED")
-    self:SecureHook("MerchantFrame_UpdateMerchantInfo", "UpdateMerchantPositions");
     --self:SecureHook("OpenAllBags", "test");
 
     _G.MERCHANT_ITEMS_PER_PAG = 60;
@@ -26,6 +25,7 @@ end
 
 function MerchantModule:OnEnable()
     HeaderFrameModule = Gpe:GetModule('HeaderFrameModule');
+    self:SecureHook("MerchantFrame_UpdateMerchantInfo", "UpdateMerchantPositions");
 end
 
 function MerchantModule:MERCHANT_SHOW()
@@ -41,32 +41,37 @@ function MerchantModule:MERCHANT_SHOW()
     --legioninvasion-ScenarioTrackerToast
 
     HeaderFrameModule:ShowAll();
-    
-    --UIParent:SetAlpha(0);
+
+    UIParent:SetAlpha(0);
 
 
     self:HiddeMerchantSomeFrame();
     MerchantFrame:ClearAllPoints();
-    --MerchantFrame:SetParent(nil);
-    MerchantFrame:SetPoint("CENTER", UIParent);
+    MerchantFrame:SetParent(nil);
+    MerchantFrame:SetPoint("TOP", HeaderFrameModule:GetHeaderFrame());
     --设置为FULLSCREEN
-    
+
 
     local count = GetMerchantNumItems();
 
-    local templeteWidth = 350;
+    local templeteWidth = 210;
     local pages = math.ceil(count / 10);
     MerchantFrame:SetSize(templeteWidth * pages + 100, UIParent:GetHeight());
 
+    local callback2 = function(currentItem)
+        HeaderFrameModule:SetFullScreen();
+        currentItem:SetParent(nil);
+        currentItem:SetFrameStrata("FullScreen");
+    end
 
     local callback = function(index, page, itemLink, cost, texture, itemQuality, isMoney, isUsable)
         local source = _G["MerchantItem" .. index];
         source:ClearAllPoints();
         local offsetY = -1 * index + 10 * (page - 1);
-        source:SetPoint("TOPLEFT", 400 * (page - 1), (offsetY) * 82);
+        source:SetPoint("TOPLEFT", 230 * (page - 1), (offsetY) * 55);
         local frame = CreateFrame("Frame", nil, _G["MerchantItem" .. index], "MerchantItemTemplate1");
         frame:SetPoint("CENTER");
-
+        frame:RegisterGamePadButtonDown("PAD2", callback2);
         if (itemLink) then
             itemLink = string.gsub(itemLink, "%[", "", 1);
             itemLink = string.gsub(itemLink, "%]", "", 1);
@@ -108,21 +113,18 @@ end
 -- local group = Masque:Group("GamePadExt", "MerchantItem");
 -- group:AddButton(MerchantItem.button);
 
-function MerchantModule:GetItemInfoByMerchantItemIndex(index)
-
-end
-
 function MerchantModule:UpdateMerchantPositions()
     self:HiddeMerchantSomeFrame();
     MerchantFrame:ClearAllPoints();
-    MerchantFrame:SetPoint("CENTER", UIParent);
+    MerchantFrame:SetParent(nil);
+    MerchantFrame:SetPoint("TOP", HeaderFrameModule:GetHeaderFrame());
     local count = GetMerchantNumItems();
     for i = 1, count do
         local page = math.ceil(i / 10)
         local source = _G["MerchantItem" .. i];
         local offsetY = -1 * i + 10 * (page - 1);
         source:ClearAllPoints();
-        source:SetPoint("TOPLEFT", 400 * (page - 1), offsetY * 82)
+        source:SetPoint("TOPLEFT", 230 * (page - 1), offsetY * 55)
         source:Show();
     end
 
@@ -217,7 +219,4 @@ function MerchantModule:HiddeMerchantSomeFrame()
     if MerchantFrame.NineSlice then
         MerchantFrame.NineSlice:Hide()
     end
-end
-
-function MerchantModule:test()
 end

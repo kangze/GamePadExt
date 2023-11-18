@@ -1,6 +1,7 @@
 local _, AddonData = ...;
 MerchantItemMixin = {};
 MerchatItemGroups = {};
+MerchatGamePadButtonEventCallBacks = {};
 
 function MerchantItemMixin:OnLoad()
     self:InitShadowAndAnimation();
@@ -22,9 +23,9 @@ end
 function MerchantItemMixin:OnEnter()
     self:ShowShadowFadeIn();
     self:ScaleFadeIn();
-    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-    GameTooltip:SetHyperlink(self.productName:GetText());
-    GameTooltip:Show()
+    -- GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+    -- GameTooltip:SetHyperlink(self.productName:GetText());
+    -- GameTooltip:Show()
 end
 
 function MerchantItemMixin:OnGamePadButtonDown(...)
@@ -66,8 +67,11 @@ function MerchantItemMixin:OnGamePadButtonDown(...)
     MerchatItemGroups.currentIndex = currentIndex;
     MerchatItemGroups.currentGroupIndex = currentGroupIndex;
 
-    MerchatItemGroups._group[preGroupIndex + 1][preIndex + 1]:OnLeave();
-    MerchatItemGroups._group[currentGroupIndex + 1][currentIndex + 1]:OnEnter();
+    local preItem=MerchatItemGroups._group[preGroupIndex + 1][preIndex + 1];
+    local currentItem=MerchatItemGroups._group[currentGroupIndex + 1][currentIndex + 1];
+    
+    preItem:OnLeave();
+    currentItem:OnEnter();
 
     --开始购买 X:PAD1 O:PAD2 []:PAD3
     if (key == "PAD1") then
@@ -75,9 +79,13 @@ function MerchantItemMixin:OnGamePadButtonDown(...)
         BuyMerchantItem(currentIndex + 1, 1);
     end
 
-    if (key == "PAD2") then
-        --self.background:SetVertexColor(0.153, 0.302, 0.239, 0.8);
+    if(MerchatGamePadButtonEventCallBacks[key]) then
+        MerchatGamePadButtonEventCallBacks[key](currentItem);
     end
+    -- if (key == "PAD2") then
+    --     item:SetParent(nil);
+    --     item:SetFrameStrata("FullScreen");
+    -- end
 end
 
 --主要区分左右排列，二组永远在第一组右边
@@ -96,4 +104,8 @@ function MerchantItemMixin:Group(name)
     end
 
     table.insert(group[#group], self);
+end
+
+function MerchantItemMixin:RegisterGamePadButtonDown(key, callback)
+    MerchatGamePadButtonEventCallBacks[key] = callback;
 end

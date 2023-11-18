@@ -4,11 +4,12 @@ HeaderFrameMixin = {};
 
 function HeaderFrameMixin:OnLoad()
     --self:EnableGamePadButton(true);
-    local width = UIParent:GetWidth();
-    self:SetSize(width, 45);
-    
+    local scale = UIParent:GetEffectiveScale();
+    local width = GetScreenWidth() * scale
+    local height = 30;
+    self:SetSize(width, height);
 end
 
 function HeaderFrameMixin:OnEnter()
-    
+
 end

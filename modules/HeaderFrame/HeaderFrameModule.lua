@@ -11,15 +11,17 @@ function HeaderFrameModule:OnInitialize()
 end
 
 function HeaderFrameModule:OnEnable()
-    local headFrame = CreateFrame("Frame", nil, UIParent, "HeaderFrameTemplate");
-    headFrame:SetPoint("TOP", UIParent);
+    local headFrame = CreateFrame("Frame", nil, nil, "HeaderFrameTemplate");
+    headFrame:SetPoint("TOP", UIParent, 0, 0);
+
     headFrame:InitShowFadeInAndOut();
     headFrame:InitShadowAndAnimation();
     headFrame:ShowShadow();
     self.headFrame = headFrame;
 
-    local bodyFrame = CreateFrame("Frame", nil, UIParent, "BodyFrameTemplate");
-    bodyFrame:SetPoint("BOTTOM", UIParent);
+    local bodyFrame = CreateFrame("Frame", nil, nil, "BodyFrameTemplate");
+    bodyFrame:ClearAllPoints();
+    bodyFrame:SetPoint("TOP", headFrame, "BOTTOM", 0, 0);
     self.bodyFrame = bodyFrame;
 end
 
@@ -30,4 +32,16 @@ end
 
 function HeaderFrameModule:HideBody()
     self.bodyFrame:Hide();
-end 
+end
+
+function HeaderFrameModule:GetHeaderFrame()
+    return self.headFrame
+end
+
+function HeaderFrameModule:SetBackground()
+    self.bodyFrame:SetFrameStrata("BACKGROUND");
+end
+
+function HeaderFrameModule:SetFullScreen()
+    self.bodyFrame:SetFrameStrata("FULLSCREEN");
+end
