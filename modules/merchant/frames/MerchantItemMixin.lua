@@ -74,6 +74,10 @@ function MerchantItemMixin:OnGamePadButtonDown(...)
         --BUG:有一个分组的情况要进行一个考虑
         BuyMerchantItem(currentIndex + 1, 1);
     end
+
+    if (key == "PAD2") then
+        --self.background:SetVertexColor(0.153, 0.302, 0.239, 0.8);
+    end
 end
 
 --主要区分左右排列，二组永远在第一组右边

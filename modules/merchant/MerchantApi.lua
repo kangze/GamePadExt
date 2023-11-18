@@ -14,14 +14,11 @@ function MerchantApi:PreProccessItemsInfo(callback)
         if itemLink then
             local item = Item:CreateFromItemLink(itemLink)
             item:ContinueOnItemLoad(function()
-                table.insert(itemProcesseds, 1);
-                print(#itemProcesseds);
+                table.insert(itemProcesseds, 1)
                 if #itemProcesseds == numItems then
                     MerchantApi:ProccessMerchantItemsInfo(callback)
                 end
             end)
-        else
-            table.insert(itemProcesseds, 1);
         end
     end
 end
@@ -30,13 +27,12 @@ function MerchantApi:ProccessMerchantItemsInfo(callback)
     local numItems = GetMerchantNumItems();
     for index = 1, numItems do
         local page = math.ceil(index / 10)
-        local itemLink = GetMerchantItemLink(index)
+        local itemLink = GetMerchantItemLink(index);
         local _, texture, price, _, _, isUsable = GetMerchantItemInfo(index)
         local currencyCount = GetMerchantItemCostInfo(index)
         local _, _, itemQuality = GetItemInfo(itemLink);
         if (currencyCount == 0) then
-            callback(index,page,itemLink, price, texture, itemQuality, true, isUsable);
-            return;
+            callback(index, page, itemLink, price, texture, itemQuality, true, isUsable);
         end
 
         local cost = "";
@@ -70,10 +66,9 @@ function MerchantApi:ProccessMerchantItemsInfo(callback)
                 cost = cost .. currencyName
             end
         end
-        callback(index,page,itemLink, cost, texture, itemQuality, false, isUsable);
+        callback(index, page, itemLink, cost, texture, itemQuality, false, isUsable);
     end
 end
-
 
 function MerchantApi:GetCannotBuyReason(index)
     local tooltip = C_TooltipInfo.GetMerchantItem(index);

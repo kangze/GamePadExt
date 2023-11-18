@@ -6,39 +6,7 @@ local MerchantModule = Gpe:GetModule('MerchantModule');
 
 local currentItems = {};
 
--- 0：粗糙（灰色）
--- 1：普通（白色）
--- 2：优秀（绿色）
--- 3：稀有（蓝色）
--- 4：史诗（紫色）
--- 5：传说（橙色）
--- 6：神器（金色）
--- 7：绑定（绿色）
--- 8：任务（白色）
-local QualityTexs = {
-    [0] = "loottoast-itemborder-gray",
-    [1] = "loottoast-itemborder-gray",
-    [2] = "loottoast-itemborder-green",
-    [3] = "loottoast-itemborder-blue",
-    [4] = "loottoast-itemborder-purple",
-    [5] = "loottoast-itemborder-orange",
-    [6] = "loottoast-itemborder-artifact",
-    [7] = "loottoast-itemborder-green",
-    [8] = "loottoast-itemborder-gray",
-}
-
-local function ApplyMoney(fontString, copper)
-    local gold = math.floor(copper / 10000)
-    copper = copper - gold * 10000
-    local silver = math.floor(copper / 100)
-    copper = copper - silver * 100
-
-    local goldIcon = "|TInterface\\MoneyFrame\\UI-GoldIcon:14:14:2:0|t"
-    local silverIcon = "|TInterface\\MoneyFrame\\UI-SilverIcon:14:14:2:0|t"
-    local copperIcon = "|TInterface\\MoneyFrame\\UI-CopperIcon:14:14:2:0|t"
-
-    fontString:SetFormattedText("%d%s %d%s %d%s", gold, goldIcon, silver, silverIcon, copper, copperIcon)
-end
+local HeaderFrameModule = nil;
 
 function MerchantModule:OnInitialize()
     --DeveloperConsole:Toggle()
@@ -56,6 +24,10 @@ function MerchantModule:OnInitialize()
     end
 end
 
+function MerchantModule:OnEnable()
+    HeaderFrameModule = Gpe:GetModule('HeaderFrameModule');
+end
+
 function MerchantModule:MERCHANT_SHOW()
     -- 创建一个纯黑色背景 Texture
     -- local frame = CreateFrame("Frame", nil, UIParent);
@@ -68,11 +40,17 @@ function MerchantModule:MERCHANT_SHOW()
 
     --legioninvasion-ScenarioTrackerToast
 
+    HeaderFrameModule:ShowAll();
+    
+    --UIParent:SetAlpha(0);
 
 
     self:HiddeMerchantSomeFrame();
     MerchantFrame:ClearAllPoints();
+    --MerchantFrame:SetParent(nil);
     MerchantFrame:SetPoint("CENTER", UIParent);
+    --设置为FULLSCREEN
+    
 
     local count = GetMerchantNumItems();
 
@@ -88,7 +66,7 @@ function MerchantModule:MERCHANT_SHOW()
         source:SetPoint("TOPLEFT", 400 * (page - 1), (offsetY) * 82);
         local frame = CreateFrame("Frame", nil, _G["MerchantItem" .. index], "MerchantItemTemplate1");
         frame:SetPoint("CENTER");
-        print(frame);
+
         if (itemLink) then
             itemLink = string.gsub(itemLink, "%[", "", 1);
             itemLink = string.gsub(itemLink, "%]", "", 1);
@@ -96,17 +74,17 @@ function MerchantModule:MERCHANT_SHOW()
         frame.productName:SetText(itemLink);
         frame.itemLink = itemLink;
         if (isMoney) then
-            ApplyMoney(frame.costmoney, cost);
+            frame.costmoney:ApplyMoney(cost)
         else
             frame.costmoney:SetText(cost);
         end
         frame.icon:SetTexture(texture);
         if (not isUsable) then
             frame.icon:SetVertexColor(0.96078431372549, 0.50980392156863, 0.12549019607843, 1);
-            local reason =MerchantApi:GetCannotBuyReason(index);
+            local reason = MerchantApi:GetCannotBuyReason(index);
             frame.forbidden:SetText(reason);
         end
-        frame.iconBorder:SetAtlas(QualityTexs[itemQuality]);
+        frame.iconBorder:SetAtlas(GetQualityBorder(itemQuality));
         frame:Group("group" .. page);
         frame:Show();
         table.insert(currentItems, frame);
@@ -116,16 +94,14 @@ function MerchantModule:MERCHANT_SHOW()
 end
 
 function MerchantModule:MERCHANT_CLOSED()
+    HeaderFrameModule:HideBody();
+    UIParent:SetAlpha(1);
     for i = 1, #currentItems do
         currentItems[i]:EnableGamePadButton(false);
         currentItems[i]:UnregisterAllEvents();
         currentItems[i]:Hide();
         MerchatItemGroups = {};
     end
-end
-
-function MerchantModule:OnEnable()
-
 end
 
 --Sample:Masque

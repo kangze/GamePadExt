@@ -1,41 +1,27 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\..\FrameXML\UI.xsd">
-    <Script file="HeaderMixin.lua"/>
-    <Frame frameStrata="DIALOG" enableMouse="true" mixin="HeaderMixin">
+    <Script file="HeaderFrameMixin.lua"/>
+    <Frame name="HeaderFrameTemplate" virtual="true" frameStrata="DIALOG" enableMouse="true" mixin="HeaderFrameMixin">
         <Anchors>
             <Anchor point="TOP" />
         </Anchors>
         <Layers>
+
             <Layer level="BACKGROUND">
-                <Texture parentKey="background1">
+                <!--头部背景-->
+                <Texture parentKey="background">
                     <Color r="0.27450980392157" g="0.27058823529412" b="0.27843137254902" a="1"/>
                 </Texture>
-            </Layer>
-
-            <Layer level="ARTWORK">
-                <Texture parentKey="coin" atlas="lootroll-rollicon-yourolled-greed">
-                    <Size x="40" y="40"/>
-                    <Anchors>
-                        <Anchor point="RIGHT" x="-270"/>
-                    </Anchors>
-                </Texture>
-
-                <FontString parentKey="text" text="5,000" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
-                    <FontHeight val="14"/>
-                    <Anchors>
-                        <Anchor point="RIGHT" relativeKey="$parent.coin" relativePoint="LEFT" x="10" y="-2"/>
-                    </Anchors>
-                </FontString>
             </Layer>
         </Layers>
 
         <Frames>
 
-            <Frame>
-                <Size x="100" y="30"/>
+            <Frame parentKey="buyFrame">
+                <Size x="130" y="45"/>
                 <Anchors>
-                    <Anchor point="LEFT" x="330"/>
+                    <Anchor point="LEFT" x="40"/>
                 </Anchors>
                 <Layers>
                     <Layer level="ARTWORK">
@@ -44,7 +30,7 @@
                         </Texture>
 
                         <FontString parentKey="text" text="购买" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
-                            <FontHeight val="14"/>
+                            <FontHeight val="18"/>
                             <Anchors>
                                 <Anchor point="CENTER"/>
                             </Anchors>
@@ -53,10 +39,10 @@
                 </Layers>
             </Frame>
 
-            <Frame>
-                <Size x="100" y="30"/>
+            <Frame parentKey="rebuyFrame">
+                <Size x="130" y="45"/>
                 <Anchors>
-                    <Anchor point="LEFT" x="430"/>
+                    <Anchor point="LEFT" relativeKey="$parent.buyFrame" relativePoint="RIGHT"/>
                 </Anchors>
                 <Layers>
                     <Layer level="ARTWORK">
@@ -65,7 +51,7 @@
                         </Texture>
 
                         <FontString parentKey="text" text="已售出" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
-                            <FontHeight val="14"/>
+                            <FontHeight val="18"/>
                             <Anchors>
                                 <Anchor point="CENTER"/>
                             </Anchors>
@@ -74,6 +60,34 @@
                 </Layers>
             </Frame>
 
+            <Frame parentKey="money">
+                <Size x="100" y="45"/>
+                <Anchors>
+                    <Anchor point="RIGHT" />
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="background">
+                            <Color r="0.165" g="0.361" b="0.792" a="1"/>
+                        </Texture>
+                    </Layer>
+                    <Layer level="ARTWORK">
+                        <Texture parentKey="coin" atlas="lootroll-rollicon-yourolled-greed">
+                            <Size x="40" y="40"/>
+                            <Anchors>
+                                <Anchor point="RIGHT" x=""/>
+                            </Anchors>
+                        </Texture>
+
+                        <FontString parentKey="money" text="5,000" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
+                            <FontHeight val="18"/>
+                            <Anchors>
+                                <Anchor point="RIGHT" relativeKey="$parent.coin" relativePoint="LEFT" x="10" y="-2"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
         </Frames>
 
         <Scripts>

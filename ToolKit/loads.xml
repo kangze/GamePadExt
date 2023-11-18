@@ -6,4 +6,6 @@
     <Script file="Anchor.lua"/>
     <Script file="Shadow.lua"/>
     <Script file="String.lua"/>
+    <Script file="Texture.lua"/>
+    <Script file="FontString.lua"/>
 </Ui>

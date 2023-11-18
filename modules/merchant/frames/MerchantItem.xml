@@ -2,7 +2,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\..\FrameXML\UI.xsd">
     <Script file="MerchantItemMixin.lua"/>
-    <Frame name="MerchantItemTemplate1" hidden="false" virtual="true" frameStrata="DIALOG" enableMouse="true" inherits="BackdropTemplate" mixin="MerchantItemMixin">
+    <Frame name="MerchantItemTemplate1" hidden="false" virtual="true" frameStrata="FULLSCREEN" enableMouse="true" inherits="BackdropTemplate" mixin="MerchantItemMixin">
         <Size x="350" y="75"/>
         <Anchors>
             <Anchor point="CENTER" />
@@ -10,7 +10,7 @@
 
         <Layers>
             <Layer level="BACKGROUND">
-                <Texture parentKey="tex_background">
+                <Texture parentKey="background">
                     <Color r="0.27450980392157" g="0.27058823529412" b="0.27843137254902" a="1"/>
                 </Texture>
             </Layer>
@@ -27,32 +27,6 @@
             </Layer>
 
             <Layer level="ARTWORK">
-
-                <!--PS X 图标的背景-->
-                <Texture parentKey="psx_background" file="Interface\AddOns\GamePadExt\media\texture\BuyButtonMask">
-                    <Size x="100" y="35"/>
-                    <Anchors>
-                        <Anchor point="BOTTOMRIGHT" x="-4" y="4"/>
-                    </Anchors>
-                    <TexCoords left="0.1" right="0.9" top="0" bottom="1"/>
-                </Texture>
-
-                <!--PS图标-->
-                <Texture parentKey="psx" file="Interface\AddOns\GamePadExt\media\gamepad\ps_r_cross">
-                    <Size x="33" y="33"/>
-                    <Anchors>
-                        <Anchor point="BOTTOMRIGHT" x="-4" y="5"/>
-                    </Anchors>
-                </Texture>
-
-                <!--购买文字-->
-                <FontString parentKey="text" text="购买" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
-                    <FontHeight val="22"/>
-                    <Anchors>
-                        <Anchor point="BOTTOMRIGHT" x="-40" y="9"/>
-                    </Anchors>
-                </FontString>
-
                 <!--价格花费-->
                 <FontString parentKey="costmoney" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
                     <FontHeight val="17"/>
@@ -96,6 +70,39 @@
             </Layer>
         </Layers>
 
+        <Frames>
+            <Frame parentKey="buyFrame">
+                <Size x="100" y="35"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <!--PS X 图标的背景-->
+                        <Texture  parentKey="psx_background" file="Interface\AddOns\GamePadExt\media\texture\BuyButtonMask" setAllPoints="true">
+                            <TexCoords left="0.1" right="0.9" top="0" bottom="1"/>
+                        </Texture>
+
+                        <!--PS图标-->
+                        <Texture parentKey="psx" file="Interface\AddOns\GamePadExt\media\gamepad\ps_r_cross">
+                            <Size x="30" y="30"/>
+                            <Anchors>
+                                <Anchor point="BOTTOMRIGHT" x="-4" y="2"/>
+                            </Anchors>
+                        </Texture>
+
+                        <!--购买文字-->
+                        <FontString parentKey="text" text="购买" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
+                            <FontHeight val="18"/>
+                            <Anchors>
+                                <Anchor point="CENTER" x="-15"/>
+                            </Anchors>
+                        </FontString>
+
+                    </Layer>
+                </Layers>
+            </Frame>
+        </Frames>
         <Scripts>
             <OnLoad method="OnLoad"/>
             <!-- <OnEnter method="OnEnter"/>

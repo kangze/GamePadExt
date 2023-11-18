@@ -1,0 +1,9 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+    <Script file="frames\HeaderFrameMixin.lua"/>
+    <Script file="frames\BodyFrameMixin.lua"/>
+    <Include file="frames\HeaderFrame.xml"/>
+    <Include file="frames\BodyFrame.xml"/>
+    <Script file="HeaderFrameModule.lua"/>
+</Ui>

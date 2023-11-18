@@ -100,8 +100,6 @@ function ToolKitModule:OnInitialize()
     Gpe:RegisterConfig(config);
 end
 
-
-
 --基础API
 function Gpe:AddApi(frameType, name, func)
     self:AddFrameApi(name, func);
@@ -113,7 +111,9 @@ function Gpe:AddFrameApi(name, func)
     if not mk[name] then mk[name] = func end
 end
 
-
-
-
-
+function Gpe:AddFontStringApi(name, func)
+    local frame = CreateFrame("Frame");
+    local font = frame:CreateFontString();
+    local mk = getmetatable(font).__index;
+    if not mk[name] then mk[name] = func end
+end

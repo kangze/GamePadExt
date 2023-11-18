@@ -1,0 +1,23 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\FrameXML\UI.xsd">
+    <Script file="BodyFrameMixin.lua"/>
+    <Frame name="BodyFrameTemplate" hidden="true" virtual="true" frameStrata="LOW" enableMouse="true" mixin="BodyFrameMixin">
+        <Anchors>
+            <Anchor point="TOP" />
+        </Anchors>
+        <Layers>
+
+            <Layer level="BACKGROUND">
+                <!--头部背景-->
+                <Texture parentKey="background">
+                    <Color r="0.153" g="0.302" b="0.239" a="0.8"/>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad method="OnLoad"/>
+        </Scripts>
+    </Frame>
+
+</Ui>
