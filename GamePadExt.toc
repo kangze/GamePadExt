@@ -21,14 +21,16 @@ Core.lua
 ToolKit/Default.lua
 ToolKit/Shadow.lua
 ToolKit/String.lua
-ActionBar/ActionBar.xml
 Configuration.lua
-CastingBar/CastingBar.lua
-SoftTargetTooltip/SoftTargetTooltip.lua
-NamePlate/NamePlate.lua
-Merchant/frames/MerchantItem.xml
-Merchant/MerchantApi.lua
-Merchant/MerchantModule.lua
+
+
+
+
+modules/merchant/loads.xml
+modules/actionbar/loads.xml
+modules/CastingBar/loads.xml
+modules/SoftTargetTooltip/loads.xml
+modules/NamePlate/loads.xml
 
 Main/frames/Header.xml
 
