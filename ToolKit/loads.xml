@@ -2,9 +2,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
     <Script file="Core.lua"/>
-    <Script file="Animation.lua"/>
+    <Script file="Animation\Animation.lua"/>
+    <Script file="Animation\Shadow.lua"/>
+    <Script file="Animation\Scale.lua"/>
+    <Script file="Animation\Alpha.lua"/>
     <Script file="Anchor.lua"/>
-    <Script file="Shadow.lua"/>
     <Script file="String.lua"/>
     <Script file="Texture.lua"/>
     <Script file="FontString.lua"/>

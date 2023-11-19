@@ -30,12 +30,31 @@ local function CreateAnimation(frame, start_val, end_val, duration, color)
     return animation;
 end
 
+local function InitShadowAndAnimation(frame)
+    local start_val, end_val, duration = AddonData.db.profile.shadow.style.start_val,
+        AddonData.db.profile.shadow.style.end_val, AddonData.db.profile.shadow.style.duration;
+    local color = AddonData.db.profile.shadow.style.color;
+    local shadow = CreateShadow(frame, start_val, color);
+    local fadeIn = CreateAnimation(shadow, start_val, end_val, duration, color);
+    local fadeOut = CreateAnimation(shadow, end_val, start_val, duration, color);
+    shadow._fadeIn = fadeIn;
+    shadow._fadeOut = fadeOut;
+    frame._shadow = shadow;
+end
+
+local function ShowShadowFadeIn(frame)
+    frame._shadow._fadeIn:Show();
+end
+
+local function ShowShadowFadeOut(frame)
+    frame._shadow._fadeOut:Show();
+end
+
 local function ShowShadow(frame)
     frame._shadow:Show();
 end
 
-Gpe:AddFrameApi("ShowShadow", ShowShadow)
-Gpe:AddFrameApi("ShowShadow", ShowShadow)
-
-
-
+Gpe:AddFrameApi("ShowShadowFadeIn", ShowShadowFadeIn);
+Gpe:AddFrameApi("ShowShadowFadeOut", ShowShadowFadeOut);
+Gpe:AddFrameApi("InitShadowAndAnimation", InitShadowAndAnimation);
+Gpe:AddFrameApi("ShowShadow", ShowShadow);

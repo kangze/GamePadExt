@@ -6,20 +6,20 @@
         <Layers>
 
             <Layer level="BACKGROUND">
-                <!-- Interface\AddOns\GamePadExt\media\texture\UI-Character-Reputation-DetailBackground -->
                 <!-- <TexCoords left="0" right="0.74" top="0" bottom="1"/> -->
-                <Texture parentKey="tex_background" atlas="QuestBG-ZaralekCavern" setAllPoints="true">
+                <Texture parentKey="background" atlas="CovenantChoice-Offering-Preview-Frame-Background-NightFae" setAllPoints="true">
                     <!-- <Color r="0.2" g="0.2" b="0.3"/> -->
                 </Texture>
             </Layer>
-            <!--tex_background-->
-
         </Layers>
         <Scripts>
             <OnLoad>
             self:SetFrameStrata("TOOLTIP");
             self:SetFixedFrameStrata(true);
             </OnLoad>
+            <OnShow>
+                self.NineSlice:Hide();
+            </OnShow>
         </Scripts>
     </GameTooltip>
 </Ui>

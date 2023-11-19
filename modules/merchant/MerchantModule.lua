@@ -12,13 +12,12 @@ function MerchantModule:OnInitialize()
     self:RegisterEvent("MERCHANT_SHOW");
     self:RegisterEvent("MERCHANT_CLOSED")
     --self:SecureHook("OpenAllBags", "test");
-
-    
 end
 
 function MerchantModule:OnEnable()
     self:SecureHook("MerchantFrame_UpdateMerchantInfo", "UpdateMerchantPositions");
-
+    MerchantFrame:SetAlpha(0);
+    MerchantFrame:InitShowFadeInAndOut();
     _G.MERCHANT_ITEMS_PER_PAG = 60;
     for i = 1, _G.MERCHANT_ITEMS_PER_PAG do
         if not _G["MerchantItem" .. i] then
@@ -26,10 +25,6 @@ function MerchantModule:OnEnable()
         end
     end
 end
-
-
-
-
 
 --Sample:Masque
 -- local group = Masque:Group("GamePadExt", "MerchantItem");

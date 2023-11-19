@@ -45,3 +45,7 @@ end
 function MaskFrameModule:SetFullScreen()
     self.bodyFrame:SetFrameStrata("FULLSCREEN");
 end
+
+function MaskFrameModule:SETDIALOG()
+    self.bodyFrame:SetFrameStrata("DIALOG");
+end

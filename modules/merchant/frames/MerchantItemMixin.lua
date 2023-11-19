@@ -5,6 +5,8 @@ MerchatGamePadButtonEventCallBacks = {};
 
 function MerchantItemMixin:OnLoad()
     self:InitShadowAndAnimation();
+    self.buyFrame:InitShowFadeInAndOut();
+    self.detailFrame:InitShowFadeInAndOut();
     self:EnableGamePadButton(true);
 
     --记录索引
@@ -23,18 +25,13 @@ end
 function MerchantItemMixin:OnEnter()
     self:ShowShadowFadeIn();
     self:ScaleFadeIn();
-    -- GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-    -- GameTooltip:SetHyperlink(self.productName:GetText());
-    -- GameTooltip:Show()
 end
 
 function MerchantItemMixin:OnGamePadButtonDown(...)
     --PADDDOWN PADDUP PADDLEFT PADDRIGHT
-    --Interface\AddOns\GamePadExt\media
-    --Sound\\Music\\ZoneMusic\\DMF_L70ETC01.mp3
-    --\Interface\AddOns\WeakAuras\\Media\\Sounds\\Blast.ogg
     PlaySoundFile("Interface\\AddOns\\GamePadExt\\media\\sound\\1.mp3", "Master");
     local key = ...;
+    print(key);
     local parent = MerchatItemGroups;
 
     local groupCount = #parent._group;
@@ -80,12 +77,8 @@ function MerchantItemMixin:OnGamePadButtonDown(...)
     end
 
     if(MerchatGamePadButtonEventCallBacks[key]) then
-        MerchatGamePadButtonEventCallBacks[key](currentItem);
+        MerchatGamePadButtonEventCallBacks[key](currentItem,preItem);
     end
-    -- if (key == "PAD2") then
-    --     item:SetParent(nil);
-    --     item:SetFrameStrata("FullScreen");
-    -- end
 end
 
 --主要区分左右排列，二组永远在第一组右边

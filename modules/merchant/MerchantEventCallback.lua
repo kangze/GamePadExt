@@ -8,31 +8,19 @@ local MaskFrameModule = Gpe:GetModule('MaskFrameModule');
 
 
 function MerchantModule:MERCHANT_SHOW()
-    -- 创建一个纯黑色背景 Texture
-    -- local frame = CreateFrame("Frame", nil, UIParent);
-    -- frame:SetAllPoints(UIParent);
-    -- frame.background = frame:CreateTexture(nil, "BACKGROUND")
-    -- frame.background:SetAllPoints(frame)
-    -- --frame.background:SetColorTexture(0, 0, 0, 1) -- 设置背景颜色为纯黑色
-    -- frame.background:SetAtlas("talents-background-priest-shadow");
-    -- frame:Show()
-
-    --legioninvasion-ScenarioTrackerToast
-
+    MerchantFrame:ShowFadeIn();
     MaskFrameModule:ShowAll();
+    self:InitframeStrata();
 
-    UIParent:SetAlpha(0);
-
-
-    self:HiddeMerchantSomeFrame();
-    MerchantFrame:ClearAllPoints();
-    MerchantFrame:SetParent(nil);
-    MerchantFrame:SetPoint("TOP", MaskFrameModule:GetHeaderFrame());
+    UIParent:Hide();
+    --self:HiddeMerchantSomeFrame();
+    -- MerchantFrame:ClearAllPoints();
+    -- MerchantFrame:SetParent(nil);
+    -- MerchantFrame:SetPoint("TOP", MaskFrameModule:GetHeaderFrame());
     --设置为FULLSCREEN
 
 
     local count = GetMerchantNumItems();
-
     local templeteWidth = 210;
     local pages = math.ceil(count / 10);
     MerchantFrame:SetSize(templeteWidth * pages + 100, UIParent:GetHeight());
@@ -64,7 +52,6 @@ function MerchantModule:MERCHANT_SHOW()
         end
         frame.iconBorder:SetAtlas(GetQualityBorder(itemQuality));
         frame:Group("group" .. page);
-        frame:Show();
         table.insert(currentItems, frame);
     end
 
@@ -73,7 +60,7 @@ end
 
 function MerchantModule:MERCHANT_CLOSED()
     MaskFrameModule:HideBody();
-    UIParent:SetAlpha(1);
+    UIParent:Show();
     for i = 1, #currentItems do
         currentItems[i]:EnableGamePadButton(false);
         currentItems[i]:UnregisterAllEvents();
@@ -192,14 +179,15 @@ function MerchantModule:HiddeMerchantSomeFrame()
     end
 end
 
---MerchantItem 默认层级FullScreeen
+--MerchantItem 默认层级 DIALOG
 --BodyFrame 默认的层级是 BACKGROUND
 
 function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
     local callback_select = function(currentItem)
-        MaskFrameModule:SetFullScreen();
+        --背景设置最高和当前层级设置最高
+        MaskFrameModule:SETDIALOG();
         currentItem:SetParent(nil);
-        currentItem:SetFrameStrata("FullScreen");
+        currentItem:SetFrameStrata("DIALOG");
 
         MerchantItemGameTooltip:ClearAllPoints();
         MerchantItemGameTooltip:SetOwner(currentItem, "ANCHOR_NONE", 0);
@@ -210,10 +198,42 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
         MerchantItemGameTooltip:Show();
     end
 
-    local callback_up_down = function(currentItem)
+    local callback_up_down = function(currentItem, preItem)
         MaskFrameModule:SetBackground();
+        MerchantItemGameTooltip:Hide();
+        currentItem.buyFrame:ShowFadeIn();
+        currentItem.detailFrame:ShowFadeIn();
+
+
+        MaskFrameModule:SetBackground();
+
+
+
+        if (preItem) then
+            preItem.buyFrame:ShowFadeOut();
+            preItem.detailFrame:ShowFadeOut();
+            preItem:SetFrameStrata("HIGH");
+        end
     end
+
+    local callback_system = function(currentItem)
+        MerchantFrame:Hide();
+        MerchantItemGameTooltip:Hide();
+    end
+
+    --X按钮
     frame:RegisterGamePadButtonDown("PAD2", callback_select);
+
+    --方向键
     frame:RegisterGamePadButtonDown("PADDDOWN", callback_up_down);
     frame:RegisterGamePadButtonDown("PADDUP", callback_up_down);
+    frame:RegisterGamePadButtonDown("PADDLEFT", callback_up_down);
+    frame:RegisterGamePadButtonDown("PADDRIGHT", callback_up_down);
+
+    --系统键
+    frame:RegisterGamePadButtonDown("PADSYSTEM", callback_system);
+end
+
+function MerchantModule:InitframeStrata()
+    MaskFrameModule:SetBackground();
 end
