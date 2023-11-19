@@ -25,4 +25,4 @@ modules/CastingBar/loads.xml
 modules/SoftTargetTooltip/loads.xml
 modules/NamePlate/loads.xml
 modules/Setting/loads.xml
-modules/HeaderFrame/loads.xml
+modules/MaskFrameModule/loads.xml

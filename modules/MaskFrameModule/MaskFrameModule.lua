@@ -3,14 +3,14 @@ local Gpe = _G["Gpe"];
 
 local unpack = unpack;
 
-local HeaderFrameModule = Gpe:GetModule('HeaderFrameModule');
+local MaskFrameModule = Gpe:GetModule('MaskFrameModule');
 
 
-function HeaderFrameModule:OnInitialize()
+function MaskFrameModule:OnInitialize()
 
 end
 
-function HeaderFrameModule:OnEnable()
+function MaskFrameModule:OnEnable()
     local headFrame = CreateFrame("Frame", nil, nil, "HeaderFrameTemplate");
     headFrame:SetPoint("TOP", UIParent, 0, 0);
 
@@ -25,23 +25,23 @@ function HeaderFrameModule:OnEnable()
     self.bodyFrame = bodyFrame;
 end
 
-function HeaderFrameModule:ShowAll()
+function MaskFrameModule:ShowAll()
     self.headFrame:Show();
     self.bodyFrame:Show();
 end
 
-function HeaderFrameModule:HideBody()
+function MaskFrameModule:HideBody()
     self.bodyFrame:Hide();
 end
 
-function HeaderFrameModule:GetHeaderFrame()
+function MaskFrameModule:GetHeaderFrame()
     return self.headFrame
 end
 
-function HeaderFrameModule:SetBackground()
+function MaskFrameModule:SetBackground()
     self.bodyFrame:SetFrameStrata("BACKGROUND");
 end
 
-function HeaderFrameModule:SetFullScreen()
+function MaskFrameModule:SetFullScreen()
     self.bodyFrame:SetFrameStrata("FULLSCREEN");
 end

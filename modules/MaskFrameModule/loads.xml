@@ -5,5 +5,5 @@
     <Script file="frames\BodyFrameMixin.lua"/>
     <Include file="frames\HeaderFrame.xml"/>
     <Include file="frames\BodyFrame.xml"/>
-    <Script file="HeaderFrameModule.lua"/>
+    <Script file="MaskFrameModule.lua"/>
 </Ui>
