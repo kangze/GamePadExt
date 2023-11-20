@@ -29,3 +29,7 @@ end
 Gpe:AddFrameApi("InitShowFadeInAndOut", InitShowFadeInAndOut)
 Gpe:AddFrameApi("ShowFadeIn", ShowFadeIn)
 Gpe:AddFrameApi("ShowFadeOut", ShowFadeOut)
+
+Gpe:AddDressUpModelApi("InitShowFadeInAndOut", InitShowFadeInAndOut)
+Gpe:AddDressUpModelApi("ShowFadeIn", ShowFadeIn)
+Gpe:AddDressUpModelApi("ShowFadeOut", ShowFadeOut)

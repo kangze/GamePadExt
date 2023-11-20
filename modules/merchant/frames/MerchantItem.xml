@@ -2,7 +2,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\..\FrameXML\UI.xsd">
     <Script file="MerchantItemMixin.lua"/>
-    <Frame name="MerchantItemTemplate1"  hidden="false" virtual="true" frameStrata="HIGH" enableMouse="true" inherits="BackdropTemplate" mixin="MerchantItemMixin">
+    <Frame name="MerchantItemTemplate1" hidden="false" virtual="true" frameStrata="HIGH" enableMouse="true" inherits="BackdropTemplate" mixin="MerchantItemMixin">
         <Size x="210" y="45"/>
         <Anchors>
             <Anchor point="CENTER" />
@@ -32,10 +32,16 @@
                     <Anchors>
                         <Anchor point="LEFT" x="8" y=""/>
                     </Anchors>
-                    <!-- <TexCoords left="0.0" right="0.6" top="0.0" bottom="0.6"/> -->
+                </Texture>
+
+                <!--需要收集幻化-->
+                <Texture parentKey="mog" hidden="true" atlas="lootroll-toast-icon-transmog-up">
+                    <Size x="16" y="16"/>
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeKey="$parent.iconBorder" relativePoint="TOPRIGHT" x="5" y="5"/>
+                    </Anchors>
                 </Texture>
             </Layer>
-
             <Layer level="ARTWORK">
                 <!--价格花费-->
                 <FontString parentKey="costmoney" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="RIGHT" justifyV="TOP">
@@ -62,7 +68,10 @@
                     </Anchors>
                 </FontString>
 
+
             </Layer>
+
+
 
         </Layers>
 
@@ -73,12 +82,14 @@
                     <Anchor point="BOTTOMRIGHT" x="-2" y="2"/>
                 </Anchors>
                 <Layers>
-                    <Layer level="ARTWORK">
+                    <Layer level="BORDER">
                         <!--PS X 图标的背景-->
                         <Texture parentKey="psx_background" file="Interface\AddOns\GamePadExt\media\texture\BuyButtonMask" setAllPoints="true">
                             <TexCoords left="0.1" right="0.9" top="0" bottom="1"/>
                         </Texture>
+                    </Layer>
 
+                    <Layer level="ARTWORK">
                         <!--PS图标-->
                         <Texture parentKey="psx" file="Interface\AddOns\GamePadExt\media\gamepad\ps_r_cross">
                             <Size x="20" y="20"/>
@@ -94,7 +105,6 @@
                                 <Anchor point="CENTER" x="-8"/>
                             </Anchors>
                         </FontString>
-
                     </Layer>
                 </Layers>
             </Frame>
@@ -105,12 +115,14 @@
                     <Anchor point="TOPRIGHT" x="-2" y="-2"/>
                 </Anchors>
                 <Layers>
-                    <Layer level="ARTWORK">
+                    <Layer level="BORDER">
                         <!--PS X 图标的背景-->
                         <Texture parentKey="psx_background" file="Interface\AddOns\GamePadExt\media\texture\BuyButtonMask" setAllPoints="true">
                             <TexCoords left="0.1" right="0.9" top="0" bottom="1"/>
                         </Texture>
+                    </Layer>
 
+                    <Layer level="ARTWORK">
                         <!--PS图标-->
                         <Texture parentKey="psx" file="Interface\AddOns\GamePadExt\media\gamepad\ps_r_circle">
                             <Size x="20" y="20"/>
@@ -126,7 +138,6 @@
                                 <Anchor point="CENTER" x="-8"/>
                             </Anchors>
                         </FontString>
-
                     </Layer>
                 </Layers>
             </Frame>

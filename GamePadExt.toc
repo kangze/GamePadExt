@@ -26,3 +26,4 @@ modules/SoftTargetTooltip/loads.xml
 modules/NamePlate/loads.xml
 modules/Setting/loads.xml
 modules/MaskFrameModule/loads.xml
+modules/PreviewFrameModule/loads.xml

@@ -6,6 +6,7 @@
     <Script file="Animation\Shadow.lua"/>
     <Script file="Animation\Scale.lua"/>
     <Script file="Animation\Alpha.lua"/>
+    <Script file="Animation\OffsetX.lua"/>
     <Script file="Anchor.lua"/>
     <Script file="String.lua"/>
     <Script file="Texture.lua"/>

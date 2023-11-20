@@ -49,3 +49,7 @@ end
 function MaskFrameModule:SETDIALOG()
     self.bodyFrame:SetFrameStrata("DIALOG");
 end
+
+function MaskFrameModule:GetBodyFrameSize()
+    return self.bodyFrame:GetSize();
+end

@@ -31,9 +31,21 @@ function MerchantApi:ProccessMerchantItemsInfo(callback)
         local itemLink = GetMerchantItemLink(index);
         local _, texture, price, _, _, isUsable = GetMerchantItemInfo(index)
         local currencyCount = GetMerchantItemCostInfo(index)
-        local _, _, itemQuality = GetItemInfo(itemLink);
+        local itemID, _, itemQuality, _, _, itemType, itemSubType = GetItemInfo(itemLink);
+        local _, _, _, _, icon, _, isTransmog = C_TransmogCollection.GetItemInfo(itemID)
+        hasTransMog = false;
+        if isTransmog then
+            print("可以幻化");
+            local _, _, _, _, _, _, _, _, _, _, _, _, _, itemAppearanceModID = GetItemInfo(itemLink)
+            hasTransMog = C_TransmogCollection.PlayerHasTransmog(itemID, itemAppearanceModID);
+        end
+
+
+
+
+
         if (currencyCount == 0) then
-            callback(index, page, itemLink, price, texture, itemQuality, true, isUsable);
+            callback(index, page, itemLink, price, texture, itemQuality, true, isUsable, hasTransMog);
         else
             local cost = "";
             for j = 1, currencyCount do
@@ -66,7 +78,7 @@ function MerchantApi:ProccessMerchantItemsInfo(callback)
                     cost = cost .. currencyName
                 end
             end
-            callback(index, page, itemLink, cost, texture, itemQuality, false, isUsable);
+            callback(index, page, itemLink, cost, texture, itemQuality, false, isUsable, hasTransMog);
         end
     end
 end

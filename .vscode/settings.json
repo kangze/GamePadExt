@@ -4,7 +4,8 @@
         "inject-field",
         "unused-function",
         "param-type-mismatch",
-        "undefined-global"
+        "undefined-global",
+        "lowercase-global"
     ],
     "Lua.diagnostics.globals": [
         "MainMenuBar",

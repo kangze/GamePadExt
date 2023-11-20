@@ -25,7 +25,7 @@ function MerchantModule:MERCHANT_SHOW()
     local pages = math.ceil(count / 10);
     MerchantFrame:SetSize(templeteWidth * pages + 100, UIParent:GetHeight());
 
-    local callback = function(index, page, itemLink, cost, texture, itemQuality, isMoney, isUsable)
+    local callback = function(index, page, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
         local source = _G["MerchantItem" .. index];
         source:ClearAllPoints();
         local offsetY = -1 * index + 10 * (page - 1);
@@ -43,6 +43,10 @@ function MerchantModule:MERCHANT_SHOW()
             frame.costmoney:ApplyMoney(cost)
         else
             frame.costmoney:SetText(cost);
+        end
+        if (not hasTransMog) then
+            frame.mog:SetDrawLayer("OVERLAY", 1)
+            frame.mog:Show();
         end
         frame.icon:SetTexture(texture);
         if (not isUsable) then
@@ -213,12 +217,47 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
             preItem.buyFrame:ShowFadeOut();
             preItem.detailFrame:ShowFadeOut();
             preItem:SetFrameStrata("HIGH");
+            if (preItem.dressUpFrame) then
+                preItem.dressUpFrame:Destroy();
+                preItem.dressUpFrame = nil;
+            end
         end
     end
 
     local callback_system = function(currentItem)
         MerchantFrame:Hide();
         MerchantItemGameTooltip:Hide();
+    end
+
+    local callback_dressUp = function(currentItem)
+        if (currentItem.dressUpFrame) then
+            currentItem.dressUpFrame:Destroy();
+            currentItem.dressUpFrame = nil;
+            return;
+        end
+        local frame = CreateFrame("Frame", nil, nil, "DressupFrameTemplate");
+        local bodyFrame = MaskFrameModule.bodyFrame;
+        local end_callback = function()
+            frame:SetPlayer();
+            frame.model:InitShowFadeInAndOut(1.2);
+            frame.model:ShowFadeIn();
+            frame:TryOn(currentItem.itemLink);
+        end
+        frame:InitOffsetXAnimation(bodyFrame, 300, 0, 0.3, end_callback);
+        frame:InitShowFadeInAndOut();
+        frame:ClearAllPoints();
+        frame:SetPoint("RIGHT", bodyFrame, 300, 0);
+        local scale = UIParent:GetEffectiveScale();
+        frame:SetWidth(300);
+        frame:SetHeight(GetScreenHeight() * scale - 100);
+        frame:SetFrameStrata("DIALOG");
+
+        print(currentItem.itemLink);
+        print("TryOn");
+        frame:Show();
+        frame:ShowOffsetXAnimation();
+        frame:ShowFadeIn();
+        currentItem.dressUpFrame = frame;
     end
 
     --X按钮
@@ -232,6 +271,9 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
 
     --系统键
     frame:RegisterGamePadButtonDown("PADSYSTEM", callback_system);
+
+    --三角
+    frame:RegisterGamePadButtonDown("PAD4", callback_dressUp);
 end
 
 function MerchantModule:InitframeStrata()

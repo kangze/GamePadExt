@@ -1,0 +1,27 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\FrameXML\UI.xsd">
+    <Script file="DressupFrameTemplateMixin.lua"/>
+    <Frame name="DressupFrameTemplate" alpha="0" virtual="true" movable="true" resizable="true" mixin="DressupFrameTemplateMixin">
+        <Size x="320" y="500"/>
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture setAllPoints="true" atlas="UI-Frame-NightFaeChoice-CardParchment">
+                </Texture>
+            </Layer>
+        </Layers>
+        <Frames>
+            <DressUpModel parentKey="model" setAllPoints="true">
+                <Size x="300" y="400"/>
+            </DressUpModel>
+        </Frames>
+        <Scripts>
+            <OnLoad method="OnLoad"/>
+            <OnEvent method="OnEvent"/>
+            <OnGamePadStick method="OnGamePadStick"/>
+        </Scripts>
+    </Frame>
+</Ui>

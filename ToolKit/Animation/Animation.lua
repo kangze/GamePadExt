@@ -1,4 +1,3 @@
-
 local sin = math.sin;
 local cos = math.cos;
 local pow = math.pow;
@@ -39,7 +38,7 @@ function InQuad(t, b, e, d)
 end
 
 --创建动画帧
-function CreateAnimationFrame(duration, callback)
+function CreateAnimationFrame(duration, callback, end_callback)
     local frame = CreateFrame("Frame");
     frame.current = 0;
     frame:Hide();
@@ -51,6 +50,10 @@ function CreateAnimationFrame(duration, callback)
         if (selfs.current >= duration) then
             selfs:Hide();
             selfs.current = 0;
+            --动画结束回调
+            if (end_callback) then
+                end_callback();
+            end
             return;
         end
     end
