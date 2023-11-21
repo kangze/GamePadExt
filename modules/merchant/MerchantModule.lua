@@ -24,8 +24,18 @@ function MerchantModule:OnEnable()
             CreateFrame("Frame", "MerchantItem" .. i, MerchantFrame, "MerchantItemTemplate");
         end
     end
-end
 
---Sample:Masque
--- local group = Masque:Group("GamePadExt", "MerchantItem");
--- group:AddButton(MerchantItem.button);
+    --创建一个滚动窗体
+    -- Create the scroll frame
+    local scrollFrame = CreateFrame("ScrollFrame", nil, UIParent, "UIPanelScrollFrameTemplate")
+    scrollFrame:SetSize(200, 200)
+    scrollFrame:SetPoint("CENTER")
+
+    -- Create the scroll child
+    local scrollChild = CreateFrame("Frame", nil, scrollFrame)
+    scrollFrame:SetScrollChild(scrollChild)
+
+    -- Set the scroll child's size
+    scrollChild:SetSize(200, 400) -- The height is 2000 to allow for lots of buttons
+    self.scrollChild = scrollChild;
+end
