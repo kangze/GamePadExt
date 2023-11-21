@@ -25,3 +25,7 @@ function MerchantModule:OnEnable()
         end
     end
 end
+
+--Sample:Masque
+-- local group = Masque:Group("GamePadExt", "MerchantItem");
+-- group:AddButton(MerchantItem.button);

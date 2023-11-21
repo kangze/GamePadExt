@@ -11,12 +11,19 @@ function MerchantModule:MERCHANT_SHOW()
     MerchantFrame:ShowFadeIn();
     MaskFrameModule:ShowAll();
     self:InitframeStrata();
+
     UIParent:Hide();
+    --self:HiddeMerchantSomeFrame();
+    -- MerchantFrame:ClearAllPoints();
+    -- MerchantFrame:SetParent(nil);
+    -- MerchantFrame:SetPoint("TOP", MaskFrameModule:GetHeaderFrame());
+    --设置为FULLSCREEN
+
+
     local count = GetMerchantNumItems();
     local templeteWidth = 210;
     local pages = math.ceil(count / 10);
     MerchantFrame:SetSize(templeteWidth * pages + 100, UIParent:GetHeight());
-
 
     local callback = function(index, page, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
         local source = _G["MerchantItem" .. index];
@@ -71,7 +78,6 @@ function MerchantModule:UpdateMerchantPositions()
     MerchantFrame:ClearAllPoints();
     MerchantFrame:SetParent(nil);
     MerchantFrame:SetPoint("TOP", MaskFrameModule:GetHeaderFrame());
-
     local count = GetMerchantNumItems();
     for i = 1, count do
         local page = math.ceil(i / 10)
