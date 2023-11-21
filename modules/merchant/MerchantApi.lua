@@ -6,22 +6,24 @@ MerchantApi = {};
 
 --获取商人出售的商品信息
 function MerchantApi:PreProccessItemsInfo(callback)
-    local numItems = GetMerchantNumItems();
-    local itemProcesseds = {};
-
-
-    for i = 1, numItems do
-        local itemLink = GetMerchantItemLink(i)
-        if itemLink then
-            local item = Item:CreateFromItemLink(itemLink)
-            item:ContinueOnItemLoad(function()
-                table.insert(itemProcesseds, 1)
-                if #itemProcesseds == numItems then
-                    MerchantApi:ProccessMerchantItemsInfo(callback)
-                end
-            end)
+    local numItems = GetMerchantNumItems()
+    local count = 0
+    local function checkItems()
+        count = 0
+        for i = 1, numItems do
+            local itemLink = GetMerchantItemLink(i)
+            if itemLink then
+                count = count + 1
+            end
+            print(itemLink);
+        end
+        if count < numItems then
+            C_Timer.After(1, checkItems) -- Wait for 1 second before checking again
+        else
+            MerchantApi:ProccessMerchantItemsInfo(callback)
         end
     end
+    checkItems()
 end
 
 function MerchantApi:ProccessMerchantItemsInfo(callback)
@@ -32,18 +34,6 @@ function MerchantApi:ProccessMerchantItemsInfo(callback)
         local _, texture, price, _, _, isUsable = GetMerchantItemInfo(index)
         local currencyCount = GetMerchantItemCostInfo(index)
         local itemID, _, itemQuality, _, _, itemType, itemSubType = GetItemInfo(itemLink);
-        local _, _, _, _, icon, _, isTransmog = C_TransmogCollection.GetItemInfo(itemID)
-        hasTransMog = false;
-        if isTransmog then
-            print("可以幻化");
-            local _, _, _, _, _, _, _, _, _, _, _, _, _, itemAppearanceModID = GetItemInfo(itemLink)
-            hasTransMog = C_TransmogCollection.PlayerHasTransmog(itemID, itemAppearanceModID);
-        end
-
-
-
-
-
         if (currencyCount == 0) then
             callback(index, page, itemLink, price, texture, itemQuality, true, isUsable, hasTransMog);
         else

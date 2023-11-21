@@ -11,13 +11,29 @@ function MerchantModule:MERCHANT_SHOW()
     MerchantFrame:ShowFadeIn();
     MaskFrameModule:ShowAll();
     self:InitframeStrata();
-
     UIParent:Hide();
-    --self:HiddeMerchantSomeFrame();
-    -- MerchantFrame:ClearAllPoints();
-    -- MerchantFrame:SetParent(nil);
-    -- MerchantFrame:SetPoint("TOP", MaskFrameModule:GetHeaderFrame());
-    --设置为FULLSCREEN
+
+
+    local scale = UIParent:GetEffectiveScale();
+    local width = (GetScreenWidth() / 2) * scale
+    local height = GetScreenHeight() * scale - 30;
+
+    local scrollFrame = CreateFrame("ScrollFrame", nil, nil, "UIPanelScrollFrameTemplate")
+    scrollFrame:SetSize(width, height/2)
+    scrollFrame:SetPoint("TOP", MaskFrameModule.headFrame, "BOTTOM", 0, 0);
+    local scrollChild = CreateFrame("Frame", nil, scrollFrame)
+    scrollFrame:SetScrollChild(scrollChild)
+
+
+    scrollChild:SetSize(width, height)
+    self.scrollChild = scrollChild;
+    self.scrollFrame = scrollFrame;
+
+
+    MerchantFrame:ClearAllPoints();
+    MerchantFrame:SetParent(self.scrollChild);
+    MerchantFrame:SetPoint("TOPLEFT", self.scrollChild);
+    MerchantFrame:SetPoint("BOTTOMRIGHT", self.scrollChild);
 
 
     local count = GetMerchantNumItems();
@@ -78,6 +94,12 @@ function MerchantModule:UpdateMerchantPositions()
     MerchantFrame:ClearAllPoints();
     MerchantFrame:SetParent(nil);
     MerchantFrame:SetPoint("TOP", MaskFrameModule:GetHeaderFrame());
+
+    MerchantFrame:ClearAllPoints();
+    MerchantFrame:SetParent(self.scrollChild);
+    MerchantFrame:SetPoint("TOPLEFT", self.scrollChild);
+    MerchantFrame:SetPoint("BOTTOMRIGHT", self.scrollChild);
+
     local count = GetMerchantNumItems();
     for i = 1, count do
         local page = math.ceil(i / 10)
@@ -207,7 +229,7 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
         MerchantItemGameTooltip:Hide();
         currentItem.buyFrame:ShowFadeIn();
         currentItem.detailFrame:ShowFadeIn();
-
+        MerchantModule.scrollFrame:SetVerticalScroll(100)
 
         MaskFrameModule:SetBackground();
 
