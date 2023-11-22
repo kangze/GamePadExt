@@ -64,9 +64,9 @@ function MerchantItemMixin:OnGamePadButtonDown(...)
     MerchatItemGroups.currentIndex = currentIndex;
     MerchatItemGroups.currentGroupIndex = currentGroupIndex;
 
-    local preItem=MerchatItemGroups._group[preGroupIndex + 1][preIndex + 1];
-    local currentItem=MerchatItemGroups._group[currentGroupIndex + 1][currentIndex + 1];
-    
+    local preItem = MerchatItemGroups._group[preGroupIndex + 1][preIndex + 1];
+    local currentItem = MerchatItemGroups._group[currentGroupIndex + 1][currentIndex + 1];
+
     preItem:OnLeave();
     currentItem:OnEnter();
 
@@ -76,8 +76,8 @@ function MerchantItemMixin:OnGamePadButtonDown(...)
         BuyMerchantItem(currentIndex + 1, 1);
     end
 
-    if(MerchatGamePadButtonEventCallBacks[key]) then
-        MerchatGamePadButtonEventCallBacks[key](currentItem,preItem);
+    if (MerchatGamePadButtonEventCallBacks[key]) then
+        MerchatGamePadButtonEventCallBacks[key](currentItem, preItem);
     end
 end
 
@@ -101,4 +101,11 @@ end
 
 function MerchantItemMixin:RegisterGamePadButtonDown(key, callback)
     MerchatGamePadButtonEventCallBacks[key] = callback;
+end
+
+function MerchantItemMixin:InitEabledGamePadButton(templateName, group)
+    self:EnableGamePadButton(true);
+    local processor = GamePadButtonDownProcesser:New(templateName);
+    processor:Group(group, self);
+    self.gamePadButtonDownProcessor = processor;
 end
