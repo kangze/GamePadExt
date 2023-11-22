@@ -19,7 +19,7 @@ function MerchantModule:MERCHANT_SHOW()
     local height = GetScreenHeight() * scale - 30;
 
     local scrollFrame = CreateFrame("ScrollFrame", nil, nil, "UIPanelScrollFrameTemplate")
-    scrollFrame:SetSize(width, height/2)
+    scrollFrame:SetSize(width, height / 2)
     scrollFrame:SetPoint("TOP", MaskFrameModule.headFrame, "BOTTOM", 0, 0);
     local scrollChild = CreateFrame("Frame", nil, scrollFrame)
     scrollFrame:SetScrollChild(scrollChild)
@@ -48,7 +48,6 @@ function MerchantModule:MERCHANT_SHOW()
         source:SetPoint("TOPLEFT", 230 * (page - 1), (offsetY) * 55);
         local frame = CreateFrame("Frame", nil, _G["MerchantItem" .. index], "MerchantItemTemplate1");
         frame:SetPoint("CENTER");
-        MerchantModule:RegisterMerchantItemGamepadButtonDown(frame);
         if (itemLink) then
             itemLink = string.gsub(itemLink, "%[", "", 1);
             itemLink = string.gsub(itemLink, "%]", "", 1);
@@ -71,7 +70,8 @@ function MerchantModule:MERCHANT_SHOW()
             frame.forbidden:SetText(reason);
         end
         frame.iconBorder:SetAtlas(GetQualityBorder(itemQuality));
-        frame:Group("group" .. page);
+        frame:InitEabledGamePadButton("MerchantItem", "group" .. page);
+        MerchantModule:RegisterMerchantItemGamepadButtonDown(frame);
         table.insert(currentItems, frame);
     end
 
@@ -209,32 +209,14 @@ end
 --BodyFrame 默认的层级是 BACKGROUND
 
 function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
-    local callback_select = function(currentItem)
-        --背景设置最高和当前层级设置最高
-        MaskFrameModule:SETDIALOG();
-        currentItem:SetParent(nil);
-        currentItem:SetFrameStrata("DIALOG");
-
-        MerchantItemGameTooltip:ClearAllPoints();
-        MerchantItemGameTooltip:SetOwner(currentItem, "ANCHOR_NONE", 0);
-        MerchantItemGameTooltip:SetPoint("LEFT", currentItem, "RIGHT", 0, 0);
-        local itemLink = currentItem.itemLink;
-
-        MerchantItemGameTooltip:SetHyperlink(itemLink);
-        MerchantItemGameTooltip:Show();
-    end
-
-    local callback_up_down = function(currentItem, preItem)
+    local proccessor = frame.gamePadButtonDownProcessor;
+    proccessor:Register("PADDDOWN,PADDUP,PADDLEFT,PADDRIGHT", function(currentItem, preItem)
         MaskFrameModule:SetBackground();
         MerchantItemGameTooltip:Hide();
         currentItem.buyFrame:ShowFadeIn();
         currentItem.detailFrame:ShowFadeIn();
-        MerchantModule.scrollFrame:SetVerticalScroll(100)
-
+        MerchantModule.scrollFrame:SetVerticalScroll(100);
         MaskFrameModule:SetBackground();
-
-
-
         if (preItem) then
             preItem.buyFrame:ShowFadeOut();
             preItem.detailFrame:ShowFadeOut();
@@ -244,14 +226,14 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
                 preItem.dressUpFrame = nil;
             end
         end
-    end
+    end);
 
-    local callback_system = function(currentItem)
+    proccessor:Register("PADSYSTEM", function()
         MerchantFrame:Hide();
         MerchantItemGameTooltip:Hide();
-    end
+    end);
 
-    local callback_dressUp = function(currentItem)
+    proccessor:Register("PAD4", function(currentItem)
         if (currentItem.dressUpFrame) then
             currentItem.dressUpFrame:Destroy();
             currentItem.dressUpFrame = nil;
@@ -273,29 +255,31 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
         frame:SetWidth(300);
         frame:SetHeight(GetScreenHeight() * scale - 100);
         frame:SetFrameStrata("DIALOG");
-
-        print(currentItem.itemLink);
-        print("TryOn");
         frame:Show();
         frame:ShowOffsetXAnimation();
         frame:ShowFadeIn();
         currentItem.dressUpFrame = frame;
-    end
+    end)
 
-    --X按钮
-    frame:RegisterGamePadButtonDown("PAD2", callback_select);
+    proccessor:Register("PAD2", function(currentItem)
+        --背景设置最高和当前层级设置最高
+        MaskFrameModule:SETDIALOG();
+        currentItem:SetParent(nil);
+        currentItem:SetFrameStrata("DIALOG");
 
-    --方向键
-    frame:RegisterGamePadButtonDown("PADDDOWN", callback_up_down);
-    frame:RegisterGamePadButtonDown("PADDUP", callback_up_down);
-    frame:RegisterGamePadButtonDown("PADDLEFT", callback_up_down);
-    frame:RegisterGamePadButtonDown("PADDRIGHT", callback_up_down);
+        MerchantItemGameTooltip:ClearAllPoints();
+        MerchantItemGameTooltip:SetOwner(currentItem, "ANCHOR_NONE", 0);
+        MerchantItemGameTooltip:SetPoint("LEFT", currentItem, "RIGHT", 0, 0);
+        local itemLink = currentItem.itemLink;
 
-    --系统键
-    frame:RegisterGamePadButtonDown("PADSYSTEM", callback_system);
+        MerchantItemGameTooltip:SetHyperlink(itemLink);
+        MerchantItemGameTooltip:Show();
+    end)
 
-    --三角
-    frame:RegisterGamePadButtonDown("PAD4", callback_dressUp);
+    --购买物品
+    proccessor:Register("PAD1", function(currentItem)
+        BuyMerchantItem(currentItem.index, 1);
+    end)
 end
 
 function MerchantModule:InitframeStrata()

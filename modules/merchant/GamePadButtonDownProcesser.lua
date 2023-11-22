@@ -1,7 +1,9 @@
-local function decorator(func)
-    return function(...)
-        local result = func(...)
-        return result
+local function decorator(oldFunc)
+    return function(newFunc)
+        return function(...)
+            oldFunc(...)
+            newFunc(...)
+        end
     end
 end
 
@@ -25,19 +27,28 @@ function GamePadButtonDownProcesser:New(name)
     return newObj
 end
 
-function GamePadButtonDownProcesser:Register(key, callback)
-    if not self.handlers[key] then
-        self.handlers[key] = callback;
-        return;
+function GamePadButtonDownProcesser:Register(keys, callback)
+    local keys_arr = string.split(keys, ",");
+    for _, key in ipairs(keys_arr) do
+        if not self.handlers[key] then
+            self.handlers[key] = callback;
+        end
+        self.handlers[key] = decorator(self.handlers[key])(callback);
     end
-    self.handlers[key] = decorator(self[key])
     return self;
 end
 
 --只处理方向键的定位处理
-function GamePadButtonDownProcesser:Handle(key)
+function GamePadButtonDownProcesser:Handle(...)
+    local key = ...;
     local currentIndex = self.currentIndex;
     local currentGroupIndex = self.currentGroupIndex;
+
+    local preIndex = currentIndex;
+    local preGroupIndex = currentGroupIndex;
+
+    local count = #self.groups[currentGroupIndex + 1];
+    local groupCount = #self.groups;
     if (key == "PADDRIGHT") then
         currentGroupIndex = currentGroupIndex + 1;
         currentGroupIndex = currentGroupIndex % (groupCount);
@@ -46,7 +57,7 @@ function GamePadButtonDownProcesser:Handle(key)
         currentGroupIndex = currentGroupIndex % (groupCount);
     end
 
-    currentIndex = math.min(currentIndex, #parent._group[currentGroupIndex + 1] - 1);
+    currentIndex = math.min(currentIndex, #self.groups[currentGroupIndex + 1] - 1);
 
     if (key == "PADDDOWN") then
         currentIndex = currentIndex + 1;
@@ -65,8 +76,13 @@ function GamePadButtonDownProcesser:Handle(key)
     if (self.handlers[key]) then
         self.handlers[key](currentItem, preItem);
     end
-    -- preItem:OnLeave();
-    -- currentItem:OnEnter();
+
+    if (preItem and preItem.OnLeave) then
+        preItem:OnLeave();
+    end
+    if (currentItem and currentItem.OnEnter) then
+        currentItem:OnEnter();
+    end
 end
 
 function GamePadButtonDownProcesser:Group(name, frame)
@@ -77,5 +93,5 @@ function GamePadButtonDownProcesser:Group(name, frame)
         table.insert(groupNames, name);
     end
     frame.index = #groups[#groups] + 1; --count it
-    table.insert(groups[#group], frame);
+    table.insert(groups[#groups], frame);
 end
