@@ -28,14 +28,16 @@ end
 
 function MerchantApi:ProccessMerchantItemsInfo(callback)
     local numItems = GetMerchantNumItems();
+    local maxColum=2;
+    local middle=math.ceil(numItems/maxColum);
     for index = 1, numItems do
-        local page = math.ceil(index / 10)
+        local col = math.floor(index / middle);
         local itemLink = GetMerchantItemLink(index);
         local _, texture, price, _, _, isUsable = GetMerchantItemInfo(index)
         local currencyCount = GetMerchantItemCostInfo(index)
         local itemID, _, itemQuality, _, _, itemType, itemSubType = GetItemInfo(itemLink);
         if (currencyCount == 0) then
-            callback(index, page, itemLink, price, texture, itemQuality, true, isUsable, hasTransMog);
+            callback(index, col,middle, itemLink, price, texture, itemQuality, true, isUsable, hasTransMog);
         else
             local cost = "";
             for j = 1, currencyCount do
@@ -68,7 +70,7 @@ function MerchantApi:ProccessMerchantItemsInfo(callback)
                     cost = cost .. currencyName
                 end
             end
-            callback(index, page, itemLink, cost, texture, itemQuality, false, isUsable, hasTransMog);
+            callback(index, col,middle, itemLink, cost, texture, itemQuality, false, isUsable, hasTransMog);
         end
     end
 end

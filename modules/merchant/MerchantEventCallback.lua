@@ -13,19 +13,24 @@ function MerchantModule:MERCHANT_SHOW()
     self:InitframeStrata();
     UIParent:Hide();
 
+    local templeteWidth = 210;
+    local templateHeight = 45;
+
+    local count = GetMerchantNumItems();
+    local pages = self.maxColum;
 
     local scale = UIParent:GetEffectiveScale();
     local width = (GetScreenWidth() / 2) * scale
     local height = GetScreenHeight() * scale - 30;
 
     local scrollFrame = CreateFrame("ScrollFrame", nil, nil, "UIPanelScrollFrameTemplate")
-    scrollFrame:SetSize(width, height / 2)
+    scrollFrame:SetSize(templeteWidth * pages, height)
     scrollFrame:SetPoint("TOP", MaskFrameModule.headFrame, "BOTTOM", 0, 0);
     local scrollChild = CreateFrame("Frame", nil, scrollFrame)
     scrollFrame:SetScrollChild(scrollChild)
 
 
-    scrollChild:SetSize(width, height)
+    scrollChild:SetSize(templeteWidth * pages, (templateHeight * count) / 2);
     self.scrollChild = scrollChild;
     self.scrollFrame = scrollFrame;
 
@@ -36,16 +41,14 @@ function MerchantModule:MERCHANT_SHOW()
     MerchantFrame:SetPoint("BOTTOMRIGHT", self.scrollChild);
 
 
-    local count = GetMerchantNumItems();
-    local templeteWidth = 210;
-    local pages = math.ceil(count / 10);
-    MerchantFrame:SetSize(templeteWidth * pages + 100, UIParent:GetHeight());
 
-    local callback = function(index, page, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
+    MerchantFrame:SetSize(templeteWidth * pages, (templateHeight * count) / 2);
+
+    local callback = function(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
         local source = _G["MerchantItem" .. index];
         source:ClearAllPoints();
-        local offsetY = -1 * index + 10 * (page - 1);
-        source:SetPoint("TOPLEFT", 230 * (page - 1), (offsetY) * 55);
+        local floor = math.floor(index % midle);
+        source:SetPoint("TOPLEFT", (col) * (templeteWidth + 50), -floor * 55);
         local frame = CreateFrame("Frame", nil, _G["MerchantItem" .. index], "MerchantItemTemplate1");
         frame:SetPoint("CENTER");
         if (itemLink) then
@@ -70,7 +73,7 @@ function MerchantModule:MERCHANT_SHOW()
             frame.forbidden:SetText(reason);
         end
         frame.iconBorder:SetAtlas(GetQualityBorder(itemQuality));
-        frame:InitEabledGamePadButton("MerchantItem", "group" .. page);
+        frame:InitEabledGamePadButton("MerchantItem", "group" .. col);
         MerchantModule:RegisterMerchantItemGamepadButtonDown(frame);
         table.insert(currentItems, frame);
     end
@@ -101,13 +104,16 @@ function MerchantModule:UpdateMerchantPositions()
     MerchantFrame:SetPoint("BOTTOMRIGHT", self.scrollChild);
 
     local count = GetMerchantNumItems();
+    local maxColum = self.maxColum;
+    local templeteWidth = 210;
+    local middle = math.ceil(count / maxColum);
     for i = 1, count do
-        local page = math.ceil(i / 10)
         local source = _G["MerchantItem" .. i];
         if (source ~= nil) then
-            local offsetY = -1 * i + 10 * (page - 1);
             source:ClearAllPoints();
-            source:SetPoint("TOPLEFT", 230 * (page - 1), offsetY * 55)
+            local col = math.floor(i / middle);
+            local floor = math.floor(i % middle);
+            source:SetPoint("TOPLEFT", (col) * (templeteWidth + 50), -floor * 55);
             source:Show();
         end
     end
@@ -211,11 +217,11 @@ end
 function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
     local proccessor = frame.gamePadButtonDownProcessor;
     proccessor:Register("PADDDOWN,PADDUP,PADDLEFT,PADDRIGHT", function(currentItem, preItem)
+        PlaySoundFile("Interface\\AddOns\\GamePadExt\\media\\sound\\1.mp3", "Master");
         MaskFrameModule:SetBackground();
         MerchantItemGameTooltip:Hide();
         currentItem.buyFrame:ShowFadeIn();
         currentItem.detailFrame:ShowFadeIn();
-        MerchantModule.scrollFrame:SetVerticalScroll(100);
         MaskFrameModule:SetBackground();
         if (preItem) then
             preItem.buyFrame:ShowFadeOut();
@@ -280,6 +286,10 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
     proccessor:Register("PAD1", function(currentItem)
         BuyMerchantItem(currentItem.index, 1);
     end)
+
+    proccessor:Register("PADDDOWN", function()
+        MerchantModule.scrollFrame:SetVerticalScroll(100);
+    end);
 end
 
 function MerchantModule:InitframeStrata()
