@@ -15,7 +15,6 @@ function MerchantApi:PreProccessItemsInfo(callback)
             if itemLink then
                 count = count + 1
             end
-            print(itemLink);
         end
         if count < numItems then
             C_Timer.After(1, checkItems) -- Wait for 1 second before checking again

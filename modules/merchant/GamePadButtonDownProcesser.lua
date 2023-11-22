@@ -16,6 +16,7 @@ function GamePadButtonDownProcesser:New(name)
         return self.instances[name]
     end
     local newObj = {
+        name = name,
         groups = {},
         groupNames = {},
         currentGroupIndex = 0,
@@ -74,7 +75,7 @@ function GamePadButtonDownProcesser:Handle(...)
     local currentItem = self.groups[currentGroupIndex + 1][currentIndex + 1];
 
     if (self.handlers[key]) then
-        self.handlers[key](currentItem, preItem);
+        self.handlers[key](currentItem, preItem, self);
     end
 
     if (preItem and preItem.OnLeave) then
@@ -94,4 +95,13 @@ function GamePadButtonDownProcesser:Group(name, frame)
     end
     frame.index = #groups[#groups] + 1; --count it
     table.insert(groups[#groups], frame);
+end
+
+function GamePadButtonDownProcesser:Destory()
+    self.groups = {};
+    self.groupNames = {};
+    self.currentGroupIndex = 0;
+    self.currentIndex = 0;
+    self.handlers = {};
+    self.instances[self.name] = nil;
 end

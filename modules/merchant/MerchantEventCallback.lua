@@ -7,48 +7,30 @@ local currentItems = {};
 local MaskFrameModule = Gpe:GetModule('MaskFrameModule');
 
 
+
+
 function MerchantModule:MERCHANT_SHOW()
     MerchantFrame:ShowFadeIn();
     MaskFrameModule:ShowAll();
     self:InitframeStrata();
     UIParent:Hide();
+    self:InitScrollFrame();
 
-    local templeteWidth = 210;
-    local templateHeight = 45;
+    local width = self.templateWidth;
+    local height = self.templateHeight;
 
-    local count = GetMerchantNumItems();
-    local pages = self.maxColum;
-
-    local scale = UIParent:GetEffectiveScale();
-    local width = (GetScreenWidth() / 2) * scale
-    local height = GetScreenHeight() * scale - 30;
-
-    local scrollFrame = CreateFrame("ScrollFrame", nil, nil, "UIPanelScrollFrameTemplate")
-    scrollFrame:SetSize(templeteWidth * pages, height)
-    scrollFrame:SetPoint("TOP", MaskFrameModule.headFrame, "BOTTOM", 0, 0);
-    local scrollChild = CreateFrame("Frame", nil, scrollFrame)
-    scrollFrame:SetScrollChild(scrollChild)
+    local height_space = self.height_space;
+    local widht_space = self.width_space;
 
 
-    scrollChild:SetSize(templeteWidth * pages, (templateHeight * count) / 2);
-    self.scrollChild = scrollChild;
-    self.scrollFrame = scrollFrame;
-
-
-    MerchantFrame:ClearAllPoints();
-    MerchantFrame:SetParent(self.scrollChild);
-    MerchantFrame:SetPoint("TOPLEFT", self.scrollChild);
-    MerchantFrame:SetPoint("BOTTOMRIGHT", self.scrollChild);
-
-
-
-    MerchantFrame:SetSize(templeteWidth * pages, (templateHeight * count) / 2);
 
     local callback = function(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
         local source = _G["MerchantItem" .. index];
         source:ClearAllPoints();
         local floor = math.floor(index % midle);
-        source:SetPoint("TOPLEFT", (col) * (templeteWidth + 50), -floor * 55);
+        local scroll_width = self.templateWidth * 2 * 1.5;
+        local offsetX = (scroll_width - (2) * (width + widht_space)) / 2;
+        source:SetPoint("TOPLEFT", (col) * (width + widht_space) + offsetX, -floor * (height + height_space));
         local frame = CreateFrame("Frame", nil, _G["MerchantItem" .. index], "MerchantItemTemplate1");
         frame:SetPoint("CENTER");
         if (itemLink) then
@@ -85,10 +67,7 @@ function MerchantModule:MERCHANT_CLOSED()
     MaskFrameModule:HideBody();
     UIParent:Show();
     for i = 1, #currentItems do
-        currentItems[i]:EnableGamePadButton(false);
-        currentItems[i]:UnregisterAllEvents();
-        currentItems[i]:Hide();
-        MerchatItemGroups = {};
+        currentItems[i]:Destory();
     end
 end
 
@@ -104,111 +83,23 @@ function MerchantModule:UpdateMerchantPositions()
     MerchantFrame:SetPoint("BOTTOMRIGHT", self.scrollChild);
 
     local count = GetMerchantNumItems();
-    local maxColum = self.maxColum;
-    local templeteWidth = 210;
-    local middle = math.ceil(count / maxColum);
-    for i = 1, count do
-        local source = _G["MerchantItem" .. i];
+    local middle = math.ceil(count / self.maxColum);
+    local scroll_width = self.templateWidth * 2 * 1.5;
+    local offsetX = (scroll_width - (2) * (self.templateWidth + self.width_space)) / 2;
+    for index = 1, count do
+        local source = _G["MerchantItem" .. index];
         if (source ~= nil) then
             source:ClearAllPoints();
-            local col = math.floor(i / middle);
-            local floor = math.floor(i % middle);
-            source:SetPoint("TOPLEFT", (col) * (templeteWidth + 50), -floor * 55);
+            local col = math.floor(index / middle);
+            local floor = math.floor(index % middle);
+
+            source:SetPoint("TOPLEFT", col * (self.templateWidth + self.width_space) + offsetX,
+                -floor * (self.templateHeight + self.height_space));
             source:Show();
         end
     end
 
     --其余的都给ClearPoint掉 TODO:kangze
-end
-
-function MerchantModule:HiddeMerchantSomeFrame()
-    if MerchantBuyBackItem then
-        MerchantBuyBackItem:Hide()
-    end
-
-    if MerchantExtraCurrencyBg then
-        MerchantExtraCurrencyBg:Hide()
-    end
-
-    if MerchantExtraCurrencyInset then
-        MerchantExtraCurrencyInset:Hide()
-    end
-
-    if MerchantNextPageButton then
-        MerchantNextPageButton:Hide()
-    end
-
-    if MerchantPrevPageButton then
-        MerchantPrevPageButton:Hide()
-    end
-
-    if MerchantFrameBottomLeftBorder then
-        MerchantFrameBottomLeftBorder:Hide()
-    end
-
-    if MerchantFrame.TitleContainer then
-        MerchantFrame.TitleContainer:Hide()
-    end
-
-    if MerchantFrame.TopTileStreaks then
-        MerchantFrame.TopTileStreaks:Hide()
-    end
-
-    if MerchantFrameTab1 then
-        MerchantFrameTab1:Hide()
-    end
-
-    if MerchantFrameTab2 then
-        MerchantFrameTab2:Hide()
-    end
-
-    if MerchantFrame.PortraitContainer then
-        MerchantFrame.PortraitContainer:Hide()
-    end
-
-    if MerchantFrameLootFilter then
-        MerchantFrameLootFilter:Hide()
-    end
-
-    if MerchantSellAllJunkButton then
-        MerchantSellAllJunkButton:Hide()
-    end
-
-    if MerchantMoneyBg then
-        MerchantMoneyBg:Hide()
-    end
-
-    if MerchantMoneyInset then
-        MerchantMoneyInset:Hide()
-    end
-
-    if MerchantMoneyFrame then
-        MerchantMoneyFrame:Hide()
-    end
-
-    if MerchantToken1 then
-        MerchantToken1:Hide()
-    end
-
-    if MerchantPageText then
-        MerchantPageText:Hide()
-    end
-
-    if MerchantFrameBg then
-        MerchantFrameBg:Hide()
-    end
-
-    if MerchantFrameCloseButton then
-        MerchantFrameCloseButton:Hide()
-    end
-
-    if MerchantFrameInset then
-        MerchantFrameInset:Hide()
-    end
-
-    if MerchantFrame.NineSlice then
-        MerchantFrame.NineSlice:Hide()
-    end
 end
 
 --MerchantItem 默认层级 DIALOG
@@ -239,11 +130,11 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
         MerchantItemGameTooltip:Hide();
     end);
 
+    --幻化
     proccessor:Register("PAD4", function(currentItem)
         if (currentItem.dressUpFrame) then
             currentItem.dressUpFrame:Destroy();
             currentItem.dressUpFrame = nil;
-            return;
         end
         local frame = CreateFrame("Frame", nil, nil, "DressupFrameTemplate");
         local bodyFrame = MaskFrameModule.bodyFrame;
@@ -287,11 +178,57 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
         BuyMerchantItem(currentItem.index, 1);
     end)
 
-    proccessor:Register("PADDDOWN", function()
-        MerchantModule.scrollFrame:SetVerticalScroll(100);
+    --窗体滚动
+    proccessor:Register("PADDDOWN,PADDUP", function(currentItem, preItem, obj)
+        local total_height = MerchantModule.scrollFrame:GetHeight();
+        local item_height = currentItem:GetHeight();
+        local current_index = obj.currentIndex;
+        print(current_index);
+        local ratio = 3;
+        local current_position = MerchantModule.scrollFrame:GetVerticalScroll();
+
+        if (current_index == 0) then
+            MerchantModule.scrollFrame:SetVerticalScrollFade(current_position, 0);
+            return;
+        end
+
+        if (item_height * current_index > total_height / ratio) then
+            MerchantModule.scrollFrame:SetVerticalScrollFade(current_position,
+                item_height * current_index - total_height / ratio);
+            return;
+        end
+        if (item_height * current_index > total_height / ratio) then
+            MerchantModule.scrollFrame:SetVerticalScrollFade(current_position,
+                item_height * current_index - total_height / ratio);
+            return;
+        end
     end);
 end
 
 function MerchantModule:InitframeStrata()
     MaskFrameModule:SetBackground();
+end
+
+function MerchantModule:InitScrollFrame()
+    local count = GetMerchantNumItems();
+    local col = self.maxColum;
+
+    local scale = UIParent:GetEffectiveScale();
+    local height = GetScreenHeight() * scale - 30;
+    local scrollFrame = CreateFrame("ScrollFrame", nil, nil)
+    scrollFrame:SetSize(self.templateWidth * col * 1.5, height)
+    scrollFrame:SetPoint("TOP", MaskFrameModule.headFrame, "BOTTOM", 0, 0);
+    local scrollChild = CreateFrame("Frame", nil, scrollFrame)
+    scrollFrame:SetScrollChild(scrollChild)
+
+
+    scrollChild:SetSize(self.templateWidth * col * 1.5, (self.templateHeight * count) / 2);
+    self.scrollChild = scrollChild;
+    self.scrollFrame = scrollFrame;
+
+
+    MerchantFrame:ClearAllPoints();
+    MerchantFrame:SetParent(self.scrollChild);
+    MerchantFrame:SetPoint("TOPLEFT", self.scrollChild);
+    MerchantFrame:SetPoint("BOTTOMRIGHT", self.scrollChild);
 end

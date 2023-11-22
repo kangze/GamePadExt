@@ -27,3 +27,10 @@ function MerchantItemMixin:InitEabledGamePadButton(templateName, group)
     processor:Group(group, self);
     self.gamePadButtonDownProcessor = processor;
 end
+
+function MerchantItemMixin:Destory()
+    self:EnableGamePadButton(false);
+    self:UnregisterAllEvents();
+    self:Hide();
+    self.gamePadButtonDownProcessor:Destory();
+end

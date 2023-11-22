@@ -13,7 +13,13 @@ function MerchantModule:OnInitialize()
     self:RegisterEvent("MERCHANT_CLOSED")
     --self:SecureHook("OpenAllBags", "test");
 
-    self.maxColum = 2; --配置最大展示列数字
+    self.maxColum = 2;        --配置最大展示列数字
+
+    self.templateWidth = 210; --配置模板宽度
+    self.templateHeight = 45; --配置模板高度
+
+    self.height_space = 10;   --配置高度间隔
+    self.width_space = 40;     --配置宽度间隔
 end
 
 function MerchantModule:OnEnable()
@@ -31,3 +37,122 @@ end
 --Sample:Masque
 -- local group = Masque:Group("GamePadExt", "MerchantItem");
 -- group:AddButton(MerchantItem.button);
+
+function MerchantModule:ResetMerchantFrame()
+    self:HiddeMerchantSomeFrame();
+    MerchantFrame:ClearAllPoints();
+    MerchantFrame:SetParent(nil);
+    MerchantFrame:SetPoint("TOP", MaskFrameModule:GetHeaderFrame());
+
+    MerchantFrame:ClearAllPoints();
+    MerchantFrame:SetParent(self.scrollChild);
+    MerchantFrame:SetPoint("TOPLEFT", self.scrollChild);
+    MerchantFrame:SetPoint("BOTTOMRIGHT", self.scrollChild);
+
+    local count = GetMerchantNumItems();
+    local maxColum = self.maxColum;
+    local templeteWidth = 210;
+    local middle = math.ceil(count / maxColum);
+    for i = 1, count do
+        local source = _G["MerchantItem" .. i];
+        if (source ~= nil) then
+            source:ClearAllPoints();
+            local col = math.floor(i / middle);
+            local floor = math.floor(i % middle);
+            source:SetPoint("TOPLEFT", (col) * (templeteWidth + 50), -floor * 55);
+            source:Show();
+        end
+    end
+
+    --其余的都给ClearPoint掉 TODO:kangze
+end
+
+function MerchantModule:HiddeMerchantSomeFrame()
+    if MerchantBuyBackItem then
+        MerchantBuyBackItem:Hide()
+    end
+
+    if MerchantExtraCurrencyBg then
+        MerchantExtraCurrencyBg:Hide()
+    end
+
+    if MerchantExtraCurrencyInset then
+        MerchantExtraCurrencyInset:Hide()
+    end
+
+    if MerchantNextPageButton then
+        MerchantNextPageButton:Hide()
+    end
+
+    if MerchantPrevPageButton then
+        MerchantPrevPageButton:Hide()
+    end
+
+    if MerchantFrameBottomLeftBorder then
+        MerchantFrameBottomLeftBorder:Hide()
+    end
+
+    if MerchantFrame.TitleContainer then
+        MerchantFrame.TitleContainer:Hide()
+    end
+
+    if MerchantFrame.TopTileStreaks then
+        MerchantFrame.TopTileStreaks:Hide()
+    end
+
+    if MerchantFrameTab1 then
+        MerchantFrameTab1:Hide()
+    end
+
+    if MerchantFrameTab2 then
+        MerchantFrameTab2:Hide()
+    end
+
+    if MerchantFrame.PortraitContainer then
+        MerchantFrame.PortraitContainer:Hide()
+    end
+
+    if MerchantFrameLootFilter then
+        MerchantFrameLootFilter:Hide()
+    end
+
+    if MerchantSellAllJunkButton then
+        MerchantSellAllJunkButton:Hide()
+    end
+
+    if MerchantMoneyBg then
+        MerchantMoneyBg:Hide()
+    end
+
+    if MerchantMoneyInset then
+        MerchantMoneyInset:Hide()
+    end
+
+    if MerchantMoneyFrame then
+        MerchantMoneyFrame:Hide()
+    end
+
+    if MerchantToken1 then
+        MerchantToken1:Hide()
+    end
+
+    if MerchantPageText then
+        MerchantPageText:Hide()
+    end
+
+    if MerchantFrameBg then
+        MerchantFrameBg:Hide()
+    end
+
+    if MerchantFrameCloseButton then
+        MerchantFrameCloseButton:Hide()
+    end
+
+    if MerchantFrameInset then
+        MerchantFrameInset:Hide()
+    end
+
+    if MerchantFrame.NineSlice then
+        MerchantFrame.NineSlice:Hide()
+    end
+end

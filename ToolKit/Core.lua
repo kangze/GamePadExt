@@ -111,6 +111,12 @@ function Gpe:AddFrameApi(name, func)
     if not mk[name] then mk[name] = func end
 end
 
+function Gpe:AddScrollFrameApi(name, func)
+    local frame = CreateFrame("ScrollFrame");
+    local mk = getmetatable(frame).__index;
+    if not mk[name] then mk[name] = func end
+end
+
 function Gpe:AddDressUpModelApi(name, func)
     local frame = CreateFrame("DressUpModel");
     local mk = getmetatable(frame).__index;
