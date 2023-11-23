@@ -1,5 +1,5 @@
 local _, AddonData = ...;
-MerchantItemMixin = {};
+ MerchantItemMixin = CreateFromMixins({}, GamePadFrameMixin);
 
 function MerchantItemMixin:OnLoad()
     self:InitShadowAndAnimation();
@@ -15,22 +15,4 @@ end
 function MerchantItemMixin:OnEnter()
     self:ShowShadowFadeIn();
     self:ScaleFadeIn();
-end
-
-function MerchantItemMixin:OnGamePadButtonDown(...)
-    self.gamePadButtonDownProcessor:Handle(...);
-end
-
-function MerchantItemMixin:InitEabledGamePadButton(templateName, group)
-    self:EnableGamePadButton(true);
-    local processor = GamePadButtonDownProcesser:New(templateName);
-    processor:Group(group, self);
-    self.gamePadButtonDownProcessor = processor;
-end
-
-function MerchantItemMixin:Destory()
-    self:EnableGamePadButton(false);
-    self:UnregisterAllEvents();
-    self:Hide();
-    self.gamePadButtonDownProcessor:Destory();
 end

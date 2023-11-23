@@ -8,6 +8,11 @@
     <Script file="Animation\Alpha.lua"/>
     <Script file="Animation\OffsetX.lua"/>
     <Script file="Animation\Scroll.lua"/>
+
+
+    <Script file="GamePad\GamePadFrameMixin.lua"/>
+    <Script file="GamePad\GamePadButtonDownProcesser.lua"/>
+
     <Script file="Anchor.lua"/>
     <Script file="String.lua"/>
     <Script file="Texture.lua"/>
