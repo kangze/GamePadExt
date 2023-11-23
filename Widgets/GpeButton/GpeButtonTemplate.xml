@@ -1,0 +1,30 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\FrameXML\UI.xsd">
+    <Script file="GpeButtonTemplateMixin.lua"/>
+    <Frame name="GpeButtonTemplate" virtual="true" mixin="GpeButtonTemplateMixin">
+        <Size x="130" y="30"/>
+        <Anchors>
+            <Anchor point="LEFT" x="40"/>
+        </Anchors>
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture parentKey="background" setAllPoints="true">
+                    <Color r="0.96078431372549" g="0.50980392156863" b="0.12549019607843" a="1"/>
+                </Texture>
+
+                <FontString parentKey="text" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
+                    <FontHeight val="18"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad method="OnLoad"/>
+            <OnEnter method="OnEnter"/>
+            <OnLeave method="OnLeave"/>
+        </Scripts>
+    </Frame>
+</Ui>
