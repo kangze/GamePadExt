@@ -57,7 +57,7 @@ function MerchantModule:MERCHANT_SHOW()
             frame.forbidden:SetText(reason);
         end
         frame.iconBorder:SetAtlas(GetQualityBorder(itemQuality));
-        frame:InitEnableGamePadButton("MerchantItem", "group" .. col);
+        frame:InitEnableGamePadButton("MerchantItem", "group" .. col, "direct");
         MerchantModule:RegisterMerchantItemGamepadButtonDown(frame);
         table.insert(currentItems, frame);
     end
@@ -109,7 +109,7 @@ end
 
 function MerchantModule:AppendHeadElements()
     local width = 100;
-    local width_space=20;
+    local width_space = 20;
     local height = MaskFrameModule.headFrame:GetHeight();
 
     local tab_buy = CreateFrame("Frame", nil, nil, "GpeButtonTemplate");
@@ -119,6 +119,7 @@ function MerchantModule:AppendHeadElements()
     tab_buy:ShowFadeIn();
     tab_buy:SetFrameStrata("DIALOG");
 
+
     local tab_rebuy = CreateFrame("Frame", nil, nil, "GpeButtonTemplate");
     tab_rebuy.text:SetText("售出");
     tab_rebuy:SetPoint("LEFT", MaskFrameModule.headFrame, width + width_space, 0);
@@ -126,7 +127,12 @@ function MerchantModule:AppendHeadElements()
     tab_rebuy:ShowFadeIn();
     tab_rebuy:SetFrameStrata("DIALOG");
 
+    self.tab_buy = tab_buy;
     self.tab_rebuy = tab_rebuy;
+
+    --加入手柄按键支持
+    tab_buy:InitEnableGamePadButton("BuyItem", "group", "trigger");
+    tab_rebuy:InitEnableGamePadButton("BuyItem", "group", "trigger");
 end
 
 function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)

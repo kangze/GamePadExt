@@ -10,9 +10,11 @@ function GpeButtonTemplateMixin:OnLoad()
 end
 
 function GpeButtonTemplateMixin:OnLeave()
-
+    self:ShowShadowFadeOut();
+    self:ScaleFadeOut();
 end
 
 function GpeButtonTemplateMixin:OnEnter()
-
+    self:ShowShadowFadeIn();
+    self:ScaleFadeIn();
 end
