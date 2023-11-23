@@ -3,3 +3,5 @@
 ################################################################################
 
 /.vs
+/ImageConverter/ImageConverter/.vs/ImageConverter
+/ImageConverter/ImageConverter/ImageConverter/obj
