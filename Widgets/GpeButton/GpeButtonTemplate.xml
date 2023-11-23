@@ -2,17 +2,22 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\..\FrameXML\UI.xsd">
     <Script file="GpeButtonTemplateMixin.lua"/>
-    <Frame name="GpeButtonTemplate" virtual="true" mixin="GpeButtonTemplateMixin">
+    <Frame name="GpeButtonTemplate" hidden="true" virtual="true" mixin="GpeButtonTemplateMixin">
+        <KeyValues>
+            <KeyValue key="buttonText" value=""/>
+        </KeyValues>
         <Size x="130" y="30"/>
         <Anchors>
             <Anchor point="LEFT" x="40"/>
         </Anchors>
         <Layers>
-            <Layer level="ARTWORK">
+            <Layer level="BACKGROUND">
                 <Texture parentKey="background" setAllPoints="true">
                     <Color r="0.96078431372549" g="0.50980392156863" b="0.12549019607843" a="1"/>
                 </Texture>
+            </Layer>
 
+            <Layer level="ARTWORK">
                 <FontString parentKey="text" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
                     <FontHeight val="18"/>
                     <Anchors>

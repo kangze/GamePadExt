@@ -18,6 +18,7 @@ InfoPanel/widgets/MajorFactionRewardTemplate.xml
 
 Core.lua
 ToolKit/loads.xml
+Widgets/GpeButton/loads.xml
 
 modules/merchant/loads.xml
 modules/actionbar/loads.xml

@@ -38,35 +38,6 @@ end
 -- local group = Masque:Group("GamePadExt", "MerchantItem");
 -- group:AddButton(MerchantItem.button);
 
-function MerchantModule:ResetMerchantFrame()
-    self:HiddeMerchantSomeFrame();
-    MerchantFrame:ClearAllPoints();
-    MerchantFrame:SetParent(nil);
-    MerchantFrame:SetPoint("TOP", MaskFrameModule:GetHeaderFrame());
-
-    MerchantFrame:ClearAllPoints();
-    MerchantFrame:SetParent(self.scrollChild);
-    MerchantFrame:SetPoint("TOPLEFT", self.scrollChild);
-    MerchantFrame:SetPoint("BOTTOMRIGHT", self.scrollChild);
-
-    local count = GetMerchantNumItems();
-    local maxColum = self.maxColum;
-    local templeteWidth = 210;
-    local middle = math.ceil(count / maxColum);
-    for i = 1, count do
-        local source = _G["MerchantItem" .. i];
-        if (source ~= nil) then
-            source:ClearAllPoints();
-            local col = math.floor(i / middle);
-            local floor = math.floor(i % middle);
-            source:SetPoint("TOPLEFT", (col) * (templeteWidth + 50), -floor * 55);
-            source:Show();
-        end
-    end
-
-    --其余的都给ClearPoint掉 TODO:kangze
-end
-
 function MerchantModule:HiddeMerchantSomeFrame()
     if MerchantBuyBackItem then
         MerchantBuyBackItem:Hide()

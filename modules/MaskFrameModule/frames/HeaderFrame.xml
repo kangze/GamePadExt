@@ -18,46 +18,24 @@
 
         <Frames>
 
-            <Frame parentKey="buyFrame">
+            <Frame parentKey="buyFrame" inherits="GpeButtonTemplate">
+                <KeyValues>
+                    <KeyValue key="buttonText" value="购买"/>
+                </KeyValues>
                 <Size x="130" y="30"/>
                 <Anchors>
                     <Anchor point="LEFT" x="40"/>
                 </Anchors>
-                <Layers>
-                    <Layer level="ARTWORK">
-                        <Texture parentKey="background2" setAllPoints="true">
-                            <Color r="0.96078431372549" g="0.50980392156863" b="0.12549019607843" a="1"/>
-                        </Texture>
-
-                        <FontString parentKey="text" text="购买" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
-                            <FontHeight val="18"/>
-                            <Anchors>
-                                <Anchor point="CENTER"/>
-                            </Anchors>
-                        </FontString>
-                    </Layer>
-                </Layers>
             </Frame>
 
-            <Frame parentKey="rebuyFrame">
+            <Frame parentKey="rebuyFrame" inherits="GpeButtonTemplate">
+                <KeyValues>
+                    <KeyValue key="buttonText" value="卖出"/>
+                </KeyValues>
                 <Size x="130" y="30"/>
                 <Anchors>
                     <Anchor point="LEFT" relativeKey="$parent.buyFrame" relativePoint="RIGHT"/>
                 </Anchors>
-                <Layers>
-                    <Layer level="ARTWORK">
-                        <Texture parentKey="background2" setAllPoints="true">
-                            <Color r="0.14509803921569" g="0.52156862745098" b="0.65098039215686" a="1"/>
-                        </Texture>
-
-                        <FontString parentKey="text" text="已售出" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
-                            <FontHeight val="18"/>
-                            <Anchors>
-                                <Anchor point="CENTER"/>
-                            </Anchors>
-                        </FontString>
-                    </Layer>
-                </Layers>
             </Frame>
 
             <Frame parentKey="money">

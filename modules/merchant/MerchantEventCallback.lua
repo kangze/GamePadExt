@@ -16,6 +16,8 @@ function MerchantModule:MERCHANT_SHOW()
     UIParent:Hide();
     self:InitScrollFrame();
 
+    self:AppendHeadElements();
+
     local width = self.templateWidth;
     local height = self.templateHeight;
 
@@ -55,7 +57,7 @@ function MerchantModule:MERCHANT_SHOW()
             frame.forbidden:SetText(reason);
         end
         frame.iconBorder:SetAtlas(GetQualityBorder(itemQuality));
-        frame:InitEabledGamePadButton("MerchantItem", "group" .. col);
+        frame:InitEnableGamePadButton("MerchantItem", "group" .. col);
         MerchantModule:RegisterMerchantItemGamepadButtonDown(frame);
         table.insert(currentItems, frame);
     end
@@ -104,6 +106,28 @@ end
 
 --MerchantItem 默认层级 DIALOG
 --BodyFrame 默认的层级是 BACKGROUND
+
+function MerchantModule:AppendHeadElements()
+    local width = 100;
+    local width_space=20;
+    local height = MaskFrameModule.headFrame:GetHeight();
+
+    local tab_buy = CreateFrame("Frame", nil, nil, "GpeButtonTemplate");
+    tab_buy.text:SetText("购买");
+    tab_buy:SetPoint("LEFT", MaskFrameModule.headFrame);
+    tab_buy:SetSize(width, height);
+    tab_buy:ShowFadeIn();
+    tab_buy:SetFrameStrata("DIALOG");
+
+    local tab_rebuy = CreateFrame("Frame", nil, nil, "GpeButtonTemplate");
+    tab_rebuy.text:SetText("售出");
+    tab_rebuy:SetPoint("LEFT", MaskFrameModule.headFrame, width + width_space, 0);
+    tab_rebuy:SetSize(width, height);
+    tab_rebuy:ShowFadeIn();
+    tab_rebuy:SetFrameStrata("DIALOG");
+
+    self.tab_rebuy = tab_rebuy;
+end
 
 function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
     local proccessor = frame.gamePadButtonDownProcessor;
