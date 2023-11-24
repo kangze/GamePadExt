@@ -7,9 +7,6 @@
             <KeyValue key="buttonText" value=""/>
         </KeyValues>
         <Size x="130" y="30"/>
-        <Anchors>
-            <Anchor point="LEFT" x="40"/>
-        </Anchors>
         <Layers>
             <Layer level="BACKGROUND">
                 <Texture parentKey="background" setAllPoints="true">

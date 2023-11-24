@@ -114,18 +114,18 @@ function MerchantModule:AppendHeadElements()
 
     local tab_buy = CreateFrame("Frame", nil, nil, "GpeButtonTemplate");
     tab_buy.text:SetText("购买");
-    tab_buy:SetPoint("LEFT", MaskFrameModule.headFrame);
+    tab_buy:SetPoint("CENTER", MaskFrameModule.headFrame, -(width + width_space) / 2, 0);
     tab_buy:SetSize(width, height);
     tab_buy:ShowFadeIn();
-    tab_buy:SetFrameStrata("DIALOG");
+    tab_buy:SetFrameStrata("FULLSCREEN");
 
 
     local tab_rebuy = CreateFrame("Frame", nil, nil, "GpeButtonTemplate");
     tab_rebuy.text:SetText("售出");
-    tab_rebuy:SetPoint("LEFT", MaskFrameModule.headFrame, width + width_space, 0);
+    tab_rebuy:SetPoint("CENTER", MaskFrameModule.headFrame, (width + width_space) / 2, 0);
     tab_rebuy:SetSize(width, height);
     tab_rebuy:ShowFadeIn();
-    tab_rebuy:SetFrameStrata("DIALOG");
+    tab_rebuy:SetFrameStrata("FULLSCREEN");
 
     self.tab_buy = tab_buy;
     self.tab_rebuy = tab_rebuy;
