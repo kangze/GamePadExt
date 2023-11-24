@@ -52,10 +52,11 @@ function GamePadButtonDownProcesser:ComputeIndex(...)
 
     local count = #self.groups[currentGroupIndex + 1];
     local groupCount = #self.groups;
-    if (key == "PADDRIGHT" or key == "PADRTRIGGER") then
+
+    if (key == "PADDRIGHT") then
         currentGroupIndex = currentGroupIndex + 1;
         currentGroupIndex = currentGroupIndex % (groupCount);
-    elseif (key == "PADDLEFT" or key == "PADLTRIGGER") then
+    elseif (key == "PADDLEFT") then
         currentGroupIndex = currentGroupIndex - 1;
         currentGroupIndex = currentGroupIndex % (groupCount);
     end
@@ -83,11 +84,11 @@ function GamePadButtonDownProcesser:Handle(...)
     local key = ...;
     local currentItem, preItem;
 
-    if (self.buttonGroup == "direct") then
+    if (self.buttonGroup == "direct" and (key == "PADDLEFT" or key == "PADDRIGHT" or key == "PADDUP" or key == "PADDDOWN")) then
         currentItem, preItem = self:ComputeIndex(key);
     end
 
-    if (self.buttonGroup == "trigger") then
+    if (self.buttonGroup == "trigger" and (key == "PADLTRIGGER" or key == "PADDRIGHT")) then
         --如果是trigger按键,那么进行伪装
         local mock_key = key == "PADLTRIGGER" and "PADDLEFT" or "PADDRIGHT";
         currentItem, preItem = self:ComputeIndex(mock_key);

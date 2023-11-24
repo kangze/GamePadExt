@@ -144,8 +144,8 @@
         </Frames>
         <Scripts>
             <OnLoad method="OnLoad"/>
-            <!-- <OnEnter method="OnEnter"/>
-            <OnLeave method="OnLeave"/> -->
+            <OnEnter method="OnEnter"/>
+            <OnLeave method="OnLeave"/>
             <OnGamePadButtonDown method="OnGamePadButtonDown"/>
         </Scripts>
     </Frame>

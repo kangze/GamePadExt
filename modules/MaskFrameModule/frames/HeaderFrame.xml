@@ -17,27 +17,6 @@
         </Layers>
 
         <Frames>
-
-            <Frame parentKey="buyFrame" inherits="GpeButtonTemplate">
-                <KeyValues>
-                    <KeyValue key="buttonText" value="购买"/>
-                </KeyValues>
-                <Size x="130" y="30"/>
-                <Anchors>
-                    <Anchor point="LEFT" x="40"/>
-                </Anchors>
-            </Frame>
-
-            <Frame parentKey="rebuyFrame" inherits="GpeButtonTemplate">
-                <KeyValues>
-                    <KeyValue key="buttonText" value="卖出"/>
-                </KeyValues>
-                <Size x="130" y="30"/>
-                <Anchors>
-                    <Anchor point="LEFT" relativeKey="$parent.buyFrame" relativePoint="RIGHT"/>
-                </Anchors>
-            </Frame>
-
             <Frame parentKey="money">
                 <Size x="100" y="35"/>
                 <Anchors>

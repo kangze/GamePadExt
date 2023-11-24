@@ -15,6 +15,7 @@ function MerchantModule:MERCHANT_SHOW()
     self:InitframeStrata();
     UIParent:Hide();
     self:InitScrollFrame();
+    print(MerchantModule.scrollFrame:GetFrameStrata());
 
     self:AppendHeadElements();
 
@@ -117,7 +118,7 @@ function MerchantModule:AppendHeadElements()
     tab_buy:SetPoint("LEFT", MaskFrameModule.headFrame);
     tab_buy:SetSize(width, height);
     tab_buy:ShowFadeIn();
-    tab_buy:SetFrameStrata("DIALOG");
+    tab_buy:SetFrameStrata("MEDIUM");
 
 
     local tab_rebuy = CreateFrame("Frame", nil, nil, "GpeButtonTemplate");
@@ -125,7 +126,7 @@ function MerchantModule:AppendHeadElements()
     tab_rebuy:SetPoint("LEFT", MaskFrameModule.headFrame, width + width_space, 0);
     tab_rebuy:SetSize(width, height);
     tab_rebuy:ShowFadeIn();
-    tab_rebuy:SetFrameStrata("DIALOG");
+    tab_rebuy:SetFrameStrata("MEDIUM");
 
     self.tab_buy = tab_buy;
     self.tab_rebuy = tab_rebuy;
@@ -213,7 +214,6 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
         local total_height = MerchantModule.scrollFrame:GetHeight();
         local item_height = currentItem:GetHeight();
         local current_index = obj.currentIndex;
-        print(current_index);
         local ratio = 3;
         local current_position = MerchantModule.scrollFrame:GetVerticalScroll();
 
