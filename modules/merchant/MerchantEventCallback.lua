@@ -15,7 +15,6 @@ function MerchantModule:MERCHANT_SHOW()
     self:InitframeStrata();
     UIParent:Hide();
     self:InitScrollFrame();
-    print(MerchantModule.scrollFrame:GetFrameStrata());
 
     self:AppendHeadElements();
 
@@ -58,7 +57,7 @@ function MerchantModule:MERCHANT_SHOW()
             frame.forbidden:SetText(reason);
         end
         frame.iconBorder:SetAtlas(GetQualityBorder(itemQuality));
-        frame:InitEnableGamePadButton("MerchantItem", "group" .. col, "direct");
+        frame:InitEnableGamePadButton("MerchantItem", "group" .. col, 2);
         MerchantModule:RegisterMerchantItemGamepadButtonDown(frame);
         table.insert(currentItems, frame);
     end
@@ -118,7 +117,7 @@ function MerchantModule:AppendHeadElements()
     tab_buy:SetPoint("LEFT", MaskFrameModule.headFrame);
     tab_buy:SetSize(width, height);
     tab_buy:ShowFadeIn();
-    tab_buy:SetFrameStrata("MEDIUM");
+    tab_buy:SetFrameStrata("DIALOG");
 
 
     local tab_rebuy = CreateFrame("Frame", nil, nil, "GpeButtonTemplate");
@@ -126,14 +125,30 @@ function MerchantModule:AppendHeadElements()
     tab_rebuy:SetPoint("LEFT", MaskFrameModule.headFrame, width + width_space, 0);
     tab_rebuy:SetSize(width, height);
     tab_rebuy:ShowFadeIn();
-    tab_rebuy:SetFrameStrata("MEDIUM");
+    tab_rebuy:SetFrameStrata("DIALOG");
 
     self.tab_buy = tab_buy;
     self.tab_rebuy = tab_rebuy;
 
     --加入手柄按键支持
-    tab_buy:InitEnableGamePadButton("BuyItem", "group", "trigger");
-    tab_rebuy:InitEnableGamePadButton("BuyItem", "group", "trigger");
+    tab_buy:InitEnableGamePadButton("BuyItem", "group", 1);
+    tab_rebuy:InitEnableGamePadButton("BuyItem", "group", 1);
+
+    --注册按键事件
+    self:RegisterBuyItem(tab_buy);
+    self:RegisterBuyItem(tab_rebuy);
+end
+
+function MerchantModule:RegisterBuyItem(frame)
+    local proccessor = frame.gamePadButtonDownProcessor;
+    proccessor:Register("PADRTRIGGER,PADLTRIGGER", function(currentItem, preItem)
+        if (preItem and preItem.OnLeave) then
+            preItem:OnLeave();
+        end
+        if (currentItem and currentItem.OnEnter) then
+            currentItem:OnEnter();
+        end
+    end);
 end
 
 function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
@@ -154,11 +169,21 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
                 preItem.dressUpFrame = nil;
             end
         end
+
+        if (preItem and preItem.OnLeave) then
+            preItem:OnLeave();
+        end
+        if (currentItem and currentItem.OnEnter) then
+            currentItem:OnEnter();
+        end
     end);
 
-    proccessor:Register("PADSYSTEM", function()
-        MerchantFrame:Hide();
-        MerchantItemGameTooltip:Hide();
+    --返回上一级菜单
+    proccessor:Register("PADSYSTEM", function(...)
+        -- MerchantFrame:Hide();
+        -- MerchantItemGameTooltip:Hide();
+        proccessor:Switch("BuyItem");
+        --self:Switch("BuyItem");
     end);
 
     --幻化
@@ -210,10 +235,10 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
     end)
 
     --窗体滚动
-    proccessor:Register("PADDDOWN,PADDUP", function(currentItem, preItem, obj)
+    proccessor:Register("PADDDOWN,PADDUP", function(currentItem, preItem)
         local total_height = MerchantModule.scrollFrame:GetHeight();
         local item_height = currentItem:GetHeight();
-        local current_index = obj.currentIndex;
+        local current_index = currentItem.currentIndex;
         local ratio = 3;
         local current_position = MerchantModule.scrollFrame:GetVerticalScroll();
 
@@ -233,6 +258,10 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
             return;
         end
     end);
+
+    -- proccessor:Register("PADLTRIGGER,PADRTRIGGER", function()
+    --     print("我切换了");
+    -- end)
 end
 
 function MerchantModule:InitframeStrata()

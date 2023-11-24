@@ -12,9 +12,11 @@ end
 function GpeButtonTemplateMixin:OnLeave()
     self:ShowShadowFadeOut();
     self:ScaleFadeOut();
+    print("OnLeave");
 end
 
 function GpeButtonTemplateMixin:OnEnter()
     self:ShowShadowFadeIn();
     self:ScaleFadeIn();
+    print("OnEnter");
 end

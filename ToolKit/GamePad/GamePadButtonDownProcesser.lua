@@ -7,51 +7,27 @@ local function decorator(oldFunc)
     end
 end
 
-GamePadButtonDownProcesser = {};
-GamePadButtonDownProcesser.__index = GamePadButtonDownProcesser
-GamePadButtonDownProcesser.instances = {}
-
---name: processer namep
---buttonGroup: 目前只有2个值，一个是 direct,一个是 trigger
-function GamePadButtonDownProcesser:New(classname, buttonGroup)
-    if self.instances[classname] then
-        return self.instances[classname]
-    end
-    local newObj = {
-        classname = classname,
-        groups = {},
-        groupNames = {},
-        currentGroupIndex = 0,
-        currentIndex = 0,
-        handlers = {},
-        buttonGroup = buttonGroup
-    }
-    setmetatable(newObj, GamePadButtonDownProcesser)
-    self.instances[classname] = newObj
-    return newObj
-end
-
-function GamePadButtonDownProcesser:Register(keys, callback)
+local function Register(frame, keys, callback)
     local keys_arr = string.split(keys, ",");
     for _, key in ipairs(keys_arr) do
-        if not self.handlers[key] then
-            self.handlers[key] = callback;
+        if not frame.handlers[key] then
+            frame.handlers[key] = callback;
         end
-        self.handlers[key] = decorator(self.handlers[key])(callback);
+        frame.handlers[key] = decorator(frame.handlers[key])(callback);
     end
-    return self;
+    return frame;
 end
 
-function GamePadButtonDownProcesser:ComputeIndex(...)
+local function ComputeIndex(frame, ...)
     local key = ...;
-    local currentIndex = self.currentIndex;
-    local currentGroupIndex = self.currentGroupIndex;
+    local currentIndex = frame.currentIndex;
+    local currentGroupIndex = frame.currentGroupIndex;
 
     local preIndex = currentIndex;
     local preGroupIndex = currentGroupIndex;
 
-    local count = #self.groups[currentGroupIndex + 1];
-    local groupCount = #self.groups;
+    local count = #frame.groups[currentGroupIndex + 1];
+    local groupCount = #frame.groups;
 
     if (key == "PADDRIGHT") then
         currentGroupIndex = currentGroupIndex + 1;
@@ -61,7 +37,7 @@ function GamePadButtonDownProcesser:ComputeIndex(...)
         currentGroupIndex = currentGroupIndex % (groupCount);
     end
 
-    currentIndex = math.min(currentIndex, #self.groups[currentGroupIndex + 1] - 1);
+    currentIndex = math.min(currentIndex, #frame.groups[currentGroupIndex + 1] - 1);
 
     if (key == "PADDDOWN") then
         currentIndex = currentIndex + 1;
@@ -71,57 +47,100 @@ function GamePadButtonDownProcesser:ComputeIndex(...)
         currentIndex = currentIndex % count;
     end
 
-    self.currentIndex = currentIndex;
-    self.currentGroupIndex = currentGroupIndex;
+    frame.currentIndex = currentIndex;
+    frame.currentGroupIndex = currentGroupIndex;
 
-    local preItem = self.groups[preGroupIndex + 1][preIndex + 1];
-    local currentItem = self.groups[currentGroupIndex + 1][currentIndex + 1];
+
+    local preItem = frame.groups[preGroupIndex + 1][preIndex + 1];
+    local currentItem = frame.groups[currentGroupIndex + 1][currentIndex + 1];
+
+    frame.currentItem = currentItem;
+    frame.preItem = preItem;
+
+    currentItem.currentIndex = currentIndex;
+
     return currentItem, preItem;
 end
 
 --只处理方向键的定位处理
-function GamePadButtonDownProcesser:Handle(...)
+local function Handle(frame, ...)
     local key = ...;
-    local currentItem, preItem;
+    local preItem = frame.preItem;
+    local currentItem = frame.currentItem;
 
-    if (self.buttonGroup == "direct" and (key == "PADDLEFT" or key == "PADDRIGHT" or key == "PADDUP" or key == "PADDDOWN")) then
-        currentItem, preItem = self:ComputeIndex(key);
+    print(key);
+
+    if (key == "PADDLEFT" or key == "PADDRIGHT" or key == "PADDUP" or key == "PADDDOWN") then
+        currentItem, preItem = frame:ComputeIndex(key);
     end
 
-    if (self.buttonGroup == "trigger" and (key == "PADLTRIGGER" or key == "PADDRIGHT")) then
+    if (key == "PADLTRIGGER" or key == "PADRTRIGGER") then
         --如果是trigger按键,那么进行伪装
-        local mock_key = key == "PADLTRIGGER" and "PADDLEFT" or "PADDRIGHT";
-        currentItem, preItem = self:ComputeIndex(mock_key);
+        local mock_key = key == "PADLTRIGGER" and "PADDUP" or "PADDDOWN";
+        currentItem, preItem = frame:ComputeIndex(mock_key);
     end
 
-    if (self.handlers[key]) then
-        self.handlers[key](currentItem, preItem, self);
-    end
-
-    if (preItem and preItem.OnLeave) then
-        preItem:OnLeave();
-    end
-    if (currentItem and currentItem.OnEnter) then
-        currentItem:OnEnter();
+    if (frame.handlers[key]) then
+        frame.handlers[key](currentItem, preItem);
     end
 end
 
-function GamePadButtonDownProcesser:Group(name, frame)
-    local groups = self.groups;
-    local groupNames = self.groupNames;
+local function Switch(frame, classname)
+    local nextFrame     = GamePadButtonDownProcesserBuilder.instances[classname]
+    local next_level    = nextFrame:GetFrameLevel();
+    local current_level = frame:GetFrameLevel();
+    frame:SetFrameLevel(next_level);
+    nextFrame:SetFrameLevel(current_level);
+end
+
+local function Group(frame, name, element)
+    local groups = frame.groups;
+    local groupNames = frame.groupNames;
     if (not table.isInTable(groupNames, name)) then
         table.insert(groups, {});
         table.insert(groupNames, name);
     end
-    frame.index = #groups[#groups] + 1; --count it
-    table.insert(groups[#groups], frame);
+    element.index = #groups[#groups] + 1; --count it
+    table.insert(groups[#groups], element);
 end
 
-function GamePadButtonDownProcesser:Destory()
-    self.groups = {};
-    self.groupNames = {};
-    self.currentGroupIndex = 0;
-    self.currentIndex = 0;
-    self.handlers = {};
-    self.instances[self.classname] = nil;
+local function Destory(frame)
+    frame.groups = {};
+    frame.groupNames = {};
+    frame.currentGroupIndex = 0;
+    frame.currentIndex = 0;
+    frame.handlers = {};
+    frame.instances[self.classname] = nil;
+end
+
+
+GamePadButtonDownProcesserBuilder = {
+    instances = {}
+};
+
+
+function GamePadButtonDownProcesserBuilder:New(classname, level)
+    if self.instances[classname] then
+        return self.instances[classname]
+    end
+    local frame = CreateFrame("Frame", nil, nil);
+    frame:SetPoint("CENTER", UIParent, "CENTER");
+    frame:SetSize(1, 1);
+    frame.Register = Register;
+    frame.ComputeIndex = ComputeIndex;
+    frame.Handle = Handle;
+    frame.Group = Group;
+    frame.Switch = Switch;
+    frame.Destory = Destory;
+    frame:SetFrameLevel(level);
+    frame:EnableGamePadButton(true);
+    frame:SetScript("OnGamePadButtonDown", Handle);
+    frame.classname = classname;
+    frame.groups = {};
+    frame.groupNames = {};
+    frame.currentGroupIndex = 0;
+    frame.currentIndex = 0;
+    frame.handlers = {};
+    self.instances[classname] = frame
+    return frame
 end
