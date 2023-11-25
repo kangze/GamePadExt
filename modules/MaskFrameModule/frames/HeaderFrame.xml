@@ -11,7 +11,7 @@
             <Layer level="BACKGROUND">
                 <!--头部背景-->
                 <Texture parentKey="background">
-                    <Color r="0.27450980392157" g="0.27058823529412" b="0.27843137254902" a="1"/>
+                    <Color r="1.0" g="0.996" b="0.976" a="1"/>
                 </Texture>
             </Layer>
         </Layers>

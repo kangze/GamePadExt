@@ -19,8 +19,6 @@ local function InitShowFadeInAndOut(frame, duration)
 end
 
 local function ShowFadeIn(frame)
-    frame:SetAlpha(0);
-    frame:Show();
     frame._showFadeIn:Show();
 end
 

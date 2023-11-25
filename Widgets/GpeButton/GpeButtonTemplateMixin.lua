@@ -5,18 +5,19 @@ GpeButtonTemplateMixin = CreateFromMixins({}, GamePadFrameMixin);
 
 function GpeButtonTemplateMixin:OnLoad()
     self.text:SetText(self.buttonText);
-    self:InitShadowAndAnimation();
-    self:InitShowFadeInAndOut();
+    if (self.shadow) then
+        self:InitShadowAndAnimation();
+    end
 end
 
 function GpeButtonTemplateMixin:OnLeave()
-    self:ShowShadowFadeOut();
-    self:ScaleFadeOut();
-    print("OnLeave");
+    if (self.shadow) then
+        self:ShowShadowFadeOut();
+    end
 end
 
 function GpeButtonTemplateMixin:OnEnter()
-    self:ShowShadowFadeIn();
-    self:ScaleFadeIn();
-    print("OnEnter");
+    if (self.shadow) then
+        self:ShowShadowFadeIn();
+    end
 end

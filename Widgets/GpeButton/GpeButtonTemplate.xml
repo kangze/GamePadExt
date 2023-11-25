@@ -5,12 +5,13 @@
     <Frame name="GpeButtonTemplate" hidden="true" enableMouse="true" virtual="true" mixin="GpeButtonTemplateMixin">
         <KeyValues>
             <KeyValue key="buttonText" value=""/>
+            <KeyValue key="shadow" value=""/>
         </KeyValues>
         <Size x="130" y="30"/>
         <Layers>
             <Layer level="BACKGROUND">
                 <Texture parentKey="background" setAllPoints="true">
-                    <Color r="0.96078431372549" g="0.50980392156863" b="0.12549019607843" a="1"/>
+                    <Color r="0.490" g="0.345" b="0.525" a="1"/>
                 </Texture>
             </Layer>
 

@@ -4,6 +4,14 @@ local Gpe = _G["Gpe"];
 
 local edgeFile = "Interface\\AddOns\\ElvUI\\Core\\Media\\Textures\\GlowTex";
 
+
+local default_options = {
+    start = 3,
+    ends = 8,
+    duration = 0.3,
+    color = { r = 0.5, g = 0.5, b = 0.5, a = 1 }
+};
+
 --创建一个阴影frame,然后返回
 local function CreateShadow(frame, edgeSize, color)
     local edgeSize = edgeSize or 0;
@@ -30,13 +38,16 @@ local function CreateAnimation(frame, start_val, end_val, duration, color)
     return animation;
 end
 
-local function InitShadowAndAnimation(frame)
-    local start_val, end_val, duration = AddonData.db.profile.shadow.style.start_val,
-        AddonData.db.profile.shadow.style.end_val, AddonData.db.profile.shadow.style.duration;
+--初始化阴影和阴影动画
+local function InitShadowAndAnimation(frame, options)
+    -- local start_val, end_val, duration = AddonData.db.profile.shadow.style.start_val,
+    --     AddonData.db.profile.shadow.style.end_val, AddonData.db.profile.shadow.style.duration;
+
+    local option = options or default_options;
     local color = AddonData.db.profile.shadow.style.color;
-    local shadow = CreateShadow(frame, start_val, color);
-    local fadeIn = CreateAnimation(shadow, start_val, end_val, duration, color);
-    local fadeOut = CreateAnimation(shadow, end_val, start_val, duration, color);
+    local shadow = CreateShadow(frame, option.start, color);
+    local fadeIn = CreateAnimation(shadow, option.start, option.ends, option.duration, option.color);
+    local fadeOut = CreateAnimation(shadow, option.ends, option.start, option.duration, option.color);
     shadow._fadeIn = fadeIn;
     shadow._fadeOut = fadeOut;
     frame._shadow = shadow;

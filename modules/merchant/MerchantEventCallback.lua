@@ -7,7 +7,29 @@ local currentItems = {};
 local MaskFrameModule = Gpe:GetModule('MaskFrameModule');
 
 
+--获取当前列的索引
+function MerchantModule:GetColInfo(index, col, middle)
+    local width = self.templateWidth;
+    local height = self.templateHeight;
 
+    local height_space = self.height_space;
+    local widht_space = self.width_space;
+
+    local cols = self.maxColum;
+
+
+    --属于这一列的第几个
+    local col_index = math.ceil((index - 1) % middle);
+
+    --主要是为了保证居中
+    local scroll_width = self.templateWidth * cols * 1.5;
+    local initial_offsetX = (scroll_width - cols * (width + widht_space));
+
+    --元素的x,y偏移
+    local offsetX = (col - 1) * (width + widht_space) + initial_offsetX;
+    local offsetY = -col_index * (height + height_space)
+    return offsetX, offsetY;
+end
 
 function MerchantModule:MERCHANT_SHOW()
     MerchantFrame:ShowFadeIn();
@@ -18,21 +40,13 @@ function MerchantModule:MERCHANT_SHOW()
 
     self:AppendHeadElements();
 
-    local width = self.templateWidth;
-    local height = self.templateHeight;
-
-    local height_space = self.height_space;
-    local widht_space = self.width_space;
-
 
 
     local callback = function(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
         local source = _G["MerchantItem" .. index];
         source:ClearAllPoints();
-        local floor = math.floor(index % midle);
-        local scroll_width = self.templateWidth * 2 * 1.5;
-        local offsetX = (scroll_width - (2) * (width + widht_space)) / 2;
-        source:SetPoint("TOPLEFT", (col) * (width + widht_space) + offsetX, -floor * (height + height_space));
+        local offsetX, offsetY = self:GetColInfo(index, col, midle);
+        source:SetPoint("TOPLEFT", offsetX, offsetY);
         local frame = CreateFrame("Frame", nil, _G["MerchantItem" .. index], "MerchantItemTemplate1");
         frame:SetPoint("CENTER");
         if (itemLink) then
@@ -92,11 +106,9 @@ function MerchantModule:UpdateMerchantPositions()
         local source = _G["MerchantItem" .. index];
         if (source ~= nil) then
             source:ClearAllPoints();
-            local col = math.floor(index / middle);
-            local floor = math.floor(index % middle);
-
-            source:SetPoint("TOPLEFT", col * (self.templateWidth + self.width_space) + offsetX,
-                -floor * (self.templateHeight + self.height_space));
+            local col = math.ceil(index / middle);
+            local offsetX, offsetY = self:GetColInfo(index, col, middle);
+            source:SetPoint("TOPLEFT", offsetX, offsetY);
             source:Show();
         end
     end
@@ -108,35 +120,11 @@ end
 --BodyFrame 默认的层级是 BACKGROUND
 
 function MerchantModule:AppendHeadElements()
-    local width = 100;
-    local width_space = 20;
-    local height = MaskFrameModule.headFrame:GetHeight();
-
-    local tab_buy = CreateFrame("Frame", nil, nil, "GpeButtonTemplate");
-    tab_buy.text:SetText("购买");
-    tab_buy:SetPoint("CENTER", MaskFrameModule.headFrame, -(width + width_space) / 2, 0);
-    tab_buy:SetSize(width, height);
-    tab_buy:ShowFadeIn();
-    tab_buy:SetFrameStrata("FULLSCREEN");
-
-
-    local tab_rebuy = CreateFrame("Frame", nil, nil, "GpeButtonTemplate");
-    tab_rebuy.text:SetText("售出");
-    tab_rebuy:SetPoint("CENTER", MaskFrameModule.headFrame, (width + width_space) / 2, 0);
-    tab_rebuy:SetSize(width, height);
-    tab_rebuy:ShowFadeIn();
-    tab_rebuy:SetFrameStrata("FULLSCREEN");
-
-    self.tab_buy = tab_buy;
-    self.tab_rebuy = tab_rebuy;
-
-    --加入手柄按键支持
-    tab_buy:InitEnableGamePadButton("BuyItem", "group", 1);
-    tab_rebuy:InitEnableGamePadButton("BuyItem", "group", 1);
-
-    --注册按键事件
-    self:RegisterBuyItem(tab_buy);
-    self:RegisterBuyItem(tab_rebuy);
+    local frame = CreateFrame("Frame", nil, MaskFrameModule.headFrame, "MerchantTabsFrame");
+    frame:SetPoint("CENTER", MaskFrameModule.headFrame, 0, 0);
+    frame:SetFrameStrata("FULLSCREEN");
+    frame:SetHeight(MaskFrameModule.headFrame:GetHeight());
+    frame:Show();
 end
 
 function MerchantModule:RegisterBuyItem(frame)
@@ -180,10 +168,7 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
 
     --返回上一级菜单
     proccessor:Register("PADSYSTEM", function(...)
-        -- MerchantFrame:Hide();
-        -- MerchantItemGameTooltip:Hide();
         proccessor:Switch("BuyItem");
-        --self:Switch("BuyItem");
     end);
 
     --幻化
@@ -241,6 +226,9 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
         local current_index = currentItem.currentIndex;
         local ratio = 3;
         local current_position = MerchantModule.scrollFrame:GetVerticalScroll();
+
+        --判断是否需要滚动
+
 
         if (current_index == 0) then
             MerchantModule.scrollFrame:SetVerticalScrollFade(current_position, 0);

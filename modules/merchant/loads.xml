@@ -6,4 +6,7 @@
     <Script file="MerchantApi.lua"/>
     <Script file="MerchantEventCallback.lua"/>
     <Script file="MerchantModule.lua"/>
+
+
+    <Include file="frames\MerchantTabButton.xml"/>
 </Ui>

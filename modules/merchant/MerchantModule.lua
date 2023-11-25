@@ -19,7 +19,7 @@ function MerchantModule:OnInitialize()
     self.templateHeight = 45; --配置模板高度
 
     self.height_space = 10;   --配置高度间隔
-    self.width_space = 40;     --配置宽度间隔
+    self.width_space = 40;    --配置宽度间隔
 end
 
 function MerchantModule:OnEnable()
