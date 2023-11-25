@@ -40,15 +40,15 @@ function MerchantModule:MERCHANT_SHOW()
 
     self:AppendHeadElements();
 
-    local scrollFrame=self.scrollFrame;
+    local scrollFrame = self.scrollFrame;
 
     local callback = function(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
         local source = _G["MerchantItem" .. index];
         source:ClearAllPoints();
         local offsetX, offsetY = self:GetColInfo(index, col, midle);
         source:SetPoint("TOPLEFT", offsetX, offsetY);
-        local frame = CreateFrame("Frame", nil, _G["MerchantItem" .. index], "MerchantItemTemplate1");
-        frame:SetPoint("CENTER");
+        local frame = CreateFrame("Frame", nil, nil, "MerchantItemTemplate1");
+        frame:SetPoint("CENTER", _G["MerchantItem" .. index]);
         if (itemLink) then
             itemLink = string.gsub(itemLink, "%[", "", 1);
             itemLink = string.gsub(itemLink, "%]", "", 1);
@@ -71,8 +71,10 @@ function MerchantModule:MERCHANT_SHOW()
             frame.forbidden:SetText(reason);
         end
         frame.iconBorder:SetAtlas(GetQualityBorder(itemQuality));
-        frame:InitEnableGamePadButton("MerchantItem", "group" .. col, 2,scrollFrame);
-        MerchantModule:RegisterMerchantItemGamepadButtonDown(frame);
+        frame:InitEnableGamePadButton("MerchantItem", "group" .. col, 2, function() MaskFrameModule:SETDIALOG() end);
+        if (index == 1) then --避免多次注册
+            MerchantModule:RegisterMerchantItemGamepadButtonDown(frame);
+        end
         table.insert(currentItems, frame);
     end
 
@@ -202,7 +204,6 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
     proccessor:Register("PAD2", function(currentItem)
         --背景设置最高和当前层级设置最高
         MaskFrameModule:SETDIALOG();
-        currentItem:SetParent(nil);
         currentItem:SetFrameStrata("DIALOG");
 
         MerchantItemGameTooltip:ClearAllPoints();
@@ -263,6 +264,7 @@ function MerchantModule:InitScrollFrame()
     local scale = UIParent:GetEffectiveScale();
     local height = GetScreenHeight() * scale - 30;
     local scrollFrame = CreateFrame("ScrollFrame", nil, nil)
+
     scrollFrame:SetSize(self.templateWidth * col * 1.5, height)
     scrollFrame:SetPoint("TOP", MaskFrameModule.headFrame, "BOTTOM", 0, 0);
     local scrollChild = CreateFrame("Frame", nil, scrollFrame)

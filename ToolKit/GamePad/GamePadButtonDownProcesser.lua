@@ -93,15 +93,10 @@ local function Switch(frame, classname)
     nextFrame:SetFrameLevel(current_level);
     frame:LostFocus();
     --
-    
 end
 
 local function LostFocus(frame)
-    local frames = frame.realtions;
-    for i=1,#frames do
-        local tex = frames[i]:CreateTexture(nil, "OVERLAY");
-        tex:SetVertexColor(1, 0, 0, 0.5);
-    end
+    frame:LoseFocus();
 end
 
 local function Group(frame, name, element)
@@ -130,7 +125,7 @@ GamePadButtonDownProcesserBuilder = {
 };
 
 
-function GamePadButtonDownProcesserBuilder:New(classname, level, ...)
+function GamePadButtonDownProcesserBuilder:New(classname, level, loseFocus)
     if self.instances[classname] then
         return self.instances[classname]
     end
@@ -154,7 +149,7 @@ function GamePadButtonDownProcesserBuilder:New(classname, level, ...)
     frame.currentIndex = 0;
     frame.handlers = {};
     --把...参数的值传给relations数组
-    frame.realtions = { ... };
+    frame.LoseFocus = loseFocus;
     self.instances[classname] = frame
     return frame
 end
