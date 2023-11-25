@@ -7,13 +7,17 @@ local function decorator(oldFunc)
     end
 end
 
+local keys_arr1 = string.split(",,,", ",");
+print("---test---");
+print(#keys_arr1);
+
 local function Register(frame, keys, callback)
     local keys_arr = string.split(keys, ",");
     for _, key in ipairs(keys_arr) do
         if not frame.handlers[key] then
-            frame.handlers[key] = callback;
+            frame.handlers[key] = {};
         end
-        frame.handlers[key] = decorator(frame.handlers[key])(callback);
+        table.insert(frame.handlers[key], callback);
     end
     return frame;
 end
@@ -66,6 +70,7 @@ end
 local function Handle(frame, ...)
     local key = ...;
     print(key);
+    print(frame.classname);
     local preItem = frame.preItem;
     local currentItem = frame.currentItem;
 
@@ -80,7 +85,9 @@ local function Handle(frame, ...)
     end
 
     if (frame.handlers[key]) then
-        frame.handlers[key](currentItem, preItem);
+        for i = 1, #frame.handlers[key] do
+            frame.handlers[key][i](currentItem, preItem);
+        end
     end
 end
 
@@ -92,7 +99,10 @@ local function Switch(frame, classname)
     frame:SetFrameLevel(next_level);
     nextFrame:SetFrameLevel(current_level);
     frame:LostFocus();
-    --
+
+    print("--------");
+    print(next_level);
+    print(current_level);
 end
 
 local function LostFocus(frame)

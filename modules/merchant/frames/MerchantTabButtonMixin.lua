@@ -11,8 +11,7 @@ function MerchantTabButtonMixin:OnLoad()
     self.text:SetText(self.buttonText);
     self:InitShadowAndAnimation(default_options);
 
-    self:InitEnableGamePadButton("BuyItem", "group", 1);
-
+    self:InitEnableGamePadButton("BuyItem", "group", 1, function() end);
     self:RegisterBuyItem();
 end
 

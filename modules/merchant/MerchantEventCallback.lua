@@ -40,8 +40,6 @@ function MerchantModule:MERCHANT_SHOW()
 
     self:AppendHeadElements();
 
-    local scrollFrame = self.scrollFrame;
-
     local callback = function(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
         local source = _G["MerchantItem" .. index];
         source:ClearAllPoints();
