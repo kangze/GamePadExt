@@ -65,10 +65,9 @@ end
 --只处理方向键的定位处理
 local function Handle(frame, ...)
     local key = ...;
+    print(key);
     local preItem = frame.preItem;
     local currentItem = frame.currentItem;
-
-    print(key);
 
     if (key == "PADDLEFT" or key == "PADDRIGHT" or key == "PADDUP" or key == "PADDDOWN") then
         currentItem, preItem = frame:ComputeIndex(key);
@@ -86,11 +85,23 @@ local function Handle(frame, ...)
 end
 
 local function Switch(frame, classname)
+    --交换2个框架的层级，切换手柄按键的接收
     local nextFrame     = GamePadButtonDownProcesserBuilder.instances[classname]
     local next_level    = nextFrame:GetFrameLevel();
     local current_level = frame:GetFrameLevel();
     frame:SetFrameLevel(next_level);
     nextFrame:SetFrameLevel(current_level);
+    frame:LostFocus();
+    --
+    
+end
+
+local function LostFocus(frame)
+    local frames = frame.realtions;
+    for i=1,#frames do
+        local tex = frames[i]:CreateTexture(nil, "OVERLAY");
+        tex:SetVertexColor(1, 0, 0, 0.5);
+    end
 end
 
 local function Group(frame, name, element)
@@ -119,7 +130,7 @@ GamePadButtonDownProcesserBuilder = {
 };
 
 
-function GamePadButtonDownProcesserBuilder:New(classname, level)
+function GamePadButtonDownProcesserBuilder:New(classname, level, ...)
     if self.instances[classname] then
         return self.instances[classname]
     end
@@ -132,6 +143,7 @@ function GamePadButtonDownProcesserBuilder:New(classname, level)
     frame.Group = Group;
     frame.Switch = Switch;
     frame.Destory = Destory;
+    frame.LostFocus = LostFocus;
     frame:SetFrameLevel(level);
     frame:EnableGamePadButton(true);
     frame:SetScript("OnGamePadButtonDown", Handle);
@@ -141,6 +153,8 @@ function GamePadButtonDownProcesserBuilder:New(classname, level)
     frame.currentGroupIndex = 0;
     frame.currentIndex = 0;
     frame.handlers = {};
+    --把...参数的值传给relations数组
+    frame.realtions = { ... };
     self.instances[classname] = frame
     return frame
 end

@@ -1,7 +1,7 @@
 GamePadFrameMixin = {};
 
-function GamePadFrameMixin:InitEnableGamePadButton(templateName, group, level)
-    local processor = GamePadButtonDownProcesserBuilder:New(templateName, level);
+function GamePadFrameMixin:InitEnableGamePadButton(templateName, group, level,...)
+    local processor = GamePadButtonDownProcesserBuilder:New(templateName, level,...);
     processor:Group(group, self);
     self.gamePadButtonDownProcessor = processor;
 end

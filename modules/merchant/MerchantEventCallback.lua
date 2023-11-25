@@ -40,7 +40,7 @@ function MerchantModule:MERCHANT_SHOW()
 
     self:AppendHeadElements();
 
-
+    local scrollFrame=self.scrollFrame;
 
     local callback = function(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
         local source = _G["MerchantItem" .. index];
@@ -71,7 +71,7 @@ function MerchantModule:MERCHANT_SHOW()
             frame.forbidden:SetText(reason);
         end
         frame.iconBorder:SetAtlas(GetQualityBorder(itemQuality));
-        frame:InitEnableGamePadButton("MerchantItem", "group" .. col, 2);
+        frame:InitEnableGamePadButton("MerchantItem", "group" .. col, 2,scrollFrame);
         MerchantModule:RegisterMerchantItemGamepadButtonDown(frame);
         table.insert(currentItems, frame);
     end
