@@ -36,7 +36,17 @@ function MerchantModule:MERCHANT_SHOW()
     MaskFrameModule:ShowAll();
     self:InitframeStrata();
     UIParent:Hide();
-    self:InitScrollFrame();
+
+    local scrollFrame, scrollChildFrame = MerchantItemContainer:New(self.maxColum, self.templateWidth,
+        self.templateHeight,MaskFrameModule.headFrame);
+    self.scrollFrame = scrollFrame;
+    self.scrollChildFrame = scrollChildFrame;
+
+
+    MerchantFrame:ClearAllPoints();
+    MerchantFrame:SetParent(scrollChildFrame);
+    MerchantFrame:SetPoint("TOPLEFT", scrollChildFrame);
+    MerchantFrame:SetPoint("BOTTOMRIGHT", scrollChildFrame);
 
     self:AppendHeadElements();
 
@@ -94,9 +104,9 @@ function MerchantModule:UpdateMerchantPositions()
     MerchantFrame:SetPoint("TOP", MaskFrameModule:GetHeaderFrame());
 
     MerchantFrame:ClearAllPoints();
-    MerchantFrame:SetParent(self.scrollChild);
-    MerchantFrame:SetPoint("TOPLEFT", self.scrollChild);
-    MerchantFrame:SetPoint("BOTTOMRIGHT", self.scrollChild);
+    MerchantFrame:SetParent(self.scrollChildFrame);
+    MerchantFrame:SetPoint("TOPLEFT", self.scrollChildFrame);
+    MerchantFrame:SetPoint("BOTTOMRIGHT", self.scrollChildFrame);
 
     local count = GetMerchantNumItems();
     local middle = math.ceil(count / self.maxColum);
@@ -146,7 +156,7 @@ end
 
 --Tab得到焦点
 function MerchantModule:TabGetFocus()
-    
+
 end
 
 function MerchantModule:TabLoseFocus()
@@ -283,29 +293,4 @@ end
 
 function MerchantModule:InitframeStrata()
     MaskFrameModule:SetBackground();
-end
-
-function MerchantModule:InitScrollFrame()
-    local count = GetMerchantNumItems();
-    local col = self.maxColum;
-
-    local scale = UIParent:GetEffectiveScale();
-    local height = GetScreenHeight() * scale - 30;
-    local scrollFrame = CreateFrame("ScrollFrame", nil, nil)
-
-    scrollFrame:SetSize(self.templateWidth * col * 1.5, height)
-    scrollFrame:SetPoint("TOP", MaskFrameModule.headFrame, "BOTTOM", 0, 0);
-    local scrollChild = CreateFrame("Frame", nil, scrollFrame)
-    scrollFrame:SetScrollChild(scrollChild)
-
-
-    scrollChild:SetSize(self.templateWidth * col * 1.5, (self.templateHeight * count) / 2);
-    self.scrollChild = scrollChild;
-    self.scrollFrame = scrollFrame;
-
-
-    MerchantFrame:ClearAllPoints();
-    MerchantFrame:SetParent(self.scrollChild);
-    MerchantFrame:SetPoint("TOPLEFT", self.scrollChild);
-    MerchantFrame:SetPoint("BOTTOMRIGHT", self.scrollChild);
 end
