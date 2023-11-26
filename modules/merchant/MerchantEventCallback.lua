@@ -69,7 +69,7 @@ function MerchantModule:MERCHANT_SHOW()
             frame.forbidden:SetText(reason);
         end
         frame.iconBorder:SetAtlas(GetQualityBorder(itemQuality));
-        frame:InitEnableGamePadButton("MerchantItem", "group" .. col, 2, function() MaskFrameModule:SETDIALOG() end);
+        frame:InitEnableGamePadButton("MerchantItem", "group" .. col, 2, MerchantModule.LostFocus);
         if (index == 1) then --避免多次注册
             MerchantModule:RegisterMerchantItemGamepadButtonDown(frame);
         end
@@ -120,11 +120,37 @@ end
 --BodyFrame 默认的层级是 BACKGROUND
 
 function MerchantModule:AppendHeadElements()
-    local frame = CreateFrame("Frame", nil, MaskFrameModule.headFrame, "MerchantTabsFrame");
+    local frame = CreateFrame("Frame", nil, MaskFrameModule.headFrame, "MerchantTabsFrame1");
     frame:SetPoint("CENTER", MaskFrameModule.headFrame, 0, 0);
     frame:SetFrameStrata("FULLSCREEN");
-    frame:SetHeight(MaskFrameModule.headFrame:GetHeight());
+    frame.buy:SetHeight(MaskFrameModule.headFrame:GetHeight() - 2);
+    frame.rebuy:SetHeight(MaskFrameModule.headFrame:GetHeight() - 2);
+    local loseFocusCallback = function()
+        MerchantModule:TabLoseFocus();
+        MaskFrameModule:SetBackground();
+    end
+    frame:InitEableGamePadButtonGroup("BuyItem", "group", 1, loseFocusCallback);
+    MerchantModule:RegisterBuyItem(frame);
     frame:Show();
+end
+
+--商品列表失去焦点
+function MerchantModule:LostFocus()
+    MaskFrameModule:SETDIALOG();
+end
+
+--商品列表得到焦点
+function MerchantModule:GetFocus()
+    MaskFrameModule:SetBackground();
+end
+
+--Tab得到焦点
+function MerchantModule:TabGetFocus()
+    
+end
+
+function MerchantModule:TabLoseFocus()
+
 end
 
 function MerchantModule:RegisterBuyItem(frame)
@@ -137,6 +163,10 @@ function MerchantModule:RegisterBuyItem(frame)
             currentItem:OnEnter();
         end
     end);
+
+    proccessor:Register("PAD1", function(currentItem, preItem)
+        proccessor:Switch("MerchantItem");
+    end);
 end
 
 function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
@@ -147,7 +177,6 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
         MerchantItemGameTooltip:Hide();
         currentItem.buyFrame:ShowFadeIn();
         currentItem.detailFrame:ShowFadeIn();
-        MaskFrameModule:SetBackground();
         if (preItem) then
             preItem.buyFrame:ShowFadeOut();
             preItem.detailFrame:ShowFadeOut();
@@ -199,6 +228,7 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
         currentItem.dressUpFrame = frame;
     end)
 
+    --当前商品查看详情
     proccessor:Register("PAD2", function(currentItem)
         --背景设置最高和当前层级设置最高
         MaskFrameModule:SETDIALOG();

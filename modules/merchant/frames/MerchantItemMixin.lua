@@ -1,5 +1,7 @@
 local _, AddonData = ...;
- MerchantItemMixin = CreateFromMixins({}, GamePadFrameMixin);
+
+MerchantItemFrames = {};
+MerchantItemMixin = CreateFromMixins({}, GamePadFrameMixin);
 
 function MerchantItemMixin:OnLoad()
     self:InitShadowAndAnimation();
