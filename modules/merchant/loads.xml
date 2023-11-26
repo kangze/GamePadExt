@@ -9,5 +9,5 @@
     <Script file="MerchantEventCallback.lua"/>
     <Script file="MerchantModule.lua"/>
 
-    <Include file="frames\MerchantTabButton.xml"/>
+    <Include file="frames\MerchantTabsFrameTemplate.xml"/>
 </Ui>

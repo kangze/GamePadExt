@@ -37,12 +37,11 @@ function MerchantModule:MERCHANT_SHOW()
     self:InitframeStrata();
     UIParent:Hide();
 
-    local scrollFrame, scrollChildFrame = MerchantItemContainer:NewScrollFrame(self.maxColum, self.templateWidth,
+    local scrollFrame, scrollChildFrame,tabsFrame = MerchantItemContainer:New(self.maxColum, self.templateWidth,
         self.templateHeight, MaskFrameModule.headFrame);
     self.scrollFrame = scrollFrame;
     self.scrollChildFrame = scrollChildFrame;
 
-    local tabsFrame = MerchantItemContainer:NewTabs(MaskFrameModule.headFrame);
     MerchantModule:RegisterBuyItem(tabsFrame);
 
     MerchantFrame:ClearAllPoints();
@@ -50,6 +49,10 @@ function MerchantModule:MERCHANT_SHOW()
     MerchantFrame:SetPoint("TOPLEFT", scrollChildFrame);
     MerchantFrame:SetPoint("BOTTOMRIGHT", scrollChildFrame);
 
+    local loseFocusCallback = function()
+        MerchantItemContainer:ScollFrameLoseFocus();
+        MerchantItemContainer:TabsFrameGetFocus();
+    end
     local callback = function(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
         local source = _G["MerchantItem" .. index];
         source:ClearAllPoints();
@@ -79,7 +82,7 @@ function MerchantModule:MERCHANT_SHOW()
             frame.forbidden:SetText(reason);
         end
         frame.iconBorder:SetAtlas(GetQualityBorder(itemQuality));
-        frame:InitEnableGamePadButton("MerchantItem", "group" .. col, 2, MerchantModule.LostFocus);
+        frame:InitEnableGamePadButton("MerchantItem", "group" .. col, 2, loseFocusCallback);
         if (index == 1) then --避免多次注册
             MerchantModule:RegisterMerchantItemGamepadButtonDown(frame);
         end
@@ -87,80 +90,6 @@ function MerchantModule:MERCHANT_SHOW()
     end
 
     MerchantApi:PreProccessItemsInfo(callback);
-end
-
-function MerchantModule:MERCHANT_CLOSED()
-    MaskFrameModule:HideBody();
-    UIParent:Show();
-    for i = 1, #currentItems do
-        currentItems[i]:Destory();
-    end
-end
-
-function MerchantModule:UpdateMerchantPositions()
-    self:HiddeMerchantSomeFrame();
-    MerchantFrame:ClearAllPoints();
-    MerchantFrame:SetParent(nil);
-    MerchantFrame:SetPoint("TOP", MaskFrameModule:GetHeaderFrame());
-
-    MerchantFrame:ClearAllPoints();
-    MerchantFrame:SetParent(self.scrollChildFrame);
-    MerchantFrame:SetPoint("TOPLEFT", self.scrollChildFrame);
-    MerchantFrame:SetPoint("BOTTOMRIGHT", self.scrollChildFrame);
-
-    local count = GetMerchantNumItems();
-    local middle = math.ceil(count / self.maxColum);
-    local scroll_width = self.templateWidth * 2 * 1.5;
-    local offsetX = (scroll_width - (2) * (self.templateWidth + self.width_space)) / 2;
-    for index = 1, count do
-        local source = _G["MerchantItem" .. index];
-        if (source ~= nil) then
-            source:ClearAllPoints();
-            local col = math.ceil(index / middle);
-            local offsetX, offsetY = self:GetColInfo(index, col, middle);
-            source:SetPoint("TOPLEFT", offsetX, offsetY);
-            source:Show();
-        end
-    end
-
-    --其余的都给ClearPoint掉 TODO:kangze
-end
-
---MerchantItem 默认层级 DIALOG
---BodyFrame 默认的层级是 BACKGROUND
-
-function MerchantModule:AppendHeadElements()
-    local frame = CreateFrame("Frame", nil, MaskFrameModule.headFrame, "MerchantTabsFrame1");
-    frame:SetPoint("CENTER", MaskFrameModule.headFrame, 0, 0);
-    frame:SetFrameStrata("FULLSCREEN");
-    frame.buy:SetHeight(MaskFrameModule.headFrame:GetHeight() - 2);
-    frame.rebuy:SetHeight(MaskFrameModule.headFrame:GetHeight() - 2);
-    local loseFocusCallback = function()
-        MerchantModule:TabLoseFocus();
-        MaskFrameModule:SetBackground();
-    end
-    frame:InitEableGamePadButtonGroup("BuyItem", "group", 1, loseFocusCallback);
-    MerchantModule:RegisterBuyItem(frame);
-    frame:Show();
-end
-
---商品列表失去焦点
-function MerchantModule:LostFocus()
-    MaskFrameModule:SETDIALOG();
-end
-
---商品列表得到焦点
-function MerchantModule:GetFocus()
-    MaskFrameModule:SetBackground();
-end
-
---Tab得到焦点
-function MerchantModule:TabGetFocus()
-
-end
-
-function MerchantModule:TabLoseFocus()
-
 end
 
 function MerchantModule:RegisterBuyItem(frame)
@@ -285,11 +214,46 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
             return;
         end
     end);
-
-    -- proccessor:Register("PADLTRIGGER,PADRTRIGGER", function()
-    --     print("我切换了");
-    -- end)
 end
+
+function MerchantModule:MERCHANT_CLOSED()
+    MaskFrameModule:HideBody();
+    UIParent:Show();
+    for i = 1, #currentItems do
+        currentItems[i]:Destory();
+    end
+end
+
+function MerchantModule:UpdateMerchantPositions()
+    self:HiddeMerchantSomeFrame();
+    MerchantFrame:ClearAllPoints();
+    MerchantFrame:SetParent(nil);
+    MerchantFrame:SetPoint("TOP", MaskFrameModule:GetHeaderFrame());
+
+    MerchantFrame:ClearAllPoints();
+    MerchantFrame:SetParent(self.scrollChildFrame);
+    MerchantFrame:SetPoint("TOPLEFT", self.scrollChildFrame);
+    MerchantFrame:SetPoint("BOTTOMRIGHT", self.scrollChildFrame);
+
+    local count = GetMerchantNumItems();
+    local middle = math.ceil(count / self.maxColum);
+    local scroll_width = self.templateWidth * 2 * 1.5;
+    local offsetX = (scroll_width - (2) * (self.templateWidth + self.width_space)) / 2;
+    for index = 1, count do
+        local source = _G["MerchantItem" .. index];
+        if (source ~= nil) then
+            source:ClearAllPoints();
+            local col = math.ceil(index / middle);
+            local offsetX, offsetY = self:GetColInfo(index, col, middle);
+            source:SetPoint("TOPLEFT", offsetX, offsetY);
+            source:Show();
+        end
+    end
+
+    --其余的都给ClearPoint掉 TODO:kangze
+end
+
+
 
 function MerchantModule:InitframeStrata()
     MaskFrameModule:SetBackground();

@@ -19,6 +19,8 @@ function MerchantTabButtonMixin:OnEnter()
     self:ShowShadowFadeIn();
 end
 
+
+
 MerchantTabsFrameMixin = CreateFromMixins({}, GamePadFrameMixin);
 
 function MerchantTabsFrameMixin:GetGamePadFrames()

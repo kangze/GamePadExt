@@ -1,8 +1,8 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\..\FrameXML\UI.xsd">
-    <Script file="MerchantTabButtonMixin.lua"/>
-    <Frame name="MerchantTabsFrame1" hidden="false" virtual="true" frameStrata="HIGH" enableMouse="true" mixin="MerchantTabsFrameMixin">
+    <Script file="MerchantTabsFrameTemplateMixin.lua"/>
+    <Frame name="MerchantTabsFrameTemplate" hidden="false" virtual="true" frameStrata="HIGH" enableMouse="true" mixin="MerchantTabsFrameMixin">
         <Size x="205" y="35"/>
         <Frames>
             <Frame parentKey="buy" hidden="false" inherits="GpeButtonTemplate" mixin="MerchantTabButtonMixin">
