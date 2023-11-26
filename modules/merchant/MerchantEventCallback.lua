@@ -39,6 +39,7 @@ function MerchantModule:MERCHANT_SHOW()
         self.templateHeight, MaskFrameModule.headFrame);
     self.scrollFrame = scrollFrame;
     self.scrollChildFrame = scrollChildFrame;
+    self.tabsFrame = tabsFrame;
 
     MerchantModule:RegisterBuyItem(tabsFrame);
 
@@ -110,8 +111,8 @@ function MerchantModule:RegisterBuyItem(frame)
     end);
 
     --注册这个框架关闭
-    proccessor:Regsister("PADSYSTEM", function(currentItem, prrItem)
-
+    proccessor:Register("PADSYSTEM", function(currentItem, prrItem)
+        MerchantModule:MERCHANT_CLOSED();
     end);
 end
 
@@ -226,9 +227,15 @@ end
 function MerchantModule:MERCHANT_CLOSED()
     MaskFrameModule:HideBody();
     UIParent:Show();
+
+    --关闭所有的商品Item
     for i = 1, #currentItems do
-        currentItems[i]:Destory();
+        currentItems[i]:Destroy();
     end
+
+    --关闭TabsFrame
+    
+    self.tabsFrame:Destroy();
 end
 
 function MerchantModule:UpdateMerchantPositions()

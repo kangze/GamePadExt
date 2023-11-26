@@ -16,9 +16,8 @@ function GamePadFrameMixin:InitEableGamePadButtonGroup(templateName, group, leve
     self.gamePadButtonDownProcessor = processor;
 end
 
-function GamePadFrameMixin:Destory()
-    self:EnableGamePadButton(false);
+function GamePadFrameMixin:Destroy()
     self:UnregisterAllEvents();
     self:Hide();
-    self.gamePadButtonDownProcessor:Destory();
+    self.gamePadButtonDownProcessor:Destroy();
 end

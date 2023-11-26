@@ -114,13 +114,15 @@ local function Group(frame, name, element)
     table.insert(groups[#groups], element);
 end
 
-local function Destory(frame)
+local function Destroy(frame)
+    frame:EnableGamePadButton(false);
+    frame:UnregisterAllEvents();
     frame.groups = {};
     frame.groupNames = {};
     frame.currentGroupIndex = 0;
     frame.currentIndex = 0;
     frame.handlers = {};
-    frame.instances[self.classname] = nil;
+    GamePadButtonDownProcesserBuilder.instances[frame.classname] = nil;
 end
 
 
@@ -141,7 +143,7 @@ function GamePadButtonDownProcesserBuilder:New(classname, level, loseFocus)
     frame.Handle = Handle;
     frame.Group = Group;
     frame.Switch = Switch;
-    frame.Destory = Destory;
+    frame.Destroy = Destroy;
     frame.LostFocus = LostFocus;
     frame:SetFrameLevel(level);
     frame:EnableGamePadButton(true);
