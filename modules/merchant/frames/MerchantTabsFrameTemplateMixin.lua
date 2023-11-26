@@ -27,5 +27,6 @@ function MerchantTabsFrameMixin:GetGamePadFrames()
     local frames = {};
     table.insert(frames, self.buy);
     table.insert(frames, self.rebuy);
+    table.insert(frames, self.rebuy2);
     return frames;
 end

@@ -1,4 +1,3 @@
-
 local function Register(frame, keys, callback)
     local keys_arr = string.split(keys, ",");
     for _, key in ipairs(keys_arr) do
@@ -68,7 +67,7 @@ local function Handle(frame, ...)
 
     if (key == "PADLTRIGGER" or key == "PADRTRIGGER") then
         --如果是trigger按键,那么进行伪装
-        local mock_key = key == "PADLTRIGGER" and "PADDUP" or "PADDDOWN";
+        local mock_key = key == "PADLTRIGGER" and "PADDDOWN" or "PADDUP";
         currentItem, preItem = frame:ComputeIndex(mock_key);
     end
 
@@ -87,8 +86,6 @@ local function Switch(frame, classname)
     frame:SetFrameLevel(next_level);
     nextFrame:SetFrameLevel(current_level);
     frame:LostFocus();
-
-    
 end
 
 local function LostFocus(frame)
@@ -102,7 +99,18 @@ local function Group(frame, name, element)
         table.insert(groups, {});
         table.insert(groupNames, name);
     end
-    element.index = #groups[#groups] + 1; --count it
+
+    --计算index
+    local index = 0;
+    for i = 1, #groups do
+        for j = 1, #groups[i] do
+            index = index + 1;
+        end
+    end
+    element.index = index + 1; --count it
+    if (element.index == 1 and element.OnEnter) then
+        element:OnEnter();
+    end
     table.insert(groups[#groups], element);
 end
 

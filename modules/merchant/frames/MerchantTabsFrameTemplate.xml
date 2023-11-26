@@ -3,7 +3,7 @@
 ..\..\FrameXML\UI.xsd">
     <Script file="MerchantTabsFrameTemplateMixin.lua"/>
     <Frame name="MerchantTabsFrameTemplate" hidden="false" virtual="true" frameStrata="HIGH" enableMouse="true" mixin="MerchantTabsFrameMixin">
-        <Size x="205" y="35"/>
+        <Size x="305" y="35"/>
         <Frames>
             <Frame parentKey="buy" hidden="false" inherits="GpeButtonTemplate" mixin="MerchantTabButtonMixin">
                 <KeyValues>
@@ -24,6 +24,17 @@
                 <Size x="100" y="35"/>
                 <Anchors>
                     <Anchor point="RIGHT"/>
+                </Anchors>
+            </Frame>
+
+            <Frame parentKey="rebuy2" hidden="false" inherits="GpeButtonTemplate" mixin="MerchantTabButtonMixin">
+                <KeyValues>
+                    <KeyValue key="buttonText" value="测试"/>
+                    <KeyValue key="shadow" value="true"/>
+                </KeyValues>
+                <Size x="100" y="35"/>
+                <Anchors>
+                    <Anchor point="CENTER"/>
                 </Anchors>
             </Frame>
         </Frames>

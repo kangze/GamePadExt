@@ -104,8 +104,14 @@ function MerchantModule:RegisterBuyItem(frame)
         end
     end);
 
+    --tab选项选择
     proccessor:Register("PAD1", function(currentItem, preItem)
         proccessor:Switch("MerchantItem");
+    end);
+
+    --注册这个框架关闭
+    proccessor:Regsister("PADSYSTEM", function(currentItem, prrItem)
+
     end);
 end
 
