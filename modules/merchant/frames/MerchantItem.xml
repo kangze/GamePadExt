@@ -4,10 +4,6 @@
     <Script file="MerchantItemMixin.lua"/>
     <Frame name="MerchantItemTemplate1" hidden="false" virtual="true" frameStrata="HIGH" enableMouse="true" inherits="BackdropTemplate" mixin="MerchantItemMixin">
         <Size x="210" y="45"/>
-        <Anchors>
-            <Anchor point="CENTER" />
-        </Anchors>
-
         <Layers>
             <Layer level="BACKGROUND">
                 <Texture parentKey="background">

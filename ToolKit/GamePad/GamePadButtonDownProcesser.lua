@@ -56,8 +56,6 @@ end
 --只处理方向键的定位处理
 local function Handle(frame, ...)
     local key = ...;
-    print(key);
-    print(frame.classname);
     local preItem = frame.preItem;
     local currentItem = frame.currentItem;
 
@@ -110,7 +108,10 @@ local function Group(frame, name, element)
     element.index = index + 1; --count it
     if (element.index == 1 and element.OnEnter) then
         element:OnEnter();
+        frame.currentItem = element;
+        frame.preItem = element;
     end
+
     table.insert(groups[#groups], element);
 end
 

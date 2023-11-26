@@ -4,8 +4,9 @@ local Gpe = _G["Gpe"];
 local Masque, MSQ_Version = LibStub("Masque", true);
 local MerchantModule = Gpe:GetModule('MerchantModule');
 local currentItems = {};
+local currentBuyBackItems = {};
 local MaskFrameModule = Gpe:GetModule('MaskFrameModule');
-
+local mode = "buy";
 
 --获取当前列的索引
 function MerchantModule:GetColInfo(index, col, middle)
@@ -52,35 +53,22 @@ function MerchantModule:MERCHANT_SHOW()
         MerchantItemContainer:ScollFrameLoseFocus();
         MerchantItemContainer:TabsFrameGetFocus();
     end
-    local callback = function(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
+
+    --购买商品渲染
+    local callback_buy = function(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
         local source = _G["MerchantItem" .. index];
         source:ClearAllPoints();
         local offsetX, offsetY = self:GetColInfo(index, col, midle);
         source:SetPoint("TOPLEFT", offsetX, offsetY);
-        local frame = CreateFrame("Frame", nil, nil, "MerchantItemTemplate1");
+        source:Show();
+
+        local frame = MerchantModule:Render(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable,
+            hasTransMog);
         frame:SetPoint("CENTER", _G["MerchantItem" .. index]);
         if (itemLink) then
             itemLink = string.gsub(itemLink, "%[", "", 1);
             itemLink = string.gsub(itemLink, "%]", "", 1);
         end
-        frame.productName:SetText(itemLink);
-        frame.itemLink = itemLink;
-        if (isMoney) then
-            frame.costmoney:ApplyMoney(cost)
-        else
-            frame.costmoney:SetText(cost);
-        end
-        if (not hasTransMog) then
-            frame.mog:SetDrawLayer("OVERLAY", 1)
-            frame.mog:Show();
-        end
-        frame.icon:SetTexture(texture);
-        if (not isUsable) then
-            frame.icon:SetVertexColor(0.96078431372549, 0.50980392156863, 0.12549019607843, 1);
-            local reason = MerchantApi:GetCannotBuyReason(index);
-            frame.forbidden:SetText(reason);
-        end
-        frame.iconBorder:SetAtlas(GetQualityBorder(itemQuality));
         frame:InitEnableGamePadButton("MerchantItem", "group" .. col, 1, loseFocusCallback);
         if (index == 1) then --避免多次注册
             MerchantModule:RegisterMerchantItemGamepadButtonDown(frame);
@@ -88,7 +76,31 @@ function MerchantModule:MERCHANT_SHOW()
         table.insert(currentItems, frame);
     end
 
-    MerchantApi:PreProccessItemsInfo(callback);
+    MerchantApi:PreProccessItemsInfo(callback_buy);
+
+    --购回商品渲染
+
+    local callback_buy = function(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
+        local source = _G["MerchantItem" .. index];
+        source:ClearAllPoints();
+        local offsetX, offsetY = self:GetColInfo(index, col, midle);
+        source:SetPoint("TOPLEFT", offsetX, offsetY);
+
+        local frame = MerchantModule:Render(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable,
+            hasTransMog);
+        frame:SetPoint("CENTER", _G["MerchantItem" .. index]);
+        if (itemLink) then
+            itemLink = string.gsub(itemLink, "%[", "", 1);
+            itemLink = string.gsub(itemLink, "%]", "", 1);
+        end
+        frame:InitEnableGamePadButton("MerchantItemBuyBack", "group" .. col, 2, loseFocusCallback);
+        if (index == 1) then --避免多次注册
+            MerchantModule:RegisterMerchantItemGamepadButtonDown(frame, true);
+        end
+        table.insert(currentBuyBackItems, frame);
+    end
+
+    MerchantApi:ProcessMerchantBuyBackInfo(callback_buy);
 
     --模拟点击第一个tab
     tabsFrame.gamePadButtonDownProcessor:Handle("PAD1");
@@ -107,7 +119,28 @@ function MerchantModule:RegisterBuyItem(frame)
 
     --tab选项选择
     proccessor:Register("PAD1", function(currentItem, preItem)
-        proccessor:Switch("MerchantItem");
+        if (currentItem.tag == "buy") then
+            for i = 1, #currentBuyBackItems do
+                currentBuyBackItems[i]:Hide();
+            end
+            for i = 1, #currentItems do
+                currentItems[i]:Show();
+            end
+            mode = "buy";
+            proccessor:Switch("MerchantItem");
+            MerchantModule:UpdateMerchantPositions();
+        end
+        if (currentItem.tag == "buyback") then
+            for i = 1, #currentBuyBackItems do
+                currentBuyBackItems[i]:Show();
+            end
+            for i = 1, #currentItems do
+                currentItems[i]:Hide();
+            end
+            mode = "buyback";
+            proccessor:Switch("MerchantItemBuyBack");
+            MerchantModule:UpdateMerchantPositions();
+        end
     end);
 
     --注册这个框架关闭
@@ -116,7 +149,7 @@ function MerchantModule:RegisterBuyItem(frame)
     end);
 end
 
-function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
+function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame, buyback)
     local proccessor = frame.gamePadButtonDownProcessor;
     proccessor:Register("PADDDOWN,PADDUP,PADDLEFT,PADDRIGHT", function(currentItem, preItem)
         PlaySoundFile("Interface\\AddOns\\GamePadExt\\media\\sound\\1.mp3", "Master");
@@ -144,7 +177,7 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
 
     --返回上一级菜单
     proccessor:Register("PADSYSTEM", function(...)
-        proccessor:Switch("BuyItem");
+        proccessor:Switch("TabFrame");
     end);
 
     --幻化
@@ -192,7 +225,11 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame)
 
     --购买物品
     proccessor:Register("PAD1", function(currentItem)
-        BuyMerchantItem(currentItem.index, 1);
+        if (buyback) then
+            BuybackItem(currentItem.index);
+        else
+            BuyMerchantItem(currentItem.index, 1);
+        end
     end)
 
     --窗体滚动
@@ -234,7 +271,7 @@ function MerchantModule:MERCHANT_CLOSED()
     end
 
     --关闭TabsFrame
-    
+
     self.tabsFrame:Destroy();
 end
 
@@ -249,10 +286,14 @@ function MerchantModule:UpdateMerchantPositions()
     MerchantFrame:SetPoint("TOPLEFT", self.scrollChildFrame);
     MerchantFrame:SetPoint("BOTTOMRIGHT", self.scrollChildFrame);
 
-    local count = GetMerchantNumItems();
+    local count = nil;
+    if (mode == "buy") then
+        count = GetMerchantNumItems();
+    else
+        count = GetNumBuybackItems();
+    end
     local middle = math.ceil(count / self.maxColum);
-    local scroll_width = self.templateWidth * 2 * 1.5;
-    local offsetX = (scroll_width - (2) * (self.templateWidth + self.width_space)) / 2;
+
     for index = 1, count do
         local source = _G["MerchantItem" .. index];
         if (source ~= nil) then
@@ -269,4 +310,31 @@ end
 
 function MerchantModule:InitframeStrata()
     MaskFrameModule:SetBackground();
+end
+
+function MerchantModule:Render(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
+    local frame = CreateFrame("Frame", nil, nil, "MerchantItemTemplate1");
+    if (itemLink) then
+        itemLink = string.gsub(itemLink, "%[", "", 1);
+        itemLink = string.gsub(itemLink, "%]", "", 1);
+    end
+    frame.productName:SetText(itemLink);
+    frame.itemLink = itemLink;
+    if (isMoney) then
+        frame.costmoney:ApplyMoney(cost)
+    else
+        frame.costmoney:SetText(cost);
+    end
+    if (not hasTransMog) then
+        frame.mog:SetDrawLayer("OVERLAY", 1)
+        frame.mog:Show();
+    end
+    frame.icon:SetTexture(texture);
+    if (not isUsable) then
+        frame.icon:SetVertexColor(0.96078431372549, 0.50980392156863, 0.12549019607843, 1);
+        local reason = MerchantApi:GetCannotBuyReason(index);
+        frame.forbidden:SetText(reason);
+    end
+    frame.iconBorder:SetAtlas(GetQualityBorder(itemQuality));
+    return frame;
 end

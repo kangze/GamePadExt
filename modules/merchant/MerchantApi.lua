@@ -86,3 +86,16 @@ function MerchantApi:GetCannotBuyReason(index)
     end
     return "未查询到购买要求";
 end
+
+function MerchantApi:ProcessMerchantBuyBackInfo(callback)
+    
+    local numBuybackItems = GetNumBuybackItems();
+    local maxColum = 2; --b
+    local middle = math.ceil(numBuybackItems / maxColum);
+    for index = 1, numBuybackItems do
+        local col = math.ceil(index / middle);
+        local itemLink = GetBuybackItemLink(index);
+        local name, icon, price, quantity, numAvailable, isUsable = GetBuybackItemInfo(index);
+        callback(index, col, middle, itemLink, price, icon, quantity, true, isUsable, false);
+    end
+end
