@@ -129,6 +129,7 @@ function MerchantModule:RegisterBuyItem(frame)
             mode = "buy";
             proccessor:Switch("MerchantItem");
             MerchantModule:UpdateMerchantPositions();
+            MerchantModule.scrollFrame:SetVerticalScroll(0);
         end
         if (currentItem.tag == "buyback") then
             for i = 1, #currentBuyBackItems do
@@ -140,6 +141,7 @@ function MerchantModule:RegisterBuyItem(frame)
             mode = "buyback";
             proccessor:Switch("MerchantItemBuyBack");
             MerchantModule:UpdateMerchantPositions();
+            MerchantModule.scrollFrame:SetVerticalScroll(0);
         end
     end);
 
@@ -269,10 +271,12 @@ function MerchantModule:MERCHANT_CLOSED()
     for i = 1, #currentItems do
         currentItems[i]:Destroy();
     end
+    currentItems = {};
 
     --关闭TabsFrame
 
     self.tabsFrame:Destroy();
+    self.tabsFrame = nil;
 end
 
 function MerchantModule:UpdateMerchantPositions()

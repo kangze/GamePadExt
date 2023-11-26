@@ -18,6 +18,7 @@ end
 
 function GamePadFrameMixin:Destroy()
     self:UnregisterAllEvents();
+    self:SetParent(nil);
     self:Hide();
     self.gamePadButtonDownProcessor:Destroy();
 end
