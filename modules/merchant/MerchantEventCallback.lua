@@ -32,12 +32,10 @@ function MerchantModule:GetColInfo(index, col, middle)
 end
 
 function MerchantModule:MERCHANT_SHOW()
-    MerchantFrame:ShowFadeIn();
     MaskFrameModule:ShowAll();
-    self:InitframeStrata();
     UIParent:Hide();
 
-    local scrollFrame, scrollChildFrame,tabsFrame = MerchantItemContainer:New(self.maxColum, self.templateWidth,
+    local scrollFrame, scrollChildFrame, tabsFrame = MerchantItemContainer:New(self.maxColum, self.templateWidth,
         self.templateHeight, MaskFrameModule.headFrame);
     self.scrollFrame = scrollFrame;
     self.scrollChildFrame = scrollChildFrame;
@@ -82,7 +80,7 @@ function MerchantModule:MERCHANT_SHOW()
             frame.forbidden:SetText(reason);
         end
         frame.iconBorder:SetAtlas(GetQualityBorder(itemQuality));
-        frame:InitEnableGamePadButton("MerchantItem", "group" .. col, 2, loseFocusCallback);
+        frame:InitEnableGamePadButton("MerchantItem", "group" .. col, 1, loseFocusCallback);
         if (index == 1) then --避免多次注册
             MerchantModule:RegisterMerchantItemGamepadButtonDown(frame);
         end
@@ -90,6 +88,9 @@ function MerchantModule:MERCHANT_SHOW()
     end
 
     MerchantApi:PreProccessItemsInfo(callback);
+
+    --模拟点击第一个tab
+    tabsFrame.gamePadButtonDownProcessor:Handle("PAD1");
 end
 
 function MerchantModule:RegisterBuyItem(frame)
@@ -252,8 +253,6 @@ function MerchantModule:UpdateMerchantPositions()
 
     --其余的都给ClearPoint掉 TODO:kangze
 end
-
-
 
 function MerchantModule:InitframeStrata()
     MaskFrameModule:SetBackground();

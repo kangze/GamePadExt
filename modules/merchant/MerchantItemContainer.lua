@@ -43,7 +43,7 @@ function MerchantItemContainer:NewTabs(headFrame)
         MerchantItemContainer:ScollFrameGetFocus();
         MerchantItemContainer:TabsFrameLoseFocus();
     end
-    frame:InitEableGamePadButtonGroup("BuyItem", "group", 1, loseFocusCallback);
+    frame:InitEableGamePadButtonGroup("BuyItem", "group", 2, loseFocusCallback);
     frame:Show();
     self.tabsFrame = frame;
     return frame;

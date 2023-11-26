@@ -1,9 +1,9 @@
 MerchantTabButtonMixin = {};
 local default_options = {
     start = 1,
-    ends = 4,
+    ends = 8,
     duration = 0.2,
-    color = { r = 0.5, g = 0.5, b = 0.5, a = 1 }
+    color = { r = 1, g = 0.5, b = 0.5, a = 1 }
 };
 
 function MerchantTabButtonMixin:OnLoad()

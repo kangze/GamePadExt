@@ -1,15 +1,3 @@
-local function decorator(oldFunc)
-    return function(newFunc)
-        return function(...)
-            oldFunc(...)
-            newFunc(...)
-        end
-    end
-end
-
-local keys_arr1 = string.split(",,,", ",");
-print("---test---");
-print(#keys_arr1);
 
 local function Register(frame, keys, callback)
     local keys_arr = string.split(keys, ",");
@@ -100,9 +88,7 @@ local function Switch(frame, classname)
     nextFrame:SetFrameLevel(current_level);
     frame:LostFocus();
 
-    print("--------");
-    print(next_level);
-    print(current_level);
+    
 end
 
 local function LostFocus(frame)
