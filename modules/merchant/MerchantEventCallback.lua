@@ -37,18 +37,18 @@ function MerchantModule:MERCHANT_SHOW()
     self:InitframeStrata();
     UIParent:Hide();
 
-    local scrollFrame, scrollChildFrame = MerchantItemContainer:New(self.maxColum, self.templateWidth,
-        self.templateHeight,MaskFrameModule.headFrame);
+    local scrollFrame, scrollChildFrame = MerchantItemContainer:NewScrollFrame(self.maxColum, self.templateWidth,
+        self.templateHeight, MaskFrameModule.headFrame);
     self.scrollFrame = scrollFrame;
     self.scrollChildFrame = scrollChildFrame;
 
+    local tabsFrame = MerchantItemContainer:NewTabs(MaskFrameModule.headFrame);
+    MerchantModule:RegisterBuyItem(tabsFrame);
 
     MerchantFrame:ClearAllPoints();
     MerchantFrame:SetParent(scrollChildFrame);
     MerchantFrame:SetPoint("TOPLEFT", scrollChildFrame);
     MerchantFrame:SetPoint("BOTTOMRIGHT", scrollChildFrame);
-
-    self:AppendHeadElements();
 
     local callback = function(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
         local source = _G["MerchantItem" .. index];
