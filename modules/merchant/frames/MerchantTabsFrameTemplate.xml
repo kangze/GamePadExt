@@ -10,6 +10,7 @@
                     <KeyValue key="buttonText" value="购买"/>
                     <KeyValue key="shadow" value="true"/>
                     <KeyValue key="tag" value="buy"/>
+                    <keyValue key="status" value="true"/>
                 </KeyValues>
                 <Size x="100" y="35"/>
                 <Anchors>
@@ -22,6 +23,7 @@
                     <KeyValue key="buttonText" value="买回"/>
                     <KeyValue key="shadow" value="true"/>
                     <KeyValue key="tag" value="buyback"/>
+                    <keyValue key="status" value="true"/>
                 </KeyValues>
                 <Size x="100" y="35"/>
                 <Anchors>

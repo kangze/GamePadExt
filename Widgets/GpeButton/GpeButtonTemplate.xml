@@ -6,6 +6,10 @@
         <KeyValues>
             <KeyValue key="buttonText" value=""/>
             <KeyValue key="shadow" value=""/>
+            <KeyValue key="colorr" value=""/>
+            <KeyValue key="colorg" value=""/>
+            <KeyValue key="colorb" value=""/>
+            <KeyValue key="colora" value=""/>
         </KeyValues>
         <Size x="130" y="30"/>
         <Layers>

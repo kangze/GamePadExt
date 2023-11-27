@@ -1,4 +1,5 @@
-MerchantTabButtonMixin = {};
+MerchantTabButtonMixin = CreateFromMixins({}, GpeButtonTemplateMixin);
+
 local default_options = {
     start = 1,
     ends = 8,
@@ -6,20 +7,9 @@ local default_options = {
     color = { r = 1, g = 0.5, b = 0.5, a = 1 }
 };
 
-function MerchantTabButtonMixin:OnLoad()
-    self.text:SetText(self.buttonText);
-    self:InitShadowAndAnimation(default_options);
+function MerchantTabButtonMixin:GetShadowOptions()
+    return default_options;
 end
-
-function MerchantTabButtonMixin:OnLeave()
-    self:ShowShadowFadeOut();
-end
-
-function MerchantTabButtonMixin:OnEnter()
-    self:ShowShadowFadeIn();
-end
-
-
 
 MerchantTabsFrameMixin = CreateFromMixins({}, GamePadFrameMixin);
 
