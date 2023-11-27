@@ -29,9 +29,9 @@
             </Layer>
         </Layers>
         <Scripts>
-            <OnLoad method="OnLoad"/>
-            <OnEnter method="OnEnter"/>
-            <OnLeave method="OnLeave"/>
+            <OnLoad  method="OnLoad_Intrinsic"  intrinsicOrder="postcall"/>
+            <OnEnter method="OnEnter_Intrinsic" intrinsicOrder="postcall"/>
+            <OnLeave method="OnLeave_Intrinsic" intrinsicOrder="postcall"/>
         </Scripts>
     </Frame>
 </Ui>

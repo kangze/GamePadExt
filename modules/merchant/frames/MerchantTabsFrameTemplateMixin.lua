@@ -7,8 +7,9 @@ local default_options = {
     color = { r = 1, g = 0.5, b = 0.5, a = 1 }
 };
 
-function MerchantTabButtonMixin:GetShadowOptions()
-    return default_options;
+function MerchantTabButtonMixin:OnLoad()
+    GpeButtonTemplateMixin.OnLoad_Intrinsic(self);
+    self:InitShadowAndAnimation(default_options);
 end
 
 MerchantTabsFrameMixin = CreateFromMixins({}, GamePadFrameMixin);

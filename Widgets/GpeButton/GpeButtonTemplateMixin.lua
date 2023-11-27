@@ -17,20 +17,17 @@ local default_status = true;
 local default_color = { r = 0.490, g = 0.345, b = 0.525, a = 1 };
 local default_disable_ratio = 0.65;
 
-function GpeButtonTemplateMixin:OnLoad()
+function GpeButtonTemplateMixin:OnLoad_Intrinsic()
     self.buttonText = self.buttonText or default_text;
     self.shadow = self.shadow or default_shadow;
     self.status = self.status or default_status;
     self.color = self.color or default_color;
 
     self.text:SetText(self.buttonText);
-    if (self.shadow and self.GetShadowOptions) then
-        self:InitShadowAndAnimation(self:GetShadowOptions());
-    end
     self.background:SetColorTexture(self.color.r, self.color.g, self.color.b, self.color.a);
 end
 
-function GpeButtonTemplateMixin:OnLeave()
+function GpeButtonTemplateMixin:OnLeave_Intrinsic()
     if (self.shadow) then
         self:ShowShadowFadeOut();
     end
@@ -40,7 +37,7 @@ function GpeButtonTemplateMixin:OnLeave()
     end
 end
 
-function GpeButtonTemplateMixin:OnEnter()
+function GpeButtonTemplateMixin:OnEnter_Intrinsic()
     if (self.shadow) then
         self:ShowShadowFadeIn();
     end

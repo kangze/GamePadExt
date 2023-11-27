@@ -29,6 +29,9 @@
                 <Anchors>
                     <Anchor point="RIGHT"/>
                 </Anchors>
+                <Scripts>
+                    <OnLoad method="OnLoad" />
+                </Scripts>
             </Frame>
 
             <Frame parentKey="rebuy2" hidden="false" inherits="GpeButtonTemplate" mixin="MerchantTabButtonMixin">
@@ -40,6 +43,9 @@
                 <Anchors>
                     <Anchor point="CENTER"/>
                 </Anchors>
+                <Scripts>
+                    <OnLoad method="OnLoad" />
+                </Scripts>
             </Frame>
         </Frames>
     </Frame>
