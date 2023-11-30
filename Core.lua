@@ -13,6 +13,7 @@ _G["Gpe"] = Gpe;
 
 
 --创建ActionBarModule
+local MaskFrameModule=Gpe:NewModule("MaskFrameModule");
 local ActionBarModule = Gpe:NewModule("ActionBarModule", "AceEvent-3.0", "AceConsole-3.0");
 local SettingModule = Gpe:NewModule("SettingModule");
 local CastingBarModule = Gpe:NewModule("CastingBarModule");
@@ -20,7 +21,7 @@ local SoftTargetToolipModule = Gpe:NewModule("SoftTargetToolipModule", "AceEvent
 local NamePlateModule = Gpe:NewModule("NamePlateModule", "AceEvent-3.0");
 local MerchantModule = Gpe:NewModule("MerchantModule", "AceEvent-3.0", "AceHook-3.0");
 local ToolKitModule = Gpe:NewModule("ToolKitModule");
-local MaskFrameModule=Gpe:NewModule("MaskFrameModule");
+
 
 --配置配置的默认值存储
 AddonData.registration = { profile = {}, options = { type = "group", args = {} } };

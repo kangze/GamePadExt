@@ -12,6 +12,14 @@ function MerchantTabButtonMixin:OnLoad()
     self:InitShadowAndAnimation(default_options);
 end
 
+function MerchantTabButtonMixin:OnEnter()
+    GpeButtonTemplateMixin.OnEnter_Intrinsic(self);
+end
+
+function MerchantTabButtonMixin:OnLeave()
+    GpeButtonTemplateMixin.OnLeave_Intrinsic(self);
+end
+
 MerchantTabsFrameMixin = CreateFromMixins({}, GamePadFrameMixin);
 
 function MerchantTabsFrameMixin:GetGamePadFrames()

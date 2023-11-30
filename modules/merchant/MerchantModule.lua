@@ -4,8 +4,6 @@ local Gpe = _G["Gpe"];
 local Masque, MSQ_Version = LibStub("Masque", true);
 local MerchantModule = Gpe:GetModule('MerchantModule');
 
-
-
 function MerchantModule:OnInitialize()
     --DeveloperConsole:Toggle()
 

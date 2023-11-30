@@ -10,4 +10,5 @@
     <Script file="MerchantModule.lua"/>
 
     <Include file="frames\MerchantTabsFrameTemplate.xml"/>
+    <Script file="HeadFeatureRegistion.lua"/>
 </Ui>

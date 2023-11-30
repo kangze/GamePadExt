@@ -20,11 +20,11 @@ Core.lua
 ToolKit/loads.xml
 Widgets/GpeButton/loads.xml
 
+modules/MaskFrameModule/loads.xml
 modules/merchant/loads.xml
 modules/actionbar/loads.xml
 modules/CastingBar/loads.xml
 modules/SoftTargetTooltip/loads.xml
 modules/NamePlate/loads.xml
 modules/Setting/loads.xml
-modules/MaskFrameModule/loads.xml
 modules/PreviewFrameModule/loads.xml

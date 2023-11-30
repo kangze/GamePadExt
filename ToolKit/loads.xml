@@ -11,7 +11,7 @@
 
 
     <Script file="GamePad\GamePadFrameMixin.lua"/>
-    <Script file="GamePad\GamePadButtonDownProcesser.lua"/>
+    <Script file="GamePad\GamePadInitor.lua"/>
 
     <Script file="Anchor.lua"/>
     <Script file="String.lua"/>

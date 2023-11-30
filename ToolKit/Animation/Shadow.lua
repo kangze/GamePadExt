@@ -44,7 +44,7 @@ local function InitShadowAndAnimation(frame, options)
     --     AddonData.db.profile.shadow.style.end_val, AddonData.db.profile.shadow.style.duration;
 
     local option = options or default_options;
-    local color = AddonData.db.profile.shadow.style.color;
+    local color = option.color;
     local shadow = CreateShadow(frame, option.start, color);
     local fadeIn = CreateAnimation(shadow, option.start, option.ends, option.duration, option.color);
     local fadeOut = CreateAnimation(shadow, option.ends, option.start, option.duration, option.color);

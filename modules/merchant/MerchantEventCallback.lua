@@ -36,13 +36,14 @@ function MerchantModule:MERCHANT_SHOW()
     MaskFrameModule:ShowAll();
     UIParent:Hide();
 
-    local scrollFrame, scrollChildFrame, tabsFrame = MerchantItemContainer:New(self.maxColum, self.templateWidth,
+    MaskFrameModule:Active("merchantTab");
+
+    local scrollFrame, scrollChildFrame = MerchantItemContainer:New(self.maxColum, self.templateWidth,
         self.templateHeight, MaskFrameModule.headFrame);
     self.scrollFrame = scrollFrame;
     self.scrollChildFrame = scrollChildFrame;
-    self.tabsFrame = tabsFrame;
 
-    MerchantModule:RegisterBuyItem(tabsFrame);
+    --MerchantModule:RegisterBuyItem(tabsFrame);
 
     MerchantFrame:ClearAllPoints();
     MerchantFrame:SetParent(scrollChildFrame);
@@ -55,6 +56,9 @@ function MerchantModule:MERCHANT_SHOW()
     end
 
     --购买商品渲染
+    --GamePadFrameInitor:Init("MerchantItem", "group" .. col, 1,frame);
+
+    local gamePadInitor = GamePadInitor:Init("MerchantItem", 1);
     local callback_buy = function(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
         local source = _G["MerchantItem" .. index];
         source:ClearAllPoints();
@@ -69,17 +73,17 @@ function MerchantModule:MERCHANT_SHOW()
             itemLink = string.gsub(itemLink, "%[", "", 1);
             itemLink = string.gsub(itemLink, "%]", "", 1);
         end
-        frame:InitEnableGamePadButton("MerchantItem", "group" .. col, 1, loseFocusCallback);
-        if (index == 1) then --避免多次注册
-            MerchantModule:RegisterMerchantItemGamepadButtonDown(frame);
-        end
+        --gamepadproccessor = GamePadFrameInitor:Init("MerchantItem", "group" .. col, 1,frame);
+        gamePadInitor:Add(frame, "group" .. col);
         table.insert(currentItems, frame);
     end
+    gamePadInitor:SetRegion(scrollChildFrame);
+    MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor);
 
     MerchantApi:PreProccessItemsInfo(callback_buy);
 
     --购回商品渲染
-
+    local gamePadInitor_buyback = GamePadInitor:Init("MerchantItemBuyBack", 2);
     local callback_buy = function(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
         local source = _G["MerchantItem" .. index];
         source:ClearAllPoints();
@@ -93,70 +97,26 @@ function MerchantModule:MERCHANT_SHOW()
             itemLink = string.gsub(itemLink, "%[", "", 1);
             itemLink = string.gsub(itemLink, "%]", "", 1);
         end
-        frame:InitEnableGamePadButton("MerchantItemBuyBack", "group" .. col, 2, loseFocusCallback);
-        if (index == 1) then --避免多次注册
-            MerchantModule:RegisterMerchantItemGamepadButtonDown(frame, true);
-        end
+        gamePadInitor_buyback:Add(frame, "group" .. col);
         table.insert(currentBuyBackItems, frame);
     end
+
+    gamePadInitor_buyback:SetRegion(scrollChildFrame);
+    MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor_buyback, true);
 
     MerchantApi:ProcessMerchantBuyBackInfo(callback_buy);
 
     --模拟点击第一个tab
-    tabsFrame.gamePadButtonDownProcessor:Handle("PAD1");
+    --tabsFrame.gamePadButtonDownProcessor:Handle("PAD1");
 end
 
-function MerchantModule:RegisterBuyItem(frame)
-    local proccessor = frame.gamePadButtonDownProcessor;
-    proccessor:Register("PADRTRIGGER,PADLTRIGGER", function(currentItem, preItem)
-        if (preItem and preItem.OnLeave) then
-            preItem:OnLeave();
-        end
-        if (currentItem and currentItem.OnEnter) then
-            currentItem:OnEnter();
-        end
-    end);
-
-    --tab选项选择
-    proccessor:Register("PAD1", function(currentItem, preItem)
-        if (currentItem.tag == "buy") then
-            for i = 1, #currentBuyBackItems do
-                currentBuyBackItems[i]:Hide();
-            end
-            for i = 1, #currentItems do
-                currentItems[i]:Show();
-            end
-            mode = "buy";
-            proccessor:Switch("MerchantItem");
-            MerchantModule:UpdateMerchantPositions();
-            MerchantModule.scrollFrame:SetVerticalScroll(0);
-        end
-        if (currentItem.tag == "buyback") then
-            for i = 1, #currentBuyBackItems do
-                currentBuyBackItems[i]:Show();
-            end
-            for i = 1, #currentItems do
-                currentItems[i]:Hide();
-            end
-            mode = "buyback";
-            proccessor:Switch("MerchantItemBuyBack");
-            MerchantModule:UpdateMerchantPositions();
-            MerchantModule.scrollFrame:SetVerticalScroll(0);
-        end
-    end);
-
-    --注册这个框架关闭
-    proccessor:Register("PADSYSTEM", function(currentItem, prrItem)
-        MerchantModule:MERCHANT_CLOSED();
-    end);
-end
-
-function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame, buyback)
-    local proccessor = frame.gamePadButtonDownProcessor;
-    proccessor:Register("PADDDOWN,PADDUP,PADDLEFT,PADDRIGHT", function(currentItem, preItem)
+function MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor, buyback)
+    gamePadInitor:Register("PADDDOWN,PADDUP,PADDLEFT,PADDRIGHT", function(currentItem, preItem)
         PlaySoundFile("Interface\\AddOns\\GamePadExt\\media\\sound\\1.mp3", "Master");
         MaskFrameModule:SetBackground();
         MerchantItemGameTooltip:Hide();
+        print(gamePadInitor.classname);
+        _G["test"] = currentItem;
         currentItem.buyFrame:ShowFadeIn();
         currentItem.detailFrame:ShowFadeIn();
         if (preItem) then
@@ -178,12 +138,12 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame, buyback)
     end);
 
     --返回上一级菜单
-    proccessor:Register("PADSYSTEM", function(...)
-        proccessor:Switch("TabFrame");
+    gamePadInitor:Register("PADSYSTEM", function(...)
+        gamePadInitor:Switch("TabFrame");
     end);
 
     --幻化
-    proccessor:Register("PAD4", function(currentItem)
+    gamePadInitor:Register("PAD4", function(currentItem)
         if (currentItem.dressUpFrame) then
             currentItem.dressUpFrame:Destroy();
             currentItem.dressUpFrame = nil;
@@ -211,7 +171,7 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame, buyback)
     end)
 
     --当前商品查看详情
-    proccessor:Register("PAD2", function(currentItem)
+    gamePadInitor:Register("PAD2", function(currentItem)
         --背景设置最高和当前层级设置最高
         MaskFrameModule:SETDIALOG();
         currentItem:SetFrameStrata("DIALOG");
@@ -226,7 +186,7 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame, buyback)
     end)
 
     --购买物品
-    proccessor:Register("PAD1", function(currentItem)
+    gamePadInitor:Register("PAD1", function(currentItem)
         if (buyback) then
             BuybackItem(currentItem.index);
         else
@@ -235,7 +195,7 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(frame, buyback)
     end)
 
     --窗体滚动
-    proccessor:Register("PADDDOWN,PADDUP", function(currentItem, preItem)
+    gamePadInitor:Register("PADDDOWN,PADDUP", function(currentItem, preItem)
         local total_height = MerchantModule.scrollFrame:GetHeight();
         local item_height = currentItem:GetHeight();
         local current_index = currentItem.currentIndex;
@@ -272,11 +232,8 @@ function MerchantModule:MERCHANT_CLOSED()
         currentItems[i]:Destroy();
     end
     currentItems = {};
-
-    --关闭TabsFrame
-
-    self.tabsFrame:Destroy();
-    self.tabsFrame = nil;
+    --通知MaskFrameModule关闭一些实例
+    MaskFrameModule:Destroy("merchantTab");
 end
 
 function MerchantModule:UpdateMerchantPositions()

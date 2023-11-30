@@ -16,6 +16,12 @@
                 <Anchors>
                     <Anchor point="LEFT"/>
                 </Anchors>
+
+                <Scripts>
+                    <OnLoad method="OnLoad" />
+                    <OnEnter method="OnEnter" />
+                    <OnLeave method="OnLeave"/>
+                </Scripts>
             </Frame>
 
             <Frame parentKey="rebuy" hidden="false" inherits="GpeButtonTemplate" mixin="MerchantTabButtonMixin">
@@ -31,6 +37,8 @@
                 </Anchors>
                 <Scripts>
                     <OnLoad method="OnLoad" />
+                    <OnEnter method="OnEnter" />
+                    <OnLeave method="OnLeave"/>
                 </Scripts>
             </Frame>
 
