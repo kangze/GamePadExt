@@ -20,17 +20,19 @@ end
 
 function MaskFrameModule:OnEnable()
     local headFrame = CreateFrame("Frame", nil, nil, "HeaderFrameTemplate");
+    headFrame:ClearAllPoints();
     headFrame:SetPoint("TOP", UIParent, 0, 0);
-
-    headFrame:InitShowFadeInAndOut();
-    headFrame:InitShadowAndAnimation();
-    headFrame:ShowShadow();
     self.headFrame = headFrame;
 
     local bodyFrame = CreateFrame("Frame", nil, nil, "BodyFrameTemplate");
     bodyFrame:ClearAllPoints();
     bodyFrame:SetPoint("TOP", headFrame, "BOTTOM", 0, 0);
     self.bodyFrame = bodyFrame;
+end
+
+function MaskFrameModule:ShowFadeIn()
+    self.headFrame:ShowFadeIn();
+    self.bodyFrame:ShowFadeIn();
 end
 
 function MaskFrameModule:Active(name)
@@ -48,6 +50,7 @@ function MaskFrameModule:Active(name)
     table.insert(self.childs, { name = name, frame = frame });
 end
 
+--转换到另外的Tab,代表的是,原来的tab必须给销毁掉
 function MaskFrameModule:SwitchFeatureRegion(name)
     self.headFrame.childFrame:Hide();
     -- 销毁方法必须自己定义TODO
@@ -63,8 +66,17 @@ function MaskFrameModule:SwitchFeatureRegion(name)
 end
 
 --摧毁注册区域
-function MaskFrameModule:Destroy()
-    self:SwitchFeatureRegion(nil);
+function MaskFrameModule:Destroy(name)
+    self.headFrame:ShowFadeOut();
+    self.bodyFrame:ShowFadeOut();
+    local frame = HeaderRegions[name];
+    frame:Destroy();
+    HeaderRegions[name] = nil;
+end
+
+--让内容得到焦点
+function MaskFrameModule:SelectContentFoucs()
+    self.bodyFrame:SetFrameStrata("BACKGROUND");
 end
 
 ------以下代码需要逐步弃用------------------

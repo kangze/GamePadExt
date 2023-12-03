@@ -11,6 +11,8 @@ GamePadInitor = {
     currentItem = nil,
     preItem = nil,
     instances = {},
+    tabName = nil,
+    tabContents = {}
 };
 GamePadInitor.__index = GamePadInitor;
 
@@ -35,7 +37,10 @@ function GamePadInitor:Init(classname, level)
     return self;
 end
 
-function GamePadInitor:Add(element, groupName)
+function GamePadInitor:Add(element, groupName, tabName)
+    if (tabName) then
+        element.tabName = tabName;
+    end
     if (not table.isInTable(self.groupNames, groupName)) then
         table.insert(self.groups, {});
         table.insert(self.groupNames, groupName);
@@ -57,8 +62,13 @@ function GamePadInitor:Add(element, groupName)
     end
 end
 
-function GamePadInitor:SetRegion(frame)
+--tagContent主要是为了和tab进行联动
+function GamePadInitor:SetRegion(frame, tabName)
     self.region = frame;
+    frame.gamePadInitor = self;
+    if (tabName) then
+        self.tabContents[tabName] = self;
+    end
 end
 
 function GamePadInitor:Register(keys, callback)
@@ -151,6 +161,15 @@ function GamePadInitor:Switch(classname)
     nextInitor.core:SetFrameLevel(current_level);
     if (self.region.OnLeave) then
         self.region:OnLeave();
+    end
+end
+
+--框架规定,必定可以选择到
+function GamePadInitor:SelectTab(tabName,callback)
+    local initor = self.tabContents[tabName];
+    self:Switch(initor.classname);
+    if(callback) then
+        callback();
     end
 end
 

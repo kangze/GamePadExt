@@ -1,6 +1,7 @@
 local default_duration = 0.5;
 
 local function InitShowFadeInAndOut(frame, duration)
+    frame:SetAlpha(0);
     local start = 1;
     local ends = 0;
     local duration = duration or default_duration;
@@ -19,6 +20,7 @@ local function InitShowFadeInAndOut(frame, duration)
 end
 
 local function ShowFadeIn(frame)
+    frame:Show();
     frame._showFadeIn:Show();
 end
 

@@ -1,56 +1,57 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\..\FrameXML\UI.xsd">
-    <Script file="HeaderFrameMixin.lua"/>
-    <Frame name="HeaderFrameTemplate" virtual="true" frameStrata="DIALOG" enableMouse="true" mixin="HeaderFrameMixin">
-        <Anchors>
-            <Anchor point="TOP" />
-        </Anchors>
-        <Layers>
+	<Script file="HeaderFrameMixin.lua"/>
+	<Frame name="HeaderFrameTemplate" hidden="true" virtual="true" frameStrata="DIALOG" enableMouse="true" mixin="HeaderFrameMixin">
+		<Anchors>
+			<Anchor point="TOP" />
+		</Anchors>
+		<Layers>
 
-            <Layer level="BACKGROUND">
-                <!--头部背景-->
-                <Texture parentKey="background">
-                    <Color r="1.0" g="0.996" b="0.976" a="1"/>
-                </Texture>
-            </Layer>
-        </Layers>
+			<Layer level="BACKGROUND">
+				<!--头部背景-->
+				<Texture parentKey="background">
+					<Color r="1.0" g="0.996" b="0.976" a="1"/>
+				</Texture>
+			</Layer>
+		</Layers>
 
-        <Frames>
-            <Frame parentKey="money">
-                <Size x="100" y="35"/>
-                <Anchors>
-                    <Anchor point="RIGHT" />
-                </Anchors>
-                <Layers>
-                    <Layer level="BACKGROUND">
-                        <Texture parentKey="background">
-                            <Color r="0.165" g="0.361" b="0.792" a="1"/>
-                        </Texture>
-                    </Layer>
-                    <Layer level="ARTWORK">
-                        <Texture parentKey="coin" atlas="lootroll-rollicon-yourolled-greed">
-                            <Size x="40" y="35"/>
-                            <Anchors>
-                                <Anchor point="RIGHT" x=""/>
-                            </Anchors>
-                        </Texture>
+		<Frames>
+			<Frame parentKey="money">
+				<Size x="100" y="35"/>
+				<Anchors>
+					<Anchor point="RIGHT" />
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture parentKey="background">
+							<Color r="0.165" g="0.361" b="0.792" a="1"/>
+						</Texture>
+					</Layer>
+					<Layer level="ARTWORK">
+						<!--<Texture parentKey="coin" atlas="lootroll-rollicon-yourolled-greed">
+							<Size x="40" y="35"/>
+							<Anchors>
+								<Anchor point="RIGHT" x=""/>
+							</Anchors>
+						</Texture>
 
-                        <FontString parentKey="money" text="5,000" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
-                            <FontHeight val="18"/>
-                            <Anchors>
-                                <Anchor point="RIGHT" relativeKey="$parent.coin" relativePoint="LEFT" x="10" y="-2"/>
-                            </Anchors>
-                        </FontString>
-                    </Layer>
-                </Layers>
-            </Frame>
-        </Frames>
+						<FontString parentKey="money" text="5,000" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
+							<FontHeight val="18"/>
+							<Anchors>
+								<Anchor point="RIGHT" relativeKey="$parent.coin" relativePoint="LEFT" x="10" y="-2"/>
+							</Anchors>
+						</FontString>-->
+					</Layer>
+				</Layers>
+			</Frame>
+		</Frames>
 
-        <Scripts>
-            <OnLoad method="OnLoad"/>
-            <OnEnter method="OnEnter"/>
-        </Scripts>
-    </Frame>
+		<Scripts>
+			<OnLoad method="OnLoad"/>
+			<OnEnter method="OnEnter"/>
+			<OnShow method="OnShow"/>
+		</Scripts>
+	</Frame>
 
 </Ui>

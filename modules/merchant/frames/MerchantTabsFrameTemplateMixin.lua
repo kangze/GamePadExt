@@ -10,6 +10,7 @@ local default_options = {
 function MerchantTabButtonMixin:OnLoad()
     GpeButtonTemplateMixin.OnLoad_Intrinsic(self);
     self:InitShadowAndAnimation(default_options);
+    --self:InitShowFadeInAndOut();
 end
 
 function MerchantTabButtonMixin:OnEnter()
@@ -20,12 +21,16 @@ function MerchantTabButtonMixin:OnLeave()
     GpeButtonTemplateMixin.OnLeave_Intrinsic(self);
 end
 
-MerchantTabsFrameMixin = CreateFromMixins({}, GamePadFrameMixin);
+MerchantTabsFrameMixin = {};
 
-function MerchantTabsFrameMixin:GetGamePadFrames()
-    local frames = {};
-    table.insert(frames, self.buy);
-    table.insert(frames, self.rebuy);
-    table.insert(frames, self.rebuy2);
-    return frames;
+function MerchantTabsFrameMixin:Destroy()
+    self.buy:ShowFadeOut();
+    self.rebuy:ShowFadeOut();
+
+    self.buy:Hide();
+    self.rebuy:Hide();
+    self:Hide();
+    self.buy=nil;
+    self.rebuy=nil;
+    self=nil;
 end

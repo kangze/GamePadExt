@@ -4,6 +4,8 @@ local Gpe = _G["Gpe"];
 local Masque, MSQ_Version = LibStub("Masque", true);
 local MerchantModule = Gpe:GetModule('MerchantModule');
 
+local MaskFrameModule = Gpe:GetModule('MaskFrameModule');
+
 function MerchantModule:OnInitialize()
     --DeveloperConsole:Toggle()
 
@@ -30,11 +32,109 @@ function MerchantModule:OnEnable()
             CreateFrame("Frame", "MerchantItem" .. i, MerchantFrame, "MerchantItemTemplate");
         end
     end
+
+    --初始化布局
+    MerchantModule:InitLayout();
+
+    --初始化tab选项
+    MerchantModule:InitTabls();
 end
 
 --Sample:Masque
 -- local group = Masque:Group("GamePadExt", "MerchantItem");
 -- group:AddButton(MerchantItem.button);
+
+--初始化布局
+function MerchantModule:InitLayout()
+    local scrollFrame, scrollChildFrame = MerchantItemContainer:New(self.maxColum, self.templateWidth,
+        self.templateHeight);
+    self.scrollFrame = scrollFrame;
+    self.scrollChildFrame = scrollChildFrame;
+
+    scrollFrame:SetPoint("TOP", UIParent, 0, -35);
+
+    MerchantFrame:ClearAllPoints();
+    MerchantFrame:SetParent(scrollChildFrame);
+    MerchantFrame:SetPoint("TOPLEFT", scrollChildFrame);
+    MerchantFrame:SetPoint("BOTTOMRIGHT", scrollChildFrame);
+end
+
+local function RegisterTabsButtonDown(gamePadInitor)
+    gamePadInitor:Register("PADRTRIGGER,PADLTRIGGER", function(currentItem, preItem)
+        if (preItem and preItem.OnLeave) then
+            preItem:OnLeave();
+        end
+        if (currentItem and currentItem.OnEnter) then
+            currentItem:OnEnter();
+        end
+    end);
+
+    --tab选项选择
+    gamePadInitor:Register("PAD1", function(currentItem, preItem)
+        gamePadInitor:SelectTab(currentItem.tabName);
+        MaskFrameModule:SelectContentFoucs();
+    end);
+
+    --注册这个框架关闭
+    gamePadInitor:Register("PADSYSTEM", function(currentItem, prrItem)
+        MerchantModule:MERCHANT_CLOSED();
+    end);
+end
+
+--初始化tab布局选项
+function MerchantModule:InitTabls()
+    local function callback(headFrame)
+        local frame = CreateFrame("Frame", nil, nil, "MerchantTabsFrameTemplate");
+        frame.buy:SetHeight(headFrame:GetHeight() - 2);
+        frame.rebuy:SetHeight(headFrame:GetHeight() - 2);
+        local gamePadInitor = GamePadInitor:Init("TabFrame", 10);
+        gamePadInitor:Add(frame.buy, "group", "buy");
+        gamePadInitor:Add(frame.rebuy, "group", "buyback");
+        gamePadInitor:SetRegion(frame);
+        RegisterTabsButtonDown(gamePadInitor);
+        return frame;
+    end
+    HeaderRegions:Register("merchantTab", callback);
+end
+
+--处理MerchantFrame Hook
+function MerchantModule:UpdateMerchantPositions()
+    self:HiddeMerchantSomeFrame();
+    --MerchantFrame:ClearAllPoints();
+    --MerchantFrame:SetParent(nil);
+    --MerchantFrame:SetPoint("TOP", MaskFrameModule:GetHeaderFrame());
+    MerchantFrame:ClearAllPoints();
+    MerchantFrame:SetParent(self.scrollChildFrame);
+    MerchantFrame:SetPoint("TOPLEFT", self.scrollChildFrame);
+    MerchantFrame:SetPoint("BOTTOMRIGHT", self.scrollChildFrame);
+
+    local count = nil;
+    mode = "buy";
+    if (mode == "buy") then
+        count = GetMerchantNumItems();
+    else
+        count = GetNumBuybackItems();
+    end
+    local middle = math.ceil(count / self.maxColum);
+
+    for index = 1, count do
+        local source = self:PointMerchantItem(index, middle);
+        if (source) then
+            source:Show();
+        end
+    end
+end
+
+function MerchantModule:PointMerchantItem(index, middle)
+    local source = _G["MerchantItem" .. index];
+    if (source ~= nil) then
+        source:ClearAllPoints();
+        local col = math.ceil(index / middle);
+        local offsetX, offsetY = self:GetColInfo(index, col, middle);
+        source:SetPoint("TOPLEFT", self.scrollChildFrame, offsetX, offsetY);
+    end
+    return source;
+end
 
 function MerchantModule:HiddeMerchantSomeFrame()
     if MerchantBuyBackItem then

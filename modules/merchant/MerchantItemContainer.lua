@@ -9,7 +9,7 @@ local MaskFrameModule = Gpe:GetModule('MaskFrameModule');
 
 
 --创建滚动框体以及其他
-function MerchantItemContainer:New(maxColum, templateWidht, templateHeigt, headFrame)
+function MerchantItemContainer:New(maxColum, templateWidht, templateHeigt)
     local count = GetMerchantNumItems();
 
     local scale = UIParent:GetEffectiveScale();
@@ -17,11 +17,13 @@ function MerchantItemContainer:New(maxColum, templateWidht, templateHeigt, headF
 
     local scrollFrame = CreateFrame("ScrollFrame", nil, nil)
     scrollFrame:SetSize(templateWidht * maxColum * 1.5, height)
-    scrollFrame:SetPoint("TOP", headFrame, "BOTTOM", 0, 0);
 
     local scrollChildFrame = CreateFrame("Frame", nil, scrollFrame)
     scrollFrame:SetScrollChild(scrollChildFrame)
-    scrollChildFrame:SetSize(templateWidht * maxColum * 1.5, (templateHeigt * count) / 2);
+    scrollChildFrame:SetSize(templateWidht * maxColum * 1.5, 2000);
+    scrollChildFrame.OnLeave=function() 
+        print("我childFrame离开了");
+    end;
 
     self.scrollFrame = scrollFrame;
     self.scrollChildFrame = scrollChildFrame;

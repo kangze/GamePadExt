@@ -8,8 +8,14 @@ function HeaderFrameMixin:OnLoad()
     local width = GetScreenWidth() * scale
     local height = 30;
     self:SetSize(width, height);
+    self:InitShowFadeInAndOut();
+    self:InitShadowAndAnimation();
 end
 
 function HeaderFrameMixin:OnEnter()
 
+end
+
+function HeaderFrameMixin:OnShow()
+    self:ShowFadeIn();
 end

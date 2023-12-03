@@ -33,37 +33,29 @@ function MerchantModule:GetColInfo(index, col, middle)
 end
 
 function MerchantModule:MERCHANT_SHOW()
-    MaskFrameModule:ShowAll();
-    UIParent:Hide();
+    --顶部渐入显示
+    MaskFrameModule:ShowFadeIn();
 
+    --全局UI进行隐藏
+    --UIParent:Hide();
+
+    --顶部菜单开始激活
     MaskFrameModule:Active("merchantTab");
 
-    local scrollFrame, scrollChildFrame = MerchantItemContainer:New(self.maxColum, self.templateWidth,
-        self.templateHeight, MaskFrameModule.headFrame);
-    self.scrollFrame = scrollFrame;
-    self.scrollChildFrame = scrollChildFrame;
-
-    --MerchantModule:RegisterBuyItem(tabsFrame);
-
     MerchantFrame:ClearAllPoints();
-    MerchantFrame:SetParent(scrollChildFrame);
-    MerchantFrame:SetPoint("TOPLEFT", scrollChildFrame);
-    MerchantFrame:SetPoint("BOTTOMRIGHT", scrollChildFrame);
-
-    local loseFocusCallback = function()
-        MerchantItemContainer:ScollFrameLoseFocus();
-        MerchantItemContainer:TabsFrameGetFocus();
-    end
+    MerchantFrame:SetParent(self.scrollChildFrame);
+    MerchantFrame:SetPoint("TOPLEFT", self.scrollChildFrame);
+    MerchantFrame:SetPoint("BOTTOMRIGHT", self.scrollChildFrame);
 
     --购买商品渲染
-    --GamePadFrameInitor:Init("MerchantItem", "group" .. col, 1,frame);
-
     local gamePadInitor = GamePadInitor:Init("MerchantItem", 1);
-    local callback_buy = function(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
-        local source = _G["MerchantItem" .. index];
-        source:ClearAllPoints();
-        local offsetX, offsetY = self:GetColInfo(index, col, midle);
-        source:SetPoint("TOPLEFT", offsetX, offsetY);
+    function callback_buy(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
+        --local source = _G["MerchantItem" .. index];
+        --source:ClearAllPoints();
+        --local offsetX, offsetY = self:GetColInfo(index, col, midle);
+        --source:SetPoint("TOPLEFT", offsetX, offsetY);
+        --source:Show();
+        local source = self:PointMerchantItem(index, midle);
         source:Show();
 
         local frame = MerchantModule:Render(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable,
@@ -73,22 +65,17 @@ function MerchantModule:MERCHANT_SHOW()
             itemLink = string.gsub(itemLink, "%[", "", 1);
             itemLink = string.gsub(itemLink, "%]", "", 1);
         end
-        --gamepadproccessor = GamePadFrameInitor:Init("MerchantItem", "group" .. col, 1,frame);
         gamePadInitor:Add(frame, "group" .. col);
         table.insert(currentItems, frame);
     end
-    gamePadInitor:SetRegion(scrollChildFrame);
-    MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor);
 
     MerchantApi:PreProccessItemsInfo(callback_buy);
 
     --购回商品渲染
     local gamePadInitor_buyback = GamePadInitor:Init("MerchantItemBuyBack", 2);
-    local callback_buy = function(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
-        local source = _G["MerchantItem" .. index];
-        source:ClearAllPoints();
-        local offsetX, offsetY = self:GetColInfo(index, col, midle);
-        source:SetPoint("TOPLEFT", offsetX, offsetY);
+    function callback_buy(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
+        local source = self:PointMerchantItem(index, midle);
+        source:Show();
 
         local frame = MerchantModule:Render(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable,
             hasTransMog);
@@ -101,22 +88,23 @@ function MerchantModule:MERCHANT_SHOW()
         table.insert(currentBuyBackItems, frame);
     end
 
-    gamePadInitor_buyback:SetRegion(scrollChildFrame);
+    gamePadInitor:SetRegion(self.scrollChildFrame, "buy");
+    MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor);
+
+    gamePadInitor_buyback:SetRegion(self.scrollChildFrame, "buyback");
     MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor_buyback, true);
 
     MerchantApi:ProcessMerchantBuyBackInfo(callback_buy);
 
     --模拟点击第一个tab
-    --tabsFrame.gamePadButtonDownProcessor:Handle("PAD1");
+    --gamePadInitor:Handle("PAD1");
 end
 
 function MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor, buyback)
     gamePadInitor:Register("PADDDOWN,PADDUP,PADDLEFT,PADDRIGHT", function(currentItem, preItem)
         PlaySoundFile("Interface\\AddOns\\GamePadExt\\media\\sound\\1.mp3", "Master");
-        MaskFrameModule:SetBackground();
+        MaskFrameModule:SelectContentFoucs();
         MerchantItemGameTooltip:Hide();
-        print(gamePadInitor.classname);
-        _G["test"] = currentItem;
         currentItem.buyFrame:ShowFadeIn();
         currentItem.detailFrame:ShowFadeIn();
         if (preItem) then
@@ -139,7 +127,7 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor, buy
 
     --返回上一级菜单
     gamePadInitor:Register("PADSYSTEM", function(...)
-        gamePadInitor:Switch("TabFrame");
+        gamePadInitor:Switch("merchantTab");
     end);
 
     --幻化
@@ -224,7 +212,6 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor, buy
 end
 
 function MerchantModule:MERCHANT_CLOSED()
-    MaskFrameModule:HideBody();
     UIParent:Show();
 
     --关闭所有的商品Item
@@ -234,39 +221,6 @@ function MerchantModule:MERCHANT_CLOSED()
     currentItems = {};
     --通知MaskFrameModule关闭一些实例
     MaskFrameModule:Destroy("merchantTab");
-end
-
-function MerchantModule:UpdateMerchantPositions()
-    self:HiddeMerchantSomeFrame();
-    MerchantFrame:ClearAllPoints();
-    MerchantFrame:SetParent(nil);
-    MerchantFrame:SetPoint("TOP", MaskFrameModule:GetHeaderFrame());
-
-    MerchantFrame:ClearAllPoints();
-    MerchantFrame:SetParent(self.scrollChildFrame);
-    MerchantFrame:SetPoint("TOPLEFT", self.scrollChildFrame);
-    MerchantFrame:SetPoint("BOTTOMRIGHT", self.scrollChildFrame);
-
-    local count = nil;
-    if (mode == "buy") then
-        count = GetMerchantNumItems();
-    else
-        count = GetNumBuybackItems();
-    end
-    local middle = math.ceil(count / self.maxColum);
-
-    for index = 1, count do
-        local source = _G["MerchantItem" .. index];
-        if (source ~= nil) then
-            source:ClearAllPoints();
-            local col = math.ceil(index / middle);
-            local offsetX, offsetY = self:GetColInfo(index, col, middle);
-            source:SetPoint("TOPLEFT", offsetX, offsetY);
-            source:Show();
-        end
-    end
-
-    --其余的都给ClearPoint掉 TODO:kangze
 end
 
 function MerchantModule:InitframeStrata()
@@ -297,5 +251,6 @@ function MerchantModule:Render(index, col, midle, itemLink, cost, texture, itemQ
         frame.forbidden:SetText(reason);
     end
     frame.iconBorder:SetAtlas(GetQualityBorder(itemQuality));
+    frame:SetAlpha(1);
     return frame;
 end
