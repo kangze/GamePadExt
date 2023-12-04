@@ -124,6 +124,7 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor, buy
     --返回上一级菜单
     gamePadInitor:Register("PADSYSTEM", function(...)
         gamePadInitor:Switch("TabFrame");
+        MaskFrameModule:TopHead();
     end);
 
     --幻化

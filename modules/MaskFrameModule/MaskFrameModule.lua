@@ -74,6 +74,11 @@ function MaskFrameModule:Destroy(name)
     HeaderRegions[name] = nil;
 end
 
+function MaskFrameModule:TopHead()
+    self.bodyFrame:SetFrameStrata("DIALOG");
+    self.bodyFrame.content:SetFrameStrata("BACKGROUND");
+end
+
 --让内容得到焦点
 function MaskFrameModule:TopContent()
     self.bodyFrame:SetFrameStrata("BACKGROUND");

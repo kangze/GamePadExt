@@ -100,9 +100,6 @@ end
 --处理MerchantFrame Hook
 function MerchantModule:UpdateMerchantPositions()
     self:HiddeMerchantSomeFrame();
-    --MerchantFrame:ClearAllPoints();
-    --MerchantFrame:SetParent(nil);
-    --MerchantFrame:SetPoint("TOP", MaskFrameModule:GetHeaderFrame());
     MerchantFrame:ClearAllPoints();
     MerchantFrame:SetParent(self.scrollChildFrame);
     MerchantFrame:SetPoint("TOPLEFT", self.scrollChildFrame);
