@@ -46,10 +46,24 @@ end
 
 --初始化布局
 function MerchantModule:InitLayout()
-    local scrollFrame, scrollChildFrame = MerchantItemContainer:New(self.maxColum, self.templateWidth,
-        self.templateHeight);
+    local scale = UIParent:GetEffectiveScale();
+    local height = GetScreenHeight() * scale - 30;
+
+    local scrollFrame = CreateFrame("ScrollFrame", nil, nil)
+    scrollFrame:SetSize(self.templateWidth * self.maxColum * 1.5, height)
+
+    local scrollChildFrame = CreateFrame("Frame", nil, scrollFrame)
+    scrollFrame:SetScrollChild(scrollChildFrame)
+    scrollChildFrame:SetSize(self.templateWidth * self.maxColum * 1.5, 2000); --TODO:这里需要计算
+
+    scrollChildFrame.OnLeave = function()
+        print("我childFrame离开了");
+    end;
+
     self.scrollFrame = scrollFrame;
     self.scrollChildFrame = scrollChildFrame;
+
+
 
     scrollFrame:SetPoint("TOP", UIParent, 0, -35);
 
