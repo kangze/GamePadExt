@@ -100,6 +100,7 @@ end
 function MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor, buyback)
     gamePadInitor:Register("PADDDOWN,PADDUP,PADDLEFT,PADDRIGHT", function(currentItem, preItem)
         PlaySoundFile("Interface\\AddOns\\GamePadExt\\media\\sound\\1.mp3", "Master");
+        MaskFrameModule:TopContent();
         MerchantItemGameTooltip:Hide();
         currentItem.buyFrame:ShowFadeIn();
         currentItem.detailFrame:ShowFadeIn();

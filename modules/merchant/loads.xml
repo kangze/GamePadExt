@@ -3,7 +3,6 @@
 ..\FrameXML\UI.xsd">
     <Include file="frames\MerchantItem.xml"/>
     <Include file="frames\MerchantItemGameTooltip.xml"/>
-    <Script file="MerchantItemContainer.lua"/>
     <Script file="MerchantApi.lua"/>
     <Script file="MerchantEventCallback.lua"/>
     <Script file="MerchantModule.lua"/>
