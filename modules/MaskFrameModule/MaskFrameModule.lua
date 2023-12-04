@@ -15,7 +15,7 @@ function HeaderRegions:Register(name, createframe_callback)
 end
 
 function MaskFrameModule:OnInitialize()
-    self.regions = {};
+
 end
 
 function MaskFrameModule:OnEnable()
@@ -75,8 +75,14 @@ function MaskFrameModule:Destroy(name)
 end
 
 --让内容得到焦点
-function MaskFrameModule:SelectContentFoucs()
+function MaskFrameModule:TopContent()
     self.bodyFrame:SetFrameStrata("BACKGROUND");
+    self.bodyFrame.content:SetFrameStrata("DIALOG");
+end
+
+--设置内容
+function MaskFrameModule:SetContent(frame)
+    self.bodyFrame.content = frame;
 end
 
 ------以下代码需要逐步弃用------------------

@@ -5,7 +5,6 @@ GamePadInitor = {
     currentGroupIndex = 0,
     currentIndex = 0,
     handlers = {},
-    level = 0,
     core = nil,
     region = nil,
     currentItem = nil,
@@ -18,7 +17,6 @@ GamePadInitor.__index = GamePadInitor;
 
 function GamePadInitor:Init(classname, level)
     local self = setmetatable({}, GamePadInitor);
-    self.level = level;
     self.classname = classname;
     self.groups = {};
     self.groupNames = {};
@@ -27,7 +25,7 @@ function GamePadInitor:Init(classname, level)
     local frame = CreateFrame("Frame", nil, nil);
     frame:SetPoint("CENTER", UIParent, "CENTER");
     frame:SetSize(1, 1);
-    frame:SetFrameLevel(self.level);
+    frame:SetFrameLevel(level);
     frame:EnableGamePadButton(true);
     frame:SetScript("OnGamePadButtonDown", function(...) return self:Handle(...) end);
     self.core = frame;
@@ -155,8 +153,8 @@ end
 function GamePadInitor:Switch(classname)
     --交换2个框架的层级，切换手柄按键的接收
     local nextInitor    = GamePadInitor.instances[classname];
-    local next_level    = nextInitor.level;
-    local current_level = self.level;
+    local next_level    = nextInitor.core:GetFrameLevel();
+    local current_level = self.core:GetFrameLevel();
     self.core:SetFrameLevel(next_level);
     nextInitor.core:SetFrameLevel(current_level);
     if (self.region.OnLeave) then
@@ -165,10 +163,10 @@ function GamePadInitor:Switch(classname)
 end
 
 --框架规定,必定可以选择到
-function GamePadInitor:SelectTab(tabName,callback)
+function GamePadInitor:SelectTab(tabName, callback)
     local initor = self.tabContents[tabName];
     self:Switch(initor.classname);
-    if(callback) then
+    if (callback) then
         callback();
     end
 end

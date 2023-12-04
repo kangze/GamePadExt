@@ -72,7 +72,7 @@ local function RegisterTabsButtonDown(gamePadInitor)
     --tab选项选择
     gamePadInitor:Register("PAD1", function(currentItem, preItem)
         gamePadInitor:SelectTab(currentItem.tabName);
-        MaskFrameModule:SelectContentFoucs();
+        MaskFrameModule:TopContent();
     end);
 
     --注册这个框架关闭

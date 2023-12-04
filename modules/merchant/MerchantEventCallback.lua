@@ -50,11 +50,6 @@ function MerchantModule:MERCHANT_SHOW()
     --购买商品渲染
     local gamePadInitor = GamePadInitor:Init("MerchantItem", 1);
     function callback_buy(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
-        --local source = _G["MerchantItem" .. index];
-        --source:ClearAllPoints();
-        --local offsetX, offsetY = self:GetColInfo(index, col, midle);
-        --source:SetPoint("TOPLEFT", offsetX, offsetY);
-        --source:Show();
         local source = self:PointMerchantItem(index, midle);
         source:Show();
 
@@ -94,6 +89,8 @@ function MerchantModule:MERCHANT_SHOW()
     gamePadInitor_buyback:SetRegion(self.scrollChildFrame, "buyback");
     MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor_buyback, true);
 
+    MaskFrameModule:SetContent(self.scrollChildFrame);
+
     MerchantApi:ProcessMerchantBuyBackInfo(callback_buy);
 
     --模拟点击第一个tab
@@ -103,7 +100,6 @@ end
 function MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor, buyback)
     gamePadInitor:Register("PADDDOWN,PADDUP,PADDLEFT,PADDRIGHT", function(currentItem, preItem)
         PlaySoundFile("Interface\\AddOns\\GamePadExt\\media\\sound\\1.mp3", "Master");
-        MaskFrameModule:SelectContentFoucs();
         MerchantItemGameTooltip:Hide();
         currentItem.buyFrame:ShowFadeIn();
         currentItem.detailFrame:ShowFadeIn();
@@ -127,7 +123,7 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor, buy
 
     --返回上一级菜单
     gamePadInitor:Register("PADSYSTEM", function(...)
-        gamePadInitor:Switch("merchantTab");
+        gamePadInitor:Switch("TabFrame");
     end);
 
     --幻化
