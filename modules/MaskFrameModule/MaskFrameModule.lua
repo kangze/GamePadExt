@@ -66,12 +66,12 @@ function MaskFrameModule:SwitchFeatureRegion(name)
 end
 
 --摧毁注册区域
-function MaskFrameModule:Destroy(name)
+function MaskFrameModule:Destroy()
     self.headFrame:ShowFadeOut();
     self.bodyFrame:ShowFadeOut();
-    local frame = HeaderRegions[name];
-    frame:Destroy();
-    HeaderRegions[name] = nil;
+    self.headFrame:Hide();
+    self.bodyFrame:Hide();
+    self.headFrame.childFrame:Destroy();
 end
 
 function MaskFrameModule:TopHead()

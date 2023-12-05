@@ -10,7 +10,7 @@ function MerchantModule:OnInitialize()
     --DeveloperConsole:Toggle()
 
     self:RegisterEvent("MERCHANT_SHOW");
-    self:RegisterEvent("MERCHANT_CLOSED")
+    --self:RegisterEvent("MERCHANT_CLOSED")
     --self:SecureHook("OpenAllBags", "test");
 
     self.maxColum = 2;        --配置最大展示列数字
@@ -54,7 +54,7 @@ function MerchantModule:InitLayout()
 
     local scrollChildFrame = CreateFrame("Frame", nil, scrollFrame)
     scrollFrame:SetScrollChild(scrollChildFrame)
-    scrollChildFrame:SetSize(self.templateWidth * self.maxColum * 1.5, 2000); --TODO:这里需要计算
+    scrollChildFrame:SetSize(self.templateWidth * self.maxColum * 1.5, height); --TODO:这里需要计算
 
     scrollChildFrame.OnLeave = function()
         print("我childFrame离开了");
@@ -73,31 +73,33 @@ function MerchantModule:InitLayout()
     MerchantFrame:SetPoint("BOTTOMRIGHT", scrollChildFrame);
 end
 
-local function RegisterTabsButtonDown(gamePadInitor)
-    gamePadInitor:Register("PADRTRIGGER,PADLTRIGGER", function(currentItem, preItem)
-        if (preItem and preItem.OnLeave) then
-            preItem:OnLeave();
-        end
-        if (currentItem and currentItem.OnEnter) then
-            currentItem:OnEnter();
-        end
-    end);
-
-    --tab选项选择
-    gamePadInitor:Register("PAD1", function(currentItem, preItem)
-        gamePadInitor:SelectTab(currentItem.tabName);
-        MaskFrameModule:TopContent();
-    end);
-
-    --注册这个框架关闭
-    gamePadInitor:Register("PADSYSTEM", function(currentItem, prrItem)
-        MerchantModule:MERCHANT_CLOSED();
-    end);
-end
-
 --初始化tab布局选项
 function MerchantModule:InitTabls()
-    local function callback(headFrame)
+    local RegisterTabsButtonDown = function(gamePadInitor)
+        gamePadInitor:Register("PADRTRIGGER,PADLTRIGGER", function(currentItem, preItem)
+            if (preItem and preItem.OnLeave) then
+                preItem:OnLeave();
+            end
+            if (currentItem and currentItem.OnEnter) then
+                currentItem:OnEnter();
+            end
+        end);
+
+        --tab选项选择
+        gamePadInitor:Register("PAD1", function(currentItem, preItem)
+            gamePadInitor:SelectTab(currentItem.tabName);
+            MaskFrameModule:TopContent();
+        end);
+
+        --注册这个框架关闭
+        gamePadInitor:Register("PADSYSTEM", function(currentItem, prrItem)
+            MerchantModule:MERCHANT_CLOSED() --2个gamepadInitor都被关闭了
+            print("MerchantFrame:Hide");
+            gamePadInitor:Destroy();
+        end);
+    end
+
+    local callback = function(headFrame)
         local frame = CreateFrame("Frame", nil, nil, "MerchantTabsFrameTemplate");
         frame.buy:SetHeight(headFrame:GetHeight() - 2);
         frame.rebuy:SetHeight(headFrame:GetHeight() - 2);

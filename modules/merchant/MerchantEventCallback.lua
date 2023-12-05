@@ -3,34 +3,8 @@ local Gpe = _G["Gpe"];
 
 local Masque, MSQ_Version = LibStub("Masque", true);
 local MerchantModule = Gpe:GetModule('MerchantModule');
-local currentItems = {};
-local currentBuyBackItems = {};
 local MaskFrameModule = Gpe:GetModule('MaskFrameModule');
 local mode = "buy";
-
---获取当前列的索引
-function MerchantModule:GetColInfo(index, col, middle)
-    local width = self.templateWidth;
-    local height = self.templateHeight;
-
-    local height_space = self.height_space;
-    local widht_space = self.width_space;
-
-    local cols = self.maxColum;
-
-
-    --属于这一列的第几个
-    local col_index = math.ceil((index - 1) % middle);
-
-    --主要是为了保证居中
-    local scroll_width = self.templateWidth * cols * 1.5;
-    local initial_offsetX = (scroll_width - cols * (width + widht_space));
-
-    --元素的x,y偏移
-    local offsetX = (col - 1) * (width + widht_space) + initial_offsetX;
-    local offsetY = -col_index * (height + height_space)
-    return offsetX, offsetY;
-end
 
 function MerchantModule:MERCHANT_SHOW()
     --顶部渐入显示
@@ -42,13 +16,9 @@ function MerchantModule:MERCHANT_SHOW()
     --顶部菜单开始激活
     MaskFrameModule:Active("merchantTab");
 
-    MerchantFrame:ClearAllPoints();
-    MerchantFrame:SetParent(self.scrollChildFrame);
-    MerchantFrame:SetPoint("TOPLEFT", self.scrollChildFrame);
-    MerchantFrame:SetPoint("BOTTOMRIGHT", self.scrollChildFrame);
-
     --购买商品渲染
     local gamePadInitor = GamePadInitor:Init("MerchantItem", 1);
+    self.gamePadInitor = gamePadInitor;
     function callback_buy(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
         local source = self:PointMerchantItem(index, midle);
         source:Show();
@@ -61,14 +31,14 @@ function MerchantModule:MERCHANT_SHOW()
             itemLink = string.gsub(itemLink, "%]", "", 1);
         end
         gamePadInitor:Add(frame, "group" .. col);
-        table.insert(currentItems, frame);
     end
 
     MerchantApi:PreProccessItemsInfo(callback_buy);
 
     --购回商品渲染
     local gamePadInitor_buyback = GamePadInitor:Init("MerchantItemBuyBack", 2);
-    function callback_buy(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
+    self.gamePadInitor_buyback = gamePadInitor_buyback;
+    function callback_buyback(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
         local source = self:PointMerchantItem(index, midle);
         source:Show();
 
@@ -80,7 +50,6 @@ function MerchantModule:MERCHANT_SHOW()
             itemLink = string.gsub(itemLink, "%]", "", 1);
         end
         gamePadInitor_buyback:Add(frame, "group" .. col);
-        table.insert(currentBuyBackItems, frame);
     end
 
     gamePadInitor:SetRegion(self.scrollChildFrame, "buy");
@@ -95,6 +64,15 @@ function MerchantModule:MERCHANT_SHOW()
 
     --模拟点击第一个tab
     --gamePadInitor:Handle("PAD1");
+end
+
+function MerchantModule:MERCHANT_CLOSED()
+    UIParent:Show();
+    --通知MaskFrameModule关闭一些实例
+    MaskFrameModule:Destroy("merchantTab");
+    --取消gamepad监听以及对应窗体的销毁
+    self.gamePadInitor:Destroy();
+    self.gamePadInitor_buyback:Destroy();
 end
 
 function MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor, buyback)
@@ -209,22 +187,6 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor, buy
     end);
 end
 
-function MerchantModule:MERCHANT_CLOSED()
-    UIParent:Show();
-
-    --关闭所有的商品Item
-    for i = 1, #currentItems do
-        currentItems[i]:Destroy();
-    end
-    currentItems = {};
-    --通知MaskFrameModule关闭一些实例
-    MaskFrameModule:Destroy("merchantTab");
-end
-
-function MerchantModule:InitframeStrata()
-    MaskFrameModule:SetBackground();
-end
-
 function MerchantModule:Render(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
     local frame = CreateFrame("Frame", nil, nil, "MerchantItemTemplate1");
     if (itemLink) then
@@ -251,4 +213,28 @@ function MerchantModule:Render(index, col, midle, itemLink, cost, texture, itemQ
     frame.iconBorder:SetAtlas(GetQualityBorder(itemQuality));
     frame:SetAlpha(1);
     return frame;
+end
+
+--获取当前列的索引
+function MerchantModule:GetColInfo(index, col, middle)
+    local width = self.templateWidth;
+    local height = self.templateHeight;
+
+    local height_space = self.height_space;
+    local widht_space = self.width_space;
+
+    local cols = self.maxColum;
+
+
+    --属于这一列的第几个
+    local col_index = math.ceil((index - 1) % middle);
+
+    --主要是为了保证居中
+    local scroll_width = self.templateWidth * cols * 1.5;
+    local initial_offsetX = (scroll_width - cols * (width + widht_space));
+
+    --元素的x,y偏移
+    local offsetX = (col - 1) * (width + widht_space) + initial_offsetX;
+    local offsetY = -col_index * (height + height_space)
+    return offsetX, offsetY;
 end

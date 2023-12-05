@@ -24,13 +24,13 @@ end
 MerchantTabsFrameMixin = {};
 
 function MerchantTabsFrameMixin:Destroy()
-    self.buy:ShowFadeOut();
-    self.rebuy:ShowFadeOut();
+    -- self.buy:ShowFadeOut();
+    -- self.rebuy:ShowFadeOut();
 
     self.buy:Hide();
     self.rebuy:Hide();
     self:Hide();
-    self.buy=nil;
-    self.rebuy=nil;
-    self=nil;
+    self.buy = nil;
+    self.rebuy = nil;
+    self = nil;
 end
