@@ -62,9 +62,6 @@ function MerchantModule:InitLayout()
 
     self.scrollFrame = scrollFrame;
     self.scrollChildFrame = scrollChildFrame;
-
-
-
     scrollFrame:SetPoint("TOP", UIParent, 0, -35);
 
     MerchantFrame:ClearAllPoints();
@@ -94,7 +91,6 @@ function MerchantModule:InitTabls()
         --注册这个框架关闭
         gamePadInitor:Register("PADSYSTEM", function(currentItem, prrItem)
             MerchantModule:MERCHANT_CLOSED() --2个gamepadInitor都被关闭了
-            print("MerchantFrame:Hide");
             gamePadInitor:Destroy();
         end);
     end

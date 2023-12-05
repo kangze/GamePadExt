@@ -139,13 +139,10 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor, buy
         --背景设置最高和当前层级设置最高
         MaskFrameModule:SETDIALOG();
         currentItem:SetFrameStrata("DIALOG");
-
         MerchantItemGameTooltip:ClearAllPoints();
         MerchantItemGameTooltip:SetOwner(currentItem, "ANCHOR_NONE", 0);
         MerchantItemGameTooltip:SetPoint("LEFT", currentItem, "RIGHT", 0, 0);
-        local itemLink = currentItem.itemLink;
-
-        MerchantItemGameTooltip:SetHyperlink(itemLink);
+        MerchantItemGameTooltip:SetHyperlink(currentItem.itemLink);
         MerchantItemGameTooltip:Show();
     end)
 
@@ -167,8 +164,6 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor, buy
         local current_position = MerchantModule.scrollFrame:GetVerticalScroll();
 
         --判断是否需要滚动
-
-
         if (current_index == 0) then
             MerchantModule.scrollFrame:SetVerticalScrollFade(current_position, 0);
             return;
