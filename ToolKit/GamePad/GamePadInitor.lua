@@ -165,6 +165,7 @@ end
 --框架规定,必定可以选择到
 function GamePadInitor:SelectTab(tabName, callback)
     local initor = self.tabContents[tabName];
+    
     self:Switch(initor.classname);
     if (callback) then
         callback();

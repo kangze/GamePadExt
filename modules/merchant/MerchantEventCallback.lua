@@ -4,9 +4,12 @@ local Gpe = _G["Gpe"];
 local Masque, MSQ_Version = LibStub("Masque", true);
 local MerchantModule = Gpe:GetModule('MerchantModule');
 local MaskFrameModule = Gpe:GetModule('MaskFrameModule');
-local mode = "buy";
 
 function MerchantModule:MERCHANT_SHOW()
+    
+    --第一次展示购买界面
+    self.mode = "buy";
+
     --顶部渐入显示
     MaskFrameModule:ShowFadeIn();
 
@@ -34,6 +37,8 @@ function MerchantModule:MERCHANT_SHOW()
     end
 
     MerchantApi:PreProccessItemsInfo(callback_buy);
+    gamePadInitor:SetRegion(self.scrollChildFrame, "buy");
+    MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor);
 
     --购回商品渲染
     local gamePadInitor_buyback = GamePadInitor:Init("MerchantItemBuyBack", 2);
@@ -49,18 +54,15 @@ function MerchantModule:MERCHANT_SHOW()
             itemLink = string.gsub(itemLink, "%[", "", 1);
             itemLink = string.gsub(itemLink, "%]", "", 1);
         end
+        frame:Hide();
         gamePadInitor_buyback:Add(frame, "group" .. col);
     end
 
-    gamePadInitor:SetRegion(self.scrollChildFrame, "buy");
-    MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor);
-
     gamePadInitor_buyback:SetRegion(self.scrollChildFrame, "buyback");
     MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor_buyback, true);
+    MerchantApi:ProcessMerchantBuyBackInfo(callback_buyback);
 
     MaskFrameModule:SetContent(self.scrollChildFrame);
-
-    MerchantApi:ProcessMerchantBuyBackInfo(callback_buy);
 
     --模拟点击第一个tab
     --gamePadInitor:Handle("PAD1");

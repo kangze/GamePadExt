@@ -85,6 +85,7 @@ function MerchantModule:InitTabls()
         --tab选项选择
         gamePadInitor:Register("PAD1", function(currentItem, preItem)
             gamePadInitor:SelectTab(currentItem.tabName);
+            self.mode = currentItem.tabName;
             MaskFrameModule:TopContent();
         end);
 
@@ -118,8 +119,8 @@ function MerchantModule:UpdateMerchantPositions()
     MerchantFrame:SetPoint("BOTTOMRIGHT", self.scrollChildFrame);
 
     local count = nil;
-    mode = "buy";
-    if (mode == "buy") then
+
+    if (self.mode == "buy") then
         count = GetMerchantNumItems();
     else
         count = GetNumBuybackItems();
