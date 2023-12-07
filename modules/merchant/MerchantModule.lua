@@ -23,15 +23,9 @@ function MerchantModule:OnInitialize()
 end
 
 function MerchantModule:OnEnable()
-    --self:SecureHook("MerchantFrame_UpdateMerchantInfo", "UpdateMerchantPositions");
     MerchantFrame:SetAlpha(0);
     MerchantFrame:InitShowFadeInAndOut();
     _G.MERCHANT_ITEMS_PER_PAG = 0;
-    -- for i = 1, _G.MERCHANT_ITEMS_PER_PAG do
-    --     if not _G["MerchantItem" .. i] then
-    --         CreateFrame("Frame", "MerchantItem" .. i, MerchantFrame, "MerchantItemTemplate");
-    --     end
-    -- end
 
     --初始化布局
     MerchantModule:InitLayout();
@@ -55,10 +49,6 @@ function MerchantModule:InitLayout()
     local scrollChildFrame = CreateFrame("Frame", nil, scrollFrame)
     scrollFrame:SetScrollChild(scrollChildFrame)
     scrollChildFrame:SetSize(self.templateWidth * self.maxColum * 1.5, height); --TODO:这里需要计算
-
-    scrollChildFrame.OnLeave = function()
-        print("我childFrame离开了");
-    end;
 
     scrollFrame:SetPoint("TOP", UIParent, 0, -35);
 
@@ -96,6 +86,7 @@ function MerchantModule:InitTabls()
         gamePadInitor:Register("PAD1", function(currentItem, preItem)
             gamePadInitor:SelectTab(currentItem.tabName);
             self.mode = currentItem.tabName;
+            MerchantModule:Update();
             MaskFrameModule:TopContent();
         end);
 
@@ -118,45 +109,6 @@ function MerchantModule:InitTabls()
         return frame;
     end
     HeaderRegions:Register("merchantTab", callback);
-end
-
---处理MerchantFrame Hook
-function MerchantModule:UpdateMerchantPositions()
-    self:HiddeMerchantSomeFrame();
-    MerchantFrame:ClearAllPoints();
-    MerchantFrame:SetParent(self.scrollChildFrame);
-    MerchantFrame:SetPoint("TOPLEFT", self.scrollChildFrame);
-    MerchantFrame:SetPoint("BOTTOMRIGHT", self.scrollChildFrame);
-
-    local count = nil;
-    local region = nil;
-
-    if (self.mode == "buy") then
-        count = GetMerchantNumItems();
-        region = self.frame_buy;
-    else
-        count = GetNumBuybackItems();
-        region = self.frame_buyback;
-    end
-    local middle = math.ceil(count / self.maxColum);
-
-    for index = 1, count do
-        local source = self:PointMerchantItem(index, middle, region);
-        if (source) then
-            source:Show();
-        end
-    end
-end
-
-function MerchantModule:PointMerchantItem(index, middle, region)
-    local source = _G["MerchantItem" .. index];
-    if (source ~= nil) then
-        source:ClearAllPoints();
-        local col = math.ceil(index / middle);
-        local offsetX, offsetY = self:GetColInfo(index, col, middle);
-        source:SetPoint("TOPLEFT", region, offsetX, offsetY);
-    end
-    return source;
 end
 
 function MerchantModule:HiddeMerchantSomeFrame()

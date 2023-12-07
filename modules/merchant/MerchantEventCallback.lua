@@ -8,6 +8,8 @@ local MaskFrameModule = Gpe:GetModule('MaskFrameModule');
 function MerchantModule:MERCHANT_SHOW()
     --第一次展示购买界面
     self.mode = "buy";
+    self.frame_buy:Show();
+    self.frame_buyback:Hide();
 
     --顶部渐入显示
     MaskFrameModule:ShowFadeIn();
@@ -22,9 +24,6 @@ function MerchantModule:MERCHANT_SHOW()
     local gamePadInitor = GamePadInitor:Init("MerchantItem", 1);
     self.gamePadInitor = gamePadInitor;
     function callback_buy(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
-        -- local source = self:PointMerchantItem(index, midle, self.frame_buy);
-        -- source:Show();
-
         local frame = MerchantModule:Render(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable,
             hasTransMog);
         frame:ClearAllPoints();
@@ -50,7 +49,6 @@ function MerchantModule:MERCHANT_SHOW()
             hasTransMog);
         local offsetX, offsetY = self:GetColInfo(index, col, midle);
         frame:ClearAllPoints();
-
         frame:SetParent(self.frame_buyback);
         frame:SetPoint("TOPLEFT", self.frame_buyback, offsetX, offsetY);
         if (itemLink) then
@@ -212,6 +210,11 @@ function MerchantModule:Render(index, col, midle, itemLink, cost, texture, itemQ
     frame.iconBorder:SetAtlas(GetQualityBorder(itemQuality));
     frame:SetAlpha(1);
     return frame;
+end
+
+--更新界面元素的位置
+function MerchantModule:Update()
+    MerchantModule.scrollFrame:SetVerticalScroll(0);
 end
 
 --获取当前列的索引
