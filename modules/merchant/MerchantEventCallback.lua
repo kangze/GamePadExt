@@ -20,49 +20,50 @@ function MerchantModule:MERCHANT_SHOW()
     --顶部菜单开始激活
     MaskFrameModule:Active("merchantTab");
 
-    --购买商品渲染
-    local gamePadInitor = GamePadInitor:Init("MerchantItem", 1);
-    self.gamePadInitor = gamePadInitor;
-    function callback_buy(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
-        local frame = MerchantModule:Render(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable,
-            hasTransMog);
-        frame:ClearAllPoints();
-        local offsetX, offsetY = self:GetColInfo(index, col, midle);
-        frame:SetParent(self.frame_buy);
-        frame:SetPoint("TOPLEFT", self.frame_buy, offsetX, offsetY);
-        if (itemLink) then
-            itemLink = string.gsub(itemLink, "%[", "", 1);
-            itemLink = string.gsub(itemLink, "%]", "", 1);
-        end
-        gamePadInitor:Add(frame, "group" .. col);
-    end
+    -- --购买商品渲染
+    -- local gamePadInitor = GamePadInitor:Init("MerchantItem", 1);
+    -- self.gamePadInitor = gamePadInitor;
+    -- function callback_buy(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
+    --     local frame = MerchantModule:Render(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable,
+    --         hasTransMog);
+    --     frame:ClearAllPoints();
+    --     local offsetX, offsetY = self:GetColInfo(index, col, midle);
+    --     frame:SetParent(self.frame_buy);
+    --     frame:SetPoint("TOPLEFT", self.frame_buy, offsetX, offsetY);
+    --     if (itemLink) then
+    --         itemLink = string.gsub(itemLink, "%[", "", 1);
+    --         itemLink = string.gsub(itemLink, "%]", "", 1);
+    --     end
+    --     gamePadInitor:Add(frame, "group" .. col);
+    -- end
 
-    MerchantApi:PreProccessItemsInfo(callback_buy);
-    gamePadInitor:SetRegion(self.frame_buy, "buy");
-    MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor);
+    -- MerchantApi:PreProccessItemsInfo(callback_buy);
+    -- gamePadInitor:SetRegion(self.frame_buy, "buy");
+    -- MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor);
 
     --购回商品渲染
-    local gamePadInitor_buyback = GamePadInitor:Init("MerchantItemBuyBack", 2);
-    self.gamePadInitor_buyback = gamePadInitor_buyback;
-    function callback_buyback(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
-        local frame = MerchantModule:Render(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable,
-            hasTransMog);
-        local offsetX, offsetY = self:GetColInfo(index, col, midle);
-        frame:ClearAllPoints();
-        frame:SetParent(self.frame_buyback);
-        frame:SetPoint("TOPLEFT", self.frame_buyback, offsetX, offsetY);
-        if (itemLink) then
-            itemLink = string.gsub(itemLink, "%[", "", 1);
-            itemLink = string.gsub(itemLink, "%]", "", 1);
-        end
-        gamePadInitor_buyback:Add(frame, "group" .. col);
-    end
+    -- local gamePadInitor_buyback = GamePadInitor:Init("MerchantItemBuyBack", 2);
+    -- self.gamePadInitor_buyback = gamePadInitor_buyback;
+    -- function callback_buyback(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
+    --     local frame = MerchantModule:Render(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable,
+    --         hasTransMog);
+    --     local offsetX, offsetY = self:GetColInfo(index, col, midle);
+    --     frame:ClearAllPoints();
+    --     frame:SetParent(self.frame_buyback);
+    --     frame:SetPoint("TOPLEFT", self.frame_buyback, offsetX, offsetY);
+    --     if (itemLink) then
+    --         itemLink = string.gsub(itemLink, "%[", "", 1);
+    --         itemLink = string.gsub(itemLink, "%]", "", 1);
+    --     end
+    --     gamePadInitor_buyback:Add(frame, "group" .. col);
+    -- end
 
-    gamePadInitor_buyback:SetRegion(self.frame_buyback, "buyback");
-    MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor_buyback, true);
-    MerchantApi:ProcessMerchantBuyBackInfo(callback_buyback);
+    -- gamePadInitor_buyback:SetRegion(self.frame_buyback, "buyback");
+    -- MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor_buyback, true);
+    -- MerchantApi:ProcessMerchantBuyBackInfo(callback_buyback);
 
-    MaskFrameModule:SetContent(self.scrollChildFrame);
+    -- MaskFrameModule:SetContent(self.scrollChildFrame);
+    self:Update();
 
     --模拟点击第一个tab
     --gamePadInitor:Handle("PAD1");
@@ -215,7 +216,56 @@ end
 --更新界面元素的位置
 function MerchantModule:Update()
     MerchantModule.scrollFrame:SetVerticalScroll(0);
-    
+
+    --购买商品渲染
+    if (self.gamePadInitor) then
+        self.gamePadInitor:Destroy();
+    end
+    local gamePadInitor = GamePadInitor:Init("MerchantItem", 1);
+    self.gamePadInitor = gamePadInitor;
+    function callback_buy(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
+        local frame = MerchantModule:Render(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable,
+            hasTransMog);
+        frame:ClearAllPoints();
+        local offsetX, offsetY = self:GetColInfo(index, col, midle);
+        frame:SetParent(self.frame_buy);
+        frame:SetPoint("TOPLEFT", self.frame_buy, offsetX, offsetY);
+        if (itemLink) then
+            itemLink = string.gsub(itemLink, "%[", "", 1);
+            itemLink = string.gsub(itemLink, "%]", "", 1);
+        end
+        gamePadInitor:Add(frame, "group" .. col);
+    end
+
+    MerchantApi:PreProccessItemsInfo(callback_buy);
+    gamePadInitor:SetRegion(self.frame_buy, "buy");
+    MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor);
+
+    --购回商品渲染
+    if (self.gamePadInitor_buyback) then
+        self.gamePadInitor_buyback:Destroy();
+    end
+    local gamePadInitor_buyback = GamePadInitor:Init("MerchantItemBuyBack", 2);
+    self.gamePadInitor_buyback = gamePadInitor_buyback;
+    function callback_buyback(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
+        local frame = MerchantModule:Render(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable,
+            hasTransMog);
+        local offsetX, offsetY = self:GetColInfo(index, col, midle);
+        frame:ClearAllPoints();
+        frame:SetParent(self.frame_buyback);
+        frame:SetPoint("TOPLEFT", self.frame_buyback, offsetX, offsetY);
+        if (itemLink) then
+            itemLink = string.gsub(itemLink, "%[", "", 1);
+            itemLink = string.gsub(itemLink, "%]", "", 1);
+        end
+        gamePadInitor_buyback:Add(frame, "group" .. col);
+    end
+
+    gamePadInitor_buyback:SetRegion(self.frame_buyback, "buyback");
+    MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor_buyback, true);
+    MerchantApi:ProcessMerchantBuyBackInfo(callback_buyback);
+
+    MaskFrameModule:SetContent(self.scrollChildFrame);
 end
 
 --获取当前列的索引

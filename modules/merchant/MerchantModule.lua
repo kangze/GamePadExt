@@ -84,9 +84,9 @@ function MerchantModule:InitTabls()
 
         --tab选项选择
         gamePadInitor:Register("PAD1", function(currentItem, preItem)
+            MerchantModule:Update();
             gamePadInitor:SelectTab(currentItem.tabName);
             self.mode = currentItem.tabName;
-            MerchantModule:Update();
             MaskFrameModule:TopContent();
         end);
 
