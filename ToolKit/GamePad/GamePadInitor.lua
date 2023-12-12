@@ -75,7 +75,18 @@ function GamePadInitor:Register(keys, callback)
         if not self.handlers[key] then
             self.handlers[key] = {};
         end
-        table.insert(self.handlers[key], callback);
+        table.insert(self.handlers[key], { callback = callback, needNotNil = false });
+    end
+    return self;
+end
+
+function GamePadInitor:RegisterItem(keys, callback)
+    local keys_arr = string.split(keys, ",");
+    for _, key in ipairs(keys_arr) do
+        if not self.handlers[key] then
+            self.handlers[key] = {};
+        end
+        table.insert(self.handlers[key], { callback = callback, needNotNil = true });
     end
     return self;
 end
@@ -145,7 +156,12 @@ function GamePadInitor:Handle(...)
     end
     if (self.handlers[key]) then
         for i = 1, #self.handlers[key] do
-            self.handlers[key][i](currentItem, preItem);
+            if (currentItem ~= nil and self.handlers[key][i].needNotNil) then
+                self.handlers[key][i].callback(currentItem, preItem);
+            end
+            if (not self.handlers[key][i].needNotNil) then
+                self.handlers[key][i].callback(currentItem, preItem);
+            end
         end
     end
 end

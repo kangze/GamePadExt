@@ -215,6 +215,7 @@ end
 --更新界面元素的位置
 function MerchantModule:Update()
     MerchantModule.scrollFrame:SetVerticalScroll(0);
+    
 end
 
 --获取当前列的索引
