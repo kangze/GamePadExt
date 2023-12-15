@@ -17,5 +17,6 @@
     <Script file="String.lua"/>
     <Script file="Texture.lua"/>
     <Script file="FontString.lua"/>
+    <Script file="MerchantHelper.lua"/>
 
 </Ui>

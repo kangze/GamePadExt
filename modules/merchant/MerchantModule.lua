@@ -50,19 +50,10 @@ function MerchantModule:InitLayout()
     scrollFrame:SetScrollChild(scrollChildFrame)
     scrollChildFrame:SetSize(self.templateWidth * self.maxColum * 1.5, height); --TODO:这里需要计算
 
-    scrollFrame:SetPoint("TOP", UIParent, 0, -35);
-
-    --初始化2个region区域给商品列表
-    local frame_buy = CreateFrame("Frame", "buyRegion", scrollChildFrame);
-    frame_buy:SetAllPoints();
-
-    local frame_buyback = CreateFrame("Frame", "buybackRegion", scrollChildFrame);
-    frame_buyback:SetAllPoints();
+    scrollFrame:SetPoint("TOP", UIParent, 0, -40);
 
     self.scrollFrame = scrollFrame;
     self.scrollChildFrame = scrollChildFrame;
-    self.frame_buy = frame_buy;
-    self.frame_buyback = frame_buyback;
 
     MerchantFrame:ClearAllPoints();
     MerchantFrame:SetParent(scrollChildFrame);
@@ -84,7 +75,7 @@ function MerchantModule:InitTabls()
 
         --tab选项选择
         gamePadInitor:Register("PAD1", function(currentItem, preItem)
-            MerchantModule:Update();
+            --MerchantModule:Update();
             gamePadInitor:SelectTab(currentItem.tabName);
             self.mode = currentItem.tabName;
             MaskFrameModule:TopContent();

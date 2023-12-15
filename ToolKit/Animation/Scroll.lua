@@ -4,6 +4,7 @@ local function InitScrollAnimation(frame, start, ends)
     local callback = function(current)
         local current = OutSine(current, start, ends, default_duration);
         frame:SetVerticalScroll(current);
+
     end
 
     local animation = CreateAnimationFrame(default_duration, callback);
