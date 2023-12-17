@@ -16,7 +16,7 @@ function MerchantModule:MERCHANT_SHOW()
     --UIParent:Hide();
 
     --顶部菜单开始激活
-    MaskFrameModule:Active("merchantTab");
+    MaskFrameModule:Active("MerchantTabFrameHeader");
 
     -- --购买商品渲染
     -- local gamePadInitor = GamePadInitor:Init("MerchantItem", 1);
@@ -62,6 +62,8 @@ function MerchantModule:MERCHANT_SHOW()
 
     -- MaskFrameModule:SetContent(self.scrollChildFrame);
     self:Update();
+
+    MaskFrameModule:SetContent(self.scrollChildFrame);
 
     --模拟点击第一个tab
     --gamePadInitor:Handle("PAD1");
@@ -210,7 +212,7 @@ function MerchantModule:CreateMerchantItem(index, itemLink, cost, texture, itemQ
     return frame;
 end
 
-function MerchantModule:RenderAndPointMerchantItem(gamePadInitor)
+function MerchantModule:RenderAndAnchorMerchantItem(gamePadInitor)
     local numItems = GetMerchantNumItems();
     local maxColum = 2; --b
     local middle = math.ceil(numItems / maxColum);
@@ -218,8 +220,7 @@ function MerchantModule:RenderAndPointMerchantItem(gamePadInitor)
         local col = math.ceil(index / middle);
         local itemLink = GetMerchantItemLink(index);
         local _, texture, price, _, _, isUsable = GetMerchantItemInfo(index)
-        local currencyCount = GetMerchantItemCostInfo(index)
-        local itemID, _, itemQuality, _, _, itemType, itemSubType = GetItemInfo(itemLink);
+        local itemID, _, itemQuality = GetItemInfo(itemLink);
         local cost, isMoney = MerchantHelper:GetCostInfo(index);
         local merchantItem = self:CreateMerchantItem(index, itemLink, cost, texture, itemQuality, isMoney, isUsable, true);
         merchantItem:ClearAllPoints();
@@ -236,7 +237,7 @@ end
 
 --更新界面元素的位置
 function MerchantModule:Update()
-    MerchantModule.scrollFrame:SetVerticalScroll(0);
+    self.scrollFrame:SetVerticalScroll(0);
     self.scrollFrame:Show();
     self.scrollChildFrame:Show();
 
@@ -244,11 +245,11 @@ function MerchantModule:Update()
     if (self.gamePadInitor) then
         self.gamePadInitor:Destroy();
     end
-    local gamePadInitor = GamePadInitor:Init("MerchantItem", 1);
+    local gamePadInitor = GamePadInitor:Init("MerchantBuyItemFrame", 1);
     self.gamePadInitor = gamePadInitor;
-    self:RenderAndPointMerchantItem(gamePadInitor);
-    gamePadInitor:SetRegion(self.scrollChildFrame, "buy");
-    MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor);
+    self:RenderAndAnchorMerchantItem(gamePadInitor);
+    gamePadInitor:SetRegion(self.scrollChildFrame);
+    self:RegisterMerchantItemGamepadButtonDown(gamePadInitor);
 
     --购回商品渲染
     -- if (self.gamePadInitor_buyback) then
@@ -274,8 +275,6 @@ function MerchantModule:Update()
     -- gamePadInitor_buyback:SetRegion(self.scrollChildFrame, "buyback");
     -- MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor_buyback, true);
     -- MerchantApi:ProcessMerchantBuyBackInfo(callback_buyback);
-
-    MaskFrameModule:SetContent(self.scrollChildFrame);
 end
 
 --获取当前列的索引

@@ -6,7 +6,7 @@ function MerchantHelper:GetCostInfo(index)
 
     if (itemCount == 0) then
         local _, texture, price, _, _, isUsable = GetMerchantItemInfo(index)
-        return price,true;
+        return price, true;
     end
 
     local cost = "";
@@ -38,8 +38,10 @@ function MerchantHelper:GetCostInfo(index)
                 end
             end
         else
-            cost = cost .. currencyName
+            if (currencyName) then
+                cost = cost .. currencyName
+            end
         end
     end
-    return cost,false;
+    return cost, false;
 end

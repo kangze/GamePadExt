@@ -63,7 +63,9 @@ end
 
 --初始化tab布局选项
 function MerchantModule:InitTabls()
+    --注册tab按键的内容
     local RegisterTabsButtonDown = function(gamePadInitor)
+        --tab页面的切换
         gamePadInitor:Register("PADRTRIGGER,PADLTRIGGER", function(currentItem, preItem)
             if (preItem and preItem.OnLeave) then
                 preItem:OnLeave();
@@ -71,13 +73,9 @@ function MerchantModule:InitTabls()
             if (currentItem and currentItem.OnEnter) then
                 currentItem:OnEnter();
             end
-        end);
-
-        --tab选项选择
+        end); --tab选项选择
         gamePadInitor:Register("PAD1", function(currentItem, preItem)
-            --MerchantModule:Update();
-            gamePadInitor:SelectTab(currentItem.tabName);
-            self.mode = currentItem.tabName;
+            gamePadInitor:Switch(currentItem.associateName);
             MaskFrameModule:TopContent();
         end);
 
@@ -90,16 +88,19 @@ function MerchantModule:InitTabls()
 
     local callback = function(headFrame)
         local frame = CreateFrame("Frame", nil, nil, "MerchantTabsFrameTemplate");
+
         frame.buy:SetHeight(headFrame:GetHeight() - 2);
+        
         frame.rebuy:SetHeight(headFrame:GetHeight() - 2);
-        local gamePadInitor = GamePadInitor:Init("TabFrame", 10);
-        gamePadInitor:Add(frame.buy, "group", "buy");
-        gamePadInitor:Add(frame.rebuy, "group", "buyback");
+        
+        local gamePadInitor = GamePadInitor:Init("MerchantTabFrame", 10);
+        gamePadInitor:Add(frame.buy, "group","MerchantBuyItemFrame");
+        gamePadInitor:Add(frame.rebuy, "group","MerchantBuyBackItemFrame");
         gamePadInitor:SetRegion(frame);
         RegisterTabsButtonDown(gamePadInitor);
         return frame;
     end
-    HeaderRegions:Register("merchantTab", callback);
+    HeaderRegions:Register("MerchantTabFrameHeader", callback);
 end
 
 function MerchantModule:HiddeMerchantSomeFrame()
