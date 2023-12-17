@@ -105,7 +105,7 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor, buy
 
     --返回上一级菜单
     gamePadInitor:Register("PADSYSTEM", function(...)
-        gamePadInitor:Switch("TabFrame");
+        gamePadInitor:Switch(GamePadInitorNames.MerchantTabFrame.Name);
         MaskFrameModule:TopHead();
     end);
 
@@ -245,7 +245,8 @@ function MerchantModule:Update()
     if (self.gamePadInitor) then
         self.gamePadInitor:Destroy();
     end
-    local gamePadInitor = GamePadInitor:Init(GamePadInitorNames.MerchantBuyFrame.Name, GamePadInitorNames.MerchantBuyFrame.Level);
+    local gamePadInitor = GamePadInitor:Init(GamePadInitorNames.MerchantBuyFrame.Name,
+        GamePadInitorNames.MerchantBuyFrame.Level);
     self.gamePadInitor = gamePadInitor;
     self:RenderAndAnchorMerchantItem(gamePadInitor);
     gamePadInitor:SetRegion(self.scrollChildFrame);
