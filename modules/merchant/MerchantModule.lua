@@ -24,8 +24,6 @@ end
 
 function MerchantModule:OnEnable()
     MerchantFrame:SetAlpha(0);
-    MerchantFrame:InitShowFadeInAndOut();
-    _G.MERCHANT_ITEMS_PER_PAG = 0;
 
     --初始化布局
     MerchantModule:InitLayout();
@@ -56,9 +54,9 @@ function MerchantModule:InitLayout()
     self.scrollChildFrame = scrollChildFrame;
 
     MerchantFrame:ClearAllPoints();
-    MerchantFrame:SetParent(scrollChildFrame);
-    MerchantFrame:SetPoint("TOPLEFT", scrollChildFrame);
-    MerchantFrame:SetPoint("BOTTOMRIGHT", scrollChildFrame);
+    -- MerchantFrame:SetParent(scrollChildFrame);
+    -- MerchantFrame:SetPoint("TOPLEFT", scrollChildFrame);
+    -- MerchantFrame:SetPoint("BOTTOMRIGHT", scrollChildFrame);
 end
 
 --初始化tab布局选项
@@ -99,94 +97,4 @@ function MerchantModule:InitTabls()
         return frame;
     end
     HeaderRegions:Register("MerchantTabFrameHeader", callback);
-end
-
-function MerchantModule:HiddeMerchantSomeFrame()
-    if MerchantBuyBackItem then
-        MerchantBuyBackItem:Hide()
-    end
-
-    if MerchantExtraCurrencyBg then
-        MerchantExtraCurrencyBg:Hide()
-    end
-
-    if MerchantExtraCurrencyInset then
-        MerchantExtraCurrencyInset:Hide()
-    end
-
-    if MerchantNextPageButton then
-        MerchantNextPageButton:Hide()
-    end
-
-    if MerchantPrevPageButton then
-        MerchantPrevPageButton:Hide()
-    end
-
-    if MerchantFrameBottomLeftBorder then
-        MerchantFrameBottomLeftBorder:Hide()
-    end
-
-    if MerchantFrame.TitleContainer then
-        MerchantFrame.TitleContainer:Hide()
-    end
-
-    if MerchantFrame.TopTileStreaks then
-        MerchantFrame.TopTileStreaks:Hide()
-    end
-
-    if MerchantFrameTab1 then
-        MerchantFrameTab1:Hide()
-    end
-
-    if MerchantFrameTab2 then
-        MerchantFrameTab2:Hide()
-    end
-
-    if MerchantFrame.PortraitContainer then
-        MerchantFrame.PortraitContainer:Hide()
-    end
-
-    if MerchantFrameLootFilter then
-        MerchantFrameLootFilter:Hide()
-    end
-
-    if MerchantSellAllJunkButton then
-        MerchantSellAllJunkButton:Hide()
-    end
-
-    if MerchantMoneyBg then
-        MerchantMoneyBg:Hide()
-    end
-
-    if MerchantMoneyInset then
-        MerchantMoneyInset:Hide()
-    end
-
-    if MerchantMoneyFrame then
-        MerchantMoneyFrame:Hide()
-    end
-
-    if MerchantToken1 then
-        MerchantToken1:Hide()
-    end
-
-    if MerchantPageText then
-        MerchantPageText:Hide()
-    end
-
-    if MerchantFrameBg then
-        MerchantFrameBg:Hide()
-    end
-
-    if MerchantFrameCloseButton then
-        MerchantFrameCloseButton:Hide()
-    end
-
-    if MerchantFrameInset then
-        MerchantFrameInset:Hide()
-    end
-
-    if MerchantFrame.NineSlice then
-        MerchantFrame.NineSlice:Hide()
-    end
 end
