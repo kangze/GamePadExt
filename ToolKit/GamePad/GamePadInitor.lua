@@ -1,3 +1,18 @@
+GamePadInitorNames = {
+    MerchantTabFrame = {
+        Name = "MerchantTabFrame",
+        Level = 10,
+    },
+    MerchantBuyFrame = {
+        Name = "MerchantBuyFrame",
+        Level = 1,
+    },
+    MerchantBuyBackFrame = {
+        Name = "MerchantBuyBackFrame",
+        Level = 1,
+    }
+}
+
 GamePadInitor = {
     classname = nil,
     groups = {},
@@ -33,7 +48,7 @@ function GamePadInitor:Init(classname, level)
     return self;
 end
 
-function GamePadInitor:Add(element, groupName,associateName)
+function GamePadInitor:Add(element, groupName, associateName)
     if (not table.isInTable(self.groupNames, groupName)) then
         table.insert(self.groups, {});
         table.insert(self.groupNames, groupName);
@@ -55,7 +70,6 @@ function GamePadInitor:Add(element, groupName,associateName)
         self.preItem = element;
     end
 end
-
 
 function GamePadInitor:SetRegion(frame)
     self.region = frame;

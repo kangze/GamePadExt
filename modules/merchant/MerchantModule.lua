@@ -88,14 +88,12 @@ function MerchantModule:InitTabls()
 
     local callback = function(headFrame)
         local frame = CreateFrame("Frame", nil, nil, "MerchantTabsFrameTemplate");
-
         frame.buy:SetHeight(headFrame:GetHeight() - 2);
-        
         frame.rebuy:SetHeight(headFrame:GetHeight() - 2);
-        
-        local gamePadInitor = GamePadInitor:Init("MerchantTabFrame", 10);
-        gamePadInitor:Add(frame.buy, "group","MerchantBuyItemFrame");
-        gamePadInitor:Add(frame.rebuy, "group","MerchantBuyBackItemFrame");
+        local gamePadInitor = GamePadInitor:Init(GamePadInitorNames.MerchantTabFrame.Name,
+            GamePadInitorNames.MerchantTabFrame.Level);
+        gamePadInitor:Add(frame.buy, "group", GamePadInitorNames.MerchantBuyFrame.Name);
+        gamePadInitor:Add(frame.rebuy, "group", GamePadInitorNames.MerchantBuyBackFrame.Name);
         gamePadInitor:SetRegion(frame);
         RegisterTabsButtonDown(gamePadInitor);
         return frame;
