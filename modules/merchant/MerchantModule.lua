@@ -44,7 +44,20 @@ function MerchantModule:InitLayout()
     local scrollFrame = CreateFrame("ScrollFrame", nil, nil)
     scrollFrame:SetSize(self.templateWidth * self.maxColum * 1.5, height)
 
+
+    local leave_callback = function(frame)
+        local children = { frame:GetChildren() };
+        for i = 1, #children do
+            local child = children[i];
+            --释放child窗体
+            child:UnregisterAllEvents();
+            child:ClearAllPoints();
+            child:SetParent(nil);
+            child:Hide();
+        end
+    end;
     local scrollChildFrame = CreateFrame("Frame", nil, scrollFrame)
+    scrollChildFrame.OnLeave = leave_callback;
     scrollFrame:SetScrollChild(scrollChildFrame)
     scrollChildFrame:SetSize(self.templateWidth * self.maxColum * 1.5, height); --TODO:这里需要计算
 
@@ -54,9 +67,6 @@ function MerchantModule:InitLayout()
     self.scrollChildFrame = scrollChildFrame;
 
     MerchantFrame:ClearAllPoints();
-    -- MerchantFrame:SetParent(scrollChildFrame);
-    -- MerchantFrame:SetPoint("TOPLEFT", scrollChildFrame);
-    -- MerchantFrame:SetPoint("BOTTOMRIGHT", scrollChildFrame);
 end
 
 --初始化tab布局选项
@@ -73,7 +83,9 @@ function MerchantModule:InitTabls()
             end
         end); --tab选项选择
         gamePadInitor:Register("PAD1", function(currentItem, preItem)
+            print(currentItem.associateName);
             gamePadInitor:Switch(currentItem.associateName);
+            MerchantModule:Update(currentItem.associateName);
             MaskFrameModule:TopContent();
         end);
 

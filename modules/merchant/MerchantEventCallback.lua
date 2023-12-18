@@ -5,9 +5,9 @@ local Masque, MSQ_Version = LibStub("Masque", true);
 local MerchantModule = Gpe:GetModule('MerchantModule');
 local MaskFrameModule = Gpe:GetModule('MaskFrameModule');
 
+
 function MerchantModule:MERCHANT_SHOW()
     --第一次展示购买界面
-    self.mode = "buy";
 
     --顶部渐入显示
     MaskFrameModule:ShowFadeIn();
@@ -18,55 +18,11 @@ function MerchantModule:MERCHANT_SHOW()
     --顶部菜单开始激活
     MaskFrameModule:Active("MerchantTabFrameHeader");
 
-    -- --购买商品渲染
-    -- local gamePadInitor = GamePadInitor:Init("MerchantItem", 1);
-    -- self.gamePadInitor = gamePadInitor;
-    -- function callback_buy(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
-    --     local frame = MerchantModule:Render(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable,
-    --         hasTransMog);
-    --     frame:ClearAllPoints();
-    --     local offsetX, offsetY = self:GetColInfo(index, col, midle);
-    --     frame:SetParent(self.frame_buy);
-    --     frame:SetPoint("TOPLEFT", self.frame_buy, offsetX, offsetY);
-    --     if (itemLink) then
-    --         itemLink = string.gsub(itemLink, "%[", "", 1);
-    --         itemLink = string.gsub(itemLink, "%]", "", 1);
-    --     end
-    --     gamePadInitor:Add(frame, "group" .. col);
-    -- end
-
-    -- MerchantApi:PreProccessItemsInfo(callback_buy);
-    -- gamePadInitor:SetRegion(self.frame_buy, "buy");
-    -- MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor);
-
-    --购回商品渲染
-    -- local gamePadInitor_buyback = GamePadInitor:Init("MerchantItemBuyBack", 2);
-    -- self.gamePadInitor_buyback = gamePadInitor_buyback;
-    -- function callback_buyback(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
-    --     local frame = MerchantModule:Render(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable,
-    --         hasTransMog);
-    --     local offsetX, offsetY = self:GetColInfo(index, col, midle);
-    --     frame:ClearAllPoints();
-    --     frame:SetParent(self.frame_buyback);
-    --     frame:SetPoint("TOPLEFT", self.frame_buyback, offsetX, offsetY);
-    --     if (itemLink) then
-    --         itemLink = string.gsub(itemLink, "%[", "", 1);
-    --         itemLink = string.gsub(itemLink, "%]", "", 1);
-    --     end
-    --     gamePadInitor_buyback:Add(frame, "group" .. col);
-    -- end
-
-    -- gamePadInitor_buyback:SetRegion(self.frame_buyback, "buyback");
-    -- MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor_buyback, true);
-    -- MerchantApi:ProcessMerchantBuyBackInfo(callback_buyback);
-
-    -- MaskFrameModule:SetContent(self.scrollChildFrame);
-    self:Update();
+    self:Update(GamePadInitorNames.MerchantBuyFrame.Name);
 
     MaskFrameModule:SetContent(self.scrollChildFrame);
-
     --模拟点击第一个tab
-    --gamePadInitor:Handle("PAD1");
+    --self.buy_gamePadInitor:Handle("PAD1");
 end
 
 function MerchantModule:MERCHANT_CLOSED()
@@ -74,7 +30,7 @@ function MerchantModule:MERCHANT_CLOSED()
     --通知MaskFrameModule关闭一些实例
     MaskFrameModule:Destroy("merchantTab");
     --取消gamepad监听以及对应窗体的销毁
-    self.gamePadInitor:Destroy();
+    self.buy_gamePadInitor:Destroy();
     --self.gamePadInitor_buyback:Destroy();
 end
 
@@ -213,15 +169,24 @@ function MerchantModule:CreateMerchantItem(index, itemLink, cost, texture, itemQ
 end
 
 function MerchantModule:RenderAndAnchorMerchantItem(gamePadInitor)
-    local numItems = GetMerchantNumItems();
+    --模仿三元表达式
+
+    local numItems;
+    if gamePadInitor.classname == GamePadInitorNames.MerchantBuyFrame.Name then
+        numItems = GetMerchantNumItems()
+    else
+        numItems = GetNumBuybackItems()
+    end
     local maxColum = 2; --b
     local middle = math.ceil(numItems / maxColum);
     for index = 1, numItems do
         local col = math.ceil(index / middle);
-        local itemLink = GetMerchantItemLink(index);
-        local _, texture, price, _, _, isUsable = GetMerchantItemInfo(index)
-        local itemID, _, itemQuality = GetItemInfo(itemLink);
-        local cost, isMoney = MerchantHelper:GetCostInfo(index);
+        local itemLink, cost, texture, itemQuality, isMoney, isUsable;
+        if gamePadInitor.classname == GamePadInitorNames.MerchantBuyFrame.Name then
+            itemLink, cost, texture, itemQuality, isMoney, isUsable = MerchantApiHelper:GetMerchantBuyItemInfo(index)
+        else
+            itemLink, cost, texture, itemQuality, isMoney, isUsable = MerchantApiHelper:GetBuybackItemInfo(index)
+        end
         local merchantItem = self:CreateMerchantItem(index, itemLink, cost, texture, itemQuality, isMoney, isUsable, true);
         merchantItem:ClearAllPoints();
         local offsetX, offsetY = self:GetColInfo(index, col, middle);
@@ -236,46 +201,41 @@ function MerchantModule:RenderAndAnchorMerchantItem(gamePadInitor)
 end
 
 --更新界面元素的位置
-function MerchantModule:Update()
+function MerchantModule:Update(mode)
     self.scrollFrame:SetVerticalScroll(0);
     self.scrollFrame:Show();
     self.scrollChildFrame:Show();
 
+
+    --BUG:Destory会摧毁GamePad的监听
     --购买商品渲染
-    if (self.gamePadInitor) then
-        self.gamePadInitor:Destroy();
+    if (mode == GamePadInitorNames.MerchantBuyFrame.Name) then
+        local buy_gamePadInitor = self.buy_gamePadInitor;
+        if (buy_gamePadInitor) then
+            buy_gamePadInitor:Destroy();
+        end
+        buy_gamePadInitor = GamePadInitor:Init(GamePadInitorNames.MerchantBuyFrame.Name,
+            GamePadInitorNames.MerchantBuyFrame.Level);
+
+        self:RenderAndAnchorMerchantItem(buy_gamePadInitor);
+        buy_gamePadInitor:SetRegion(self.scrollChildFrame);
+        self:RegisterMerchantItemGamepadButtonDown(buy_gamePadInitor);
+        self.buy_gamePadInitor = buy_gamePadInitor;
     end
-    local gamePadInitor = GamePadInitor:Init(GamePadInitorNames.MerchantBuyFrame.Name,
-        GamePadInitorNames.MerchantBuyFrame.Level);
-    self.gamePadInitor = gamePadInitor;
-    self:RenderAndAnchorMerchantItem(gamePadInitor);
-    gamePadInitor:SetRegion(self.scrollChildFrame);
-    self:RegisterMerchantItemGamepadButtonDown(gamePadInitor);
 
-    --购回商品渲染
-    -- if (self.gamePadInitor_buyback) then
-    --     self.gamePadInitor_buyback:Destroy();
-    -- end
-    -- local gamePadInitor_buyback = GamePadInitor:Init("MerchantItemBuyBack", 2);
-    -- self.gamePadInitor_buyback = gamePadInitor_buyback;
-    -- function callback_buyback(index, col, midle, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
-    --     local frame = MerchantModule:CreateMerchantItem(index, col, midle, itemLink, cost, texture, itemQuality, isMoney,
-    --         isUsable,
-    --         hasTransMog);
-    --     local offsetX, offsetY = self:GetColInfo(index, col, midle);
-    --     frame:ClearAllPoints();
-    --     frame:SetParent(self.scrollChildFrame);
-    --     frame:SetPoint("TOPLEFT", self.scrollChildFrame, offsetX, offsetY);
-    --     if (itemLink) then
-    --         itemLink = string.gsub(itemLink, "%[", "", 1);
-    --         itemLink = string.gsub(itemLink, "%]", "", 1);
-    --     end
-    --     gamePadInitor_buyback:Add(frame, "group" .. col);
-    -- end
+    if (mode == GamePadInitorNames.MerchantBuyBackFrame.Name) then
+        local buyback_gamePadInitor = self.buyback_gamePadInitor;
+        if (buyback_gamePadInitor) then
+            buyback_gamePadInitor:Destroy();
+        end
+        buyback_gamePadInitor = GamePadInitor:Init(GamePadInitorNames.MerchantBuyFrame.Name,
+            GamePadInitorNames.MerchantBuyFrame.Level);
 
-    -- gamePadInitor_buyback:SetRegion(self.scrollChildFrame, "buyback");
-    -- MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor_buyback, true);
-    -- MerchantApi:ProcessMerchantBuyBackInfo(callback_buyback);
+        self:RenderAndAnchorMerchantItem(buyback_gamePadInitor);
+        buyback_gamePadInitor:SetRegion(self.scrollChildFrame);
+        self:RegisterMerchantItemGamepadButtonDown(buyback_gamePadInitor, true);
+        self.buyback_gamePadInitor = buyback_gamePadInitor;
+    end
 end
 
 --获取当前列的索引

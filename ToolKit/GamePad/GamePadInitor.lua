@@ -9,7 +9,7 @@ GamePadInitorNames = {
     },
     MerchantBuyBackFrame = {
         Name = "MerchantBuyBackFrame",
-        Level = 1,
+        Level = 2,
     }
 }
 

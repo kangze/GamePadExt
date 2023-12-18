@@ -1,7 +1,7 @@
-MerchantHelper = {};
+MerchantApiHelper = {};
 
 
-function MerchantHelper:GetCostInfo(index)
+function MerchantApiHelper:GetCostInfo(index)
     local itemCount = GetMerchantItemCostInfo(index)
 
     if (itemCount == 0) then
@@ -44,4 +44,18 @@ function MerchantHelper:GetCostInfo(index)
         end
     end
     return cost, false;
+end
+
+function MerchantApiHelper:GetMerchantBuyItemInfo(index)
+    local itemLink = GetMerchantItemLink(index);
+    local _, texture, price, quantity, numAvailable, isUsable = GetMerchantItemInfo(index)
+    local itemID, _, itemQuality = GetItemInfo(itemLink);
+    local cost, isMoney = MerchantApiHelper:GetCostInfo(index);
+    return itemLink, cost, texture, itemQuality, isMoney, isUsable;
+end
+
+function MerchantApiHelper:GetMerchantBuyBackItemInfo(index)
+    local itemLink = GetBuybackItemLink(index);
+    local name, texture, price, quantity, numAvailable, isUsable = GetBuybackItemInfo(index);
+    return itemLink, price, texture, quantity, nil, isUsable;
 end
