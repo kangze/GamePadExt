@@ -19,7 +19,7 @@ function GpeButtonTemplateMixin:OnLoad_Intrinsic(buttonText)
     self.buttonText = buttonText;
     self.text:SetText(self.buttonText);
     self.background:SetColorTexture(default_color.r, default_color.g, default_color.b, default_color.a);
-    self:AppendShadow();
+    self:AppendShadow(2,nil);
     self.enter_shadowAinimation = Animation:new(0.3, 2, 10, shadow_animation(self), nil, EasingFunctions.OutSine);
     self.leave_shadowAinimation = Animation:new(0.3, 10, 2, shadow_animation(self), nil, EasingFunctions.OutSine);
 end

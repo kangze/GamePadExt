@@ -7,11 +7,6 @@ local MaskFrameModule = Gpe:GetModule('MaskFrameModule');
 
 
 function MerchantModule:MERCHANT_SHOW()
-    --第一次展示购买界面
-
-    --顶部渐入显示
-    MaskFrameModule:ShowFadeIn();
-
     --全局UI进行隐藏
     --UIParent:Hide();
 
@@ -39,11 +34,11 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor, buy
         PlaySoundFile("Interface\\AddOns\\GamePadExt\\media\\sound\\1.mp3", "Master");
         MaskFrameModule:TopContent();
         MerchantItemGameTooltip:Hide();
-        currentItem.buyFrame:ShowFadeIn();
-        currentItem.detailFrame:ShowFadeIn();
+        currentItem.buyFrame:Show();
+        currentItem.detailFrame:Show();
         if (preItem) then
-            preItem.buyFrame:ShowFadeOut();
-            preItem.detailFrame:ShowFadeOut();
+            preItem.buyFrame:Hide();
+            preItem.detailFrame:Hide();
             preItem:SetFrameStrata("HIGH");
             if (preItem.dressUpFrame) then
                 preItem.dressUpFrame:Destroy();

@@ -10,7 +10,7 @@ local enter_shadow_animation = function(frame)
 end
 
 function MerchantItemMixin:OnLoad()
-    self:AppendShadow();
+    self:AppendShadow(2,nil);
     self.enter_shadowAinimation = Animation:new(0.3, 2, 10, enter_shadow_animation(self), nil, EasingFunctions.OutSine);
     self.leave_shadowAinimation = Animation:new(0.3, 10, 2, enter_shadow_animation(self), nil, EasingFunctions.OutSine);
 end

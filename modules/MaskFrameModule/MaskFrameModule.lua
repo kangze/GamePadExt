@@ -30,12 +30,13 @@ function MaskFrameModule:OnEnable()
     self.bodyFrame = bodyFrame;
 end
 
-function MaskFrameModule:ShowFadeIn()
-    self.headFrame.animation:Play();
-    self.bodyFrame.animation:Play();
-end
-
 function MaskFrameModule:Active(name)
+    --显示遮罩
+    self.headFrame:Show();
+    self.bodyFrame:Show();
+    self.headFrame.animation_fadeIn:Play();
+    self.bodyFrame.animation_fadeIn:Play();
+
     local createframe_callback = HeaderRegions.regions[name];
     local frame = createframe_callback(self.headFrame);
     frame:SetParent(self.headFrame);

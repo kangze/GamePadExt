@@ -85,7 +85,7 @@ function MerchantModule:InitTabls()
         gamePadInitor:Register("PAD1", function(currentItem, preItem)
             print(currentItem.associateName);
             gamePadInitor:Switch(currentItem.associateName);
-            MerchantModule:Update(currentItem.associateName);
+            --MerchantModule:Update(currentItem.associateName);
             MaskFrameModule:TopContent();
         end);
 

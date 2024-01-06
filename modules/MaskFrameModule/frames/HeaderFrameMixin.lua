@@ -7,9 +7,10 @@ function HeaderFrameMixin:OnLoad()
     local width = GetScreenWidth() * scale
     local height = 30;
     self:SetSize(width, height);
-    local animation = Animation:new(0.3, 0, 1, function(current)
+    self.animation_fadeIn = Animation:new(0.3, 0, 1, function(current)
         self:SetAlpha(current);
-        print(current);
     end, nil, EasingFunctions.OutSine);
-    self.animation = animation;
+    self.animation_fadeOut = Animation:new(0.3, 1, 0, function(current)
+        self:SetAlpha(current);
+    end, nil, EasingFunctions.OutSine);
 end
