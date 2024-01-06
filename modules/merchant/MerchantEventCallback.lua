@@ -119,16 +119,16 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor, buy
 
         --判断是否需要滚动
         if (current_index == 0) then
-            MerchantModule.scrollFrame:SetVerticalScrollFade(current_position, 0);
+            MerchantModule.scrollFrame.animation_scroll:Play(current_position, 0);
             return;
         end
         if (item_height * current_index > total_height / ratio) then
-            MerchantModule.scrollFrame:SetVerticalScrollFade(current_position,
+            MerchantModule.scrollFrame.animation_scroll:Play(current_position,
                 item_height * current_index - total_height / ratio);
             return;
         end
         if (item_height * current_index > total_height / ratio) then
-            MerchantModule.scrollFrame:SetVerticalScrollFade(current_position,
+            MerchantModule.scrollFrame.animation_scroll:Play(current_position,
                 item_height * current_index - total_height / ratio);
             return;
         end

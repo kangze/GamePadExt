@@ -44,6 +44,12 @@ function MerchantModule:InitLayout()
     local scrollFrame = CreateFrame("ScrollFrame", nil, nil)
     scrollFrame:SetSize(self.templateWidth * self.maxColum * 1.5, height)
 
+    --ScrollFade,0,0表示需要Play特定赋值
+    scrollFrame.animation_scroll = Animation:new(0.3, 0, 0, function(current)
+        scrollFrame:SetVerticalScroll(current);
+    end, nil, EasingFunctions.OutSine);
+
+
 
     local leave_callback = function(frame)
         local children = { frame:GetChildren() };

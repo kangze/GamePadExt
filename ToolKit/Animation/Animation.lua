@@ -1,5 +1,3 @@
-
-
 --创建动画帧
 Animation = {}
 Animation.__index = Animation
@@ -38,6 +36,12 @@ function Animation:new(duration, start, ends, callback, end_callback, easingFunc
     return animation
 end
 
-function Animation:Play()
+function Animation:Play(start, ends)
+    if start then
+        self._start = start
+    end
+    if ends then
+        self._ends = ends
+    end
     self._frame:Show()
 end
