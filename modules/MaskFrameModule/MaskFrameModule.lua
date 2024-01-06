@@ -31,8 +31,8 @@ function MaskFrameModule:OnEnable()
 end
 
 function MaskFrameModule:ShowFadeIn()
-    self.headFrame:ShowFadeIn();
-    self.bodyFrame:ShowFadeIn();
+    self.headFrame.animation:Play();
+    self.bodyFrame.animation:Play();
 end
 
 function MaskFrameModule:Active(name)

@@ -3,19 +3,13 @@ local _, AddonData = ...;
 HeaderFrameMixin = {};
 
 function HeaderFrameMixin:OnLoad()
-    --self:EnableGamePadButton(true);
     local scale = UIParent:GetEffectiveScale();
     local width = GetScreenWidth() * scale
     local height = 30;
     self:SetSize(width, height);
-    self:InitShowFadeInAndOut();
-    self:InitShadowAndAnimation();
-end
-
-function HeaderFrameMixin:OnEnter()
-
-end
-
-function HeaderFrameMixin:OnShow()
-    self:ShowFadeIn();
+    local animation = Animation:new(0.3, 0, 1, function(current)
+        self:SetAlpha(current);
+        print(current);
+    end, nil, EasingFunctions.OutSine);
+    self.animation = animation;
 end

@@ -8,9 +8,7 @@ local default_options = {
 };
 
 function MerchantTabButtonMixin:OnLoad()
-    GpeButtonTemplateMixin.OnLoad_Intrinsic(self);
-    self:InitShadowAndAnimation(default_options);
-    --self:InitShowFadeInAndOut();
+    GpeButtonTemplateMixin.OnLoad_Intrinsic(self,self.buttonText);
 end
 
 function MerchantTabButtonMixin:OnEnter()
@@ -24,9 +22,6 @@ end
 MerchantTabsFrameMixin = {};
 
 function MerchantTabsFrameMixin:Destroy()
-    -- self.buy:ShowFadeOut();
-    -- self.rebuy:ShowFadeOut();
-
     self.buy:Hide();
     self.rebuy:Hide();
     self:Hide();

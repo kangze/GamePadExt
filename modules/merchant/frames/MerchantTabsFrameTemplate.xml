@@ -8,9 +8,6 @@
             <Frame parentKey="buy" hidden="false" inherits="GpeButtonTemplate" mixin="MerchantTabButtonMixin">
                 <KeyValues>
                     <KeyValue key="buttonText" value="购买"/>
-                    <KeyValue key="shadow" value="true"/>
-                    <KeyValue key="tag" value="buy"/>
-                    <keyValue key="status" value="true"/>
                 </KeyValues>
                 <Size x="100" y="35"/>
                 <Anchors>
@@ -27,9 +24,6 @@
             <Frame parentKey="rebuy" hidden="false" inherits="GpeButtonTemplate" mixin="MerchantTabButtonMixin">
                 <KeyValues>
                     <KeyValue key="buttonText" value="买回"/>
-                    <KeyValue key="shadow" value="true"/>
-                    <KeyValue key="tag" value="buyback"/>
-                    <keyValue key="status" value="true"/>
                 </KeyValues>
                 <Size x="100" y="35"/>
                 <Anchors>
@@ -45,7 +39,6 @@
             <Frame parentKey="rebuy2" hidden="false" inherits="GpeButtonTemplate" mixin="MerchantTabButtonMixin">
                 <KeyValues>
                     <KeyValue key="buttonText" value="测试"/>
-                    <KeyValue key="shadow" value="true"/>
                 </KeyValues>
                 <Size x="100" y="35"/>
                 <Anchors>
