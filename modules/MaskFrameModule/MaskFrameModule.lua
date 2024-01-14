@@ -32,10 +32,8 @@ end
 
 function MaskFrameModule:Active(name)
     --显示遮罩
-    self.headFrame:Show();
-    self.bodyFrame:Show();
-    self.headFrame.animation_fadeIn:Play();
-    self.bodyFrame.animation_fadeIn:Play();
+    self.headFrame:AnimationIn();
+    self.bodyFrame:AnimationIn();
 
     local createframe_callback = HeaderRegions.regions[name];
     local frame = createframe_callback(self.headFrame);
@@ -68,10 +66,8 @@ end
 
 --摧毁注册区域
 function MaskFrameModule:Destroy()
-    self.headFrame:ShowFadeOut();
-    self.bodyFrame:ShowFadeOut();
-    self.headFrame:Hide();
-    self.bodyFrame:Hide();
+    self.bodyFrame:AnimationOut();
+    self.headFrame:AnimationOut();
     self.headFrame.childFrame:Destroy();
 end
 
