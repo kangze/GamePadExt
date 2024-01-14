@@ -116,3 +116,55 @@ function MerchantModule:InitTabls()
     end
     HeaderRegions:Register("MerchantTabFrameHeader", callback);
 end
+
+function MerchantModule:CreateDressUpFrame(itemLink)
+    local frame = CreateFrame("Frame", nil, nil, "DressupFrameTemplate");
+    local bodyFrame = MaskFrameModule.bodyFrame;
+    local end_callback = function()
+        frame:SetPlayer();
+        frame.model:InitShowFadeInAndOut(1.2);
+        frame.model:ShowFadeIn();
+        frame:TryOn(currentItem.itemLink);
+    end
+    frame:InitOffsetXAnimation(bodyFrame, 300, 0, 0.3, end_callback);
+    frame:InitShowFadeInAndOut();
+    frame:ClearAllPoints();
+    frame:SetPoint("RIGHT", bodyFrame, 300, 0);
+    local scale = UIParent:GetEffectiveScale();
+    frame:SetWidth(300);
+    frame:SetHeight(GetScreenHeight() * scale - 100);
+    frame:SetFrameStrata("DIALOG");
+    return frame;
+end
+
+function MerchantModule:ShowMerchantItemTooltip(currentItem)
+    MerchantItemGameTooltip:ClearAllPoints();
+    MerchantItemGameTooltip:SetOwner(currentItem, "ANCHOR_NONE", 0);
+    MerchantItemGameTooltip:SetPoint("LEFT", currentItem, "RIGHT", 0, 0);
+    MerchantItemGameTooltip:SetHyperlink(currentItem.itemLink);
+    MerchantItemGameTooltip:Show();
+end
+
+function MerchantModule:Scroll(currentItem)
+    local total_height = MerchantModule.scrollFrame:GetHeight();
+    local item_height = currentItem:GetHeight();
+    local current_index = currentItem.currentIndex;
+    local ratio = 3;
+    local current_position = MerchantModule.scrollFrame:GetVerticalScroll();
+
+    --判断是否需要滚动
+    if (current_index == 0) then
+        MerchantModule.scrollFrame.animation_scroll:Play(current_position, 0);
+        return;
+    end
+    if (item_height * current_index > total_height / ratio) then
+        MerchantModule.scrollFrame.animation_scroll:Play(current_position,
+            item_height * current_index - total_height / ratio);
+        return;
+    end
+    if (item_height * current_index > total_height / ratio) then
+        MerchantModule.scrollFrame.animation_scroll:Play(current_position,
+            item_height * current_index - total_height / ratio);
+        return;
+    end
+end

@@ -26,7 +26,6 @@ function MerchantModule:MERCHANT_CLOSED()
     MaskFrameModule:Destroy("merchantTab");
     --取消gamepad监听以及对应窗体的销毁
     self.buy_gamePadInitor:Destroy();
-    --self.gamePadInitor_buyback:Destroy();
 end
 
 function MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor, buyback)
@@ -62,25 +61,8 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor, buy
             currentItem.dressUpFrame:Destroy();
             currentItem.dressUpFrame = nil;
         end
-        local frame = CreateFrame("Frame", nil, nil, "DressupFrameTemplate");
-        local bodyFrame = MaskFrameModule.bodyFrame;
-        local end_callback = function()
-            frame:SetPlayer();
-            frame.model:InitShowFadeInAndOut(1.2);
-            frame.model:ShowFadeIn();
-            frame:TryOn(currentItem.itemLink);
-        end
-        frame:InitOffsetXAnimation(bodyFrame, 300, 0, 0.3, end_callback);
-        frame:InitShowFadeInAndOut();
-        frame:ClearAllPoints();
-        frame:SetPoint("RIGHT", bodyFrame, 300, 0);
-        local scale = UIParent:GetEffectiveScale();
-        frame:SetWidth(300);
-        frame:SetHeight(GetScreenHeight() * scale - 100);
-        frame:SetFrameStrata("DIALOG");
+        local frame = self:CreateDressUpFrame(currentItem.itemLink);
         frame:Show();
-        frame:ShowOffsetXAnimation();
-        frame:ShowFadeIn();
         currentItem.dressUpFrame = frame;
     end)
 
@@ -89,11 +71,7 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor, buy
         --背景设置最高和当前层级设置最高
         MaskFrameModule:SETDIALOG();
         currentItem:SetFrameStrata("DIALOG");
-        MerchantItemGameTooltip:ClearAllPoints();
-        MerchantItemGameTooltip:SetOwner(currentItem, "ANCHOR_NONE", 0);
-        MerchantItemGameTooltip:SetPoint("LEFT", currentItem, "RIGHT", 0, 0);
-        MerchantItemGameTooltip:SetHyperlink(currentItem.itemLink);
-        MerchantItemGameTooltip:Show();
+        self:ShowMerchantItemTooltip(currentItem);
     end)
 
     --购买物品
@@ -107,27 +85,7 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor, buy
 
     --窗体滚动
     gamePadInitor:Register("PADDDOWN,PADDUP", function(currentItem, preItem)
-        local total_height = MerchantModule.scrollFrame:GetHeight();
-        local item_height = currentItem:GetHeight();
-        local current_index = currentItem.currentIndex;
-        local ratio = 3;
-        local current_position = MerchantModule.scrollFrame:GetVerticalScroll();
-
-        --判断是否需要滚动
-        if (current_index == 0) then
-            MerchantModule.scrollFrame.animation_scroll:Play(current_position, 0);
-            return;
-        end
-        if (item_height * current_index > total_height / ratio) then
-            MerchantModule.scrollFrame.animation_scroll:Play(current_position,
-                item_height * current_index - total_height / ratio);
-            return;
-        end
-        if (item_height * current_index > total_height / ratio) then
-            MerchantModule.scrollFrame.animation_scroll:Play(current_position,
-                item_height * current_index - total_height / ratio);
-            return;
-        end
+        self:Scroll(currentItem);
     end);
 end
 
