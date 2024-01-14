@@ -34,11 +34,7 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor, buy
         PlaySoundFile("Interface\\AddOns\\GamePadExt\\media\\sound\\1.mp3", "Master");
         MaskFrameModule:TopContent();
         MerchantItemGameTooltip:Hide();
-        currentItem.buyFrame:Show();
-        currentItem.detailFrame:Show();
         if (preItem) then
-            preItem.buyFrame:Hide();
-            preItem.detailFrame:Hide();
             preItem:SetFrameStrata("HIGH");
             if (preItem.dressUpFrame) then
                 preItem.dressUpFrame:Destroy();

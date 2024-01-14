@@ -10,15 +10,20 @@ local enter_shadow_animation = function(frame)
 end
 
 function MerchantItemMixin:OnLoad()
-    self:AppendShadow(2,nil);
+    self:AppendShadow(2, nil);
     self.enter_shadowAinimation = Animation:new(0.3, 2, 10, enter_shadow_animation(self), nil, EasingFunctions.OutSine);
-    self.leave_shadowAinimation = Animation:new(0.3, 10, 2, enter_shadow_animation(self), nil, EasingFunctions.OutSine);
+    self.buyFrame.enter_animation = Animation:new(0.3, 0, 1,function(current) self.buyFrame:SetAlpha(current) end, nil, EasingFunctions.OutSine);
+    self.detailFrame.enter_animation = Animation:new(0.3, 0, 1,function(current) self.detailFrame:SetAlpha(current) end, nil, EasingFunctions.OutSine);
 end
 
 function MerchantItemMixin:OnLeave()
-    self.leave_shadowAinimation:Play();
+    self.enter_shadowAinimation:PlayReverse();
+    self.buyFrame.enter_animation:PlayReverse();
+    self.detailFrame.enter_animation:PlayReverse();
 end
 
 function MerchantItemMixin:OnEnter()
     self.enter_shadowAinimation:Play();
+    self.buyFrame.enter_animation:Play();
+    self.detailFrame.enter_animation:Play();
 end

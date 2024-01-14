@@ -100,16 +100,12 @@ end
 
 function GamePadInitor:ComputeIndex(...)
     local key = ...;
-    print(key);
     local currentIndex = self.currentIndex;
     local currentGroupIndex = self.currentGroupIndex;
 
     local preIndex = currentIndex;
     local preGroupIndex = currentGroupIndex;
 
-    print(self.classname);
-    print(self.groups);
-    print(currentGroupIndex);
     local count = #self.groups[currentGroupIndex + 1];
     local groupCount = #self.groups;
 

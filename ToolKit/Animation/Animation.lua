@@ -14,6 +14,8 @@ function Animation:new(duration, start, ends, callback, end_callback, easingFunc
         _end_callback = end_callback,
         _duration = duration,
         _frame = frame,
+        _base_start = start,
+        _base_ends = ends,
     }
 
     frame:SetScript("OnUpdate", function(selfs, elapsed)
@@ -24,7 +26,9 @@ function Animation:new(duration, start, ends, callback, end_callback, easingFunc
         end
         if selfs.current >= animation._duration then
             selfs:Hide()
-            selfs.current = 0
+            selfs.current = 0;
+            animation._start = animation._base_start;
+            animation._ends = animation._base_ends;
             if animation._end_callback then
                 animation._end_callback()
             end
@@ -44,4 +48,11 @@ function Animation:Play(start, ends)
         self._ends = ends
     end
     self._frame:Show()
+end
+
+function Animation:PlayReverse()
+    local temp = self._start;
+    self._start = self._ends;
+    self._ends = temp;
+    self._frame:Show();
 end
