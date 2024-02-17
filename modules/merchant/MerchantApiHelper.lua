@@ -53,3 +53,7 @@ function MerchantApiHelper:GetMerchantBuyItemInfo(index)
     local cost, isMoney = MerchantApiHelper:GetCostInfo(index);
     return itemLink, cost, texture, itemQuality, isMoney, isUsable;
 end
+
+function MerchantApiHelper:GetBuybackItemInfo(index)
+    return self:GetMerchantBuyItemInfo(index);
+end

@@ -179,6 +179,9 @@ function GamePadInitor:Switch(classname)
     if (self.region.OnLeave) then
         self.region:OnLeave();
     end
+    if (nextInitor.region.OnEnter) then
+        nextInitor.region:OnEnter();
+    end
 end
 
 function GamePadInitor:Destroy()
@@ -203,6 +206,10 @@ function GamePadInitor:Destroy()
         self.region:ClearAllPoints();
         self.region:Hide();
         self.region:UnregisterAllEvents();
+        if (self.region.destory_callback) then
+            self.region:destory_callback();
+        end
+
         self.region = nil;
     end
     GamePadInitor.instances[self.classname] = nil;

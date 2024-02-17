@@ -24,9 +24,16 @@ end
 
 function MerchantModule:OnEnable()
     MerchantFrame:SetAlpha(0);
+    MerchantFrame:ClearAllPoints();
 
     --初始化布局
-    MerchantModule:InitLayout();
+    local buy_scrollFrame, buy_scrollChildFrame = MerchantModule:InitLayout();
+    local buyback_scrollFrame, buyback_scrollChildFrame = MerchantModule:InitLayout();
+
+    self.buy_scrollFrame = buy_scrollFrame;
+    self.buy_scrollChildFrame = buy_scrollChildFrame;
+    self.buyback_scrollFrame = buyback_scrollFrame;
+    self.buyback_scrollChildFrame = buyback_scrollChildFrame;
 
     --初始化tab选项
     MerchantModule:InitTabls();
@@ -49,12 +56,10 @@ function MerchantModule:InitLayout()
         scrollFrame:SetVerticalScroll(current);
     end, nil, EasingFunctions.OutSine);
 
-
-
-    local leave_callback = function(frame)
-        local children = { frame:GetChildren() };
-        for i = 1, #children do
-            local child = children[i];
+    local destory_callback = function(frame)
+        local childrens = frame:GetChildren();
+        for i = 1, #childrens do
+            local child = childrens[i];
             --释放child窗体
             child:UnregisterAllEvents();
             child:ClearAllPoints();
@@ -62,17 +67,23 @@ function MerchantModule:InitLayout()
             child:Hide();
         end
     end;
+
+    local leave_callback = function(frame)
+        frame:SetAlpha(0.5);
+    end
+    local enter_callback = function(frame)
+        frame:SetAlpha(1);
+    end
+
     local scrollChildFrame = CreateFrame("Frame", nil, scrollFrame)
     scrollChildFrame.OnLeave = leave_callback;
+    scrollChildFrame.OnEnter = enter_callback;
+    scrollChildFrame.Destory = destory_callback;
     scrollFrame:SetScrollChild(scrollChildFrame)
-    scrollChildFrame:SetSize(self.templateWidth * self.maxColum * 1.5, height); --TODO:这里需要计算
+    scrollChildFrame:SetSize(self.templateWidth * self.maxColum * 1.5, height);
 
     scrollFrame:SetPoint("TOP", UIParent, 0, -40);
-
-    self.scrollFrame = scrollFrame;
-    self.scrollChildFrame = scrollChildFrame;
-
-    MerchantFrame:ClearAllPoints();
+    return scrollFrame, scrollChildFrame;
 end
 
 --初始化tab布局选项
@@ -91,7 +102,6 @@ function MerchantModule:InitTabls()
         gamePadInitor:Register("PAD1", function(currentItem, preItem)
             print(currentItem.associateName);
             gamePadInitor:Switch(currentItem.associateName);
-            --MerchantModule:Update(currentItem.associateName);
             MaskFrameModule:TopContent();
         end);
 
@@ -146,24 +156,25 @@ function MerchantModule:ShowMerchantItemTooltip(currentItem)
 end
 
 function MerchantModule:Scroll(currentItem)
-    local total_height = MerchantModule.scrollFrame:GetHeight();
+    local scrollFrame = currentItem.scrollFrame;
+    local total_height = scrollFrame:GetHeight();
     local item_height = currentItem:GetHeight();
     local current_index = currentItem.currentIndex;
     local ratio = 3;
-    local current_position = MerchantModule.scrollFrame:GetVerticalScroll();
+    local current_position = scrollFrame:GetVerticalScroll();
 
     --判断是否需要滚动
     if (current_index == 0) then
-        MerchantModule.scrollFrame.animation_scroll:Play(current_position, 0);
+        scrollFrame.animation_scroll:Play(current_position, 0);
         return;
     end
     if (item_height * current_index > total_height / ratio) then
-        MerchantModule.scrollFrame.animation_scroll:Play(current_position,
+        scrollFrame.animation_scroll:Play(current_position,
             item_height * current_index - total_height / ratio);
         return;
     end
     if (item_height * current_index > total_height / ratio) then
-        MerchantModule.scrollFrame.animation_scroll:Play(current_position,
+        scrollFrame.animation_scroll:Play(current_position,
             item_height * current_index - total_height / ratio);
         return;
     end

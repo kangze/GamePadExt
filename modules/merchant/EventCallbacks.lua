@@ -13,12 +13,12 @@ function MerchantModule:MERCHANT_SHOW()
     --顶部菜单开始激活
     MaskFrameModule:Active("MerchantTabFrameHeader");
 
+    self:ResetScrollFrame();
+
     --初始化买入和卖出2个GamePadInitor
-    
+    self:InitGamePadInitors();
 
-    self:Update(GamePadInitorNames.MerchantBuyFrame.Name);
-
-    MaskFrameModule:SetContent(self.scrollChildFrame);
+    MaskFrameModule:SetContent(self.buy_scrollChildFrame);
     --模拟点击第一个tab
     --self.buy_gamePadInitor:Handle("PAD1");
 end
@@ -31,7 +31,37 @@ function MerchantModule:MERCHANT_CLOSED()
     self.buy_gamePadInitor:Destroy();
 end
 
-function MerchantModule:RenderAndAnchorMerchantItem(gamePadInitor)
+function MerchantModule:ResetScrollFrame()
+    self.buy_scrollFrame:SetVerticalScroll(0);
+    self.buy_scrollFrame:Show();
+    self.buy_scrollChildFrame:Show();
+
+    self.buyback_scrollFrame:SetVerticalScroll(0);
+    self.buyback_scrollFrame:Show();
+    self.buyback_scrollChildFrame:Show();
+end
+
+function MerchantModule:InitGamePadInitors()
+    --买入GamePadInitor
+    buy_gamePadInitor = GamePadInitor:Init(GamePadInitorNames.MerchantBuyFrame.Name,
+        GamePadInitorNames.MerchantBuyFrame.Level);
+
+    self:RenderAndAnchorMerchantItem(buy_gamePadInitor, self.buy_scrollChildFrame, self.buy_scrollFrame);
+    buy_gamePadInitor:SetRegion(self.buy_scrollChildFrame);
+    self:RegisterMerchantItemGamepadButtonDown(buy_gamePadInitor);
+    self.buy_gamePadInitor = buy_gamePadInitor;
+
+    --卖出GamePadInitor
+    buyback_gamePadInitor = GamePadInitor:Init(GamePadInitorNames.MerchantBuyBackFrame.Name,
+        GamePadInitorNames.MerchantBuyBackFrame.Level);
+
+    self:RenderAndAnchorMerchantItem(buyback_gamePadInitor,self.buyback_scrollChildFrame,self.buyback_scrollFrame);
+    buyback_gamePadInitor:SetRegion(self.buyback_scrollChildFrame);
+    self:RegisterMerchantItemGamepadButtonDown(buyback_gamePadInitor, true);
+    self.buyback_gamePadInitor = buyback_gamePadInitor;
+end
+
+function MerchantModule:RenderAndAnchorMerchantItem(gamePadInitor, parentFrame, scrollFrame)
     local numItems;
     if gamePadInitor.classname == GamePadInitorNames.MerchantBuyFrame.Name then
         numItems = GetMerchantNumItems()
@@ -50,8 +80,9 @@ function MerchantModule:RenderAndAnchorMerchantItem(gamePadInitor)
         local merchantItem = self:CreateMerchantItem(index, itemLink, cost, texture, itemQuality, isMoney, isUsable, true);
         merchantItem:ClearAllPoints();
         local offsetX, offsetY = self:GetColInfo(index, col, middle);
-        merchantItem:SetParent(self.scrollChildFrame);
-        merchantItem:SetPoint("TOPLEFT", self.scrollChildFrame, offsetX, offsetY);
+        merchantItem:SetParent(parentFrame);
+        merchantItem:SetPoint("TOPLEFT", parentFrame, offsetX, offsetY);
+        merchantItem.scrollFrame = scrollFrame;
         if (itemLink) then
             itemLink = string.gsub(itemLink, "%[", "", 1);
             itemLink = string.gsub(itemLink, "%]", "", 1);
@@ -86,43 +117,6 @@ function MerchantModule:CreateMerchantItem(index, itemLink, cost, texture, itemQ
     frame.iconBorder:SetAtlas(GetQualityBorder(itemQuality));
     frame:SetAlpha(1);
     return frame;
-end
-
---更新界面元素的位置
-function MerchantModule:Update(mode)
-    self.scrollFrame:SetVerticalScroll(0);
-    self.scrollFrame:Show();
-    self.scrollChildFrame:Show();
-
-    --BUG:Destory会摧毁GamePad的监听
-    --购买商品渲染
-    if (mode == GamePadInitorNames.MerchantBuyFrame.Name) then
-        local buy_gamePadInitor = self.buy_gamePadInitor;
-        if (buy_gamePadInitor) then
-            buy_gamePadInitor:Destroy();
-        end
-        buy_gamePadInitor = GamePadInitor:Init(GamePadInitorNames.MerchantBuyFrame.Name,
-            GamePadInitorNames.MerchantBuyFrame.Level);
-
-        self:RenderAndAnchorMerchantItem(buy_gamePadInitor);
-        buy_gamePadInitor:SetRegion(self.scrollChildFrame);
-        self:RegisterMerchantItemGamepadButtonDown(buy_gamePadInitor);
-        self.buy_gamePadInitor = buy_gamePadInitor;
-    end
-
-    if (mode == GamePadInitorNames.MerchantBuyBackFrame.Name) then
-        local buyback_gamePadInitor = self.buyback_gamePadInitor;
-        if (buyback_gamePadInitor) then
-            buyback_gamePadInitor:Destroy();
-        end
-        buyback_gamePadInitor = GamePadInitor:Init(GamePadInitorNames.MerchantBuyFrame.Name,
-            GamePadInitorNames.MerchantBuyFrame.Level);
-
-        self:RenderAndAnchorMerchantItem(buyback_gamePadInitor);
-        buyback_gamePadInitor:SetRegion(self.scrollChildFrame);
-        self:RegisterMerchantItemGamepadButtonDown(buyback_gamePadInitor, true);
-        self.buyback_gamePadInitor = buyback_gamePadInitor;
-    end
 end
 
 --获取当前列的索引
