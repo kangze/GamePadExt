@@ -4,8 +4,9 @@
     <Script file="MerchantApiHelper.lua"/>
     <Include file="frames\MerchantItem.xml"/>
     <Include file="frames\MerchantItemGameTooltip.xml"/>
+    <Script file="GamePadButtonRegister.lua"/>
     <Script file="MerchantApi.lua"/>
-    <Script file="MerchantEventCallback.lua"/>
+    <Script file="EventCallbacks.lua"/>
     <Script file="MerchantModule.lua"/>
     <Include file="frames\MerchantTabsFrameTemplate.xml"/>
 </Ui>
