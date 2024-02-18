@@ -15,7 +15,7 @@ function HeaderRegions:Register(name, createframe_callback)
 end
 
 function MaskFrameModule:OnInitialize()
-
+    self.contents = {};
 end
 
 function MaskFrameModule:OnEnable()
@@ -73,18 +73,23 @@ end
 
 function MaskFrameModule:TopHead()
     self.bodyFrame:SetFrameStrata("DIALOG");
-    self.bodyFrame.content:SetFrameStrata("BACKGROUND");
+    for i=1,#self.contents do
+        self.contents[i]:SetFrameStrata("BACKGROUND");
+    end
 end
 
 --让内容得到焦点
 function MaskFrameModule:TopContent()
     self.bodyFrame:SetFrameStrata("BACKGROUND");
-    self.bodyFrame.content:SetFrameStrata("DIALOG");
+    for i=1,#self.contents do
+        self.contents[i]:SetFrameStrata("DIALOG");
+    end
 end
 
---设置内容
-function MaskFrameModule:SetContent(frame)
-    self.bodyFrame.content = frame;
+function MaskFrameModule:SetContents(...)
+    for _, v in ipairs(...) do
+        table.insert(self.contents, v);
+    end
 end
 
 ------以下代码需要逐步弃用------------------

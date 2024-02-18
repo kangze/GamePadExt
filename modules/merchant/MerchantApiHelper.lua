@@ -49,6 +49,7 @@ end
 function MerchantApiHelper:GetMerchantBuyItemInfo(index)
     local itemLink = GetMerchantItemLink(index);
     local _, texture, price, quantity, numAvailable, isUsable = GetMerchantItemInfo(index)
+    print(itemLink);
     local itemID, _, itemQuality = GetItemInfo(itemLink);
     local cost, isMoney = MerchantApiHelper:GetCostInfo(index);
     return itemLink, cost, texture, itemQuality, isMoney, isUsable;

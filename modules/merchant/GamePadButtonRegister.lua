@@ -1,4 +1,3 @@
-
 local MerchantModule = Gpe:GetModule('MerchantModule');
 local MaskFrameModule = Gpe:GetModule('MaskFrameModule');
 
@@ -62,5 +61,35 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor, buy
     --窗体滚动
     gamePadInitor:Register("PADDDOWN,PADDUP", function(currentItem, preItem)
         self:Scroll(currentItem);
+    end);
+end
+
+function MerchantModule:RegisterMerchantTabGamepadButtonDown(gamePadInitor)
+    gamePadInitor:Register("PADRTRIGGER,PADLTRIGGER", function(currentItem, preItem)
+        if (preItem and preItem.OnLeave) then
+            preItem:OnLeave();
+        end
+        if (currentItem and currentItem.OnEnter) then
+            currentItem:OnEnter();
+        end
+        --currentItem 所关联的Frame 进行显示
+        if (currentItem.content) then
+            currentItem.content:Show();
+            currentItem.content:SetAlpha(1);
+        end
+        if (preItem.content) then
+            preItem.content:Hide();
+        end
+    end); --tab选项选择
+    gamePadInitor:Register("PAD1", function(currentItem, preItem)
+        gamePadInitor:Switch(currentItem.associateName);
+        MaskFrameModule:TopContent();
+    end);
+
+    --注册这个框架关闭
+    gamePadInitor:Register("PADSYSTEM", function(currentItem, prrItem)
+        MerchantFrame:Hide();
+        MerchantModule:MERCHANT_CLOSED() --2个gamepadInitor都被关闭了
+        gamePadInitor:Destroy();
     end);
 end

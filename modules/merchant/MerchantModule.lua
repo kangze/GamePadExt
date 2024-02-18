@@ -26,6 +26,7 @@ function MerchantModule:OnEnable()
     MerchantFrame:SetAlpha(0);
     MerchantFrame:ClearAllPoints();
 
+
     --初始化布局
     local buy_scrollFrame, buy_scrollChildFrame = MerchantModule:InitLayout();
     local buyback_scrollFrame, buyback_scrollChildFrame = MerchantModule:InitLayout();
@@ -69,16 +70,16 @@ function MerchantModule:InitLayout()
     end;
 
     local leave_callback = function(frame)
-        frame:SetAlpha(0.5);
+        frame:SetAlpha(0);
     end
     local enter_callback = function(frame)
         frame:SetAlpha(1);
     end
 
     local scrollChildFrame = CreateFrame("Frame", nil, scrollFrame)
-    scrollChildFrame.OnLeave = leave_callback;
-    scrollChildFrame.OnEnter = enter_callback;
-    scrollChildFrame.Destory = destory_callback;
+    scrollFrame.OnLeave = leave_callback;
+    scrollFrame.OnEnter = enter_callback;
+    scrollFrame.Destory = destory_callback;
     scrollFrame:SetScrollChild(scrollChildFrame)
     scrollChildFrame:SetSize(self.templateWidth * self.maxColum * 1.5, height);
 
@@ -88,43 +89,22 @@ end
 
 --初始化tab布局选项
 function MerchantModule:InitTabls()
-    --注册tab按键的内容
-    local RegisterTabsButtonDown = function(gamePadInitor)
-        --tab页面的切换
-        gamePadInitor:Register("PADRTRIGGER,PADLTRIGGER", function(currentItem, preItem)
-            if (preItem and preItem.OnLeave) then
-                preItem:OnLeave();
-            end
-            if (currentItem and currentItem.OnEnter) then
-                currentItem:OnEnter();
-            end
-        end); --tab选项选择
-        gamePadInitor:Register("PAD1", function(currentItem, preItem)
-            print(currentItem.associateName);
-            gamePadInitor:Switch(currentItem.associateName);
-            MaskFrameModule:TopContent();
-        end);
-
-        --注册这个框架关闭
-        gamePadInitor:Register("PADSYSTEM", function(currentItem, prrItem)
-            MerchantModule:MERCHANT_CLOSED() --2个gamepadInitor都被关闭了
-            gamePadInitor:Destroy();
-        end);
-    end
-
-    local callback = function(headFrame)
+    local frameRegister = function(headFrame)
         local frame = CreateFrame("Frame", nil, nil, "MerchantTabsFrameTemplate");
         frame.buy:SetHeight(headFrame:GetHeight() - 2);
+        frame.buy.content = self.buy_scrollFrame;
+
         frame.rebuy:SetHeight(headFrame:GetHeight() - 2);
+        frame.rebuy.content = self.buyback_scrollFrame;
         local gamePadInitor = GamePadInitor:Init(GamePadInitorNames.MerchantTabFrame.Name,
             GamePadInitorNames.MerchantTabFrame.Level);
         gamePadInitor:Add(frame.buy, "group", GamePadInitorNames.MerchantBuyFrame.Name);
         gamePadInitor:Add(frame.rebuy, "group", GamePadInitorNames.MerchantBuyBackFrame.Name);
         gamePadInitor:SetRegion(frame);
-        RegisterTabsButtonDown(gamePadInitor);
+        MerchantModule:RegisterMerchantTabGamepadButtonDown(gamePadInitor);
         return frame;
     end
-    HeaderRegions:Register("MerchantTabFrameHeader", callback);
+    HeaderRegions:Register("MerchantTabFrameHeader", frameRegister);
 end
 
 function MerchantModule:CreateDressUpFrame(itemLink)
