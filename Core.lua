@@ -21,6 +21,7 @@ local SoftTargetToolipModule = Gpe:NewModule("SoftTargetToolipModule", "AceEvent
 local NamePlateModule = Gpe:NewModule("NamePlateModule", "AceEvent-3.0");
 local MerchantModule = Gpe:NewModule("MerchantModule", "AceEvent-3.0", "AceHook-3.0");
 local ToolKitModule = Gpe:NewModule("ToolKitModule");
+local UIErrorFrameModule = Gpe:NewModule('UIErrorFrameModule');
 
 
 --配置配置的默认值存储

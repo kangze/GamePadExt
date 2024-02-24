@@ -29,11 +29,3 @@ function MerchantItemMixin:OnEnter()
     self.buyFrame.enter_animation:Play();
     self.detailFrame.enter_animation:Play();
 end
-
-function MerchantItemMixin:Buy()
-    BuybackItem(self.index);
-end
-
-function MerchantItemMixin:BuyBack()
-    BuyMerchantItem(self.index, 1);
-end

@@ -1,0 +1,24 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\FrameXML\UI.xsd">
+    <Script file="ErrorFrameMixin.lua"/>
+    <Frame name="ErrorFrameTemplate" hidden="false" virtual="true" frameStrata="HIGH" enableMouse="true" inherits="BackdropTemplate" mixin="ErrorFrameMixin">
+        <Size x="310" y="60"/>
+        <Anchors>
+            <Anchor point="TOP"/>
+        </Anchors>
+        <Layers>
+            <Layer level="OVERLAY">
+                <FontString parentKey="message" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="RIGHT" justifyV="TOP">
+                    <FontHeight val="10"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad method="OnLoad"/>
+        </Scripts>
+    </Frame>
+</Ui>

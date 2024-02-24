@@ -4,11 +4,13 @@ local Gpe = _G["Gpe"];
 local Masque, MSQ_Version = LibStub("Masque", true);
 local MerchantModule = Gpe:GetModule('MerchantModule');
 local MaskFrameModule = Gpe:GetModule('MaskFrameModule');
+local UIErrorFrameModule = Gpe:GetModule('UIErrorFrameModule');
 
 
 function MerchantModule:MERCHANT_SHOW()
     --全局UI进行隐藏
     --UIParent:Hide();
+    UIErrorFrameModule:AddMessage("MerchantItemGamepadButtonDown");
 
     --顶部菜单开始激活
     MaskFrameModule:Active("MerchantTabFrameHeader");
