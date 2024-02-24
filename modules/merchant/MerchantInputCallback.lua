@@ -9,14 +9,7 @@ function RegisterMerchantItemGamepadButtonDown(gamePadInitor, buyback)
         PlaySoundFile("Interface\\AddOns\\GamePadExt\\media\\sound\\1.mp3", "Master");
         MaskFrameModule:TopContent();
         MerchantItemGameTooltip:Hide();
-        if (preItem) then
-            preItem:SetFrameStrata("HIGH");
-            if (preItem.dressUpFrame) then
-                preItem.dressUpFrame:Destroy();
-                preItem.dressUpFrame = nil;
-            end
-        end
-
+        MerchantModule:MerchantItemTryMogHide();
         if (preItem and preItem.OnLeave) then
             preItem:OnLeave();
         end
@@ -33,13 +26,7 @@ function RegisterMerchantItemGamepadButtonDown(gamePadInitor, buyback)
 
     --幻化
     gamePadInitor:Register("PAD4", function(currentItem)
-        if (currentItem.dressUpFrame) then
-            currentItem.dressUpFrame:Destroy();
-            currentItem.dressUpFrame = nil;
-        end
-        local frame = self:CreateDressUpFrame(currentItem.itemLink);
-        frame:Show();
-        currentItem.dressUpFrame = frame;
+        MerchantModule:MerchantItemTryMog(currentItem);
     end)
 
     --当前商品查看详情

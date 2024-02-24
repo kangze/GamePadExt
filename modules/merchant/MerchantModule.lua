@@ -27,14 +27,17 @@ function MerchantModule:OnEnable()
     MerchantFrame:ClearAllPoints();
 
 
-    --初始化布局
-    local buy_scrollFrame, buy_scrollChildFrame = MerchantModule:InitLayout();
-    local buyback_scrollFrame, buyback_scrollChildFrame = MerchantModule:InitLayout();
+    --初始化布局滚动,以及幻化窗口
+    local buy_scrollFrame, buy_scrollChildFrame = self:InitLayout();
+    local buyback_scrollFrame, buyback_scrollChildFrame = self:InitLayout();
 
     self.buy_scrollFrame = buy_scrollFrame;
     self.buy_scrollChildFrame = buy_scrollChildFrame;
     self.buyback_scrollFrame = buyback_scrollFrame;
     self.buyback_scrollChildFrame = buyback_scrollChildFrame;
+
+    local dressUpFrame = self:InitDressUpFrame();
+    self.dressUpFrame = dressUpFrame;
 
     --初始化tab选项
     MerchantModule:InitTabls();
@@ -95,24 +98,28 @@ function MerchantModule:InitTabls()
     HeaderRegions:Register("MerchantTabFrameHeader", frameRegister);
 end
 
-function MerchantModule:CreateDressUpFrame(itemLink)
+function MerchantModule:InitDressUpFrame()
     local frame = CreateFrame("Frame", nil, nil, "DressupFrameTemplate");
     local bodyFrame = MaskFrameModule.bodyFrame;
-    local end_callback = function()
-        frame:SetPlayer();
-        frame.model:InitShowFadeInAndOut(1.2);
-        frame.model:ShowFadeIn();
-        frame:TryOn(currentItem.itemLink);
-    end
-    frame:InitOffsetXAnimation(bodyFrame, 300, 0, 0.3, end_callback);
-    frame:InitShowFadeInAndOut();
     frame:ClearAllPoints();
-    frame:SetPoint("RIGHT", bodyFrame, 300, 0);
+    frame:SetPoint("RIGHT", bodyFrame, 0, 0);
     local scale = UIParent:GetEffectiveScale();
     frame:SetWidth(300);
     frame:SetHeight(GetScreenHeight() * scale - 100);
     frame:SetFrameStrata("DIALOG");
+    frame:Hide();
     return frame;
+end
+
+--尝试幻化
+function MerchantModule:MerchantItemTryMog(merchantItem)
+    self.dressUpFrame:Show();
+    self.dressUpFrame:SetPlayer();
+    self.dressUpFrame:TryOn(merchantItem.itemLink);
+end
+
+function MerchantModule:MerchantItemTryMogHide()
+    self.dressUpFrame:Hide();
 end
 
 --展示物品详情
@@ -127,15 +134,10 @@ end
 --买回或者购买物品
 function MerchantModule:MerchantItemBuyOrBuyback(merchantItem)
     if (merchantItem.isbuy) then
-        BuybackItem(currentItem.index);
+        BuyMerchantItem(merchantItem.index, 1);
     else
-        BuyMerchantItem(currentItem.index, 1);
+        BuybackItem(merchantItem.index);
     end
-end
-
---尝试幻化
-function MerchantModule:MerchantItemTryMog(merchantItem)
-    
 end
 
 --滚动窗体
