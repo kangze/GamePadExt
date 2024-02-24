@@ -61,7 +61,7 @@ function MerchantModule:InitLayout()
     end, nil, EasingFunctions.OutSine);
 
     local leave_callback = function(frame)
-        frame:SetAlpha(0);
+        frame:SetAlpha(1);
     end
     local enter_callback = function(frame)
         frame:SetAlpha(1);
@@ -70,7 +70,6 @@ function MerchantModule:InitLayout()
     local scrollChildFrame = CreateFrame("Frame", nil, scrollFrame)
     scrollFrame.OnLeave = leave_callback;
     scrollFrame.OnEnter = enter_callback;
-    scrollFrame.Destory = function() self:DestoryFrames() end;
     scrollFrame:SetScrollChild(scrollChildFrame)
     scrollChildFrame:SetSize(self.templateWidth * self.maxColum * 1.5, height);
 
@@ -92,7 +91,7 @@ function MerchantModule:InitTabls()
         gamePadInitor:Add(frame.buy, "group", GamePadInitorNames.MerchantBuyFrame.Name);
         gamePadInitor:Add(frame.rebuy, "group", GamePadInitorNames.MerchantBuyBackFrame.Name);
         gamePadInitor:SetRegion(frame);
-        MerchantModule:RegisterMerchantTabGamepadButtonDown(gamePadInitor);
+        RegisterMerchantTabGamepadButtonDown(gamePadInitor);
         return frame;
     end
     HeaderRegions:Register("MerchantTabFrameHeader", frameRegister);
@@ -118,6 +117,7 @@ function MerchantModule:MerchantItemTryMog(merchantItem)
     self.dressUpFrame:TryOn(merchantItem.itemLink);
 end
 
+--幻化关闭
 function MerchantModule:MerchantItemTryMogHide()
     self.dressUpFrame:Hide();
 end
@@ -166,25 +166,27 @@ function MerchantModule:Scroll(merchantItem)
     end
 end
 
---摧毁所有的相关的frames,目前主要是摧毁所有的MerchantItems
-function MerchantModule:DestoryFrames()
-    local buyItems = self.buy_scrollChildFrame:GetChildren();
-    for i = 1, #buyItems do
-        local child = buyItems[i];
-        --释放child窗体
-        child:UnregisterAllEvents();
-        child:ClearAllPoints();
-        child:SetParent(nil);
-        child:Hide();
+--销毁所有的框体
+function MerchantModule:Destory()
+    local buyItems = GetAllChildren(self.buy_scrollChildFrame);
+    if (buyItems) then
+        for i = 1, #buyItems do
+            local child = buyItems[i];
+            child:UnregisterAllEvents();
+            child:ClearAllPoints();
+            child:SetParent(nil);
+            child:Hide();
+        end
     end
 
-    local buybackItems = self.buy_scrollChildFrame:GetChildren();
-    for i = 1, #buybackItems do
-        local child = buybackItems[i];
-        --释放child窗体
-        child:UnregisterAllEvents();
-        child:ClearAllPoints();
-        child:SetParent(nil);
-        child:Hide();
+    local buybackItems = GetAllChildren(self.buyback_scrollChildFrame);
+    if (buybackItems) then
+        for i = 1, #buybackItems do
+            local child = buybackItems[i];
+            child:UnregisterAllEvents();
+            child:ClearAllPoints();
+            child:SetParent(nil);
+            child:Hide();
+        end
     end
 end

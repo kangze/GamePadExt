@@ -187,30 +187,9 @@ end
 function GamePadInitor:Destroy()
     self.core:EnableGamePadButton(false);
     self.core:UnregisterAllEvents();
-    self.groupNames = {};
-    self.currentGroupIndex = 0;
-    self.currentIndex = 0;
-    self.handlers = {};
-
-    -- for i = 1, #self.groups do
-    --     for j = 1, #self.groups[i] do
-    --         self.groups[i][j]:Hide();
-    --         self.groups[i][j]:SetParent(nil);
-    --         self.groups[i][j]:ClearAllPoints();
-    --         self.groups[i][j]:UnregisterAllEvents();
-    --         self.groups[i][j] = nil;
-    --     end
-    -- end
-    -- self.groups = {};
-    -- if (self.region) then
-    --     self.region:ClearAllPoints();
-    --     self.region:Hide();
-    --     self.region:UnregisterAllEvents();
-    --     if (self.region.destory_callback) then
-    --         self.region:destory_callback();
-    --     end
-
-    --     self.region = nil;
-    -- end
+    -- self.groupNames = {};
+    -- self.currentGroupIndex = 0;
+    -- self.currentIndex = 0;
+    -- self.handlers = {};
     GamePadInitor.instances[self.classname] = nil;
 end

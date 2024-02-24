@@ -19,4 +19,5 @@
     <Script file="Texture.lua"/>
     <Script file="FontString.lua"/>
     <Script file="Shadow.lua"/>
+    <Script file="ToolKit.lua"/>
 </Ui>

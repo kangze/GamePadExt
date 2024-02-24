@@ -19,7 +19,7 @@ function RegisterMerchantItemGamepadButtonDown(gamePadInitor, buyback)
     end);
 
     --返回上一级菜单
-    gamePadInitor:Register("PADSYSTEM", function(...)
+    gamePadInitor:Register("PADSYSTEM", function(currentItem)
         gamePadInitor:Switch(GamePadInitorNames.MerchantTabFrame.Name);
         MaskFrameModule:TopHead();
     end);
@@ -57,7 +57,7 @@ function RegisterMerchantItemGamepadButtonDown(gamePadInitor, buyback)
     end);
 end
 
-function MerchantModule:RegisterMerchantTabGamepadButtonDown(gamePadInitor)
+function RegisterMerchantTabGamepadButtonDown(gamePadInitor)
     gamePadInitor:Register("PADRTRIGGER,PADLTRIGGER", function(currentItem, preItem)
         if (preItem and preItem.OnLeave) then
             preItem:OnLeave();

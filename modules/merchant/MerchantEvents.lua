@@ -19,8 +19,6 @@ function MerchantModule:MERCHANT_SHOW()
     self:InitGamePadInitors();
 
     MaskFrameModule:SetContents(self.buy_scrollFrame, self.buyback_scrollFrame);
-    --模拟点击第一个tab
-    --self.buy_gamePadInitor:Handle("PAD1");
 end
 
 function MerchantModule:MERCHANT_CLOSED()
@@ -28,6 +26,7 @@ function MerchantModule:MERCHANT_CLOSED()
     --通知MaskFrameModule关闭一些实例
     MaskFrameModule:Destroy("merchantTab");
     --取消gamepad监听以及对应窗体的销毁
+    self:Destory();
     self.buy_gamePadInitor:Destroy();
     self.buyback_gamePadInitor:Destroy();
 end

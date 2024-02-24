@@ -66,7 +66,6 @@ function MerchantItem_Render(itemInfos, parentFrame, scrollFrame, isbuy)
     for index = 1, numItems do
         local col = math.ceil(index / middle);
         local itemLink, cost, texture, itemQuality, isMoney, isUsable = unpack(itemInfos[index]);
-        test1=itemInfos[index];
         local merchantItem = MerchantItem_Create(index, itemLink, cost, texture, itemQuality, isMoney, isUsable, true);
         merchantItem:ClearAllPoints();
         local offsetX, offsetY = GetColInfo(index, col, middle);
