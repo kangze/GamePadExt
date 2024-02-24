@@ -59,7 +59,7 @@ function MerchantItem_Create(index, itemLink, cost, texture, itemQuality, isMone
 end
 
 --布局所有的item项目
-function MerchantItem_Render(itemInfos, parentFrame, scrollFrame)
+function MerchantItem_Render(itemInfos, parentFrame, scrollFrame, isbuy)
     local numItems = #itemInfos;
     local items = {};
     local middle = math.ceil(numItems / config.maxColum);
@@ -74,7 +74,7 @@ function MerchantItem_Render(itemInfos, parentFrame, scrollFrame)
         merchantItem:SetPoint("TOPLEFT", parentFrame, offsetX, offsetY);
         merchantItem.scrollFrame = scrollFrame;
         merchantItem.col = col;
-        merchantItem.isbuy = true;
+        merchantItem.isbuy = isbuy;
         table.insert(items, merchantItem);
     end
     return items;

@@ -49,19 +49,23 @@ function MerchantModule:InitGamePadInitors()
     buy_gamePadInitor:SetRegion(self.buy_scrollFrame);
     self.buy_gamePadInitor = buy_gamePadInitor;
     local merchantItemInfos = MerchantApi:GetMerchantBuyItemInfos();
-    local merchantItems = MerchantItem_Render(merchantItemInfos, self.buy_scrollChildFrame, self.buy_scrollFrame);
+    local merchantItems = MerchantItem_Render(merchantItemInfos, self.buy_scrollChildFrame, self.buy_scrollFrame, true);
     test = merchantItems;
     for index = 1, #merchantItems do
         buy_gamePadInitor:Add(merchantItems[index], "group" .. merchantItems[index].col);
     end
     RegisterMerchantItemGamepadButtonDown(buy_gamePadInitor);
 
-    --卖出GamePadInitor
-    -- buyback_gamePadInitor = GamePadInitor:Init(GamePadInitorNames.MerchantBuyBackFrame.Name,
-    --     GamePadInitorNames.MerchantBuyBackFrame.Level);
-
-    -- self:RenderAndAnchorMerchantItem(buyback_gamePadInitor, self.buyback_scrollChildFrame, self.buyback_scrollFrame);
-    -- buyback_gamePadInitor:SetRegion(self.buyback_scrollFrame);
-    -- self:RegisterMerchantItemGamepadButtonDown(buyback_gamePadInitor, true);
-    -- self.buyback_gamePadInitor = buyback_gamePadInitor;
+    --买回GamePadInitor
+    buyback_gamePadInitor = GamePadInitor:Init(GamePadInitorNames.MerchantBuyBackFrame.Name,
+        GamePadInitorNames.MerchantBuyBackFrame.Level);
+    buyback_gamePadInitor:SetRegion(self.buyback_scrollFrame);
+    self.buyback_gamePadInitor = buyback_gamePadInitor;
+    local merchantbuybackItemInfos = MerchantApi:GetMerchantBuybackItemInfos();
+    local merchantbuybackItems = MerchantItem_Render(merchantbuybackItemInfos, self.buyback_scrollChildFrame,
+        self.buyback_scrollFrame, false);
+    for index = 1, #merchantbuybackItems do
+        buyback_gamePadInitor:Add(merchantbuybackItems[index], "group" .. merchantbuybackItems[index].col);
+    end
+    RegisterMerchantItemGamepadButtonDown(buyback_gamePadInitor);
 end

@@ -38,7 +38,6 @@ function MerchantApi:ProccessMerchantItemsInfo(callback)
         if (currencyCount == 0) then
             callback(index, col, middle, itemLink, price, texture, itemQuality, true, isUsable, hasTransMog);
         else
-            
             callback(index, col, middle, itemLink, cost, texture, itemQuality, false, isUsable, hasTransMog);
         end
     end
@@ -58,7 +57,6 @@ function MerchantApi:GetCannotBuyReason(index)
 end
 
 function MerchantApi:ProcessMerchantBuyBackInfo(callback)
-    
     local numBuybackItems = GetNumBuybackItems();
     local maxColum = 2; --b
     local middle = math.ceil(numBuybackItems / maxColum);
@@ -134,6 +132,19 @@ function MerchantApi:GetMerchantBuyItemInfos()
     return infos;
 end
 
+--TODO:测试
 function MerchantApi:GetBuybackItemInfo(index)
-    return self:GetMerchantBuyItemInfo(index);
+    local name, icon, price, quantity = GetBuybackItemInfo(index)
+    local itemLink = GetBuybackItemLink(index);
+    return itemLink, nil, icon, quantity, false, true;
+end
+
+function MerchantApi:GetMerchantBuybackItemInfos()
+    local infos = {};
+    local nums = GetNumBuybackItems();
+    for index = 1, nums do
+        itemLink, cost, texture, itemQuality, isMoney, isUsable = self:GetBuybackItemInfo(index)
+        table.insert(infos, { itemLink, cost, texture, itemQuality, isMoney, isUsable });
+    end
+    return infos;
 end
