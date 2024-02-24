@@ -7,11 +7,9 @@ local UIErrorFrameModule = Gpe:GetModule('UIErrorFrameModule');
 local MaskFrameModule = Gpe:GetModule('MaskFrameModule');
 
 function UIErrorFrameModule:OnInitialize()
-
 end
 
 function UIErrorFrameModule:OnEnable()
-
 end
 
 function UIErrorFrameModule:AddMessage(message)

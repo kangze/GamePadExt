@@ -8,9 +8,8 @@ local UIErrorFrameModule = Gpe:GetModule('UIErrorFrameModule');
 
 
 function MerchantModule:MERCHANT_SHOW()
-    --全局UI进行隐藏
-    --UIParent:Hide();
-    UIErrorFrameModule:AddMessage("MerchantItemGamepadButtonDown");
+    --劫持错误消息
+    MerchantHookErrorMessage();
 
     --顶部菜单开始激活
     MaskFrameModule:Active("MerchantTabFrameHeader");
@@ -31,6 +30,7 @@ function MerchantModule:MERCHANT_CLOSED()
     self:Destory();
     self.buy_gamePadInitor:Destroy();
     self.buyback_gamePadInitor:Destroy();
+    MerchantResetErrorMessage();
 end
 
 function MerchantModule:ResetScrollFrame()

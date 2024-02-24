@@ -20,6 +20,8 @@ function MerchantModule:OnInitialize()
 
     self.height_space = 10;   --配置高度间隔
     self.width_space = 40;    --配置宽度间隔
+
+    UIErrorsFrame.originalAddMessage = UIErrorsFrame.AddMessage
 end
 
 function MerchantModule:OnEnable()

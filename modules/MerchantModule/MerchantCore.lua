@@ -1,3 +1,5 @@
+local UIErrorFrameModule = Gpe:GetModule('UIErrorFrameModule');
+
 local config = {
     maxColum = 2,
     templateWidth = 210,
@@ -139,4 +141,14 @@ function MerchantTabActiveCallBack(headFrame)
     gamePadInitor:SetRegion(frame);
     RegisterMerchantTabGamepadButtonDown(gamePadInitor);
     return frame;
+end
+
+function MerchantHookErrorMessage()
+    UIErrorsFrame.AddMessage = function(selfs,message, r, g, b, id, accessID, typeID)
+        UIErrorFrameModule:AddMessage(message);
+    end
+end
+
+function MerchantResetErrorMessage()
+    UIErrorsFrame.AddMessage = UIErrorFrameModule.originalAddMessage;
 end
