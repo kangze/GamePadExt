@@ -66,12 +66,11 @@ function RegisterMerchantTabGamepadButtonDown(gamePadInitor)
             currentItem:OnEnter();
         end
         --currentItem 所关联的Frame 进行显示
-        if (currentItem.content) then
-            currentItem.content:Show();
-            currentItem.content:SetAlpha(1);
+        if (currentItem.content and currentItem.content.OnEnter) then
+            currentItem.content:OnEnter();
         end
-        if (preItem.content) then
-            preItem.content:Hide();
+        if (preItem.content and preItem.content.OnLeave) then
+            preItem.content:OnLeave();
         end
     end); --tab选项选择
     gamePadInitor:Register("PAD1", function(currentItem, preItem)

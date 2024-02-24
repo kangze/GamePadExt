@@ -28,87 +28,31 @@ function MerchantModule:OnEnable()
 
 
     --初始化布局滚动,以及幻化窗口
-    local buy_scrollFrame, buy_scrollChildFrame = self:InitLayout();
-    local buyback_scrollFrame, buyback_scrollChildFrame = self:InitLayout();
+    local buy_scrollFrame, buy_scrollChildFrame = MerchantScorll_Create();
+    local buyback_scrollFrame, buyback_scrollChildFrame = MerchantScorll_Create();
 
     self.buy_scrollFrame = buy_scrollFrame;
     self.buy_scrollChildFrame = buy_scrollChildFrame;
     self.buyback_scrollFrame = buyback_scrollFrame;
     self.buyback_scrollChildFrame = buyback_scrollChildFrame;
 
-    local dressUpFrame = self:InitDressUpFrame();
+    local bodyFrame = MaskFrameModule.bodyFrame;
+    local dressUpFrame = MerchantDressUpFrame_Create(bodyFrame);
     self.dressUpFrame = dressUpFrame;
 
     --初始化tab选项
-    MerchantModule:InitTabls();
+    local callback = function(frame)
+        frame.buy.content = self.buy_scrollFrame;
+        frame.rebuy.content = self.buyback_scrollFrame;
+    end
+    HeaderRegions:Register("MerchantTabFrameHeader", MerchantTabActiveCallBack, callback);
+    
 end
 
 --Sample:Masque
 -- local group = Masque:Group("GamePadExt", "MerchantItem");
 -- group:AddButton(MerchantItem.button);
 
---初始化布局
-function MerchantModule:InitLayout()
-    local scale = UIParent:GetEffectiveScale();
-    local height = GetScreenHeight() * scale - 30;
-
-    local scrollFrame = CreateFrame("ScrollFrame", nil, nil)
-    scrollFrame:SetSize(self.templateWidth * self.maxColum * 1.5, height)
-
-    --ScrollFade,0,0表示需要Play特定赋值
-    scrollFrame.animation_scroll = Animation:new(0.3, 0, 0, function(current)
-        scrollFrame:SetVerticalScroll(current);
-    end, nil, EasingFunctions.OutSine);
-
-    local leave_callback = function(frame)
-        frame:SetAlpha(1);
-    end
-    local enter_callback = function(frame)
-        frame:SetAlpha(1);
-    end
-
-    local scrollChildFrame = CreateFrame("Frame", nil, scrollFrame)
-    scrollFrame.OnLeave = leave_callback;
-    scrollFrame.OnEnter = enter_callback;
-    scrollFrame:SetScrollChild(scrollChildFrame)
-    scrollChildFrame:SetSize(self.templateWidth * self.maxColum * 1.5, height);
-
-    scrollFrame:SetPoint("TOP", UIParent, 0, -40);
-    return scrollFrame, scrollChildFrame;
-end
-
---初始化tab布局选项
-function MerchantModule:InitTabls()
-    local frameRegister = function(headFrame)
-        local frame = CreateFrame("Frame", nil, nil, "MerchantTabsFrameTemplate");
-        frame.buy:SetHeight(headFrame:GetHeight() - 2);
-        frame.buy.content = self.buy_scrollFrame;
-
-        frame.rebuy:SetHeight(headFrame:GetHeight() - 2);
-        frame.rebuy.content = self.buyback_scrollFrame;
-        local gamePadInitor = GamePadInitor:Init(GamePadInitorNames.MerchantTabFrame.Name,
-            GamePadInitorNames.MerchantTabFrame.Level);
-        gamePadInitor:Add(frame.buy, "group", GamePadInitorNames.MerchantBuyFrame.Name);
-        gamePadInitor:Add(frame.rebuy, "group", GamePadInitorNames.MerchantBuyBackFrame.Name);
-        gamePadInitor:SetRegion(frame);
-        RegisterMerchantTabGamepadButtonDown(gamePadInitor);
-        return frame;
-    end
-    HeaderRegions:Register("MerchantTabFrameHeader", frameRegister);
-end
-
-function MerchantModule:InitDressUpFrame()
-    local frame = CreateFrame("Frame", nil, nil, "DressupFrameTemplate");
-    local bodyFrame = MaskFrameModule.bodyFrame;
-    frame:ClearAllPoints();
-    frame:SetPoint("RIGHT", bodyFrame, 0, 0);
-    local scale = UIParent:GetEffectiveScale();
-    frame:SetWidth(300);
-    frame:SetHeight(GetScreenHeight() * scale - 100);
-    frame:SetFrameStrata("DIALOG");
-    frame:Hide();
-    return frame;
-end
 
 --尝试幻化
 function MerchantModule:MerchantItemTryMog(merchantItem)

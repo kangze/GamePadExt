@@ -6,12 +6,14 @@ local unpack = unpack;
 local MaskFrameModule = Gpe:GetModule('MaskFrameModule');
 
 HeaderRegions = {
-    regions = {}
+    regions = {},
+    callbacks = {},
 };
 
 --注册功能区域_每个需要用的模块需要提前进行注册--
-function HeaderRegions:Register(name, createframe_callback)
+function HeaderRegions:Register(name, createframe_callback, callback)
     self.regions[name] = createframe_callback;
+    self.callbacks[name] = callback;
 end
 
 function MaskFrameModule:OnInitialize()
@@ -37,6 +39,7 @@ function MaskFrameModule:Active(name)
 
     local createframe_callback = HeaderRegions.regions[name];
     local frame = createframe_callback(self.headFrame);
+    HeaderRegions.callbacks[name](frame);
     frame:SetParent(self.headFrame);
     frame:SetPoint("CENTER", 0, 0);
     frame:SetFrameStrata("FULLSCREEN");
@@ -73,7 +76,7 @@ end
 
 function MaskFrameModule:TopHead()
     self.bodyFrame:SetFrameStrata("DIALOG");
-    for i=1,#self.contents do
+    for i = 1, #self.contents do
         self.contents[i]:SetFrameStrata("BACKGROUND");
     end
 end
@@ -81,7 +84,7 @@ end
 --让内容得到焦点
 function MaskFrameModule:TopContent()
     self.bodyFrame:SetFrameStrata("BACKGROUND");
-    for i=1,#self.contents do
+    for i = 1, #self.contents do
         self.contents[i]:SetFrameStrata("DIALOG");
     end
 end

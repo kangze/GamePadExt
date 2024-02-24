@@ -25,7 +25,7 @@ function GetColInfo(index, col, middle)
 
     --元素的x,y偏移
     local offsetX = (col - 1) * (width + widht_space) + initial_offsetX;
-    local offsetY = -col_index * (height + height_space)
+    local offsetY = -col_index * (height + height_space) - 10;
     return offsetX, offsetY;
 end
 
@@ -77,4 +77,66 @@ function MerchantItem_Render(itemInfos, parentFrame, scrollFrame, isbuy)
         table.insert(items, merchantItem);
     end
     return items;
+end
+
+--初始化滚动窗体的布局
+function MerchantScorll_Create()
+    local scale = UIParent:GetEffectiveScale();
+    local height = GetScreenHeight() * scale - 30;
+
+    local scrollFrame = CreateFrame("ScrollFrame", nil, nil)
+    scrollFrame:SetSize(config.templateWidth * config.maxColum * 1.5, height)
+
+    --ScrollFade,0,0表示需要Play特定赋值
+    scrollFrame.animation_scroll = Animation:new(0.3, 0, 0, function(current)
+        scrollFrame:SetVerticalScroll(current);
+    end, nil, EasingFunctions.OutSine);
+
+    local enter_animation = Animation:new(0.8, 0, 1, function(current)
+        scrollFrame:SetAlpha(current);
+    end, nil, EasingFunctions.OutSine);
+    local enter_callback = function(frame)
+        frame:SetAlpha(0);
+        frame:Show();
+        enter_animation:Play();
+    end
+    local leave_callback = function(frame)
+        frame:Hide();
+    end
+
+    local scrollChildFrame = CreateFrame("Frame", nil, scrollFrame);
+    scrollFrame.OnEnter = enter_callback;
+    scrollFrame.OnLeave = leave_callback;
+    scrollFrame:SetScrollChild(scrollChildFrame)
+    scrollChildFrame:SetSize(config.templateWidth * config.maxColum * 1.5, height);
+
+    scrollFrame:SetPoint("TOP", UIParent, 0, -40);
+    return scrollFrame, scrollChildFrame;
+end
+
+--初始化幻化框体的布局
+function MerchantDressUpFrame_Create(bodyFrame)
+    local frame = CreateFrame("Frame", nil, nil, "DressupFrameTemplate");
+    frame:ClearAllPoints();
+    frame:SetPoint("RIGHT", bodyFrame, 0, 0);
+    local scale = UIParent:GetEffectiveScale();
+    frame:SetWidth(300);
+    frame:SetHeight(GetScreenHeight() * scale - 100);
+    frame:SetFrameStrata("DIALOG");
+    frame:Hide();
+    return frame;
+end
+
+function MerchantTabActiveCallBack(headFrame)
+    local frame = CreateFrame("Frame", nil, nil, "MerchantTabsFrameTemplate");
+    frame.buy:SetHeight(headFrame:GetHeight() - 2);
+    frame.rebuy:SetHeight(headFrame:GetHeight() - 2);
+
+    local gamePadInitor = GamePadInitor:Init(GamePadInitorNames.MerchantTabFrame.Name,
+        GamePadInitorNames.MerchantTabFrame.Level);
+    gamePadInitor:Add(frame.buy, "group", GamePadInitorNames.MerchantBuyFrame.Name);
+    gamePadInitor:Add(frame.rebuy, "group", GamePadInitorNames.MerchantBuyBackFrame.Name);
+    gamePadInitor:SetRegion(frame);
+    RegisterMerchantTabGamepadButtonDown(gamePadInitor);
+    return frame;
 end
