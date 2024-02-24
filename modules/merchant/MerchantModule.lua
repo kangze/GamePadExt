@@ -57,18 +57,6 @@ function MerchantModule:InitLayout()
         scrollFrame:SetVerticalScroll(current);
     end, nil, EasingFunctions.OutSine);
 
-    local destory_callback = function(frame)
-        local childrens = frame:GetChildren();
-        for i = 1, #childrens do
-            local child = childrens[i];
-            --释放child窗体
-            child:UnregisterAllEvents();
-            child:ClearAllPoints();
-            child:SetParent(nil);
-            child:Hide();
-        end
-    end;
-
     local leave_callback = function(frame)
         frame:SetAlpha(0);
     end
@@ -79,7 +67,7 @@ function MerchantModule:InitLayout()
     local scrollChildFrame = CreateFrame("Frame", nil, scrollFrame)
     scrollFrame.OnLeave = leave_callback;
     scrollFrame.OnEnter = enter_callback;
-    scrollFrame.Destory = destory_callback;
+    scrollFrame.Destory = function() self:DestoryFrames() end;
     scrollFrame:SetScrollChild(scrollChildFrame)
     scrollChildFrame:SetSize(self.templateWidth * self.maxColum * 1.5, height);
 
@@ -127,19 +115,35 @@ function MerchantModule:CreateDressUpFrame(itemLink)
     return frame;
 end
 
-function MerchantModule:ShowMerchantItemTooltip(currentItem)
+--展示物品详情
+function MerchantModule:ShowMerchantItemTooltip(merchantItem)
     MerchantItemGameTooltip:ClearAllPoints();
-    MerchantItemGameTooltip:SetOwner(currentItem, "ANCHOR_NONE", 0);
-    MerchantItemGameTooltip:SetPoint("LEFT", currentItem, "RIGHT", 0, 0);
-    MerchantItemGameTooltip:SetHyperlink(currentItem.itemLink);
+    MerchantItemGameTooltip:SetOwner(merchantItem, "ANCHOR_NONE", 0);
+    MerchantItemGameTooltip:SetPoint("LEFT", merchantItem, "RIGHT", 0, 0);
+    MerchantItemGameTooltip:SetHyperlink(merchantItem.itemLink);
     MerchantItemGameTooltip:Show();
 end
 
-function MerchantModule:Scroll(currentItem)
-    local scrollFrame = currentItem.scrollFrame;
+--买回或者购买物品
+function MerchantModule:MerchantItemBuyOrBuyback(merchantItem)
+    if (merchantItem.isbuy) then
+        BuybackItem(currentItem.index);
+    else
+        BuyMerchantItem(currentItem.index, 1);
+    end
+end
+
+--尝试幻化
+function MerchantModule:MerchantItemTryMog(merchantItem)
+    
+end
+
+--滚动窗体
+function MerchantModule:Scroll(merchantItem)
+    local scrollFrame = merchantItem.scrollFrame;
     local total_height = scrollFrame:GetHeight();
-    local item_height = currentItem:GetHeight();
-    local current_index = currentItem.currentIndex;
+    local item_height = merchantItem:GetHeight();
+    local current_index = merchantItem.currentIndex;
     local ratio = 3;
     local current_position = scrollFrame:GetVerticalScroll();
 
@@ -157,5 +161,28 @@ function MerchantModule:Scroll(currentItem)
         scrollFrame.animation_scroll:Play(current_position,
             item_height * current_index - total_height / ratio);
         return;
+    end
+end
+
+--摧毁所有的相关的frames,目前主要是摧毁所有的MerchantItems
+function MerchantModule:DestoryFrames()
+    local buyItems = self.buy_scrollChildFrame:GetChildren();
+    for i = 1, #buyItems do
+        local child = buyItems[i];
+        --释放child窗体
+        child:UnregisterAllEvents();
+        child:ClearAllPoints();
+        child:SetParent(nil);
+        child:Hide();
+    end
+
+    local buybackItems = self.buy_scrollChildFrame:GetChildren();
+    for i = 1, #buybackItems do
+        local child = buybackItems[i];
+        --释放child窗体
+        child:UnregisterAllEvents();
+        child:ClearAllPoints();
+        child:SetParent(nil);
+        child:Hide();
     end
 end

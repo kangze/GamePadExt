@@ -1,12 +1,12 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
-    <Script file="MerchantApiHelper.lua"/>
     <Include file="frames\MerchantItem.xml"/>
     <Include file="frames\MerchantItemGameTooltip.xml"/>
-    <Script file="GamePadButtonRegister.lua"/>
+    <Script file="MerchantInputCallback.lua"/>
     <Script file="MerchantApi.lua"/>
-    <Script file="EventCallbacks.lua"/>
+    <Script file="MerchantEvents.lua"/>
     <Script file="MerchantModule.lua"/>
+    <Script file="MerchantCore.lua"/>
     <Include file="frames\MerchantTabsFrameTemplate.xml"/>
 </Ui>

@@ -3,7 +3,8 @@ local MaskFrameModule = Gpe:GetModule('MaskFrameModule');
 
 
 
-function MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor, buyback)
+
+function RegisterMerchantItemGamepadButtonDown(gamePadInitor, buyback)
     gamePadInitor:Register("PADDDOWN,PADDUP,PADDLEFT,PADDRIGHT", function(currentItem, preItem)
         PlaySoundFile("Interface\\AddOns\\GamePadExt\\media\\sound\\1.mp3", "Master");
         MaskFrameModule:TopContent();
@@ -43,24 +44,29 @@ function MerchantModule:RegisterMerchantItemGamepadButtonDown(gamePadInitor, buy
 
     --当前商品查看详情
     gamePadInitor:Register("PAD2", function(currentItem)
+        --校验是否开启了详情
+        if (currentItem.opendetail) then
+            MaskFrameModule:TopContent();
+            MerchantItemGameTooltip:Hide();
+            currentItem.opendetail = false;
+            return;
+        end
+
         --背景设置最高和当前层级设置最高
         MaskFrameModule:SETDIALOG();
         currentItem:SetFrameStrata("DIALOG");
-        self:ShowMerchantItemTooltip(currentItem);
+        MerchantModule:ShowMerchantItemTooltip(currentItem);
+        currentItem.opendetail = true;
     end)
 
-    --购买物品
+    --购买物品/买回物品
     gamePadInitor:Register("PAD1", function(currentItem)
-        if (buyback) then
-            BuybackItem(currentItem.index);
-        else
-            BuyMerchantItem(currentItem.index, 1);
-        end
+        MerchantModule:MerchantItemBuyOrBuyback(currentItem);
     end)
 
     --窗体滚动
     gamePadInitor:Register("PADDDOWN,PADDUP", function(currentItem, preItem)
-        self:Scroll(currentItem);
+        MerchantModule:Scroll(currentItem);
     end);
 end
 
