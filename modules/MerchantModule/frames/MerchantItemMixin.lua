@@ -11,8 +11,8 @@ end
 
 function MerchantItemMixin:OnLoad()
     self:AppendShadow(2, nil);
-    self.enter_shadowAinimation = Animation:new(0.9, 2, 10, enter_shadow_animation(self), nil, EasingFunctions.OutSine);
-    self.buyFrame.enter_animation = Animation:new(0.9, 0, 1, function(current) self.buyFrame:SetAlpha(current) end, nil,
+    self.enter_shadowAinimation = Animation:new(0.3, 2, 10, enter_shadow_animation(self), nil, EasingFunctions.OutSine);
+    self.buyFrame.enter_animation = Animation:new(0.3, 0, 1, function(current) self.buyFrame:SetAlpha(current) end, nil,
         EasingFunctions.OutSine);
     self.detailFrame.enter_animation = Animation:new(0.3, 0, 1, function(current) self.detailFrame:SetAlpha(current) end,
         nil, EasingFunctions.OutSine);
@@ -29,3 +29,5 @@ function MerchantItemMixin:OnEnter()
     self.buyFrame.enter_animation:Play();
     self.detailFrame.enter_animation:Play();
 end
+
+

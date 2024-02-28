@@ -115,8 +115,7 @@ end
 
 function MerchantApi:GetMerchantBuyItemInfo(index)
     local itemLink = GetMerchantItemLink(index);
-    local _, texture, price, quantity, numAvailable, isUsable = GetMerchantItemInfo(index)
-    print(itemLink);
+    local _, texture, price, quantity, numAvailable, isUsable = GetMerchantItemInfo(index);
     local itemID, _, itemQuality = GetItemInfo(itemLink);
     local cost, isMoney = MerchantApi:GetCostInfo(index);
     return itemLink, cost, texture, itemQuality, isMoney, isUsable;
@@ -128,6 +127,8 @@ function MerchantApi:GetMerchantBuyItemInfos()
     for index = 1, nums do
         itemLink, cost, texture, itemQuality, isMoney, isUsable = self:GetMerchantBuyItemInfo(index)
         table.insert(infos, { itemLink, cost, texture, itemQuality, isMoney, isUsable });
+        -- local name, texture, price, stackCount, numAvailable, isPurchasable, isUsable, extendedCost, currencyID, spellID;
+        -- name, texture, price, stackCount, numAvailable, isPurchasable, isUsable, extendedCost, currencyID, spellID = GetMerchantItemInfo(index);
     end
     return infos;
 end
@@ -145,6 +146,66 @@ function MerchantApi:GetMerchantBuybackItemInfos()
     for index = 1, nums do
         itemLink, cost, texture, itemQuality, isMoney, isUsable = self:GetBuybackItemInfo(index)
         table.insert(infos, { itemLink, cost, texture, itemQuality, isMoney, isUsable });
+    end
+    return infos;
+end
+
+function MerchantApi:GetMerchantItemInfosNew()
+    local infos = {};
+    local nums = GetMerchantNumItems();
+    for index = 1, nums do
+        local info = {};
+        local name, texture, price, stackCount, numAvailable, isPurchasable, isUsable, extendedCost, currencyID, spellID =
+            GetMerchantItemInfo(index);
+        if (currencyID) then
+            name, texture, numAvailable = CurrencyContainerUtil.GetCurrencyContainerInfo(currencyID, numAvailable, name,
+                texture, nil);
+        end
+        local canAfford = CanAffordMerchantItem(index);
+        info.canAford = canAfford;
+        info.name = name;
+        info.stackCount = stackCount;
+        info.numAvailable = numAvailable;
+        info.texture = texture;
+        info.price = price;
+        info.link = GetMerchantItemLink(index);
+
+        if (extendedCost) then
+            info.extendedCost = true;
+            info.extendedCostValue = {};
+            local itemCount = GetMerchantItemCostInfo(index);
+            for i = 1, itemCount do
+                local itemTexture, itemValue, itemLink, currencyName = GetMerchantItemCostItem(index, i);
+                if (itemTexture) then
+                    info.extendedCostValue[i] = {
+                        itemTexture = itemTexture,
+                        itemValue = itemValue,
+                        itemLink = itemLink,
+                        currencyName = currencyName
+                    };
+                end
+            end
+        end
+
+        --是否可以退款
+        info.showNonrefundablePrompt = not C_MerchantFrame.IsMerchantItemRefundable(index);
+
+        --传家宝
+        local merchantItemID = GetMerchantItemID(index);
+        local isHeirloom = merchantItemID and C_Heirloom.IsItemHeirloom(merchantItemID);
+        local isKnownHeirloom = isHeirloom and C_Heirloom.PlayerHasHeirloom(merchantItemID);
+        --是否是传家宝
+        info.isHeirloom = isHeirloom;
+        --已经收集了的传家宝
+        info.isKnownHeirloom = isKnownHeirloom;
+
+        --设定index,
+        info.index = index;
+
+        --染红色,表示不能购买/不能够使用
+        local tintRed = not isPurchasable or (not isUsable and not isHeirloom);
+        info.tintRed = tintRed;
+        table.insert(infos, info);
     end
     return infos;
 end
