@@ -27,13 +27,7 @@ function Animation:new(duration, start, ends, callback, end_callback, easingFunc
         end
         if selfs.current >= animation._duration then
             selfs:Hide()
-            selfs.current = 0;
-            animation._start = animation._base_start;
-            animation._ends = animation._base_ends;
-            if animation._end_callback then
-                animation._end_callback();
-                animation._end_callback = animation._base_end_callback;
-            end
+            animation:ResetArg();
             return
         end
     end)
@@ -42,7 +36,30 @@ function Animation:new(duration, start, ends, callback, end_callback, easingFunc
     return animation
 end
 
+function Animation:ResetArg()
+    --重置
+    self._frame.current = 0;
+    self._start = self._base_start;
+    self._ends = self._base_ends;
+    if self._end_callback then
+        self._end_callback();
+        self._end_callback = self._base_end_callback;
+    end
+end
+
+function Animation:Stop()
+    if self._frame:IsShown() then
+        self._frame:Hide()
+        -- 如果有结束回调，执行它
+        if self._end_callback then
+            self._end_callback()
+        end
+    end
+    self:ResetArg();
+end
+
 function Animation:Play(start, ends)
+    self:Stop() -- 停止当前动画
     if start then
         self._start = start
     end
@@ -53,9 +70,10 @@ function Animation:Play(start, ends)
 end
 
 function Animation:PlayReverse(end_callback)
-    local temp = self._start;
-    self._start = self._ends;
-    self._ends = temp;
-    self._end_callback = end_callback;
-    self._frame:Show();
+    self:Stop() -- 停止当前动画
+    local temp = self._start
+    self._start = self._ends
+    self._ends = temp
+    self._end_callback = end_callback
+    self._frame:Show()
 end
