@@ -1,0 +1,25 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\FrameXML\UI.xsd">
+    <Script file="GpeDropDownMixin.lua"/>
+    <Frame name="GpeDropDownTempItemlate" virtual="true" frameStrata="HIGH" enableMouse="true" inherits="BackdropTemplate">
+        <Size x="210" y="45"/>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="background">
+                    <Color r="0.27450980392157" g="0.27058823529412" b="0.27843137254902" a="1"/>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <!--选中的项名称-->
+                <FontString parentKey="text" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="CENTER" justifyV="CENTER">
+                    <FontHeight val="10"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+    </Frame>
+</Ui>
