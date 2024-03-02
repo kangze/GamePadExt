@@ -29,3 +29,4 @@ modules/NamePlate/loads.xml
 modules/Setting/loads.xml
 modules/PreviewFrameModule/loads.xml
 modules/UIErrorFrameModule/loads.xml
+modules/CharacterModule/loads.xml
