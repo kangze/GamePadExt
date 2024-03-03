@@ -2,7 +2,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
     <Script file="MerchantConfigration.lua"/>
-    <Script file="frames\DefaultSkin.lua"
+    <Script file="frames\DefaultSkin.lua"/>
     <Include file="frames\MerchantItem.xml"/>
     <Include file="frames\MerchantItemGameTooltip.xml"/>
     <Script file="MerchantInputCallback.lua"/>

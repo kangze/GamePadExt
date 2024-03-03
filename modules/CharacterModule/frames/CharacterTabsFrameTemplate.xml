@@ -1,0 +1,40 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\FrameXML\UI.xsd">
+    <Script file="CharacterTabsFrameTemplateMixin.lua"/>
+    <Frame name="CharacterTabsFrameTemplate" virtual="true" frameStrata="HIGH" enableMouse="true" mixin="CharacterTabsFrameTemplateMixin">
+        <Size x="305" y="35"/>
+        <Frames>
+            <Frame parentKey="tab_equipment" hidden="false" inherits="GpeButtonTemplate">
+                <KeyValues>
+                    <KeyValue key="buttonText" value="装备"/>
+                </KeyValues>
+                <Size x="100" y="35"/>
+                <Anchors>
+                    <Anchor point="LEFT"/>
+                </Anchors>
+            </Frame>
+
+            <Frame parentKey="tab_faction" hidden="false" inherits="GpeButtonTemplate">
+                <KeyValues>
+                    <KeyValue key="buttonText" value="声望"/>
+                </KeyValues>
+                <Size x="100" y="35"/>
+                <Anchors>
+                    <Anchor point="LEFT"/>
+                </Anchors>
+            </Frame>
+
+            <Frame parentKey="tab_currency" hidden="false" inherits="GpeButtonTemplate">
+                <KeyValues>
+                    <KeyValue key="buttonText" value="货币"/>
+                </KeyValues>
+                <Size x="100" y="35"/>
+                <Anchors>
+                    <Anchor point="LEFT"/>
+                </Anchors>
+            </Frame>
+        </Frames>
+    </Frame>
+
+</Ui>

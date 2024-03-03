@@ -1,23 +1,23 @@
 local slotNames = {
-    "HeadSlot",          --头部
-    "NeckSlot",          --颈部
-    "ShoulderSlot",      --肩部
-    "BackSlot",          --背部
-    "ChestSlot",         --胸部
-    "ShirtSlot",         --衬衣
-    "TabardSlot",        --战袍
-    "WristSlot",         --护腕
-    "HandsSlot",         --手
-    "WaistSlot",         --腰部
-    "LegsSlot",          --腿部
-    "FeetSlot",          --脚
-    "Finger0Slot",       --戒指1
-    "Finger1Slot",       --戒指2
-    "Trinket0Slot",      --饰品1
-    "Trinket1Slot",      --饰品2
-    "MainHandSlot",      --主手
-    "SecondaryHandSlot", --副手
-    "RangedSlot",        --远程
+    "HeadSlot", --头部
+    -- "NeckSlot",          --颈部
+    -- "ShoulderSlot",      --肩部
+    -- "BackSlot",          --背部
+    -- "ChestSlot",         --胸部
+    -- "ShirtSlot",         --衬衣
+    -- "TabardSlot",        --战袍
+    -- "WristSlot",         --护腕
+    -- "HandsSlot",         --手
+    -- "WaistSlot",         --腰部
+    -- "LegsSlot",          --腿部
+    -- "FeetSlot",          --脚
+    -- "Finger0Slot",       --戒指1
+    -- "Finger1Slot",       --戒指2
+    -- "Trinket0Slot",      --饰品1
+    -- "Trinket1Slot",      --饰品2
+    -- "MainHandSlot",      --主手
+    -- "SecondaryHandSlot", --副手
+    -- "RangedSlot",        --远程
 }
 
 --{slotName,texture,itemLink}
@@ -101,6 +101,27 @@ function CharacterCore_HasAndGetPassiveEffectInfo(itemLink)
         end
     end
     return nil, nil, nil;
+end
+
+function CharacterFrameTabActiveCallBack(headFrame)
+    local frame = CreateFrame("Frame", nil, nil, "CharacterTabsFrameTemplate");
+    frame.tab_equipment:SetHeight(headFrame:GetHeight() - 2);
+    frame.tab_equipment:SetHeight(headFrame:GetHeight() - 2);
+
+    frame.tab_faction:SetHeight(headFrame:GetHeight() - 2);
+    frame.tab_faction:SetHeight(headFrame:GetHeight() - 2);
+
+    frame.tab_currency:SetHeight(headFrame:GetHeight() - 2);
+    frame.tab_currency:SetHeight(headFrame:GetHeight() - 2);
+
+    local gamePadInitor = GamePadInitor:Init(GamePadInitorNames.MerchantTabFrame.Name,
+        GamePadInitorNames.MerchantTabFrame.Level);
+    gamePadInitor:Add(frame.tab_equipment, "group", GamePadInitorNames.CharacterEquipmentFrame.Name);
+    gamePadInitor:Add(frame.tab_faction, "group", GamePadInitorNames.CharacterFactionFrame.Name);
+    gamePadInitor:Add(frame.tab_currency, "group", GamePadInitorNames.CharacterCurrencyFrame.Name);
+    gamePadInitor:SetRegion(frame);
+    RegisterMerchantTabGamepadButtonDown(gamePadInitor);
+    return frame;
 end
 
 --C_TooltipInfo.GetHyperlink(GetInventoryItemLink("player", 5))

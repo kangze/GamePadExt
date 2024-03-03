@@ -1,0 +1,32 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\FrameXML\UI.xsd">
+    <Script file="GpeEquipmentTemplateMixin.lua"/>
+    <Frame name="GpeEquipmentTemplate" enableMouse="true" virtual="true" mixin="GpeEquipmentTemplateMixin">
+        <Size x="40" y="40"/>
+        <Layers>
+            <Layer level="ARTWORK">
+                <!--装备图标-->
+                <Texture parentKey="icon">
+                    <Size x="40" y="40"/>
+                    <Anchors>
+                        <Anchor point="CENTER"/>
+                    </Anchors>
+                </Texture>
+
+                <!--物品名称-->
+                <FontString parentKey="name" inherits="GameFontNormalSmall" justifyH="LEFT" justifyV="TOP">
+                    <Size x="200" y="45"/>
+                    <Anchors>
+                        <Anchor point="LEFT" relativePoint="RIGHT" x="5"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <!-- <OnLoad method="OnLoad_Intrinsic" intrinsicOrder="postcall"/>
+            <OnEnter method="OnEnter_Intrinsic" intrinsicOrder="postcall"/>
+            <OnLeave method="OnLeave_Intrinsic" intrinsicOrder="postcall"/> -->
+        </Scripts>
+    </Frame>
+</Ui>

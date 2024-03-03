@@ -1,6 +1,10 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
-    <Script file="CharacterCore.lua"/>
+    <Include file="frames\CharacterFrameTemplate.xml"/>
+    <Include file="frames\CharacterTabsFrameTemplate.xml"/>
     <Script file="CharacterModule.lua"/>
+    <Script file="CharacterCore.lua"/>
+    <Script file="CharacterInputCallback.lua"/>
+
 </Ui>

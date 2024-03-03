@@ -1,12 +1,17 @@
 BodyFrameMixin = {};
 
+local alaphAnimation_callback = function(frame)
+    return function(current)
+        frame:SetAlpha(current);
+    end
+end
 
 function BodyFrameMixin:OnLoad()
     local scale = UIParent:GetEffectiveScale();
     local width = GetScreenWidth() * scale
     local height = GetScreenHeight() * scale - 30;
     self:SetSize(width, height);
-    self.animation_alpha = Animation:new(0.3, 0, 1, function(current) self:SetAlpha(current); end, nil,
+    self.animation_alpha = Animation:new(0.3, 0, 1, alaphAnimation_callback(self), nil,
         EasingFunctions.OutSine);
 end
 

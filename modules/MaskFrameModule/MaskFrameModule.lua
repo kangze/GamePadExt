@@ -39,7 +39,9 @@ function MaskFrameModule:Active(name)
 
     local createframe_callback = HeaderRegions.regions[name];
     local frame = createframe_callback(self.headFrame);
-    HeaderRegions.callbacks[name](frame);
+    if (HeaderRegions.callbacks[name]) then
+        HeaderRegions.callbacks[name](frame);
+    end
     frame:SetParent(self.headFrame);
     frame:SetPoint("CENTER", 0, 0);
     frame:SetFrameStrata("FULLSCREEN");

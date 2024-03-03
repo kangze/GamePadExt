@@ -10,7 +10,20 @@ GamePadInitorNames = {
     MerchantBuyBackFrame = {
         Name = "MerchantBuyBackFrame",
         Level = 2,
-    }
+    },
+    CharacterEquipmentFrame = {
+        Name = "CharacterEquipmentFrame",
+        Level = 3,
+    },
+    CharacterFactionFrame = {
+        Name = "CharacterFactionFrame",
+        Level = 4,
+    },
+    CharacterCurrencyFrame = {
+        Name = "CharacterCurrencyFrame",
+        Level = 5,
+    },
+
 }
 
 GamePadInitor = {
