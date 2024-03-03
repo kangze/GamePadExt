@@ -1,5 +1,6 @@
 BodyFrameMixin = {};
 
+--TODO:这里的bug解决
 local alaphAnimation_callback = function(frame)
     return function(current)
         frame:SetAlpha(current);
