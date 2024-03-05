@@ -8,34 +8,179 @@
             <Anchor point="CENTER"/>
         </Anchors>
         <Frames>
-            <Frame parentKey="HeadSlot" inherits="GpeEquipmentTemplate">
+            <ItemButton parentKey="HeadSlot" inherits="GpeEquipmentTemplate">
                 <KeyValues>
                     <!--用于指示列数-->
                     <KeyValue key="col" value="1"/>
                 </KeyValues>
                 <Anchors>
-                    <Anchor point="LEFT"/>
+                    <Anchor point="TOPLEFT" x="4" y="-2"/>
                 </Anchors>
-                <Layers>
-                    <Layer level="ARTWORK">
-                        <!--装备图标-->
-                        <Texture parentKey="icon">
-                            <Size x="40" y="40"/>
-                            <Anchors>
-                                <Anchor point="CENTER"/>
-                            </Anchors>
-                        </Texture>
+            </ItemButton>
+            <ItemButton parentKey="NeckSlot" inherits="GpeEquipmentTemplate">
+                <KeyValues>
+                    <!--用于指示列数-->
+                    <KeyValue key="col" value="1"/>
+                </KeyValues>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.HeadSlot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                </Anchors>
+            </ItemButton>
+            <ItemButton parentKey="ShoulderSlot" inherits="GpeEquipmentTemplate">
+                <KeyValues>
+                    <!--用于指示列数-->
+                    <KeyValue key="col" value="1"/>
+                </KeyValues>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.NeckSlot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                </Anchors>
+            </ItemButton>
+            <ItemButton parentKey="BackSlot" inherits="GpeEquipmentTemplate">
+                <KeyValues>
+                    <!--用于指示列数-->
+                    <KeyValue key="col" value="1"/>
+                </KeyValues>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.ShoulderSlot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                </Anchors>
+            </ItemButton>
+            <ItemButton parentKey="ChestSlot" inherits="GpeEquipmentTemplate">
+                <KeyValues>
+                    <!--用于指示列数-->
+                    <KeyValue key="col" value="1"/>
+                </KeyValues>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.BackSlot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                </Anchors>
+            </ItemButton>
+            <ItemButton parentKey="ShirtSlot" inherits="GpeEquipmentTemplate">
+                <KeyValues>
+                    <!--用于指示列数-->
+                    <KeyValue key="col" value="1"/>
+                </KeyValues>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.ChestSlot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                </Anchors>
+            </ItemButton>
+            <ItemButton parentKey="TabardSlot" inherits="GpeEquipmentTemplate">
+                <KeyValues>
+                    <!--用于指示列数-->
+                    <KeyValue key="col" value="1"/>
+                </KeyValues>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.ShirtSlot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                </Anchors>
+            </ItemButton>
 
-                        <!--物品名称-->
-                        <FontString parentKey="name" inherits="GameFontNormalSmall" justifyH="LEFT" justifyV="TOP">
-                            <Size x="200" y="45"/>
-                            <Anchors>
-                                <Anchor point="LEFT" relativePoint="RIGHT" x="5"/>
-                            </Anchors>
-                        </FontString>
-                    </Layer>
-                </Layers>
-            </Frame>
+            <ItemButton parentKey="WristSlot" inherits="GpeEquipmentTemplate">
+                <KeyValues>
+                    <!--用于指示列数-->
+                    <KeyValue key="col" value="1"/>
+                </KeyValues>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.TabardSlot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                </Anchors>
+            </ItemButton>
+
+
+
+            <ItemButton parentKey="HandsSlot" inherits="GpeEquipmentTemplate">
+                <KeyValues>
+                    <!--用于指示列数-->
+                    <KeyValue key="col" value="3"/>
+                </KeyValues>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="4" y="-2"/>
+                </Anchors>
+            </ItemButton>
+            <ItemButton parentKey="WaistSlot" inherits="GpeEquipmentTemplate">
+                <KeyValues>
+                    <!--用于指示列数-->
+                    <KeyValue key="col" value="3"/>
+                </KeyValues>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.HandsSlot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                </Anchors>
+            </ItemButton>
+            <ItemButton parentKey="LegsSlot" inherits="GpeEquipmentTemplate">
+                <KeyValues>
+                    <!--用于指示列数-->
+                    <KeyValue key="col" value="3"/>
+                </KeyValues>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.WaistSlot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                </Anchors>
+            </ItemButton>
+            <ItemButton parentKey="FeetSlot" inherits="GpeEquipmentTemplate">
+                <KeyValues>
+                    <!--用于指示列数-->
+                    <KeyValue key="col" value="3"/>
+                </KeyValues>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.LegsSlot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                </Anchors>
+            </ItemButton>
+            <ItemButton parentKey="Finger0Slot" inherits="GpeEquipmentTemplate">
+                <KeyValues>
+                    <!--用于指示列数-->
+                    <KeyValue key="col" value="3"/>
+                </KeyValues>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.FeetSlot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                </Anchors>
+            </ItemButton>
+            <ItemButton parentKey="Finger1Slot" inherits="GpeEquipmentTemplate">
+                <KeyValues>
+                    <!--用于指示列数-->
+                    <KeyValue key="col" value="3"/>
+                </KeyValues>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.Finger0Slot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                </Anchors>
+            </ItemButton>
+            <ItemButton parentKey="Trinket0Slot" inherits="GpeEquipmentTemplate">
+                <KeyValues>
+                    <!--用于指示列数-->
+                    <KeyValue key="col" value="3"/>
+                </KeyValues>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.Finger1Slot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                </Anchors>
+            </ItemButton>
+            <ItemButton parentKey="Trinket1Slot" inherits="GpeEquipmentTemplate">
+                <KeyValues>
+                    <!--用于指示列数-->
+                    <KeyValue key="col" value="3"/>
+                </KeyValues>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.Trinket0Slot" relativePoint="BOTTOMLEFT" x="0" y="-4"/>
+                </Anchors>
+            </ItemButton>
+
+
+            <!--主手和副手-->
+
+            <ItemButton parentKey="MainHandSlot" inherits="GpeEquipmentTemplate">
+                <KeyValues>
+                    <!--用于指示列数-->
+                    <KeyValue key="col" value="2"/>
+                </KeyValues>
+                <Anchors>
+                    <Anchor point="BOTTOM"  x="20" y="0"/>
+                </Anchors>
+            </ItemButton>
+
+            <ItemButton parentKey="SecondaryHandSlot" inherits="GpeEquipmentTemplate">
+                <KeyValues>
+                    <!--用于指示列数-->
+                    <KeyValue key="col" value="2"/>
+                </KeyValues>
+                <Anchors>
+                    <Anchor point="BOTTOM" x="-20" y="0"/>
+                </Anchors>
+            </ItemButton>
+
+
         </Frames>
 
         <Scripts>

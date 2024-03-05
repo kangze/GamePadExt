@@ -20,6 +20,7 @@ end
 function CharacterModule:Show()
     --顶部菜单开始激活
     MaskFrameModule:Active("CharacterFrameHeader");
+    MaskFrameModule:TopContent();
     CharacterModule:InitEquipment();
 end
 
@@ -28,16 +29,27 @@ function CharacterModule:InitEquipment()
         GamePadInitorNames.CharacterEquipmentFrame.Level);
     local characterFrame = CreateFrame("Frame", nil, nil, "CharacterFrameTemplate");
     --TODO:还未做
+
     local equipments = CharacterCore_GetEquipments();
     for index = 1, #equipments do
         local slotName = equipments[index].slotName;
         local texture = equipments[index].texture;
         local itemLink = equipments[index].itemLink;
+        local itemIcon = GetItemIcon(equipments[index].itemLink);
 
-        characterFrame[slotName].name:SetText(itemLink);
-        characterFrame[slotName].icon:SetTexture(texture);
-        characterFrame[slotName].itemLink = itemLink;
-        self.equipment_gamepadInitor:Add(characterFrame[slotName], "group" .. characterFrame[slotName].col);
+        local itemButton = characterFrame[slotName];
+        itemButton:SetAttribute("item", itemLink)
+        itemButton.icon:SetTexture(itemIcon)
+        itemButton.name:SetText(itemLink);
+        itemButton.itemLink = itemLink;
+        itemButton:SetScript("OnEnter", function(selfs)
+            GameTooltip:SetOwner(selfs, "ANCHOR_RIGHT");
+            GameTooltip:SetHyperlink(selfs.itemLink);
+            GameTooltip:Show()
+        end)
+
+        self.equipment_gamepadInitor:Add(itemButton, "group" .. characterFrame[slotName].col);
     end
+    RegisterEquipmentItemGamepadButtonDown(self.equipment_gamepadInitor);
     self.equipment_gamepadInitor:SetRegion(characterFrame);
 end

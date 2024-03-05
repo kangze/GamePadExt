@@ -58,6 +58,7 @@ end
 
 function RegisterMerchantTabGamepadButtonDown(gamePadInitor)
     gamePadInitor:Register("PADRTRIGGER,PADLTRIGGER", function(currentItem, preItem)
+        print(currentItem.associateName);
         if (preItem and preItem.OnLeave) then
             preItem:OnLeave();
         end

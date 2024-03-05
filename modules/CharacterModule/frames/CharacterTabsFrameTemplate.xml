@@ -3,7 +3,7 @@
 ..\..\FrameXML\UI.xsd">
     <Script file="CharacterTabsFrameTemplateMixin.lua"/>
     <Frame name="CharacterTabsFrameTemplate" virtual="true" frameStrata="HIGH" enableMouse="true" mixin="CharacterTabsFrameTemplateMixin">
-        <Size x="305" y="35"/>
+        <Size x="305" y="105"/>
         <Frames>
             <Frame parentKey="tab_equipment" hidden="false" inherits="GpeButtonTemplate">
                 <KeyValues>
@@ -21,7 +21,7 @@
                 </KeyValues>
                 <Size x="100" y="35"/>
                 <Anchors>
-                    <Anchor point="LEFT"/>
+                    <Anchor point="CENTER"/>
                 </Anchors>
             </Frame>
 
@@ -31,7 +31,7 @@
                 </KeyValues>
                 <Size x="100" y="35"/>
                 <Anchors>
-                    <Anchor point="LEFT"/>
+                    <Anchor point="RIGHT"/>
                 </Anchors>
             </Frame>
         </Frames>

@@ -1,26 +1,28 @@
 local slotNames = {
-    "HeadSlot", --头部
-    -- "NeckSlot",          --颈部
-    -- "ShoulderSlot",      --肩部
-    -- "BackSlot",          --背部
-    -- "ChestSlot",         --胸部
-    -- "ShirtSlot",         --衬衣
-    -- "TabardSlot",        --战袍
-    -- "WristSlot",         --护腕
-    -- "HandsSlot",         --手
-    -- "WaistSlot",         --腰部
-    -- "LegsSlot",          --腿部
-    -- "FeetSlot",          --脚
-    -- "Finger0Slot",       --戒指1
-    -- "Finger1Slot",       --戒指2
-    -- "Trinket0Slot",      --饰品1
-    -- "Trinket1Slot",      --饰品2
-    -- "MainHandSlot",      --主手
-    -- "SecondaryHandSlot", --副手
+    "HeadSlot",          --头部
+    "NeckSlot",          --颈部
+    "ShoulderSlot",      --肩部
+    "BackSlot",          --背部
+    "ChestSlot",         --胸部
+    "ShirtSlot",         --衬衣
+    "TabardSlot",        --战袍
+    "WristSlot",         --护腕
+
+    "HandsSlot",         --手
+    "WaistSlot",         --腰部
+    "LegsSlot",          --腿部
+    "FeetSlot",          --脚
+    "Finger0Slot",       --戒指1
+    "Finger1Slot",       --戒指2
+    "Trinket0Slot",      --饰品1
+    "Trinket1Slot",      --饰品2
+    "MainHandSlot",      --主手
+    "SecondaryHandSlot", --副手
     -- "RangedSlot",        --远程
 }
 
 --{slotName,texture,itemLink}
+
 function CharacterCore_GetEquipments()
     local equipments = {}
     for i = 1, #slotNames do
@@ -114,13 +116,13 @@ function CharacterFrameTabActiveCallBack(headFrame)
     frame.tab_currency:SetHeight(headFrame:GetHeight() - 2);
     frame.tab_currency:SetHeight(headFrame:GetHeight() - 2);
 
-    local gamePadInitor = GamePadInitor:Init(GamePadInitorNames.MerchantTabFrame.Name,
-        GamePadInitorNames.MerchantTabFrame.Level);
+    local gamePadInitor = GamePadInitor:Init(GamePadInitorNames.CharacterTabFrame.Name,
+        GamePadInitorNames.CharacterTabFrame.Level);
     gamePadInitor:Add(frame.tab_equipment, "group", GamePadInitorNames.CharacterEquipmentFrame.Name);
     gamePadInitor:Add(frame.tab_faction, "group", GamePadInitorNames.CharacterFactionFrame.Name);
     gamePadInitor:Add(frame.tab_currency, "group", GamePadInitorNames.CharacterCurrencyFrame.Name);
     gamePadInitor:SetRegion(frame);
-    RegisterMerchantTabGamepadButtonDown(gamePadInitor);
+    RegisterCharacterTabGamepadButtonDown(gamePadInitor);
     return frame;
 end
 
@@ -129,3 +131,33 @@ end
 -- print(gemLink);
 
 --CharacterCore_HasAndGetEnchant()
+
+--返回玩家的等级，以及自适应等级
+function GetUserLevel()
+    local level = UnitLevel("player");
+    local level2 = UnitEffectiveLevel("player");
+    return level, level2;
+end
+
+--返回玩家的天赋信息,也有可能玩家没有,比如10级之前
+function GetUserSpec()
+    local primaryTalentTree = GetSpecialization();
+    local specName;
+    if (primaryTalentTree) then
+        _, specName = GetSpecializationInfo(primaryTalentTree, nil, nil, nil, UnitSex("player"));
+    end
+    return specName;
+end
+
+--获取玩家得职业信息
+function GetUserClass()
+    local classDisplayName, class = UnitClass("player");
+    local classColorString = RAID_CLASS_COLORS[class].colorStr;
+    return classDisplayName, classColorString;
+end
+
+--获取玩家得基础属性
+
+function GetUserProperties()
+    STAT_TOOLTIP_BONUS_AP_SP
+end
