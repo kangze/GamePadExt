@@ -159,5 +159,103 @@ end
 --获取玩家得基础属性
 
 function GetUserProperties()
-    STAT_TOOLTIP_BONUS_AP_SP
+    -- [1] = { stat = "STRENGTH", primary = LE_UNIT_STAT_STRENGTH },
+    -- 		[2] = { stat = "AGILITY", primary = LE_UNIT_STAT_AGILITY },
+    -- 		[3] = { stat = "INTELLECT", primary = LE_UNIT_STAT_INTELLECT },
+    -- 		[4] = { stat = "STAMINA" },
+    -- 		[5] = { stat = "ARMOR" },
+    -- 		[6] = { stat = "STAGGER", hideAt = 0, roles = { Enum.LFGRole.Tank }},
+    -- 		[7] = { stat = "MANAREGEN", roles =  { Enum.LFGRole.Healer } },
+    UnitStat("player", 1);
+end
+
+--PaperDollFrame.lua 692
+--3 耐力
+--2 敏捷
+--1 力量
+--4 智力
+function GetUserStrength()
+    local stat, effectiveStat, posBuff, negBuff = UnitStat("player", 4);
+    local effectiveStatDisplay = BreakUpLargeNumbers(effectiveStat);
+    -- Set the tooltip text
+    local statName = _G["SPELL_STAT" .. 4 .. "_NAME"];
+    local tooltipText = HIGHLIGHT_FONT_COLOR_CODE .. format(PAPERDOLLFRAME_TOOLTIP_FORMAT, statName) .. " ";
+    if ((posBuff == 0) and (negBuff == 0)) then
+        tooltipText = tooltipText .. effectiveStatDisplay .. FONT_COLOR_CODE_CLOSE;
+    else
+        tooltipText = tooltipText .. effectiveStatDisplay;
+        if (posBuff > 0 or negBuff < 0) then
+            tooltipText = tooltipText .. " (" .. BreakUpLargeNumbers(stat - posBuff - negBuff) .. FONT_COLOR_CODE_CLOSE;
+        end
+        if (posBuff > 0) then
+            tooltipText = tooltipText ..
+                FONT_COLOR_CODE_CLOSE .. GREEN_FONT_COLOR_CODE .. "+" .. BreakUpLargeNumbers(posBuff) ..
+                FONT_COLOR_CODE_CLOSE;
+        end
+        if (negBuff < 0) then
+            tooltipText = tooltipText .. RED_FONT_COLOR_CODE .. " " ..
+                BreakUpLargeNumbers(negBuff) .. FONT_COLOR_CODE_CLOSE;
+        end
+        if (posBuff > 0 or negBuff < 0) then
+            tooltipText = tooltipText .. HIGHLIGHT_FONT_COLOR_CODE .. ")" .. FONT_COLOR_CODE_CLOSE;
+        end
+        -- If there are any negative buffs then show the main number in red even if there are
+        -- positive buffs. Otherwise show in green.
+        if (negBuff < 0 and not GetPVPGearStatRules()) then
+            effectiveStatDisplay = RED_FONT_COLOR_CODE .. effectiveStatDisplay .. FONT_COLOR_CODE_CLOSE;
+        end
+    end
+    print(stat, effectiveStat, effectiveStatDisplay, tooltipText);
+    return stat, effectiveStat, effectiveStatDisplay, tooltipText;
+end
+
+--GetUserStrength();
+
+local stats = {
+    [1] = { stat = "STRENGTH", primary = LE_UNIT_STAT_STRENGTH },
+    [2] = { stat = "AGILITY", primary = LE_UNIT_STAT_AGILITY },
+    [3] = { stat = "INTELLECT", primary = LE_UNIT_STAT_INTELLECT },
+    [4] = { stat = "STAMINA" },
+    [5] = { stat = "ARMOR" },
+    [6] = { stat = "STAGGER", hideAt = 0, roles = { Enum.LFGRole.Tank } },
+    [7] = { stat = "MANAREGEN", roles = { Enum.LFGRole.Healer } },
+};
+
+--PaperDollFrame.lua 604
+function GetUserStat(index)
+
+end
+
+function GetUserStats()
+    local spec, role;
+    spec = GetSpecialization();
+    if spec then
+        role = GetSpecializationRoleEnum(spec);
+    end
+
+    for statIndex = 1, #stats do
+        local stat = stats[statIndex];
+        local showStat = true;
+        if (showStat and stat.primary and spec) then
+            local primaryStat = select(6, GetSpecializationInfo(spec, nil, nil, nil, UnitSex("player")));
+            if (stat.primary ~= primaryStat) then
+                showStat = false;
+            end
+        end
+
+        if (showStat and stat.roles) then
+            local foundRole = false;
+            for _, statRole in pairs(stat.roles) do
+                if (role == statRole) then
+                    foundRole = true;
+                    break;
+                end
+            end
+            showStat = foundRole;
+        end
+
+        if (showStat) then
+            GetUserStat(stat.stat);
+        end
+    end
 end
