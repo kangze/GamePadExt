@@ -7,21 +7,18 @@ local CharacterModule = Gpe:GetModule('CharacterModule');
 local MaskFrameModule = Gpe:GetModule('MaskFrameModule');
 
 function CharacterModule:OnInitialize()
-
+    self:RegisterEvent("UI_ERROR_MESSAGE");
 end
 
 function CharacterModule:OnEnable()
     --初始化tab栏位
-
     HeaderRegions:Register("CharacterFrameHeader", CharacterFrameTabActiveCallBack, nil);
-    self:Show();
 end
 
-function CharacterModule:Show()
-    --顶部菜单开始激活
+
+function CharacterModule:UI_ERROR_MESSAGE()
     MaskFrameModule:Active("CharacterFrameHeader");
     CharacterModule:InitEquipment();
-    MaskFrameModule:TopContent();
 end
 
 function CharacterModule:InitEquipment()

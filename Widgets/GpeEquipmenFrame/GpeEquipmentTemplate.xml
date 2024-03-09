@@ -6,10 +6,10 @@
         <Size x="40" y="40"/>
         <Layers>
             <Layer level="ARTWORK">
-                <FontString parentKey="name" inherits="GameFontNormalSmall" justifyH="LEFT" justifyV="TOP">
-                    <Size x="200" y="45"/>
+                <FontString parentKey="name" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
+                    <FontHeight val="11"/>
                     <Anchors>
-                        <Anchor point="LEFT" relativePoint="RIGHT" x="5"/>
+                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="5"/>
                     </Anchors>
                 </FontString>
             </Layer>

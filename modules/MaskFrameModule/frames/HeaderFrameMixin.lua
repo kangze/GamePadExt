@@ -16,7 +16,7 @@ function HeaderFrameMixin:OnLoad()
     local width = GetScreenWidth() * scale
     local height = 30;
     self:SetSize(width, height);
-    self.animation_alpha = Animation:new(0.3, 0, 1, alaphAnimation_callback(self), nil, EasingFunctions.OutSine);
+    self.animation_alpha = Animation:new(0.3, 0.3, 1, alaphAnimation_callback(self), nil, EasingFunctions.OutSine);
 end
 
 function HeaderFrameMixin:AnimationIn()

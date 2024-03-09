@@ -1,3 +1,6 @@
+local MaskFrameModule = Gpe:GetModule('MaskFrameModule');
+
+
 --可以重复利用
 function RegisterCharacterTabGamepadButtonDown(gamePadInitor)
     gamePadInitor:Register("PADRTRIGGER,PADLTRIGGER", function(currentItem, preItem)
@@ -18,28 +21,30 @@ function RegisterCharacterTabGamepadButtonDown(gamePadInitor)
     gamePadInitor:Register("PAD1", function(currentItem, preItem)
         print(currentItem.associateName);
         gamePadInitor:Switch(currentItem.associateName);
-        --MaskFrameModule:TopContent();
+        MaskFrameModule:TopContent();
     end);
 
     --注册这个框架关闭
     gamePadInitor:Register("PADSYSTEM", function(currentItem, prrItem)
-        MerchantModule:CLOSED() --2个gamepadInitor都被关闭了
+        MerchantModule:CLOSED();
         gamePadInitor:Destroy();
     end);
 end
 
 function RegisterEquipmentItemGamepadButtonDown(gamePadInitor)
     gamePadInitor:Register("PADDDOWN,PADDUP,PADDLEFT,PADDRIGHT", function(currentItem, preItem)
-        print("我华东了");
         PlaySoundFile("Interface\\AddOns\\GamePadExt\\media\\sound\\1.mp3", "Master");
-        print(currentItem.itemLink);
-        ggg = currentItem;
         if (preItem and preItem.OnLeave) then
             preItem:OnLeave();
         end
         if (currentItem and currentItem.OnEnter) then
             currentItem:OnEnter();
-            print("我有enter");
         end
+    end);
+
+    --返回上一级菜单
+    gamePadInitor:Register("PADSYSTEM", function(currentItem)
+        gamePadInitor:Switch(GamePadInitorNames.CharacterTabFrame.Name);
+        MaskFrameModule:TopHead();
     end);
 end
