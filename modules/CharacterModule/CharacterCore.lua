@@ -1,23 +1,24 @@
-local slotNames = {
-    "HeadSlot",          --头部
-    "NeckSlot",          --颈部
-    "ShoulderSlot",      --肩部
-    "BackSlot",          --背部
-    "ChestSlot",         --胸部
-    "ShirtSlot",         --衬衣
-    "TabardSlot",        --战袍
-    "WristSlot",         --护腕
+--数字表示列
+slotNames = {
+    { "HeadSlot",          1 }, --头部
+    { "NeckSlot",          1 }, --颈部
+    { "ShoulderSlot",      1 }, --肩部
+    { "BackSlot",          1 }, --背部
+    { "ChestSlot",         1 }, --胸部
+    { "ShirtSlot",         1 }, --衬衣
+    { "TabardSlot",        1 }, --战袍
+    { "WristSlot",         1 }, --护腕
 
-    "HandsSlot",         --手
-    "WaistSlot",         --腰部
-    "LegsSlot",          --腿部
-    "FeetSlot",          --脚
-    "Finger0Slot",       --戒指1
-    "Finger1Slot",       --戒指2
-    "Trinket0Slot",      --饰品1
-    "Trinket1Slot",      --饰品2
-    "MainHandSlot",      --主手
-    "SecondaryHandSlot", --副手
+    { "HandsSlot",         3 }, --手
+    { "WaistSlot",         3 }, --腰部
+    { "LegsSlot",          3 }, --腿部
+    { "FeetSlot",          3 }, --脚
+    { "Finger0Slot",       3 }, --戒指1
+    { "Finger1Slot",       3 }, --戒指2
+    { "Trinket0Slot",      3 }, --饰品1
+    { "Trinket1Slot",      3 }, --饰品2
+    { "MainHandSlot",      2 }, --主手
+    { "SecondaryHandSlot", 2 }, --副手
     -- "RangedSlot",        --远程
 }
 
@@ -26,10 +27,10 @@ local slotNames = {
 function CharacterCore_GetEquipments()
     local equipments = {}
     for i = 1, #slotNames do
-        local slotId, texture = GetInventorySlotInfo(slotNames[i]);
+        local slotId, texture = GetInventorySlotInfo(slotNames[i][1]);
         local itemLink = GetInventoryItemLink("player", slotId);
         if itemLink then
-            table.insert(equipments, { slotName = slotNames[i], texture = texture, itemLink = itemLink });
+            table.insert(equipments, { slotName = slotNames[i][1], texture = texture, itemLink = itemLink });
         else
             table.insert(equipments, nil);
         end
@@ -496,7 +497,7 @@ function GetQuanneng()
 end
 
 --获取加速
-function GetSpeed()
+function GetSpeeds()
     local speed = GetSpeed();
 
     local tooltip = HIGHLIGHT_FONT_COLOR_CODE ..
@@ -510,7 +511,8 @@ end
 function Getxixue()
     local lifesteal = GetLifesteal();
     local tooltip = HIGHLIGHT_FONT_COLOR_CODE ..
-    format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_LIFESTEAL) .. " " .. format("%.2F%%", lifesteal) .. FONT_COLOR_CODE_CLOSE;
+        format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_LIFESTEAL) ..
+        " " .. format("%.2F%%", lifesteal) .. FONT_COLOR_CODE_CLOSE;
     local tooltip2 = format(CR_LIFESTEAL_TOOLTIP, BreakUpLargeNumbers(GetCombatRating(CR_LIFESTEAL)),
         GetCombatRatingBonus(CR_LIFESTEAL));
 end
@@ -520,7 +522,8 @@ function GetShanbi()
     local avoidance = GetAvoidance();
 
     local tooltip = HIGHLIGHT_FONT_COLOR_CODE ..
-    format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_AVOIDANCE) .. " " .. format("%.2F%%", avoidance) .. FONT_COLOR_CODE_CLOSE;
+        format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_AVOIDANCE) ..
+        " " .. format("%.2F%%", avoidance) .. FONT_COLOR_CODE_CLOSE;
     local tooltip2 = format(CR_AVOIDANCE_TOOLTIP, BreakUpLargeNumbers(GetCombatRating(CR_AVOIDANCE)),
         GetCombatRatingBonus(CR_AVOIDANCE));
 end

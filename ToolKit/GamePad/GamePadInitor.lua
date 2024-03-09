@@ -16,7 +16,7 @@ GamePadInitorNames = {
         Name = "CharacterTabFrame",
         Level = 99,
     },
-    
+
     CharacterEquipmentFrame = {
         Name = "CharacterEquipmentFrame",
         Level = 5,
@@ -83,8 +83,10 @@ function GamePadInitor:Add(element, groupName, associateName)
     end
     element.index = index;
     element.associateName = associateName;
-    if (element.index == 1 and element.OnEnter) then
-        element:OnEnter();
+    if (element.index == 1) then
+        if (element.OnEnter) then
+            element:OnEnter();
+        end
         self.currentItem = element;
         self.preItem = element;
     end

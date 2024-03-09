@@ -33,11 +33,13 @@ function RegisterEquipmentItemGamepadButtonDown(gamePadInitor)
         print("我华东了");
         PlaySoundFile("Interface\\AddOns\\GamePadExt\\media\\sound\\1.mp3", "Master");
         print(currentItem.itemLink);
+        ggg = currentItem;
         if (preItem and preItem.OnLeave) then
             preItem:OnLeave();
         end
         if (currentItem and currentItem.OnEnter) then
             currentItem:OnEnter();
+            print("我有enter");
         end
     end);
 end

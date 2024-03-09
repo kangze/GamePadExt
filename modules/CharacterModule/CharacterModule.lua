@@ -20,14 +20,15 @@ end
 function CharacterModule:Show()
     --顶部菜单开始激活
     MaskFrameModule:Active("CharacterFrameHeader");
-    MaskFrameModule:TopContent();
     CharacterModule:InitEquipment();
+    MaskFrameModule:TopContent();
 end
 
 function CharacterModule:InitEquipment()
     self.equipment_gamepadInitor = GamePadInitor:Init(GamePadInitorNames.CharacterEquipmentFrame.Name,
         GamePadInitorNames.CharacterEquipmentFrame.Level);
     local characterFrame = CreateFrame("Frame", nil, nil, "CharacterFrameTemplate");
+    characterFrame:SetAllPoints(MaskFrameModule.bodyFrame);
     --TODO:还未做
 
     local equipments = CharacterCore_GetEquipments();
@@ -36,7 +37,6 @@ function CharacterModule:InitEquipment()
         local texture = equipments[index].texture;
         local itemLink = equipments[index].itemLink;
         local itemIcon = GetItemIcon(equipments[index].itemLink);
-
         local itemButton = characterFrame[slotName];
         itemButton:SetAttribute("item", itemLink)
         itemButton.icon:SetTexture(itemIcon)
