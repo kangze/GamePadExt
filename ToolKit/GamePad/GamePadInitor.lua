@@ -92,6 +92,23 @@ function GamePadInitor:Add(element, groupName, associateName)
     end
 end
 
+-- function GamePadInitor:Add(element, groupName, associateName)
+--     if (not table.isInTable(self.groupNames, groupName)) then
+--         self.groups[#self.groups + 1] = {element}
+--         table.insert(self.groupNames, groupName);
+--     else
+--         table.insert(self.groups[#self.groups], element);
+--     end
+
+--     element.index = #self.groups * #self.groups[#self.groups]
+--     element.associateName = associateName;
+--     if (element.index == 1) then
+--         if (element.OnEnter) then
+--             -- 这里似乎缺少了一些代码
+--         end
+--     end
+-- end
+
 function GamePadInitor:SetRegion(frame)
     self.region = frame;
     frame.gamePadInitor = self;
