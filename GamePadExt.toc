@@ -20,6 +20,7 @@ Core.lua
 ToolKit/loads.xml
 Widgets/GpeButton/loads.xml
 Widgets/GpeEquipmenFrame/loads.xml
+Widgets/GpeSocket/loads.xml
 
 modules/MaskFrameModule/loads.xml
 modules/MerchantModule/loads.xml

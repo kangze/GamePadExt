@@ -17,8 +17,8 @@ slotNames = {
     { "Finger1Slot",       3 }, --戒指2
     { "Trinket0Slot",      3 }, --饰品1
     { "Trinket1Slot",      3 }, --饰品2
-    { "MainHandSlot",      2 }, --主手
-    { "SecondaryHandSlot", 2 }, --副手
+    { "MainHandSlot",      1 }, --主手
+    { "SecondaryHandSlot", 3 }, --副手
     -- "RangedSlot",        --远程
 }
 
@@ -30,29 +30,57 @@ function CharacterCore_GetEquipments()
         local slotId, texture = GetInventorySlotInfo(slotNames[i][1]);
         local itemLink = GetInventoryItemLink("player", slotId);
         if itemLink then
-            table.insert(equipments, { slotName = slotNames[i][1], texture = texture, itemLink = itemLink });
+            --获取装备等级
+            local _, _, _, itemLevel = GetItemInfo(itemLink)
+            --获取宝石信息
+            local sockets = CharacterCore_HasAndGetSockets(itemLink);
+            --获取插槽信息
+            local gems = CharacterCore_HasAndGetGems(itemLink);
+            table.insert(equipments,
+                {
+                    slotName = slotNames[i][1],
+                    texture = texture,
+                    itemLink = itemLink,
+                    itemLevel = itemLevel,
+                    gems = gems,
+                    sockets =
+                        sockets
+                });
         else
-            table.insert(equipments, nil);
+            table.insert(equipments, { slotName = slotNames[i][1], texture = texture, itemLink = nil, itemLevel = 0 });
         end
     end
     return equipments
 end
 
 function CharacterCore_HasAndGetGems(itemLink)
-    if not itemLink then return; end
-    local tooltipData = C_TooltipInfo.GetHyperlink(itemLink);
-    if not tooltipData then return end;
+    local gems = {};
+    for index = 1, 3 do
+        local gemName, gemLink = GetItemGem(itemLink, index) -- 获取这个物品的第一个宝石
+        if gemName then
+            table.insert(gems, { gemName = gemName, gemLink = gemLink });
+        end
+    end
+    return gems;
+end
 
+function CharacterCore_HasAndGetSockets(itemLink)
+    local sockets = {};
+    if not itemLink then return sockets; end
+    local tooltipData = C_TooltipInfo.GetHyperlink(itemLink);
+    if not tooltipData then return sockets end;
+
+    
     local lines = tooltipData.lines;
     local numLines = #lines;
 
     for i = 1, numLines do --max 10
         local line = lines[i];
         if (line and line.socketType) then
-            return true, line.leftText, line.socketType, line.leftColor;
+            table.insert(sockets, { socketType = line.socketType, leftText = line.leftText, leftColor = line.leftColor });
         end
     end
-    return nil, nil, nil, nil;
+    return sockets;
 end
 
 function CharacterCore_HasAndGetEnchant(itemLink)

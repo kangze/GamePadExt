@@ -22,6 +22,10 @@ function CharacterFrameTemplateMixin:OnLoad()
             itemButton.name:ClearAllPoints();
             itemButton.name:SetPoint("BOTTOMRIGHT", itemButton, "BOTTOMLEFT", -5, 0);
             itemButton.name:SetJustifyH("RIGHT");
+
+            itemButton.itemLevel:ClearAllPoints();
+            itemButton.itemLevel:SetPoint("BOTTOMRIGHT", itemButton, "BOTTOMLEFT", -5, 17);
+            itemButton.itemLevel:SetJustifyH("RIGHT");
             col3Index = col3Index + 1;
         end
     end

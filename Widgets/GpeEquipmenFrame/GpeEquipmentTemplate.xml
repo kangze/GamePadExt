@@ -12,6 +12,12 @@
                         <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="5"/>
                     </Anchors>
                 </FontString>
+                <FontString parentKey="itemLevel" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
+                    <FontHeight val="11"/>
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="5" y="17"/>
+                    </Anchors>
+                </FontString>
             </Layer>
         </Layers>
         <Scripts>
