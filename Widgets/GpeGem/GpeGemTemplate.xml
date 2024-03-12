@@ -1,19 +1,12 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\..\FrameXML\UI.xsd">
-    <Script file="GpeSocketTemplateMixin.lua"/>
-    <Frame name="GpeSocketTemplate" enableMouse="true" virtual="true" mixin="GpeSocketTemplateMixin">
+    <Script file="GpeGemTemplateMixin.lua"/>
+    <Frame name="GpeGemTemplate" enableMouse="true" virtual="true" mixin="GpeGemTemplateMixin">
         <Size x="15" y="15" />
         <Layers>
             <Layer level="ARTWORK">
-                <Texture parentKey="iconBackground">
-                    <Size x="15" y="15"/>
-                    <Anchors>
-                        <Anchor point="LEFT"/>
-                    </Anchors>
-                </Texture>
-
-                <Texture parentKey="iconBorder">
+                <Texture parentKey="icon">
                     <Size x="15" y="15"/>
                     <Anchors>
                         <Anchor point="LEFT"/>
@@ -23,7 +16,7 @@
                 <FontString parentKey="text" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
                     <FontHeight val="11"/>
                     <Anchors>
-                        <Anchor point="LEFT" relativeKey="$parent.iconBorder" relativePoint="RIGHT" x="5"/>
+                        <Anchor point="LEFT" relativeKey="$parent.icon" relativePoint="RIGHT" x="5"/>
                     </Anchors>
                 </FontString>
             </Layer>

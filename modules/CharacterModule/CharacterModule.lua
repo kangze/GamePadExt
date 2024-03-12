@@ -46,6 +46,7 @@ function CharacterModule:InitEquipment()
         itemButton.itemLevel:SetText(itemLevel);
         itemButton.itemLink = itemLink;
         self:CreateSocket(itemButton, equipments[index].sockets);
+        self:CreateGems(itemButton, equipments[index].gems);
         itemButton:SetScript("OnEnter", function(selfs)
             GameTooltip:SetOwner(selfs, "ANCHOR_RIGHT");
             GameTooltip:SetHyperlink(selfs.itemLink);
@@ -64,12 +65,15 @@ function CharacterModule:CreateSocket(itemButton, sockets)
         socket:ClearAllPoints();
         socket:SetPoint("RIGHT", itemButton, "LEFT", 0, 0);
         socket.text:SetText(sockets[index].leftText);
-        socket.iconBackground:SetAtlas("socket-" .. sockets[index].socketType .. "-background");
+        socket:SetSocket(sockets[index].socketType);
     end
 end
 
-local socketIcons = {
-    ["Prismatic"] = "Interface\\ItemSocketingFrame\\UI-EmptySocket-Prismatic",
-    ["Meta"] = "Interface\\ItemSocketingFrame\\UI-EmptySocket-Meta",
-    -- 添加其他类型的插槽和对应的图标链接
-}
+function CharacterModule:CreateGems(itemButton, gems)
+    for index = 1, #gems do
+        local gem = CreateFrame("Frame", nill, itemButton, "GpeGemTemplate");
+        gem:ClearAllPoints();
+        gem:SetPoint("RIGHT", itemButton, "LEFT", 0, 0);
+        gem:SetGem(gems[index].gemLink);
+    end
+end
