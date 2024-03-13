@@ -36,6 +36,8 @@ function CharacterCore_GetEquipments()
             local sockets = CharacterCore_HasAndGetSockets(itemLink);
             --获取插槽信息
             local gems = CharacterCore_HasAndGetGems(itemLink);
+            --获取附魔信息
+            local enchants = CharacterCore_HasAndGetEnchant(itemLink);
             table.insert(equipments,
                 {
                     slotName = slotNames[i][1],
@@ -43,8 +45,8 @@ function CharacterCore_GetEquipments()
                     itemLink = itemLink,
                     itemLevel = itemLevel,
                     gems = gems,
-                    sockets =
-                        sockets
+                    sockets = sockets,
+                    enchants = enchants
                 });
         else
             table.insert(equipments, { slotName = slotNames[i][1], texture = texture, itemLink = nil, itemLevel = 0 });
@@ -70,7 +72,7 @@ function CharacterCore_HasAndGetSockets(itemLink)
     local tooltipData = C_TooltipInfo.GetHyperlink(itemLink);
     if not tooltipData then return sockets end;
 
-    
+
     local lines = tooltipData.lines;
     local numLines = #lines;
 
@@ -84,7 +86,7 @@ function CharacterCore_HasAndGetSockets(itemLink)
 end
 
 function CharacterCore_HasAndGetEnchant(itemLink)
-    if not itemLink then return; end
+    local enchants = {};
     local tooltipData = C_TooltipInfo.GetHyperlink(itemLink);
     if not tooltipData then return end;
 
@@ -93,11 +95,18 @@ function CharacterCore_HasAndGetEnchant(itemLink)
 
     for i = 1, numLines do --max 10
         local line = lines[i];
-        if (line and line.enchantID) then
-            return true, line.enchantID, line.enchantText;
+        if (line and line.leftText and string.find(line.leftText, "附魔") ~= nil) then
+            table.insert(enchants, line.leftText);
         end
     end
-    return nil, nil, nil;
+
+    -- local _, _, _, linkType, linkID, enchantID = strsplit(":|H", itemLink);
+    -- if not enchantID then return enchants end
+    -- enchantID = tonumber(enchantID);
+
+
+
+    return enchants;
 end
 
 function CharacterCore_HasAndGetUseInfo(itemLink)
@@ -555,3 +564,23 @@ function GetShanbi()
     local tooltip2 = format(CR_AVOIDANCE_TOOLTIP, BreakUpLargeNumbers(GetCombatRating(CR_AVOIDANCE)),
         GetCombatRatingBonus(CR_AVOIDANCE));
 end
+
+--获取称号
+function GetTitles()
+    local titles = {};
+    local numTitles = GetNumTitles();
+
+    for i = 1, numTitles do
+        if (IsTitleKnown(i)) then
+            local titleName = GetTitleName(i);
+            if titleName then
+                table.insert(titles, titleName);
+                print(titleName);
+            end
+        end
+    end
+
+    return titles;
+end
+
+GetTitles();

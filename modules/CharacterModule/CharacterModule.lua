@@ -47,6 +47,7 @@ function CharacterModule:InitEquipment()
         itemButton.itemLink = itemLink;
         self:CreateSocket(itemButton, equipments[index].sockets);
         self:CreateGems(itemButton, equipments[index].gems);
+        self:CreateEnchant(itemButton, equipments[index].enchants);
         itemButton:SetScript("OnEnter", function(selfs)
             GameTooltip:SetOwner(selfs, "ANCHOR_RIGHT");
             GameTooltip:SetHyperlink(selfs.itemLink);
@@ -75,5 +76,11 @@ function CharacterModule:CreateGems(itemButton, gems)
         gem:ClearAllPoints();
         gem:SetPoint("RIGHT", itemButton, "LEFT", 0, 0);
         gem:SetGem(gems[index].gemLink);
+    end
+end
+
+function CharacterModule:CreateEnchant(itemButton, enchants)
+    for index = 1, #enchants do
+        print(enchants[index]);
     end
 end
