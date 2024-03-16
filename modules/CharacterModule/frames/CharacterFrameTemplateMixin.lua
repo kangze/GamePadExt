@@ -9,23 +9,25 @@ function CharacterFrameTemplateMixin:OnLoad()
     local cal1xoffSet = 45;
     local col3xOffset = 450;
     for index = 1, #slotNames do
-        local itemButton = CreateFrame("ItemButton", nil, self.equipment, "GpeEquipmentTemplate");
-        itemButton.col = slotNames[index][2];
-        self.equipment[slotNames[index][1]] = itemButton;
+        local itemFrame = CreateFrame("Frame", nil, self.equipment, "GpeEquipmentTemplate");
+        itemFrame.col = slotNames[index][2];
+        self.equipment[slotNames[index][1]] = itemFrame;
         if (slotNames[index][2] == 1) then
-            itemButton:SetPoint("TOPLEFT", cal1xoffSet,
-                topSpace + -1 * (itemButton:GetHeight() + yOffset) * (col1Index - 1));
+            itemFrame:SetPoint("TOPLEFT", cal1xoffSet,
+                topSpace + -1 * (itemFrame:GetHeight() + yOffset) * (col1Index - 1));
             col1Index = col1Index + 1;
         elseif (slotNames[index][2] == 3) then
-            itemButton:SetPoint("TOPLEFT", col3xOffset,
-                topSpace + -1 * (itemButton:GetHeight() + yOffset) * (col3Index - 1));
-            itemButton.name:ClearAllPoints();
-            itemButton.name:SetPoint("BOTTOMRIGHT", itemButton, "BOTTOMLEFT", -5, 0);
-            itemButton.name:SetJustifyH("RIGHT");
+            itemFrame:SetPoint("TOPLEFT", col3xOffset,
+                topSpace + -1 * (itemFrame:GetHeight() + yOffset) * (col3Index - 1));
+            itemFrame.ext:ClearAllPoints();
+            itemFrame.ext:SetPoint("RIGHT", itemFrame.button, "LEFT", 0, 0);
+            itemFrame.ext.name:ClearAllPoints();
+            itemFrame.ext.name:SetPoint("TOPRIGHT", itemFrame.ext,"TOPRIGHT",-5,-8);
+            itemFrame.ext.name:SetJustifyH("RIGHT");
 
-            itemButton.itemLevel:ClearAllPoints();
-            itemButton.itemLevel:SetPoint("BOTTOMRIGHT", itemButton, "BOTTOMLEFT", -5, 17);
-            itemButton.itemLevel:SetJustifyH("RIGHT");
+            -- itemFrame.ext.itemLevel:ClearAllPoints();
+            -- itemFrame.ext.itemLevel:SetPoint("BOTTOMRIGHT", itemFrame, "BOTTOMLEFT", -5, 17);
+            -- itemFrame.ext.itemLevel:SetJustifyH("RIGHT");
             col3Index = col3Index + 1;
         end
     end
@@ -37,4 +39,22 @@ function CharacterFrameTemplateMixin:OnSizeChanged()
 
     self.property:SetHeight(self:GetHeight());
     self.property:SetWidth(self:GetWidth() / 8);
+
+
+    self.property.background1:SetHeight(self:GetHeight() / 2);
+    self.property.background1:SetWidth(self.property:GetWidth());
+
+    self.property.background1_title:SetHeight(30);
+    self.property.background1_title:SetWidth(self.property:GetWidth());
+
+    self.property.background2:SetHeight(self:GetHeight() / 2);
+    self.property.background2:SetWidth(self.property:GetWidth());
+
+    self.property.background2_title:SetHeight(30);
+    self.property.background2_title:SetWidth(self.property:GetWidth());
+
+
+    self.equipment.background_1:SetWidth(self:GetHeight() * 0.7);
+    self.equipment.background_1:SetHeight(48);
+    self.equipment.background_1:SetRotation(math.rad(90));
 end

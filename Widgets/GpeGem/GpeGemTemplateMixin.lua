@@ -1,8 +1,8 @@
 GpeGemTemplateMixin = {};
 
 
-local width = 12;
-local height = 12;
+local width = 9;
+local height = 9;
 local fontSize = 8;
 
 function GpeGemTemplateMixin:OnLoad()

@@ -499,21 +499,17 @@ function CharacterCore_GetCritChance()
         critChance = meleeCrit;
         rating = CR_CRIT_MELEE;
     end
-
-    local tooltip = HIGHLIGHT_FONT_COLOR_CODE ..
-        format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_CRITICAL_STRIKE) .. FONT_COLOR_CODE_CLOSE;
-    local tooltip2 = nil;
+    local tooltip = nil;
     local extraCritChance = GetCombatRatingBonus(rating);
     local extraCritRating = GetCombatRating(rating);
     if (GetCritChanceProvidesParryEffect()) then
-        tooltip2 = format(CR_CRIT_PARRY_RATING_TOOLTIP, BreakUpLargeNumbers(extraCritRating), extraCritChance,
+        tooltip = format(CR_CRIT_PARRY_RATING_TOOLTIP, BreakUpLargeNumbers(extraCritRating), extraCritChance,
             GetCombatRatingBonusForCombatRatingValue(CR_PARRY, extraCritRating));
     else
-        tooltip2 = format(CR_CRIT_TOOLTIP, BreakUpLargeNumbers(extraCritRating), extraCritChance);
+        tooltip = format(CR_CRIT_TOOLTIP, BreakUpLargeNumbers(extraCritRating), extraCritChance);
     end
 
-    print(critChance, tooltip, tooltip2);
-    return STAT_CRITICAL_STRIKE, critChance, tooltip, tooltip2;
+    return STAT_CRITICAL_STRIKE, critChance, tooltip;
 end
 
 --获取玩家的急速信息
@@ -538,7 +534,7 @@ function CharacterCore_GetHaste()
     end
     tooltip2 = tooltip2 ..
         format(STAT_HASTE_BASE_TOOLTIP, BreakUpLargeNumbers(GetCombatRating(rating)), GetCombatRatingBonus(rating));
-    return STAT_HASTE, haste, tooltip, tooltip2;
+    return STAT_HASTE, haste, tooltip2;
 end
 
 --精通有点特殊--12846
@@ -568,45 +564,34 @@ function CharacterCore_GetVersatility()
         GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE);
     local versatilityDamageTakenReduction = GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_TAKEN) +
         GetVersatilityBonus(CR_VERSATILITY_DAMAGE_TAKEN);
-    --PaperDollFrame_SetLabelAndText(statFrame, STAT_VERSATILITY, versatilityDamageBonus, true, versatilityDamageBonus);
-    local tooltip = HIGHLIGHT_FONT_COLOR_CODE ..
-        format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_VERSATILITY) .. FONT_COLOR_CODE_CLOSE;
-    local tooltip2 = format(CR_VERSATILITY_TOOLTIP, versatilityDamageBonus, versatilityDamageTakenReduction,
+    
+    local tooltip = format(CR_VERSATILITY_TOOLTIP, versatilityDamageBonus, versatilityDamageTakenReduction,
         BreakUpLargeNumbers(versatility), versatilityDamageBonus, versatilityDamageTakenReduction);
-    return STAT_VERSATILITY, versatility, tooltip, tooltip2;
+    return STAT_VERSATILITY, versatilityDamageBonus, tooltip;
 end
 
 --获取加速
 function CharacterCore_GetSpeed()
     local speed = GetSpeed();
-
-    local tooltip = HIGHLIGHT_FONT_COLOR_CODE ..
-        format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_SPEED) .. " " .. format("%.2F%%", speed) .. FONT_COLOR_CODE_CLOSE;
-    local tooltip2 = format(CR_SPEED_TOOLTIP, BreakUpLargeNumbers(GetCombatRating(CR_SPEED)),
+    local tooltip = format(CR_SPEED_TOOLTIP, BreakUpLargeNumbers(GetCombatRating(CR_SPEED)),
         GetCombatRatingBonus(CR_SPEED));
-    return STAT_SPEED, speed, tooltip, tooltip2;
+    return STAT_SPEED, speed, tooltip;
 end
 
 --获取生命偷取
 function CharacterCore_GetLifesteal()
     local lifesteal = GetLifesteal();
-    local tooltip = HIGHLIGHT_FONT_COLOR_CODE ..
-        format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_LIFESTEAL) ..
-        " " .. format("%.2F%%", lifesteal) .. FONT_COLOR_CODE_CLOSE;
-    local tooltip2 = format(CR_LIFESTEAL_TOOLTIP, BreakUpLargeNumbers(GetCombatRating(CR_LIFESTEAL)),
+    local tooltip = format(CR_LIFESTEAL_TOOLTIP, BreakUpLargeNumbers(GetCombatRating(CR_LIFESTEAL)),
         GetCombatRatingBonus(CR_LIFESTEAL));
-    return STAT_LIFESTEAL, lifesteal, tooltip, tooltip2;
+    return STAT_LIFESTEAL, lifesteal, tooltip;
 end
 
 --获取闪避
 function CharacterCore_GetAvoidance()
     local avoidance = GetAvoidance();
-    local tooltip = HIGHLIGHT_FONT_COLOR_CODE ..
-        format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_AVOIDANCE) ..
-        " " .. format("%.2F%%", avoidance) .. FONT_COLOR_CODE_CLOSE;
-    local tooltip2 = format(CR_AVOIDANCE_TOOLTIP, BreakUpLargeNumbers(GetCombatRating(CR_AVOIDANCE)),
+    local tooltip = format(CR_AVOIDANCE_TOOLTIP, BreakUpLargeNumbers(GetCombatRating(CR_AVOIDANCE)),
         GetCombatRatingBonus(CR_AVOIDANCE));
-    return STAT_AVOIDANCE, avoidance, tooltip, tooltip2;
+    return STAT_AVOIDANCE, avoidance, tooltip;
 end
 
 --获取称号

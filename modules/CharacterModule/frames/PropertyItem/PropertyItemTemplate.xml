@@ -6,9 +6,9 @@
         <Layers>
             <!--背景-->
             <Layer level="BACKGROUND">
-                <Texture parentKey="background" setAllPoints="true">
+                <!-- <Texture parentKey="background" setAllPoints="true">
                     <Color r="0.353" g="0.402" b="0.439" a="0.8"/>
-                </Texture>
+                </Texture> -->
             </Layer>
 
             <!--属性-->
@@ -16,14 +16,24 @@
                 <FontString parentKey="propertyName" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
                     <FontHeight val="11"/>
                     <Anchors>
-                        <Anchor point="LEFT" relativeKey="$parent.background" relativePoint="LEFT" x="5"/>
+                        <Anchor point="TOPLEFT" relativeKey="$parent.background" relativePoint="TOPLEFT" x="5" y="-5"/>
                     </Anchors>
                 </FontString>
 
                 <FontString parentKey="propertyValue" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalRIGHT" justifyH="RIGHT" justifyV="TOP">
                     <FontHeight val="11"/>
                     <Anchors>
-                        <Anchor point="RIGHT" relativeKey="$parent.background" relativePoint="RIGHT" x="5"/>
+                        <Anchor point="TOPRIGHT" relativeKey="$parent.background" relativePoint="TOPRIGHT" x="-10" y="-5"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+
+            <!--扩展信息提示-->
+            <Layer level="ARTWORK">
+                <FontString parentKey="propertyTooltip" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP" WordWrap="true">
+                    <FontHeight val="9"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeKey="$parent.propertyName" relativePoint="BOTTOMLEFT" x="5" y="-5"/>
                     </Anchors>
                 </FontString>
             </Layer>

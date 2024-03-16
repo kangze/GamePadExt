@@ -5,9 +5,9 @@ function GpeEquipmentTemplateMixin:OnLoad()
 end
 
 function GpeEquipmentTemplateMixin:OnEnter()
-    self.PushedTexture:Show();
+    self.button.PushedTexture:Show();
 end
 
 function GpeEquipmentTemplateMixin:OnLeave()
-    self.PushedTexture:Hide();
+    self.button.PushedTexture:Hide();
 end

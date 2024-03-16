@@ -42,42 +42,42 @@ function CharacterModule:InitEquipment(characterFrame)
         else
             itemIcon = texture;
         end
-        local itemButton = characterFrame.equipment[slotName];
-        itemButton:SetAttribute("item", itemLink)
-        itemButton.icon:SetTexture(itemIcon)
-        itemButton.name:SetText(itemLink);
-        itemButton.itemLevel:SetText(itemLevel);
-        itemButton.itemLink = itemLink;
-        self:CreateSocket(itemButton, equipments[index].sockets);
-        self:CreateGems(itemButton, equipments[index].gems);
-        self:CreateEnchant(itemButton, equipments[index].enchants);
-        itemButton:SetScript("OnEnter", function(selfs)
+        local itemFrame = characterFrame.equipment[slotName];
+        itemFrame:SetAttribute("item", itemLink)
+        itemFrame.button.icon:SetTexture(itemIcon)
+        itemFrame.ext.name:SetText(itemLink);
+        itemFrame.ext.itemLevel:SetText(itemLevel);
+        itemFrame.itemLink = itemLink;
+        self:CreateSocket(itemFrame, equipments[index].sockets);
+        self:CreateGems(itemFrame, equipments[index].gems);
+        self:CreateEnchant(itemFrame, equipments[index].enchants);
+        itemFrame:SetScript("OnEnter", function(selfs)
             GameTooltip:SetOwner(selfs, "ANCHOR_RIGHT");
             GameTooltip:SetHyperlink(selfs.itemLink);
             GameTooltip:Show()
         end)
 
-        self.equipment_gamepadInitor:Add(itemButton, "group" .. characterFrame.equipment[slotName].col);
+        self.equipment_gamepadInitor:Add(itemFrame, "group" .. characterFrame.equipment[slotName].col);
     end
     RegisterEquipmentItemGamepadButtonDown(self.equipment_gamepadInitor);
     self.equipment_gamepadInitor:SetRegion(characterFrame);
 end
 
-function CharacterModule:CreateSocket(itemButton, sockets)
+function CharacterModule:CreateSocket(itemFrame, sockets)
     for index = 1, #sockets do
-        local socket = CreateFrame("Frame", nill, itemButton, "GpeSocketTemplate");
+        local socket = CreateFrame("Frame", nill, itemFrame.ext, "GpeSocketTemplate");
         socket:ClearAllPoints();
-        socket:SetPoint("RIGHT", itemButton, "LEFT", 0, 0);
+        socket:SetPoint("LEFT", itemFrame.ext, "LEFT", 5, -4);
         socket.text:SetText(sockets[index].leftText);
         socket:SetSocket(sockets[index].socketType);
     end
 end
 
-function CharacterModule:CreateGems(itemButton, gems)
+function CharacterModule:CreateGems(itemFrame, gems)
     for index = 1, #gems do
-        local gem = CreateFrame("Frame", nill, itemButton, "GpeGemTemplate");
+        local gem = CreateFrame("Frame", nill, itemFrame, "GpeGemTemplate");
         gem:ClearAllPoints();
-        gem:SetPoint("RIGHT", itemButton, "LEFT", 0, 0);
+        gem:SetPoint("TOPLEFT", itemFrame.ext, "TOPLEFT", 5, -10 + (index - 1) * -10);
         gem:SetGem(gems[index].gemLink);
     end
 end
@@ -90,12 +90,14 @@ end
 
 function CharacterModule:InitProperty(characterFrame)
     local propertyFrame = characterFrame.property;
-    local properties = CharacterCore_GetEnchantProperties()
-
-    for index=1, #properties do
+    local properties = CharacterCore_GetEnchantProperties();
+    local offsetTopY = -45;
+    local offsetY = -60; ---60
+    for index = 1, #properties do
         local propertyFrame = CreateFrame("Frame", nil, propertyFrame, "PropertyItemTemplate");
         propertyFrame.propertyName:SetText(properties[index].name);
-        propertyFrame.propertyValue:SetText(properties[index].value);
-        propertyFrame:SetPoint("TOPLEFT", 0, -30 * (index - 1));
+        propertyFrame.propertyValue:SetText(BreakUpLargeNumbers(properties[index].value) .. "%");
+        propertyFrame.propertyTooltip:SetText(properties[index].tooltip);
+        propertyFrame:SetPoint("TOPLEFT", 0, offsetY * (index - 1) + offsetTopY);
     end
 end

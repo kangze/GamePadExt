@@ -2,28 +2,54 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\..\FrameXML\UI.xsd">
     <Script file="GpeEquipmentTemplateMixin.lua"/>
-    <ItemButton name="GpeEquipmentTemplate" enableMouse="true" virtual="true" mixin="GpeEquipmentTemplateMixin">
-        <Size x="40" y="40"/>
-        <Layers>
-            <Layer level="ARTWORK">
-                <FontString parentKey="name" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
-                    <FontHeight val="11"/>
-                    <Anchors>
-                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="5"/>
-                    </Anchors>
-                </FontString>
-                <FontString parentKey="itemLevel" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
-                    <FontHeight val="11"/>
-                    <Anchors>
-                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="5" y="17"/>
-                    </Anchors>
-                </FontString>
-            </Layer>
-        </Layers>
+    <Frame name="GpeEquipmentTemplate" enableMouse="true" virtual="true" mixin="GpeEquipmentTemplateMixin">
+        <Size x="160" y="40"/>
+        <Frames>
+            <ItemButton parentKey="button">
+                <Size x="40" y="40"/>
+                <Anchors>
+                    <Anchor point="LEFT"/>
+                </Anchors>
+            </ItemButton>
+            <Frame parentKey="ext">
+                <Size x="120" y="40"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativeKey="$parent.button" relativePoint="RIGHT"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="background" atlas="lootroll-itementry-background">
+                            <Size x="200" y="55"/>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="ARTWORK">
+                        <FontString parentKey="name" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
+                            <FontHeight val="9"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="5" y="-4"/>
+                            </Anchors>
+                        </FontString>
+                        <FontString parentKey="sockets" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
+                            <FontHeight val="9"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="5" y="-4"/>
+                            </Anchors>
+                        </FontString>
+                        <FontString parentKey="itemLevel" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
+                            <FontHeight val="11"/>
+                            <Anchors>
+                                <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="5" y="17"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+        </Frames>
         <Scripts>
             <OnLoad method="OnLoad"/>
             <OnEnter method="OnEnter"/>
             <OnLeave method="OnLeave"/>
         </Scripts>
-    </ItemButton>
+    </Frame>
 </Ui>

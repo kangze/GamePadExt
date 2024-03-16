@@ -3,18 +3,18 @@
 ..\..\FrameXML\UI.xsd">
     <Script file="GpeSocketTemplateMixin.lua"/>
     <Frame name="GpeSocketTemplate" enableMouse="true" virtual="true" mixin="GpeSocketTemplateMixin">
-        <Size x="15" y="15" />
+        <Size x="13" y="13" />
         <Layers>
             <Layer level="ARTWORK">
                 <Texture parentKey="iconBackground">
-                    <Size x="15" y="15"/>
+                    <Size x="13" y="13"/>
                     <Anchors>
                         <Anchor point="LEFT"/>
                     </Anchors>
                 </Texture>
 
                 <Texture parentKey="iconBorder">
-                    <Size x="15" y="15"/>
+                    <Size x="13" y="13"/>
                     <Anchors>
                         <Anchor point="LEFT"/>
                     </Anchors>
@@ -23,7 +23,7 @@
                 <FontString parentKey="text" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormalLeft" justifyH="LEFT" justifyV="TOP">
                     <FontHeight val="11"/>
                     <Anchors>
-                        <Anchor point="LEFT" relativeKey="$parent.iconBorder" relativePoint="RIGHT" x="5"/>
+                        <Anchor point="LEFT" relativeKey="$parent.iconBorder" relativePoint="RIGHT" x="2"/>
                     </Anchors>
                 </FontString>
             </Layer>

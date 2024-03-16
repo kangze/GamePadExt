@@ -19,10 +19,16 @@
                 </Anchors>
                 <Layers>
                     <Layer level="BACKGROUND">
-                        <Texture parentKey="background">
-                            <Color r="0.153" g="0.302" b="0.239" a="0.8"/>
+                        <Texture parentKey="background" atlas="transmog-background-race-vulpera">
+                        </Texture>
+
+                        <Texture parentKey="background_1" atlas="GarrMissionLocation-Maw-ButtonBG">
+                            <Anchors>
+                                <Anchor point="LEFT" x="-194" y="50"/>
+                            </Anchors>
                         </Texture>
                     </Layer>
+
                 </Layers>
             </Frame>
 
@@ -32,13 +38,61 @@
                     <Anchor point="LEFT" relativeKey="$parent.equipment" relativePoint="RIGHT"/>
                 </Anchors>
                 <Layers>
+                    <!--属性1-->
                     <Layer level="BACKGROUND">
-                        <Texture parentKey="background">
-                            <Color r="0.353" g="0.402" b="0.439" a="0.8"/>
+                        <Texture parentKey="background1" atlas="UI-Character-Info-Mage-BG">
+                            <Anchors>
+                                <Anchor point="TOP"/>
+                            </Anchors>
                         </Texture>
+                    </Layer>
+
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="background1_title" atlas="UI-Character-Info-Title">
+                            <Anchors>
+                                <Anchor point="TOP" y="-15"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="ARTWORK">
+                        <FontString parentKey="title1" text="强化属性" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="12"/>
+                            <Anchors>
+                                <Anchor point="CENTER" relativeKey="$parent.background1_title" relativePoint="CENTER"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+
+                    <!--属性2-->
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="background2" atlas="UI-Character-Info-Mage-BG">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeKey="$parent.background1" relativePoint="BOTTOMLEFT"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="background2_title" atlas="UI-Character-Info-Title">
+                            <Anchors>
+                                <Anchor point="TOP" relativeKey="$parent.background2" y="-15"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="ARTWORK">
+                        <FontString parentKey="title2" text="基础属性" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="12"/>
+                            <Anchors>
+                                <Anchor point="CENTER" relativeKey="$parent.background2_title" relativePoint="CENTER"/>
+                            </Anchors>
+                        </FontString>
                     </Layer>
                 </Layers>
             </Frame>
+
+
         </Frames>
     </Frame>
 </Ui>
