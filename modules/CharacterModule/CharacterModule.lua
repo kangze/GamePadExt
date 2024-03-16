@@ -17,14 +17,17 @@ end
 
 function CharacterModule:UI_ERROR_MESSAGE()
     MaskFrameModule:Active("CharacterFrameHeader");
-    CharacterModule:InitEquipment();
-end
 
-function CharacterModule:InitEquipment()
     self.equipment_gamepadInitor = GamePadInitor:Init(GamePadInitorNames.CharacterEquipmentFrame.Name,
         GamePadInitorNames.CharacterEquipmentFrame.Level);
     local characterFrame = CreateFrame("Frame", nil, nil, "CharacterFrameTemplate");
     characterFrame:SetAllPoints(MaskFrameModule.bodyFrame);
+
+    CharacterModule:InitEquipment(characterFrame);
+    CharacterModule:InitProperty(characterFrame);
+end
+
+function CharacterModule:InitEquipment(characterFrame)
     --TODO:还未做
 
     local equipments = CharacterCore_GetEquipments();
@@ -39,7 +42,7 @@ function CharacterModule:InitEquipment()
         else
             itemIcon = texture;
         end
-        local itemButton = characterFrame[slotName];
+        local itemButton = characterFrame.equipment[slotName];
         itemButton:SetAttribute("item", itemLink)
         itemButton.icon:SetTexture(itemIcon)
         itemButton.name:SetText(itemLink);
@@ -54,7 +57,7 @@ function CharacterModule:InitEquipment()
             GameTooltip:Show()
         end)
 
-        self.equipment_gamepadInitor:Add(itemButton, "group" .. characterFrame[slotName].col);
+        self.equipment_gamepadInitor:Add(itemButton, "group" .. characterFrame.equipment[slotName].col);
     end
     RegisterEquipmentItemGamepadButtonDown(self.equipment_gamepadInitor);
     self.equipment_gamepadInitor:SetRegion(characterFrame);
@@ -82,5 +85,17 @@ end
 function CharacterModule:CreateEnchant(itemButton, enchants)
     for index = 1, #enchants do
         print(enchants[index]);
+    end
+end
+
+function CharacterModule:InitProperty(characterFrame)
+    local propertyFrame = characterFrame.property;
+    local properties = CharacterCore_GetEnchantProperties()
+
+    for index=1, #properties do
+        local propertyFrame = CreateFrame("Frame", nil, propertyFrame, "PropertyItemTemplate");
+        propertyFrame.propertyName:SetText(properties[index].name);
+        propertyFrame.propertyValue:SetText(properties[index].value);
+        propertyFrame:SetPoint("TOPLEFT", 0, -30 * (index - 1));
     end
 end

@@ -3,6 +3,7 @@
 ..\FrameXML\UI.xsd">
     <Include file="frames\CharacterFrameTemplate.xml"/>
     <Include file="frames\CharacterTabsFrameTemplate.xml"/>
+    <Include file="frames\PropertyItem\PropertyItemTemplate.xml"/>
     <Script file="CharacterModule.lua"/>
     <Script file="CharacterCore.lua"/>
     <Script file="CharacterInputCallback.lua"/>

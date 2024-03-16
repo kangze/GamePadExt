@@ -3,12 +3,42 @@
 ..\..\FrameXML\UI.xsd">
     <Script file="CharacterFrameTemplateMixin.lua"/>
     <Frame name="CharacterFrameTemplate" virtual="true" frameStrata="HIGH" enableMouse="true" mixin="CharacterFrameTemplateMixin">
-        <Size x="400" y="400"/>
         <Anchors>
             <Anchor point="TOPLEFT"/>
         </Anchors>
         <Scripts>
             <OnLoad method="OnLoad"/>
+            <OnSizeChanged method="OnSizeChanged"/>
         </Scripts>
+
+        <Frames>
+            <!--装备框体-->
+            <Frame parentKey="equipment" frameStrata="HIGH" enableMouse="true">
+                <Anchors>
+                    <Anchor point="LEFT"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="background">
+                            <Color r="0.153" g="0.302" b="0.239" a="0.8"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+            <!--属性框体-->
+            <Frame parentKey="property" frameStrata="HIGH" enableMouse="true">
+                <Anchors>
+                    <Anchor point="LEFT" relativeKey="$parent.equipment" relativePoint="RIGHT"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="background">
+                            <Color r="0.353" g="0.402" b="0.439" a="0.8"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+        </Frames>
     </Frame>
 </Ui>
