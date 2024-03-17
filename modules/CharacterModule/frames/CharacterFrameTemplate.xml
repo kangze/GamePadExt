@@ -45,44 +45,46 @@
                                 <Anchor point="TOP"/>
                             </Anchors>
                         </Texture>
-                    </Layer>
 
-                    <Layer level="BACKGROUND">
-                        <Texture parentKey="background1_title" atlas="UI-Character-Info-Title">
-                            <Anchors>
-                                <Anchor point="TOP" y="-15"/>
-                            </Anchors>
-                        </Texture>
-                    </Layer>
-
-                    <Layer level="ARTWORK">
-                        <FontString parentKey="title1" text="强化属性" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
-                            <FontHeight val="12"/>
-                            <Anchors>
-                                <Anchor point="CENTER" relativeKey="$parent.background1_title" relativePoint="CENTER"/>
-                            </Anchors>
-                        </FontString>
-                    </Layer>
-
-                    <!--属性2-->
-                    <Layer level="BACKGROUND">
                         <Texture parentKey="background2" atlas="UI-Character-Info-Mage-BG">
                             <Anchors>
                                 <Anchor point="TOPLEFT" relativeKey="$parent.background1" relativePoint="BOTTOMLEFT"/>
                             </Anchors>
                         </Texture>
-                    </Layer>
 
-                    <Layer level="BACKGROUND">
+                        <Texture parentKey="background1_title" atlas="UI-Character-Info-Title">
+                            <Anchors>
+                                <Anchor point="TOP" y="-100"/>
+                            </Anchors>
+                        </Texture>
+
                         <Texture parentKey="background2_title" atlas="UI-Character-Info-Title">
                             <Anchors>
                                 <Anchor point="TOP" relativeKey="$parent.background2" y="-15"/>
                             </Anchors>
                         </Texture>
-                    </Layer>
 
+                        <Texture parentKey="background0_title" atlas="UI-Character-Info-Title">
+                            <Anchors>
+                                <Anchor point="TOP" y="-25"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
                     <Layer level="ARTWORK">
-                        <FontString parentKey="title2" text="基础属性" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                        <FontString parentKey="title0" text="装备等级" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="12"/>
+                            <Anchors>
+                                <Anchor point="CENTER" relativeKey="$parent.background0_title" relativePoint="CENTER"/>
+                            </Anchors>
+                        </FontString>
+                        <FontString parentKey="title1" text="基础属性" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="12"/>
+                            <Anchors>
+                                <Anchor point="CENTER" relativeKey="$parent.background1_title" relativePoint="CENTER"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString parentKey="title2" text="强化属性" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
                             <FontHeight val="12"/>
                             <Anchors>
                                 <Anchor point="CENTER" relativeKey="$parent.background2_title" relativePoint="CENTER"/>

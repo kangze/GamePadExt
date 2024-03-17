@@ -7,7 +7,7 @@ function CharacterFrameTemplateMixin:OnLoad()
     local yOffset = 16;
     local topSpace = -70;
     local cal1xoffSet = 45;
-    local col3xOffset = 450;
+    local col3xOffset = 350;
     for index = 1, #slotNames do
         local itemFrame = CreateFrame("Frame", nil, self.equipment, "GpeEquipmentTemplate");
         itemFrame.col = slotNames[index][2];
@@ -19,6 +19,8 @@ function CharacterFrameTemplateMixin:OnLoad()
         elseif (slotNames[index][2] == 3) then
             itemFrame:SetPoint("TOPLEFT", col3xOffset,
                 topSpace + -1 * (itemFrame:GetHeight() + yOffset) * (col3Index - 1));
+            itemFrame.button:ClearAllPoints();
+            itemFrame.button:SetPoint("RIGHT",itemFrame);
             itemFrame.ext:ClearAllPoints();
             itemFrame.ext:SetPoint("RIGHT", itemFrame.button, "LEFT", 0, 0);
             itemFrame.ext.name:ClearAllPoints();
@@ -53,6 +55,8 @@ function CharacterFrameTemplateMixin:OnSizeChanged()
     self.property.background2_title:SetHeight(30);
     self.property.background2_title:SetWidth(self.property:GetWidth());
 
+    self.property.background0_title:SetHeight(30);
+    self.property.background0_title:SetWidth(self.property:GetWidth());
 
     self.equipment.background_1:SetWidth(self:GetHeight() * 0.7);
     self.equipment.background_1:SetHeight(48);
