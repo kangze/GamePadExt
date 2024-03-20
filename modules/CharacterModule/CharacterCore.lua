@@ -353,8 +353,6 @@ function GetUserStat(unit, statIndex)
             tooltip2 = STAT_NO_BENEFIT_TOOLTIP;
         end
     end
-    print("sss");
-    print(tooltip2);
 end
 
 function GetUserStats()
@@ -371,9 +369,6 @@ function GetUserStats()
             local primaryStat = select(6, GetSpecializationInfo(1, nil, nil, nil, UnitSex("player")));
             if (stat.primary ~= primaryStat) then
                 showStat = false;
-                print("------");
-                print(stat.primary, primaryStat);
-                print("-------");
             end
         end
 

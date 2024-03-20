@@ -7,6 +7,6 @@
     <Script file="CharacterModule.lua"/>
     <Script file="CharacterCore.lua"/>
     <Script file="CharacterCore_EnchantProperty.lua"/>
+    <Script file="CharacterCore_BaseProperty.lua"/>
     <Script file="CharacterInputCallback.lua"/>
-
 </Ui>
