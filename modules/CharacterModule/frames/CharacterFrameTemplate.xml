@@ -94,7 +94,12 @@
                 </Layers>
             </Frame>
 
-
+            <Frame parentKey="mythic" frameStrata="HIGH" enableMouse="true" inherits="MythicFrameTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeKey="$parent.property" relativePoint="TOPRIGHT"/>
+                    <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"/>
+                </Anchors>
+            </Frame>
         </Frames>
     </Frame>
 </Ui>

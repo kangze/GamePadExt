@@ -45,11 +45,11 @@ function CharacterModule:InitEquipment(characterFrame)
         local itemFrame = characterFrame.equipment[slotName];
         itemFrame:SetAttribute("item", itemLink)
         itemFrame.button.icon:SetTexture(itemIcon)
-        if (#equipments[index].sockets == 0 and #equipments[index].gems == 0) then
+        if (equipments[index].sockets and #equipments[index].sockets == 0 and #equipments[index].gems == 0) then
             itemFrame.ext.name:ClearAllPoints();
             itemFrame.ext.name:SetPoint("CENTER", itemFrame.ext, "CENTER", 0, 0);
             itemFrame.ext.name:SetFont("Fonts\\FRIZQT__.TTF", 10);
-        elseif (#equipments[index].sockets + #equipments[index].gems >= 3) then
+        elseif (equipments[index].sockets and #equipments[index].sockets + #equipments[index].gems >= 3) then
             itemFrame.ext.name:ClearAllPoints();
             itemFrame.ext.name:SetPoint("TOP", itemFrame.ext, "TOP", 5, 5);
             itemFrame.ext.name:SetFont("Fonts\\FRIZQT__.TTF", 9);
@@ -78,6 +78,9 @@ function CharacterModule:InitEquipment(characterFrame)
 end
 
 function CharacterModule:CreateSocket(itemFrame, sockets)
+    if (not sockets) then
+        return;
+    end
     for index = 1, #sockets do
         local socket = CreateFrame("Frame", nill, itemFrame.ext, "GpeSocketTemplate");
         socket:ClearAllPoints();
@@ -88,6 +91,9 @@ function CharacterModule:CreateSocket(itemFrame, sockets)
 end
 
 function CharacterModule:CreateGems(itemFrame, gems)
+    if (not gems) then
+        return;
+    end
     for index = 1, #gems do
         local gem = CreateFrame("Frame", nill, itemFrame, "GpeGemTemplate");
         gem:ClearAllPoints();
@@ -97,6 +103,9 @@ function CharacterModule:CreateGems(itemFrame, gems)
 end
 
 function CharacterModule:CreateEnchant(itemButton, enchants)
+    if (not enchants) then
+        return;
+    end
     for index = 1, #enchants do
         print(enchants[index]);
     end
@@ -112,6 +121,6 @@ function CharacterModule:InitProperty(characterFrame)
         propertyItemFrame.propertyName:SetText(properties[index].name);
         propertyItemFrame.propertyValue:SetText(BreakUpLargeNumbers(properties[index].value) .. "%");
         propertyItemFrame.propertyTooltip:SetText(properties[index].tooltip);
-        propertyItemFrame:SetPoint("TOPLEFT",propertyFrame.background2,"TOPLEFT", 0, offsetY * (index - 1) + offsetTopY);
+        propertyItemFrame:SetPoint("TOPLEFT", propertyFrame.background2, "TOPLEFT", 0, offsetY * (index - 1) + offsetTopY);
     end
 end

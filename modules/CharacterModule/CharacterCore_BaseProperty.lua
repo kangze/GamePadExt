@@ -1,13 +1,3 @@
-local stats = {
-    [1] = { stat = "STRENGTH", primary = LE_UNIT_STAT_STRENGTH, statIndex = LE_UNIT_STAT_STRENGTH },
-    [2] = { stat = "AGILITY", primary = LE_UNIT_STAT_AGILITY, statIndex = LE_UNIT_STAT_AGILITY },
-    [3] = { stat = "INTELLECT", primary = LE_UNIT_STAT_INTELLECT, statIndex = LE_UNIT_STAT_INTELLECT },
-    [4] = { stat = "STAMINA", statIndex = LE_UNIT_STAT_STAMINA },
-    [5] = { stat = "ARMOR" },
-    [6] = { stat = "STAGGER", hideAt = 0, roles = { Enum.LFGRole.Tank } },
-    [7] = { stat = "MANAREGEN", roles = { Enum.LFGRole.Healer } },
-};
-
 function CharacterCore_GetTooltipText(statIndex)
     stat, effectiveStat, posBuff, negBuff = UnitStat("player", statIndex);
     local effectiveStatDisplay = BreakUpLargeNumbers(effectiveStat);
@@ -43,6 +33,155 @@ function CharacterCore_GetTooltipText(statIndex)
 end
 
 --PaperDollFrame.lua 604
+
+
+--获取耐力
+function CharacterCore_GetSTAMINA()
+    local statName, value, tooltip1 = CharacterCore_GetTooltipText(LE_UNIT_STAT_STAMINA);
+    _, effectiveStat = UnitStat("player", LE_UNIT_STAT_STAMINA);
+    local tooltip2 = _G["DEFAULT_STAT" .. LE_UNIT_STAT_STAMINA .. "_TOOLTIP"];
+    tooltip2 = format(tooltip2,
+        BreakUpLargeNumbers(((effectiveStat * UnitHPPerStamina("player"))) * GetUnitMaxHealthModifier("player")));
+    local result = { statName = statName, value = value, tooltip1 = tooltip1, tooltip2 = tooltip2 };
+    return result;
+end
+
+--获取敏捷
+function CharacterCore_GetAGILITY()
+    local statName, value, tooltip1 = CharacterCore_GetTooltipText(LE_UNIT_STAT_AGILITY);
+    local tooltip2 = _G["DEFAULT_STAT" .. LE_UNIT_STAT_AGILITY .. "_TOOLTIP"];
+    local primaryStat, spec, role;
+    spec = GetSpecialization();
+    if (spec) then
+        role = GetSpecializationRole(spec);
+        primaryStat = select(6, GetSpecializationInfo(spec, nil, nil, nil, UnitSex("player")));
+    end
+
+    if (not primaryStat or primaryStat == LE_UNIT_STAT_AGILITY) then
+        tooltip2 = HasAPEffectsSpellPower() and STAT_TOOLTIP_BONUS_AP_SP or STAT_TOOLTIP_BONUS_AP;
+        if (role == "TANK") then
+            local increasedDodgeChance = GetDodgeChanceFromAttribute();
+            if (increasedDodgeChance > 0) then
+                tooltip2 = tooltip2 .. "|n|n" .. format(CR_DODGE_BASE_STAT_TOOLTIP, increasedDodgeChance);
+            end
+        end
+    else
+        tooltip2 = STAT_NO_BENEFIT_TOOLTIP;
+    end
+
+    local result = { statName = statName, value = value, tooltip1 = tooltip1, tooltip2 = tooltip2 };
+    return result;
+end
+
+--获取力量
+function CharacterCore_GetSTRENGTH()
+    local statName, value, tooltip1 = CharacterCore_GetTooltipText(LE_UNIT_STAT_STRENGTH);
+    local tooltip2 = _G["DEFAULT_STAT" .. LE_UNIT_STAT_STRENGTH .. "_TOOLTIP"];
+    local primaryStat, spec, role;
+    spec = GetSpecialization();
+    if (spec) then
+        role = GetSpecializationRole(spec);
+        primaryStat = select(6, GetSpecializationInfo(spec, nil, nil, nil, UnitSex("player")));
+    end
+
+    local attackPower = GetAttackPowerForStat(statIndex, effectiveStat);
+    if (HasAPEffectsSpellPower()) then
+        tooltip2 = STAT_TOOLTIP_BONUS_AP_SP;
+    end
+    if (not primaryStat or primaryStat == LE_UNIT_STAT_STRENGTH) then
+        tooltip2 = format(tooltip2, BreakUpLargeNumbers(attackPower));
+        if (role == "TANK") then
+            local increasedParryChance = GetParryChanceFromAttribute();
+            if (increasedParryChance > 0) then
+                tooltip2 = tooltip2 .. "|n|n" .. format(CR_PARRY_BASE_STAT_TOOLTIP, increasedParryChance);
+            end
+        end
+    else
+        tooltip2 = STAT_NO_BENEFIT_TOOLTIP;
+    end
+
+    local result = { statName = statName, value = value, tooltip1 = tooltip1, tooltip2 = tooltip2 };
+    return result;
+end
+
+--获取智力
+function CharacterCore_GetINTELLECT()
+    local statName, value, tooltip1 = CharacterCore_GetTooltipText(LE_UNIT_STAT_INTELLECT);
+    local tooltip2 = _G["DEFAULT_STAT" .. LE_UNIT_STAT_INTELLECT .. "_TOOLTIP"];
+    local primaryStat, spec, role;
+    spec = GetSpecialization();
+    if (spec) then
+        role = GetSpecializationRole(spec);
+        primaryStat = select(6, GetSpecializationInfo(spec, nil, nil, nil, UnitSex("player")));
+    end
+
+    if (HasAPEffectsSpellPower()) then
+        tooltip2 = STAT_NO_BENEFIT_TOOLTIP;
+    elseif (HasSPEffectsAttackPower()) then
+        tooltip2 = STAT_TOOLTIP_BONUS_AP_SP;
+    elseif (not primaryStat or primaryStat == LE_UNIT_STAT_INTELLECT) then
+        tooltip2 = format(tooltip2, max(0, effectiveStat));
+    else
+        tooltip2 = STAT_NO_BENEFIT_TOOLTIP;
+    end
+    local result = { statName = statName, value = value, tooltip1 = tooltip1, tooltip2 = tooltip2 };
+    return result;
+end
+
+--法力回复
+---- All mana regen stats are displayed as mana/5 sec.
+function CharacterCore_GetManaRegen()
+    local base, combat = GetManaRegen();
+    base = floor(base * 5.0);
+    combat = floor(combat * 5.0);
+    local baseText = BreakUpLargeNumbers(base);
+    local combatText = BreakUpLargeNumbers(combat);
+    local tooltipText = HIGHLIGHT_FONT_COLOR_CODE ..
+        format(PAPERDOLLFRAME_TOOLTIP_FORMAT, MANA_REGEN) .. " " .. combatText .. FONT_COLOR_CODE_CLOSE;
+    local tooltip2 = format(MANA_REGEN_TOOLTIP, baseText);
+    local result = {
+        statName = MANA_REGEN,
+        value = base,
+        tooltip1 = tooltipText,
+        tooltip2 = tooltip2
+    };
+    return result;
+end
+
+--GetUserStats();
+
+function CharacterCore_GetUserArmor()
+    local baselineArmor, effectiveArmor, armor, bonusArmor = UnitArmor("player");
+    --PaperDollFrame_SetLabelAndText(statFrame, STAT_ARMOR, BreakUpLargeNumbers(effectiveArmor), false, effectiveArmor);
+    local armorReduction = PaperDollFrame_GetArmorReduction(effectiveArmor, UnitEffectiveLevel("player"));
+    print(armorReduction);
+    local armorReductionAgainstTarget = C_PaperDollInfo.GetArmorEffectivenessAgainstTarget(effectiveArmor);
+    if (armorReductionAgainstTarget) then
+        armorReductionAgainstTarget = armorReductionAgainstTarget * 100;
+    end
+    local tooltip = HIGHLIGHT_FONT_COLOR_CODE ..
+        format(PAPERDOLLFRAME_TOOLTIP_FORMAT, ARMOR) ..
+        " " .. BreakUpLargeNumbers(effectiveArmor) .. FONT_COLOR_CODE_CLOSE;
+    local tooltip2 = format(STAT_ARMOR_TOOLTIP, armorReduction);
+    local tooltip3;
+    if (armorReductionAgainstTarget) then
+        tooltip3 = format(STAT_ARMOR_TARGET_TOOLTIP, armorReductionAgainstTarget);
+    end
+    print(tooltip2);
+end
+
+--GetUserArmor();
+
+local stats = {
+    [1] = { stat = "STRENGTH", func = CharacterCore_GetSTRENGTH, primary = LE_UNIT_STAT_STRENGTH, statIndex = LE_UNIT_STAT_STRENGTH },
+    [2] = { stat = "AGILITY", func = CharacterCore_GetAGILITY, primary = LE_UNIT_STAT_AGILITY, statIndex = LE_UNIT_STAT_AGILITY },
+    [3] = { stat = "INTELLECT", func = CharacterCore_GetINTELLECT, primary = LE_UNIT_STAT_INTELLECT, statIndex = LE_UNIT_STAT_INTELLECT },
+    [4] = { stat = "STAMINA", func = CharacterCore_GetSTAMINA, statIndex = LE_UNIT_STAT_STAMINA },
+    [5] = { stat = "ARMOR", func = CharacterCore_GetUserArmor },
+    [6] = { stat = "STAGGER", hideAt = 0, roles = { Enum.LFGRole.Tank } },
+    [7] = { stat = "MANAREGEN", func = CharacterCore_GetManaRegen, primary = LE_UNIT_STAT_INTELLECT, roles = { Enum.LFGRole.Healer } },
+};
+
 function GetUserStat(unit, statIndex)
     local stat;
     local effectiveStat;
@@ -146,170 +285,25 @@ function GetUserStat(unit, statIndex)
     end
 end
 
-function CharacterCore_GetSTAMINA()
-    local statName, value, tooltip1 = CharacterCore_GetTooltipText(LE_UNIT_STAT_STAMINA);
-    _, effectiveStat = UnitStat("player", LE_UNIT_STAT_STAMINA);
-    local tooltip2 = _G["DEFAULT_STAT" .. LE_UNIT_STAT_STAMINA .. "_TOOLTIP"];
-    tooltip2 = format(tooltip2,
-        BreakUpLargeNumbers(((effectiveStat * UnitHPPerStamina("player"))) * GetUnitMaxHealthModifier("player")));
-    local result = { statName = statName, value = value, tooltip1 = tooltip1, tooltip2 = tooltip2 };
-    return result;
-end
-
-function CharacterCore_GetAGILITY()
-    local statName, value, tooltip1 = CharacterCore_GetTooltipText(LE_UNIT_STAT_AGILITY);
-    local tooltip2 = _G["DEFAULT_STAT" .. LE_UNIT_STAT_AGILITY .. "_TOOLTIP"];
-    local primaryStat, spec, role;
-    spec = GetSpecialization();
-    if (spec) then
-        role = GetSpecializationRole(spec);
-        primaryStat = select(6, GetSpecializationInfo(spec, nil, nil, nil, UnitSex("player")));
-    end
-
-    if (not primaryStat or primaryStat == LE_UNIT_STAT_AGILITY) then
-        tooltip2 = HasAPEffectsSpellPower() and STAT_TOOLTIP_BONUS_AP_SP or STAT_TOOLTIP_BONUS_AP;
-        if (role == "TANK") then
-            local increasedDodgeChance = GetDodgeChanceFromAttribute();
-            if (increasedDodgeChance > 0) then
-                tooltip2 = tooltip2 .. "|n|n" .. format(CR_DODGE_BASE_STAT_TOOLTIP, increasedDodgeChance);
-            end
-        end
-    else
-        tooltip2 = STAT_NO_BENEFIT_TOOLTIP;
-    end
-
-    local result = { statName = statName, value = value, tooltip1 = tooltip1, tooltip2 = tooltip2 };
-    return result;
-end
-
---获取力量
-function CharacterCore_GetSTRENGTH()
-    local statName, value, tooltip1 = CharacterCore_GetTooltipText(LE_UNIT_STAT_STRENGTH);
-    local tooltip2 = _G["DEFAULT_STAT" .. LE_UNIT_STAT_STRENGTH .. "_TOOLTIP"];
-    local primaryStat, spec, role;
-    spec = GetSpecialization();
-    if (spec) then
-        role = GetSpecializationRole(spec);
-        primaryStat = select(6, GetSpecializationInfo(spec, nil, nil, nil, UnitSex("player")));
-    end
-
-    local attackPower = GetAttackPowerForStat(statIndex, effectiveStat);
-    if (HasAPEffectsSpellPower()) then
-        tooltip2 = STAT_TOOLTIP_BONUS_AP_SP;
-    end
-    if (not primaryStat or primaryStat == LE_UNIT_STAT_STRENGTH) then
-        tooltip2 = format(tooltip2, BreakUpLargeNumbers(attackPower));
-        if (role == "TANK") then
-            local increasedParryChance = GetParryChanceFromAttribute();
-            if (increasedParryChance > 0) then
-                tooltip2 = tooltip2 .. "|n|n" .. format(CR_PARRY_BASE_STAT_TOOLTIP, increasedParryChance);
-            end
-        end
-    else
-        tooltip2 = STAT_NO_BENEFIT_TOOLTIP;
-    end
-
-    local result = { statName = statName, value = value, tooltip1 = tooltip1, tooltip2 = tooltip2 };
-    return result;
-end
-
---获取智力
-function CharacterCore_GetINTELLECT()
-    local statName, value, tooltip1 = CharacterCore_GetTooltipText(LE_UNIT_STAT_INTELLECT);
-    local tooltip2 = _G["DEFAULT_STAT" .. LE_UNIT_STAT_INTELLECT .. "_TOOLTIP"];
-    local primaryStat, spec, role;
-    spec = GetSpecialization();
-    if (spec) then
-        role = GetSpecializationRole(spec);
-        primaryStat = select(6, GetSpecializationInfo(spec, nil, nil, nil, UnitSex("player")));
-    end
-
-    if (HasAPEffectsSpellPower()) then
-        tooltip2 = STAT_NO_BENEFIT_TOOLTIP;
-    elseif (HasSPEffectsAttackPower()) then
-        tooltip2 = STAT_TOOLTIP_BONUS_AP_SP;
-    elseif (not primaryStat or primaryStat == LE_UNIT_STAT_INTELLECT) then
-        tooltip2 = format(tooltip2, max(0, effectiveStat));
-    else
-        tooltip2 = STAT_NO_BENEFIT_TOOLTIP;
-    end
-    local result = { statName = statName, value = value, tooltip1 = tooltip1, tooltip2 = tooltip2 };
-    return result;
-end
-
---法力回复
----- All mana regen stats are displayed as mana/5 sec.
-function CharacterCore_GetManaRegen()
-    local base, combat = GetManaRegen();
-    base = floor(base * 5.0);
-    combat = floor(combat * 5.0);
-    local baseText = BreakUpLargeNumbers(base);
-    local combatText = BreakUpLargeNumbers(combat);
-    local tooltipText = HIGHLIGHT_FONT_COLOR_CODE ..
-        format(PAPERDOLLFRAME_TOOLTIP_FORMAT, MANA_REGEN) .. " " .. combatText .. FONT_COLOR_CODE_CLOSE;
-    local tooltip2 = format(MANA_REGEN_TOOLTIP, baseText);
-    local result = {
-        statName = statName,
-        value = base,
-        tooltip1 = tooltipText,
-        tooltip2 = tooltip2
-    };
-    return result;
-end
-
 function GetUserStats()
-    local spec, role;
-    spec = GetSpecialization();
-    if spec then
-        role = GetSpecializationRoleEnum(spec);
-    end
-
+    local properties = {};
     for statIndex = 1, #stats do
         local stat = stats[statIndex];
         local showStat = true;
-        if (showStat and stat.primary and spec) then
+        if (showStat and stat.primary) then
             local primaryStat = select(6, GetSpecializationInfo(1, nil, nil, nil, UnitSex("player")));
             if (stat.primary ~= primaryStat) then
                 showStat = false;
             end
         end
-
-        if (showStat and stat.roles) then
-            local foundRole = false;
-            for _, statRole in pairs(stat.roles) do
-                if (role == statRole) then
-                    foundRole = true;
-                    break;
-                end
+        --print(stat.func);
+        if (showStat and stat.func) then
+            local result = stat.func();
+            if (result and result.statName) then
+                print(result.statName);
             end
-            showStat = foundRole;
-        end
-        if (showStat and stat.statIndex) then
-            GetUserStat("player", stat.statIndex);
+            table.insert(properties, result);
         end
     end
+    return properties;
 end
-
---GetUserStats();
-
-function GetUserArmor()
-    local baselineArmor, effectiveArmor, armor, bonusArmor = UnitArmor("player");
-    --PaperDollFrame_SetLabelAndText(statFrame, STAT_ARMOR, BreakUpLargeNumbers(effectiveArmor), false, effectiveArmor);
-    local armorReduction = PaperDollFrame_GetArmorReduction(effectiveArmor, UnitEffectiveLevel("player"));
-    print(armorReduction);
-    local armorReductionAgainstTarget = C_PaperDollInfo.GetArmorEffectivenessAgainstTarget(effectiveArmor);
-    if (armorReductionAgainstTarget) then
-        armorReductionAgainstTarget = armorReductionAgainstTarget * 100;
-    end
-    local tooltip = HIGHLIGHT_FONT_COLOR_CODE ..
-        format(PAPERDOLLFRAME_TOOLTIP_FORMAT, ARMOR) ..
-        " " .. BreakUpLargeNumbers(effectiveArmor) .. FONT_COLOR_CODE_CLOSE;
-    local tooltip2 = format(STAT_ARMOR_TOOLTIP, armorReduction);
-    local tooltip3;
-    if (armorReductionAgainstTarget) then
-        tooltip3 = format(STAT_ARMOR_TARGET_TOOLTIP, armorReductionAgainstTarget);
-    end
-    print(tooltip2);
-end
-
---GetUserArmor();

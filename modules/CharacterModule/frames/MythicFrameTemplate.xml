@@ -1,0 +1,69 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\FrameXML\UI.xsd">
+    <Script file="MythicFrameTemplateMixin.lua"/>
+    <Frame name="MythicFrameTemplate" virtual="true" frameStrata="HIGH" enableMouse="true" mixin="MythicFrameTemplateMixin">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="background" atlas="transmog-background-race-vulpera"/>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad method="OnLoad"/>
+        </Scripts>
+
+        <Frames>
+            <!--当前周-->
+            <Frame parentKey="currentWeek" frameStrata="HIGH" enableMouse="true">
+                <Size x="200" y="60"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="15" y="-30"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="background" atlas="transmog-background-race-vulpera"/>
+                    </Layer>
+
+                    <Layer level="ARTWORK">
+                        <FontString parentKey="title" text="当前周" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="12"/>
+                            <Anchors>
+                                <Anchor point="TOP" y="-10"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Frames>
+                    <ItemButton parentKey="item" frameStrata="HIGH">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" x="10" y="-10"/>
+                        </Anchors>
+                    </ItemButton>
+                </Frames>
+            </Frame>
+
+            <!--当前钥匙-->
+            <Frame parentKey="currentKey" frameStrata="HIGH" enableMouse="true">
+                <Size x="200" y="180"/>
+                <Anchors>
+                    <Anchor point="TOP" relativeKey="$parent.currentWeek" relativePoint="BOTTOM" y="-50" x="0"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="background" atlas="charactercreate-startingzone-mechagnome" setAllPoints="true">
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="ARTWORK">
+                        <Texture parentKey="ring" atlas="mythicplus-greatvault-collect">
+                            <Size x="100" y="85"/>
+                            <Anchors>
+                                <Anchor point="CENTER" relativePoint="TOP"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+        </Frames>
+    </Frame>
+</Ui>
