@@ -15,7 +15,7 @@
         <Frames>
             <!--当前周-->
             <Frame parentKey="currentWeek" frameStrata="HIGH" enableMouse="true">
-                <Size x="200" y="60"/>
+                <Size x="250" y="60"/>
                 <Anchors>
                     <Anchor point="TOPLEFT" x="15" y="-30"/>
                 </Anchors>
@@ -42,9 +42,9 @@
                 </Frames>
             </Frame>
 
-            <!--当前钥匙-->
+            <!--当前钥石-->
             <Frame parentKey="currentKey" frameStrata="HIGH" enableMouse="true">
-                <Size x="200" y="180"/>
+                <Size x="250" y="180"/>
                 <Anchors>
                     <Anchor point="TOP" relativeKey="$parent.currentWeek" relativePoint="BOTTOM" y="-50" x="0"/>
                 </Anchors>
@@ -61,6 +61,160 @@
                                 <Anchor point="CENTER" relativePoint="TOP"/>
                             </Anchors>
                         </Texture>
+                    </Layer>
+
+                    <!--图标-->
+                    <Layer level="ARTWORK">
+
+                    </Layer>
+
+                    <Layer level="ARTWORK">
+                        <FontString parentKey="title" text="史诗钥石评分" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="12"/>
+                            <Anchors>
+                                <Anchor point="CENTER" y="20"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString parentKey="score" text="2250" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="18"/>
+                            <Anchors>
+                                <Anchor point="CENTER"/>
+                            </Anchors>
+                        </FontString>
+
+                        <Texture parentKey="icon">
+                            <Size x="45" y="45"/>
+                            <Anchors>
+                                <Anchor point="CENTER" y="-20"/>
+                            </Anchors>
+                        </Texture>
+
+                        <FontString parentKey="score" text="当前钥匙:重返卡拉赞(21)" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="13"/>
+                            <Anchors>
+                                <Anchor point="CENTER" y="-40"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+            <!--工会钥匙情况-->
+            <Frame parentKey="guild" frameStrata="HIGH" enableMouse="true">
+                <Size x="250" y="120"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-15" y="-30"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="background" atlas="transmog-background-race-vulpera"/>
+                    </Layer>
+
+                    <Layer level="ARTWORK">
+                        <FontString parentKey="title1" text="史诗钥匙地下城" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="12"/>
+                            <Anchors>
+                                <Anchor point="TOPRIGHT" relativeKey="$parent.background" y="5"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString parentKey="title2" text="本周" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="14"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeKey="$parent.background" x="10" y="-5"/>
+                            </Anchors>
+                        </FontString>
+
+
+
+                        <!--Demo-->
+                        <FontString parentKey="demo1" text="二月满天                                        20" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="11"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeKey="$parent.background" x="10" y="-25"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+            <!--下周-->
+            <Frame parentKey="nextWeek" frameStrata="HIGH" enableMouse="true">
+                <Size x="250" y="80"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-15" y="-200"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="background" atlas="transmog-background-race-vulpera">
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="ARTWORK">
+                        <FontString parentKey="title" text="日程表" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="14"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeKey="$parent.background" x="10" y="-10"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+            <!--队伍钥匙信息-->
+            <Frame parentKey="party" frameStrata="HIGH" enableMouse="true">
+                <Size x="250" y="80"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-15" y="-350"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture parentKey="background" atlas="transmog-background-race-vulpera">
+                        </Texture>
+                    </Layer>
+
+                    <Layer level="ARTWORK">
+                        <FontString parentKey="title" text="队伍钥匙信息" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="14"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeKey="$parent.background" x="10" y="-10"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+            <Frame parentKey="raid" frameStrata="HIGH" enableMouse="true">
+                <Size x="140" y="60"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <!--遮罩层-->
+                        <Texture parentKey="portal" atlas="Artifacts-BG-Shadow"/>
+                        <Texture parentKey="background" atlas="UI-Frame-NightFaeChoice-ScrollingBG">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeKey="$parent.portal" x="2" y="-2"/>
+                                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.portal" x="-2" y="2"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                    <Layer level="ARTWORK">
+                        <FontString parentKey="title" text="法夜林地" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="13"/>
+                            <Anchors>
+                                <Anchor point="TOP" y="-5"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString parentKey="score" text="500" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="12"/>
+                            <Anchors>
+                                <Anchor point="LEFT" x="20" y="-10"/>
+                            </Anchors>
+                        </FontString>
                     </Layer>
                 </Layers>
             </Frame>
