@@ -5,7 +5,7 @@
     <Frame name="MythicFrameTemplate" virtual="true" frameStrata="HIGH" enableMouse="true" mixin="MythicFrameTemplateMixin">
         <Layers>
             <Layer level="BACKGROUND">
-                <Texture parentKey="background" atlas="transmog-background-race-vulpera"/>
+                <Texture parentKey="background" atlas="CovenantChoice-Offering-Preview-Frame-Background-Venthyr"/>
             </Layer>
         </Layers>
         <Scripts>
@@ -15,13 +15,15 @@
         <Frames>
             <!--当前周-->
             <Frame parentKey="currentWeek" frameStrata="HIGH" enableMouse="true">
-                <Size x="250" y="60"/>
+                <Size y="60"/>
                 <Anchors>
-                    <Anchor point="TOPLEFT" x="15" y="-30"/>
+                    <Anchor point="TOPLEFT" x="15" y="-50"/>
+                    <Anchor point="RIGHT" relativePoint="CENTER" x="-15"/>
                 </Anchors>
                 <Layers>
                     <Layer level="BACKGROUND">
-                        <Texture parentKey="background" atlas="transmog-background-race-vulpera"/>
+                        <Texture parentKey="portal" atlas="Artifacts-BG-Shadow"/>
+                        <Texture parentKey="background" atlas="ClassHall-CombatAlly"/>
                     </Layer>
 
                     <Layer level="ARTWORK">
@@ -44,9 +46,11 @@
 
             <!--当前钥石-->
             <Frame parentKey="currentKey" frameStrata="HIGH" enableMouse="true">
-                <Size x="250" y="180"/>
+                <Size y="180"/>
                 <Anchors>
-                    <Anchor point="TOP" relativeKey="$parent.currentWeek" relativePoint="BOTTOM" y="-50" x="0"/>
+                    <Anchor point="TOP" relativeKey="$parent.currentWeek" relativePoint="BOTTOM" y="-60" x="0"/>
+                    <Anchor point="RIGHT" relativePoint="CENTER" x="-15"/>
+                    <Anchor point="BOTTOM" relativePoint="CENTER"/>
                 </Anchors>
                 <Layers>
                     <Layer level="BACKGROUND">
@@ -105,10 +109,13 @@
                 <Size x="250" y="120"/>
                 <Anchors>
                     <Anchor point="TOPRIGHT" x="-15" y="-30"/>
+                    <Anchor point="LEFT" relativePoint="CENTER" x="15"/>
                 </Anchors>
                 <Layers>
                     <Layer level="BACKGROUND">
-                        <Texture parentKey="background" atlas="transmog-background-race-vulpera"/>
+
+                        <Texture parentKey="background" atlas="jailerstower-wayfinder-background"/>
+                        <Texture parentKey="portal" atlas="Artifacts-BG-Shadow"/>
                     </Layer>
 
                     <Layer level="ARTWORK">
@@ -141,13 +148,15 @@
 
             <!--下周-->
             <Frame parentKey="nextWeek" frameStrata="HIGH" enableMouse="true">
-                <Size x="250" y="80"/>
                 <Anchors>
-                    <Anchor point="TOPRIGHT" x="-15" y="-200"/>
+                    <Anchor point="TOP" relativeKey="$parent.currentKey" relativePoint="TOP"/>
+                    <Anchor point="LEFT" relativePoint="CENTER" x="15"/>
+                    <Anchor point="BOTTOM" relativeKey="$parent.currentKey" relativePoint="CENTER" y="15"/>
+                    <Anchor point="RIGHT" relativePoint="RIGHT" x="-15"/>
                 </Anchors>
                 <Layers>
                     <Layer level="BACKGROUND">
-                        <Texture parentKey="background" atlas="transmog-background-race-vulpera">
+                        <Texture parentKey="background" atlas="legionmission-complete-background-mage">
                         </Texture>
                     </Layer>
 
@@ -164,17 +173,27 @@
 
             <!--队伍钥匙信息-->
             <Frame parentKey="party" frameStrata="HIGH" enableMouse="true">
-                <Size x="250" y="80"/>
                 <Anchors>
-                    <Anchor point="TOPRIGHT" x="-15" y="-350"/>
+                    <Anchor point="TOP" relativeKey="$parent.currentKey" relativePoint="CENTER" y="-15"/>
+                    <Anchor point="LEFT" relativePoint="CENTER" x="15"/>
+                    <Anchor point="BOTTOM" relativeKey="$parent.currentKey" relativePoint="BOTTOM"/>
+                    <Anchor point="RIGHT" relativePoint="RIGHT" x="-15"/>
                 </Anchors>
                 <Layers>
                     <Layer level="BACKGROUND">
-                        <Texture parentKey="background" atlas="transmog-background-race-vulpera">
+                        <Texture parentKey="background" atlas="legionmission-complete-background-mage">
                         </Texture>
                     </Layer>
 
                     <Layer level="ARTWORK">
+                        <Texture parentKey="icon" atlas="bonusobjectives-title-icon-honor">
+                            <Size x="100"/>
+                            <Anchors>
+                                <Anchor point="RIGHT"/>
+                                <Anchor point="TOP"/>
+                                <Anchor point="BOTTOM"/>
+                            </Anchors>
+                        </Texture>
                         <FontString parentKey="title" text="队伍钥匙信息" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
                             <FontHeight val="14"/>
                             <Anchors>
@@ -185,10 +204,256 @@
                 </Layers>
             </Frame>
 
-            <Frame parentKey="raid" frameStrata="HIGH" enableMouse="true">
+            <Frame parentKey="raid1" frameStrata="HIGH" enableMouse="true">
                 <Size x="140" y="60"/>
                 <Anchors>
-                    <Anchor point="BOTTOMLEFT"/>
+                    <Anchor point="LEFT" x="15"/>
+                    <Anchor point="TOP" relativePoint="CENTER" y="-20"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <!--遮罩层-->
+                        <Texture parentKey="portal" atlas="Artifacts-BG-Shadow"/>
+                        <Texture parentKey="background" atlas="UI-Frame-NightFaeChoice-ScrollingBG">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeKey="$parent.portal" x="2" y="-2"/>
+                                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.portal" x="-2" y="2"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                    <Layer level="ARTWORK">
+                        <FontString parentKey="title" text="法夜林地" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="13"/>
+                            <Anchors>
+                                <Anchor point="TOP" y="-5"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString parentKey="score" text="500" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="12"/>
+                            <Anchors>
+                                <Anchor point="LEFT" x="20" y="-10"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+            <Frame parentKey="raid2" frameStrata="HIGH" enableMouse="true">
+                <Size x="140" y="60"/>
+                <Anchors>
+                    <Anchor point="LEFT" x="170"/>
+                    <Anchor point="TOP" relativePoint="CENTER" y="-20"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <!--遮罩层-->
+                        <Texture parentKey="portal" atlas="Artifacts-BG-Shadow"/>
+                        <Texture parentKey="background" atlas="UI-Frame-NightFaeChoice-ScrollingBG">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeKey="$parent.portal" x="2" y="-2"/>
+                                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.portal" x="-2" y="2"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                    <Layer level="ARTWORK">
+                        <FontString parentKey="title" text="法夜林地" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="13"/>
+                            <Anchors>
+                                <Anchor point="TOP" y="-5"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString parentKey="score" text="500" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="12"/>
+                            <Anchors>
+                                <Anchor point="LEFT" x="20" y="-10"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+            <Frame parentKey="raid3" frameStrata="HIGH" enableMouse="true">
+                <Size x="140" y="60"/>
+                <Anchors>
+                    <Anchor point="LEFT" x="325"/>
+                    <Anchor point="TOP" relativePoint="CENTER" y="-20"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <!--遮罩层-->
+                        <Texture parentKey="portal" atlas="Artifacts-BG-Shadow"/>
+                        <Texture parentKey="background" atlas="UI-Frame-NightFaeChoice-ScrollingBG">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeKey="$parent.portal" x="2" y="-2"/>
+                                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.portal" x="-2" y="2"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                    <Layer level="ARTWORK">
+                        <FontString parentKey="title" text="法夜林地" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="13"/>
+                            <Anchors>
+                                <Anchor point="TOP" y="-5"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString parentKey="score" text="500" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="12"/>
+                            <Anchors>
+                                <Anchor point="LEFT" x="20" y="-10"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+             <Frame parentKey="raid4" frameStrata="HIGH" enableMouse="true">
+                <Size x="140" y="60"/>
+                <Anchors>
+                    <Anchor point="LEFT" x="480"/>
+                    <Anchor point="TOP" relativePoint="CENTER" y="-20"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <!--遮罩层-->
+                        <Texture parentKey="portal" atlas="Artifacts-BG-Shadow"/>
+                        <Texture parentKey="background" atlas="UI-Frame-NightFaeChoice-ScrollingBG">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeKey="$parent.portal" x="2" y="-2"/>
+                                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.portal" x="-2" y="2"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                    <Layer level="ARTWORK">
+                        <FontString parentKey="title" text="法夜林地" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="13"/>
+                            <Anchors>
+                                <Anchor point="TOP" y="-5"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString parentKey="score" text="500" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="12"/>
+                            <Anchors>
+                                <Anchor point="LEFT" x="20" y="-10"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+            <Frame parentKey="raid5" frameStrata="HIGH" enableMouse="true">
+                <Size x="140" y="60"/>
+                <Anchors>
+                    <Anchor point="LEFT" x="15"/>
+                    <Anchor point="TOP" relativePoint="CENTER" y="-100"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <!--遮罩层-->
+                        <Texture parentKey="portal" atlas="Artifacts-BG-Shadow"/>
+                        <Texture parentKey="background" atlas="UI-Frame-NightFaeChoice-ScrollingBG">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeKey="$parent.portal" x="2" y="-2"/>
+                                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.portal" x="-2" y="2"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                    <Layer level="ARTWORK">
+                        <FontString parentKey="title" text="法夜林地" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="13"/>
+                            <Anchors>
+                                <Anchor point="TOP" y="-5"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString parentKey="score" text="500" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="12"/>
+                            <Anchors>
+                                <Anchor point="LEFT" x="20" y="-10"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+            <Frame parentKey="raid6" frameStrata="HIGH" enableMouse="true">
+                <Size x="140" y="60"/>
+                <Anchors>
+                    <Anchor point="LEFT" x="170"/>
+                    <Anchor point="TOP" relativePoint="CENTER" y="-100"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <!--遮罩层-->
+                        <Texture parentKey="portal" atlas="Artifacts-BG-Shadow"/>
+                        <Texture parentKey="background" atlas="UI-Frame-NightFaeChoice-ScrollingBG">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeKey="$parent.portal" x="2" y="-2"/>
+                                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.portal" x="-2" y="2"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                    <Layer level="ARTWORK">
+                        <FontString parentKey="title" text="法夜林地" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="13"/>
+                            <Anchors>
+                                <Anchor point="TOP" y="-5"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString parentKey="score" text="500" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="12"/>
+                            <Anchors>
+                                <Anchor point="LEFT" x="20" y="-10"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+            <Frame parentKey="raid7" frameStrata="HIGH" enableMouse="true">
+                <Size x="140" y="60"/>
+                <Anchors>
+                    <Anchor point="LEFT" x="325"/>
+                    <Anchor point="TOP" relativePoint="CENTER" y="-100"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <!--遮罩层-->
+                        <Texture parentKey="portal" atlas="Artifacts-BG-Shadow"/>
+                        <Texture parentKey="background" atlas="UI-Frame-NightFaeChoice-ScrollingBG">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeKey="$parent.portal" x="2" y="-2"/>
+                                <Anchor point="BOTTOMRIGHT" relativeKey="$parent.portal" x="-2" y="2"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                    <Layer level="ARTWORK">
+                        <FontString parentKey="title" text="法夜林地" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="13"/>
+                            <Anchors>
+                                <Anchor point="TOP" y="-5"/>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString parentKey="score" text="500" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                            <FontHeight val="12"/>
+                            <Anchors>
+                                <Anchor point="LEFT" x="20" y="-10"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+             <Frame parentKey="raid8" frameStrata="HIGH" enableMouse="true">
+                <Size x="140" y="60"/>
+                <Anchors>
+                    <Anchor point="LEFT" x="480"/>
+                    <Anchor point="TOP" relativePoint="CENTER" y="-100"/>
                 </Anchors>
                 <Layers>
                     <Layer level="BACKGROUND">
