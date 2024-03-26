@@ -1,0 +1,1 @@
+FactionFrameTemplate2Mixin = {};

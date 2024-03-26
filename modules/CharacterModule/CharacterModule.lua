@@ -18,13 +18,21 @@ end
 function CharacterModule:UI_ERROR_MESSAGE()
     MaskFrameModule:Active("CharacterFrameHeader");
 
-    self.equipment_gamepadInitor = GamePadInitor:Init(GamePadInitorNames.CharacterEquipmentFrame.Name,
-        GamePadInitorNames.CharacterEquipmentFrame.Level);
-    local characterFrame = CreateFrame("Frame", nil, nil, "CharacterFrameTemplate");
-    characterFrame:SetAllPoints(MaskFrameModule.bodyFrame);
+    -- self.equipment_gamepadInitor = GamePadInitor:Init(GamePadInitorNames.CharacterEquipmentFrame.Name,
+    --     GamePadInitorNames.CharacterEquipmentFrame.Level);
+    -- local characterFrame = CreateFrame("Frame", nil, nil, "CharacterFrameTemplate");
+    -- characterFrame:SetAllPoints(MaskFrameModule.bodyFrame);
 
-    CharacterModule:InitEquipment(characterFrame);
-    CharacterModule:InitProperty(characterFrame);
+    -- CharacterModule:InitEquipment(characterFrame);
+    -- CharacterModule:InitProperty(characterFrame);
+
+    --声望栏
+    self.faction_gamepadInitor=GamePadInitor:Init(GamePadInitorNames.CharacterFactionFrame.Name,
+    GamePadInitorNames.CharacterFactionFrame.Level);
+    
+    local factionFrame=CreateFrame("Frame",nil,nil,"FactionFrameTemplate2");
+    factionFrame:SetAllPoints(MaskFrameModule.bodyFrame);
+    self.faction_gamepadInitor:SetRegion(factionFrame);
 end
 
 function CharacterModule:InitEquipment(characterFrame)

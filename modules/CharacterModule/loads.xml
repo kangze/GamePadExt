@@ -5,6 +5,7 @@
     <Include file="frames\CharacterFrameTemplate.xml"/>
     <Include file="frames\CharacterTabsFrameTemplate.xml"/>
     <Include file="frames\PropertyItem\PropertyItemTemplate.xml"/>
+    <Include file="frames\FactionFrameTemplate2.xml"/>
     <Script file="CharacterModule.lua"/>
     <Script file="CharacterCore.lua"/>
     <Script file="CharacterCore_EnchantProperty.lua"/>

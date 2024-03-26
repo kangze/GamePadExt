@@ -156,8 +156,9 @@ function CharacterFrameTabActiveCallBack(headFrame)
 
     local gamePadInitor = GamePadInitor:Init(GamePadInitorNames.CharacterTabFrame.Name,
         GamePadInitorNames.CharacterTabFrame.Level);
-    gamePadInitor:Add(frame.tab_equipment, "group", GamePadInitorNames.CharacterEquipmentFrame.Name);
     gamePadInitor:Add(frame.tab_faction, "group", GamePadInitorNames.CharacterFactionFrame.Name);
+    gamePadInitor:Add(frame.tab_equipment, "group", GamePadInitorNames.CharacterEquipmentFrame.Name);
+
     gamePadInitor:Add(frame.tab_currency, "group", GamePadInitorNames.CharacterCurrencyFrame.Name);
     gamePadInitor:SetRegion(frame);
     RegisterCharacterTabGamepadButtonDown(gamePadInitor);
