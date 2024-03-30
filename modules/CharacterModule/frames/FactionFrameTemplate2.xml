@@ -81,6 +81,32 @@
 
             </Frame>
 
+            <Frame parentKey="currency" frameStrata="HIGH" enableMouse="true">
+                <Size x="200" y="55"/>
+                <Anchors>
+                    <Anchor point="BOTTOM" y="40"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture atlas="dragonflight-landingpage-renownbutton-tuskarr-hover" setAllPoints="true"/>
+                    </Layer>
+                    <Layer level="ARTWORK">
+                        <Texture parentKey="icon" atlas="darkshore_warfront_alliance_huntress">
+                            <Size x="25" y="25"/>
+                            <Anchors>
+                                <Anchor point="LEFT" x="20"/>
+                            </Anchors>
+                        </Texture>
+                        <Texture parentKey="iconBorder" atlas="UI-HUD-ActionBar-IconFrame-AddRow">
+                            <Size x="30" y="30"/>
+                            <Anchors>
+                                <Anchor point="LEFT" x="20"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+
         </Frames>
     </Frame>
 </Ui>
