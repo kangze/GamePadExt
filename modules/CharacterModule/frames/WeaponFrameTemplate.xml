@@ -1,0 +1,27 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+    http://wowprogramming.com/FrameXML/UI.xsd">
+
+    <DressUpModel name="WeaponDisplayModel">
+            <Size x="400" y="400"/>
+            <Anchors>
+                <Anchor point="CENTER"/>
+            </Anchors>
+            <PlayerDisplay>
+                <DisplayInfo>71086</DisplayInfo>
+            </PlayerDisplay>
+        </DressUpModel>
+<!-- local model = CreateFrame("DressUpModel", nil, UIParent)
+
+model:SetPoint("Center");
+-- 设置其大小
+model:SetSize(800, 800)
+
+ appearanceID, sourceID = C_TransmogCollection.GetItemInfo(71086);
+cameraID = C_TransmogCollection.GetAppearanceCameraIDBySource(sourceID);
+-- 设置其外观ID
+model.cameraID=cameraID
+model:SetItemAppearance(appearanceID)
+Model_ApplyUICamera(model, cameraID); -->
+</Ui>

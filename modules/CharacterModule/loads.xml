@@ -6,6 +6,8 @@
     <Include file="frames\CharacterTabsFrameTemplate.xml"/>
     <Include file="frames\PropertyItem\PropertyItemTemplate.xml"/>
     <Include file="frames\FactionFrameTemplate2.xml"/>
+    <Include file="frames\WeaponFrameTemplate.xml"/>
+    <Include file="frames\templates\GpeCurrencyItemTemplate.xml"/>
     <Script file="CharacterModule.lua"/>
     <Script file="CharacterCore.lua"/>
     <Script file="CharacterCore_EnchantProperty.lua"/>

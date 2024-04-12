@@ -1,0 +1,40 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\FrameXML\UI.xsd">
+    <Script file="GpeCurrencyItemTemplateMixin.lua"/>
+    <Frame name="GpeCurrencyItemTemplate" virtual="true" frameStrata="HIGH" enableMouse="true" mixin="GpeCurrencyItemTemplateMixin">
+        <Size x="200" y="55"/>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="background" atlas="dragonflight-landingpage-renownbutton-tuskarr" setAllPoints="true"/>
+            </Layer>
+            <Layer level="ARTWORK">
+                <Texture parentKey="icon" atlas="darkshore_warfront_alliance_huntress">
+                    <Size x="25" y="25"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="20"/>
+                    </Anchors>
+                </Texture>
+
+                <FontString parentKey="name" text="商贩标币" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                    <FontHeight val="13"/>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent.icon" relativePoint="RIGHT" x="5"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString parentKey="text" text="58,000" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
+                    <FontHeight val="13"/>
+                    <Anchors>
+                        <Anchor point="RIGHT" x="-20"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad method="OnLoad"/>
+            <OnEnter method="OnEnter"/>
+            <OnLeave method="OnLeave"/>
+        </Scripts>
+    </Frame>
+</Ui>
