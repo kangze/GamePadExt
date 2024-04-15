@@ -1,0 +1,21 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\FrameXML\UI.xsd">
+    <Script file="GpeExpansionItemTemplateMixin.lua"/>
+    <Frame name="GpeExpansionItemTemplate" virtual="true" frameStrata="HIGH" enableMouse="true" mixin="GpeExpansionItemTemplateMixin">
+        <Size x="190" y="50"/>
+        <Anchors>
+            <Anchor point="TOPLEFT" x="50" y="-50"/>
+        </Anchors>
+        <Layers>
+            <Layer level="background">
+                <Texture parentKey="background" atlas="spec-thumbnailborder-off" setAllPoints="true"/>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad method="OnLoad"/>
+            <OnEnter method="OnEnter"/>
+            <OnLeave method="OnLeave"/>
+        </Scripts>
+    </Frame>
+</Ui>

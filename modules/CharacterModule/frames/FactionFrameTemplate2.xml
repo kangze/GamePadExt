@@ -10,75 +10,18 @@
             </Layer>
         </Layers>
         <Frames>
-            <Frame parentKey="title1" frameStrata="HIGH" enableMouse="true">
+            <Frame parentKey="title1" inherits="GpeExpansionItemTemplate">
                 <Size x="190" y="50"/>
                 <Anchors>
                     <Anchor point="TOPLEFT" x="50" y="-50"/>
                 </Anchors>
-                <Layers>
-                    <Layer level="background">
-                        <Texture atlas="legioninvasion-ScenarioTrackerToast" setAllPoints="true"/>
-                    </Layer>
-                </Layers>
-                <Frames>
-
-                </Frames>
             </Frame>
 
-            <Frame parentKey="faction1" frameStrata="HIGH" enableMouse="true">
+            <Frame parentKey="faction1" inherits="GpeFactionItemTemplate">
                 <Size x="220" y="50"/>
                 <Anchors>
                     <Anchor point="CENTER"/>
                 </Anchors>
-                <Layers>
-                    <Layer level="background">
-                        <Texture atlas="plunderstorm-scenariotracker-active" setAllPoints="true"/>
-                    </Layer>
-                    <Layer level="ARTWORK">
-                        <FontString parentKey="title1" text="海达希亚" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
-                            <FontHeight val="12"/>
-                            <Anchors>
-                                <Anchor point="TOP" y="-10"/>
-                            </Anchors>
-                        </FontString>
-
-                    </Layer>
-                </Layers>
-
-                <Frames>
-                    <ItemButton parentKey="item" frameStrata="HIGH" enableMouse="true">
-                        <Anchors>
-                            <Anchor point="LEFT" x="8"/>
-                        </Anchors>
-                        <NormalTexture atlas="Professions-Recrafting-Frame-Item"/>
-                        <Scripts>
-                            <OnLoad>
-                                self.icon:SetAtlas("raceicon128-voidelf-female");
-                            </OnLoad>
-                        </Scripts>
-                    </ItemButton>
-                    <StatusBar parentKey="statusbar" frameStrata="HIGH" enableMouse="true">
-                        <Size y="10"/>
-                        <Anchors>
-                            <Anchor point="LEFT" relativeKey="$parent.item" relativePoint="RIGHT"/>
-                            <Anchor point="RIGHT" x="-10"/>
-                            <Anchor point="BOTTOM" y="8"/>
-                        </Anchors>
-                        <BarTexture atlas="UI-HUD-ExperienceBar-Fill-Experience"/>
-                        <Layers>
-                            <Layer level="OVERLAY">
-                                <Texture parentKey="border" atlas="UI-HUD-ExperienceBar-Frame">
-                                    <Anchors>
-                                        <Anchor point="TOPLEFT" x="-1" y="0"/>
-                                        <Anchor point="BOTTOMRIGHT" x="2" y="-4"/>
-                                    </Anchors>
-                                </Texture>
-                            </Layer>
-                        </Layers>
-                    </StatusBar>
-                </Frames>
-
-
             </Frame>
 
             <Frame parentKey="currency" inherits="GpeCurrencyItemTemplate">

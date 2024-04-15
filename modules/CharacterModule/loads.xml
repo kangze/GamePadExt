@@ -8,6 +8,8 @@
     <Include file="frames\FactionFrameTemplate2.xml"/>
     <Include file="frames\WeaponFrameTemplate.xml"/>
     <Include file="frames\templates\GpeCurrencyItemTemplate.xml"/>
+    <Include file="frames\templates\GpeFactionItemTemplate.xml"/>
+    <Include file="frames\templates\GpeExpansionItemTemplate.xml"/>
     <Script file="CharacterModule.lua"/>
     <Script file="CharacterCore.lua"/>
     <Script file="CharacterCore_EnchantProperty.lua"/>
