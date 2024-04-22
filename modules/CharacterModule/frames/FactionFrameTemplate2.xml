@@ -31,6 +31,25 @@
                 </Anchors>
             </Frame>
 
+            <Frame parentKey="currency" inherits="GpeMountItemTemplate">
+                <Anchors>
+                    <Anchor point="RIGHT" x="-300"/>
+                </Anchors>
+            </Frame>
+
+            <Frame parentKey="currency" inherits="GpeQuestItemTemplate">
+                <Anchors>
+                    <Anchor point="LEFT" x="300"/>
+                </Anchors>
+            </Frame>
+
+            <Frame parentKey="currency" inherits="GpeQuestContentTemplate">
+                <Anchors>
+                    <Anchor point="TOP" x="-50"/>
+                </Anchors>
+            </Frame>
+
+
         </Frames>
     </Frame>
 </Ui>

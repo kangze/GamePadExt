@@ -3,10 +3,10 @@
 ..\..\FrameXML\UI.xsd">
     <Script file="GpeCurrencyItemTemplateMixin.lua"/>
     <Frame name="GpeCurrencyItemTemplate" virtual="true" frameStrata="HIGH" enableMouse="true" mixin="GpeCurrencyItemTemplateMixin">
-        <Size x="200" y="55"/>
+        <Size x="200" y="35"/>
         <Layers>
             <Layer level="BACKGROUND">
-                <Texture parentKey="background" atlas="dragonflight-landingpage-renownbutton-tuskarr" setAllPoints="true"/>
+                <Texture parentKey="background" atlas="Garr_MissionToast" setAllPoints="true"/>
             </Layer>
             <Layer level="ARTWORK">
                 <Texture parentKey="icon" atlas="darkshore_warfront_alliance_huntress">
@@ -15,20 +15,36 @@
                         <Anchor point="LEFT" x="20"/>
                     </Anchors>
                 </Texture>
-
                 <FontString parentKey="name" text="商贩标币" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
                     <FontHeight val="13"/>
                     <Anchors>
-                        <Anchor point="LEFT" relativeKey="$parent.icon" relativePoint="RIGHT" x="5"/>
+                        <Anchor point="LEFT" relativeKey="$parent.icon" relativePoint="RIGHT" x="5" y="-4"/>
                     </Anchors>
                 </FontString>
 
                 <FontString parentKey="text" text="58,000" font="Fonts/FRIZQT__.TTF" outline="THICKOUTLINE" inherits="GameFontNormal" justifyH="CENTER" justifyV="TOP">
                     <FontHeight val="13"/>
                     <Anchors>
-                        <Anchor point="RIGHT" x="-20"/>
+                        <Anchor point="RIGHT" x="-20" y="-4"/>
                     </Anchors>
                 </FontString>
+            </Layer>
+            <Layer level="OVERLAY">
+                <Texture parentKey="iconBorder" atlas="Soulbinds_Tree_Ring">
+                    <Size x="35" y="35"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="15"/>
+                    </Anchors>
+                </Texture>
+                <MaskTexture parentKey="IconMask" atlas="activities-reward-mask" hWrapMode="CLAMPTOBLACKADDITIVE" vWrapMode="CLAMPTOBLACKADDITIVE">
+                    <Size x="25" y="25"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeKey="$parent.icon"/>
+                    </Anchors>
+                    <MaskedTextures>
+                        <MaskedTexture childKey="icon"/>
+                    </MaskedTextures>
+                </MaskTexture>
             </Layer>
         </Layers>
         <Scripts>

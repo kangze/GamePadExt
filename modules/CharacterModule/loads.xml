@@ -10,6 +10,9 @@
     <Include file="frames\templates\GpeCurrencyItemTemplate.xml"/>
     <Include file="frames\templates\GpeFactionItemTemplate.xml"/>
     <Include file="frames\templates\GpeExpansionItemTemplate.xml"/>
+    <Include file="frames\templates\GpeMountItemTemplate.xml"/>
+    <Include file="frames\templates\GpeQuestItemTemplate.xml"/>
+    <Include file="frames\templates\GpeQuestContentTemplate.xml"/>
     <Script file="CharacterModule.lua"/>
     <Script file="CharacterCore.lua"/>
     <Script file="CharacterCore_EnchantProperty.lua"/>
