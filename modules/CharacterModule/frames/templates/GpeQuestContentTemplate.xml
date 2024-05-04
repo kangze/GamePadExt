@@ -3,26 +3,18 @@
 ..\..\FrameXML\UI.xsd">
     <Script file="GpeQuestContentTemplateMixin.lua"/>
     <Frame name="GpeQuestContentTemplate" virtual="true" frameStrata="HIGH" enableMouse="true" mixin="GpeQuestContentTemplateMixin">
-        <Size x="350" y="550"/>
+        <Size x="300" y="430"/>
         <Anchors>
             <Anchor point="CENTER"/>
         </Anchors>
         <Layers>
             <Layer level="BACKGROUND">
-                <Texture parentKey="bg" atlas="UI-Frame-Kyrian-CardParchmentWider">
+                <Texture parentKey="bg" atlas="QuestBG-Horde">
                     <Anchors>
                         <Anchor point="TOP"/>
-                        <Anchor point="LEFT"/>
-                        <Anchor point="RIGHT"/>
-                        <Anchor point="BOTTOM" y="130"/>
-                    </Anchors>
-                </Texture>
-                <Texture atlas="AdventureMapQuest-RewardsPanel">
-                    <Anchors>
-                        <Anchor point="TOP" relativeKey="$parent.bg" relativePoint="BOTTOM"/>
+                        <Anchor point="LEFT" x="-5"/>
+                        <Anchor point="RIGHT" x="5"/>
                         <Anchor point="BOTTOM"/>
-                        <Anchor point="LEFT"/>
-                        <Anchor point="RIGHT"/>
                     </Anchors>
                 </Texture>
             </Layer>
