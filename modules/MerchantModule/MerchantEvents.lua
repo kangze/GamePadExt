@@ -22,6 +22,11 @@ function MerchantModule:MERCHANT_SHOW()
     MaskFrameModule:SetContents(self.buy_scrollFrame, self.buyback_scrollFrame);
 end
 
+function MerchantModule:ITEM_DATA_LOAD_RESULT(eventName, id, success)
+    local name = C_Item.GetItemInfo(id);
+    print(name);--搞定
+end
+
 function MerchantModule:MERCHANT_CLOSED()
     UIParent:Show();
     --通知MaskFrameModule关闭一些实例

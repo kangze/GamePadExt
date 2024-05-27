@@ -3,26 +3,28 @@ local Gpe = _G["Gpe"];
 
 local SoftTargetToolipModule = Gpe:GetModule('SoftTargetToolipModule')
 
-function SoftTargetToolipModule:OnLoad_SoftTargetTooltip()
-    self:RegisterEvent("PLAYER_SOFT_INTERACT_CHANGED", self.SoftTargetChanged2)
-    self:RegisterEvent("PLAYER_SOFT_ENEMY_CHANGED", self.SoftTargetChanged)
+function SoftTargetToolipModule:OnInitialize()
+    print("test");
+    self:RegisterEvent("PLAYER_SOFT_INTERACT_CHANGED")
+    self:RegisterEvent("PLAYER_SOFT_ENEMY_CHANGED")
 end
 
-function SoftTargetToolipModule:SoftTargetChanged(eventName, ...)
-    GameTooltip_SetDefaultAnchor(GameTooltip, UIParent)
+function SoftTargetToolipModule:PLAYER_SOFT_INTERACT_CHANGED(eventName, ...)
+    GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
     GameTooltip:SetUnit("softenemy");
     GameTooltip:Show()
 end
 
-function SoftTargetToolipModule:SoftTargetChanged2(eventName, ...)
+function SoftTargetToolipModule:PLAYER_SOFT_ENEMY_CHANGED(eventName, ...)
     GameTooltip_SetDefaultAnchor(GameTooltip, UIParent)
     local name = UnitName("softinteract");
     local level = UnitLevel("softinteract");
-    if (level == 0) then
+    print(12);
+    if (level == 0 and name) then
         GameTooltip:SetText(name);
         GameTooltip:Show()
     else
-        GameTooltip:SetUnit("softinteract");
+        GameTooltip:SetUnit("softenemy");
         GameTooltip:Show();
     end
 end

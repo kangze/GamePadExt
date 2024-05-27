@@ -25,6 +25,7 @@ local UIErrorFrameModule = Gpe:NewModule('UIErrorFrameModule');
 local CharacterModule = Gpe:NewModule('CharacterModule',"AceEvent-3.0", "AceHook-3.0");
 
 
+
 --配置配置的默认值存储
 AddonData.registration = { profile = {}, options = { type = "group", args = {} } };
 

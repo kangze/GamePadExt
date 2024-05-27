@@ -32,14 +32,14 @@ function GetColInfo(index, col, middle)
 end
 
 --渲染单个项目
-function MerchantItem_Create(index, itemLink, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
+function MerchantItem_Create(index, name, cost, texture, itemQuality, isMoney, isUsable, hasTransMog)
     local frame = CreateFrame("Frame", nil, nil, "MerchantItemTemplate1");
-    if (itemLink) then
-        itemLink = string.gsub(itemLink, "%[", "", 1);
-        itemLink = string.gsub(itemLink, "%]", "", 1);
-    end
-    frame.productName:SetText(itemLink);
-    frame.itemLink = itemLink;
+    -- if (itemLink) then
+    --     itemLink = string.gsub(itemLink, "%[", "", 1);
+    --     itemLink = string.gsub(itemLink, "%]", "", 1);
+    -- end
+    frame.productName:SetText(name);
+    frame.name = name;
     if (isMoney) then
         frame.costmoney:ApplyMoney(cost)
     else
@@ -67,8 +67,8 @@ function MerchantItem_Render(itemInfos, parentFrame, scrollFrame, isbuy)
     local middle = math.ceil(numItems / config.maxColum);
     for index = 1, numItems do
         local col = math.ceil(index / middle);
-        local itemLink, cost, texture, itemQuality, isMoney, isUsable = unpack(itemInfos[index]);
-        local merchantItem = MerchantItem_Create(index, itemLink, cost, texture, itemQuality, isMoney, isUsable, true);
+        local name, cost, texture, itemQuality, isMoney, isUsable = unpack(itemInfos[index]);
+        local merchantItem = MerchantItem_Create(index, name, cost, texture, itemQuality, isMoney, isUsable, true);
         merchantItem:ClearAllPoints();
         local offsetX, offsetY = GetColInfo(index, col, middle);
         merchantItem:SetParent(parentFrame);
@@ -78,6 +78,7 @@ function MerchantItem_Render(itemInfos, parentFrame, scrollFrame, isbuy)
         merchantItem.isbuy = isbuy;
         table.insert(items, merchantItem);
     end
+
     return items;
 end
 
@@ -144,7 +145,7 @@ function MerchantTabActiveCallBack(headFrame)
 end
 
 function MerchantHookErrorMessage()
-    UIErrorsFrame.AddMessage = function(selfs,message, r, g, b, id, accessID, typeID)
+    UIErrorsFrame.AddMessage = function(selfs, message, r, g, b, id, accessID, typeID)
         UIErrorFrameModule:AddMessage(message);
     end
 end

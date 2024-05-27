@@ -6,7 +6,7 @@
     <Include file="frames\CharacterTabsFrameTemplate.xml"/>
     <Include file="frames\PropertyItem\PropertyItemTemplate.xml"/>
     <Include file="frames\FactionFrameTemplate2.xml"/>
-    <Include file="frames\WeaponFrameTemplate.xml"/>
+    <!-- <Include file="frames\WeaponFrameTemplate.xml"/> -->
     <Include file="frames\templates\GpeCurrencyItemTemplate.xml"/>
     <Include file="frames\templates\GpeFactionItemTemplate.xml"/>
     <Include file="frames\templates\GpeExpansionItemTemplate.xml"/>

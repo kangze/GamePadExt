@@ -7,7 +7,7 @@ local CharacterModule = Gpe:GetModule('CharacterModule');
 local MaskFrameModule = Gpe:GetModule('MaskFrameModule');
 
 function CharacterModule:OnInitialize()
-    self:RegisterEvent("UI_ERROR_MESSAGE");
+    --self:RegisterEvent("UI_ERROR_MESSAGE");
 end
 
 function CharacterModule:OnEnable()
