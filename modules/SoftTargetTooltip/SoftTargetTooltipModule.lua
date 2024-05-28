@@ -6,7 +6,7 @@ local SoftTargetToolipModule = Gpe:GetModule('SoftTargetToolipModule')
 function SoftTargetToolipModule:OnInitialize()
     print("test");
     self:RegisterEvent("PLAYER_SOFT_INTERACT_CHANGED")
-    self:RegisterEvent("PLAYER_SOFT_ENEMY_CHANGED")
+    self:RegisterEvent("PLAYER_SOFT_ENEMY_CHANGED");
 end
 
 function SoftTargetToolipModule:PLAYER_SOFT_INTERACT_CHANGED(eventName, ...)

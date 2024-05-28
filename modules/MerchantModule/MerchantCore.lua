@@ -82,11 +82,11 @@ function MerchantItem_Render(itemInfos, parentFrame, scrollFrame, isbuy)
         if (not name or not itemQuality) then
             local itemId = GetMerchantItemID(index);
             local eventFrame = CreateFrame("Frame");
-            eventFrame.peddingId = itemId;
+            eventFrame.itemId = itemId;
             eventFrame.merchantItem = merchantItem;
             eventFrame:RegisterEvent("ITEM_DATA_LOAD_RESULT");
             eventFrame:SetScript("OnEvent", function(self, event, id, success)
-                if (success and self.peddingId == id) then
+                if (success and self.itemId == id) then
                     local itemName, itemLink, itemQuality = C_Item.GetItemInfo(id);
                     self.merchantItem.iconBorder:SetAtlas(GetQualityBorder(itemQuality));
                     self.merchantItem.productName:SetText(itemLink);
