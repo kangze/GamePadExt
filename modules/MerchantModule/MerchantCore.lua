@@ -77,6 +77,26 @@ function MerchantItem_Render(itemInfos, parentFrame, scrollFrame, isbuy)
         merchantItem.col = col;
         merchantItem.isbuy = isbuy;
         table.insert(items, merchantItem);
+
+        --解决物品还未加载得问题
+        if (not name or not itemQuality) then
+            local itemId = GetMerchantItemID(index);
+            local eventFrame = CreateFrame("Frame");
+            eventFrame.peddingId = itemId;
+            eventFrame.merchantItem = merchantItem;
+            eventFrame:RegisterEvent("ITEM_DATA_LOAD_RESULT");
+            eventFrame:SetScript("OnEvent", function(self, event, id, success)
+                if (success and self.peddingId == id) then
+                    local itemName, itemLink, itemQuality = C_Item.GetItemInfo(id);
+                    self.merchantItem.iconBorder:SetAtlas(GetQualityBorder(itemQuality));
+                    self.merchantItem.productName:SetText(itemLink);
+                    self.merchantItem.name = itemName;
+                    self.merchantItem.itemLink = itemLink;
+                    self:UnregisterAllEvents();
+                end
+            end);
+            C_Item.RequestLoadItemDataByID(itemId);
+        end
     end
 
     return items;

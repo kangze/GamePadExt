@@ -118,10 +118,6 @@ function MerchantApi:GetMerchantBuyItemInfo(index)
     
     local link = GetMerchantItemLink(index);
     local itemQuality = link and select(3, C_Item.GetItemInfo(link)) or nil;
-    if(not itemQuality) then
-        local id = GetMerchantItemID(index);
-        C_Item.RequestLoadItemDataByID(id);
-    end
     local cost, isMoney = MerchantApi:GetCostInfo(index);
     return name, cost, texture, itemQuality, isMoney, isUsable;
 end
@@ -132,8 +128,6 @@ function MerchantApi:GetMerchantBuyItemInfos()
     for index = 1, nums do
         name, cost, texture, itemQuality, isMoney, isUsable = self:GetMerchantBuyItemInfo(index)
         table.insert(infos, { name, cost, texture, itemQuality, isMoney, isUsable });
-        -- local name, texture, price, stackCount, numAvailable, isPurchasable, isUsable, extendedCost, currencyID, spellID;
-        -- name, texture, price, stackCount, numAvailable, isPurchasable, isUsable, extendedCost, currencyID, spellID = GetMerchantItemInfo(index);
     end
     return infos;
 end

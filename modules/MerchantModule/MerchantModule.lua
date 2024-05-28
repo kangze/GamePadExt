@@ -10,7 +10,6 @@ function MerchantModule:OnInitialize()
     --DeveloperConsole:Toggle()
 
     self:RegisterEvent("MERCHANT_SHOW");
-    self:RegisterEvent("ITEM_DATA_LOAD_RESULT");
     --self:RegisterEvent("MERCHANT_CLOSED")
     --self:SecureHook("OpenAllBags", "test");
 
