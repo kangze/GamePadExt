@@ -8,6 +8,96 @@ local config = {
     width_space = 40,
 }
 
+--渲染所有商品
+function MerchantItem_Render(itemInfos, parentFrame, scrollFrame, isbuy)
+    local numItems = #itemInfos;
+    local items = {};
+    local middle = math.ceil(numItems / config.maxColum);
+    for index = 1, numItems do
+        local col = math.ceil(index / middle);
+        local name, cost, texture, itemQuality, isMoney, isUsable = unpack(itemInfos[index]);
+        local merchantItem = MerchantItem_Create(index, name, cost, texture, itemQuality, isMoney, isUsable, true);
+        merchantItem:ClearAllPoints();
+        local offsetX, offsetY = GetColInfo(index, col, middle);
+        merchantItem:SetParent(parentFrame);
+        merchantItem:SetPoint("TOPLEFT", parentFrame, offsetX, offsetY);
+        merchantItem.scrollFrame = scrollFrame;
+        merchantItem.col = col;
+        merchantItem.isbuy = isbuy;
+        table.insert(items, merchantItem);
+
+        --解决物品还未加载得问题
+        if (not name or not itemQuality) then
+            local itemId = GetMerchantItemID(index);
+            local eventFrame = CreateFrame("Frame");
+            eventFrame.itemId = itemId;
+            eventFrame.merchantItem = merchantItem;
+            eventFrame:RegisterEvent("ITEM_DATA_LOAD_RESULT");
+            eventFrame:SetScript("OnEvent", function(self, event, id, success)
+                if (success and self.itemId == id) then
+                    local itemName, itemLink, itemQuality = C_Item.GetItemInfo(id);
+                    self.merchantItem.iconBorder:SetAtlas(GetQualityBorder(itemQuality));
+                    self.merchantItem.productName:SetText(itemLink);
+                    self.merchantItem.name = itemName;
+                    self.merchantItem.itemLink = itemLink;
+                    self:UnregisterAllEvents();
+                end
+            end);
+            C_Item.RequestLoadItemDataByID(itemId);
+        end
+    end
+
+    return items;
+end
+
+--滚动窗体创建
+function MerchantScorll_Create()
+    local scale = UIParent:GetEffectiveScale();
+    local height = GetScreenHeight() * scale - 30;
+
+    local scrollFrame = CreateFrame("ScrollFrame", nil, nil)
+    scrollFrame:SetSize(config.templateWidth * config.maxColum * 1.5, height)
+
+    --ScrollFade,0,0表示需要Play特定赋值
+    scrollFrame.animation_scroll = Animation:new(0.3, 0, 0, function(current)
+        scrollFrame:SetVerticalScroll(current);
+    end, nil, EasingFunctions.OutSine);
+
+    local enter_animation = Animation:new(0.8, 0, 1, function(current)
+        scrollFrame:SetAlpha(current);
+    end, nil, EasingFunctions.OutSine);
+    local enter_callback = function(frame)
+        frame:SetAlpha(0);
+        frame:Show();
+        enter_animation:Play();
+    end
+    local leave_callback = function(frame)
+        frame:Hide();
+    end
+
+    local scrollChildFrame = CreateFrame("Frame", nil, scrollFrame);
+    scrollFrame.OnEnter = enter_callback;
+    scrollFrame.OnLeave = leave_callback;
+    scrollFrame:SetScrollChild(scrollChildFrame)
+    scrollChildFrame:SetSize(config.templateWidth * config.maxColum * 1.5, height);
+
+    scrollFrame:SetPoint("TOP", UIParent, 0, -40);
+    return scrollFrame, scrollChildFrame;
+end
+
+--初始化幻化框体的布局
+function MerchantDressUpFrame_Create(bodyFrame)
+    local frame = CreateFrame("Frame", nil, nil, "DressupFrameTemplate");
+    frame:ClearAllPoints();
+    frame:SetPoint("RIGHT", bodyFrame, 0, 0);
+    local scale = UIParent:GetEffectiveScale();
+    frame:SetWidth(300);
+    frame:SetHeight(GetScreenHeight() * scale - 100);
+    frame:SetFrameStrata("DIALOG");
+    frame:Hide();
+    return frame;
+end
+
 --计算列
 function GetColInfo(index, col, middle)
     local width = config.templateWidth;
@@ -57,96 +147,6 @@ function MerchantItem_Create(index, name, cost, texture, itemQuality, isMoney, i
     end
     frame.iconBorder:SetAtlas(GetQualityBorder(itemQuality));
     frame:SetAlpha(1);
-    return frame;
-end
-
---布局所有的item项目
-function MerchantItem_Render(itemInfos, parentFrame, scrollFrame, isbuy)
-    local numItems = #itemInfos;
-    local items = {};
-    local middle = math.ceil(numItems / config.maxColum);
-    for index = 1, numItems do
-        local col = math.ceil(index / middle);
-        local name, cost, texture, itemQuality, isMoney, isUsable = unpack(itemInfos[index]);
-        local merchantItem = MerchantItem_Create(index, name, cost, texture, itemQuality, isMoney, isUsable, true);
-        merchantItem:ClearAllPoints();
-        local offsetX, offsetY = GetColInfo(index, col, middle);
-        merchantItem:SetParent(parentFrame);
-        merchantItem:SetPoint("TOPLEFT", parentFrame, offsetX, offsetY);
-        merchantItem.scrollFrame = scrollFrame;
-        merchantItem.col = col;
-        merchantItem.isbuy = isbuy;
-        table.insert(items, merchantItem);
-
-        --解决物品还未加载得问题
-        if (not name or not itemQuality) then
-            local itemId = GetMerchantItemID(index);
-            local eventFrame = CreateFrame("Frame");
-            eventFrame.itemId = itemId;
-            eventFrame.merchantItem = merchantItem;
-            eventFrame:RegisterEvent("ITEM_DATA_LOAD_RESULT");
-            eventFrame:SetScript("OnEvent", function(self, event, id, success)
-                if (success and self.itemId == id) then
-                    local itemName, itemLink, itemQuality = C_Item.GetItemInfo(id);
-                    self.merchantItem.iconBorder:SetAtlas(GetQualityBorder(itemQuality));
-                    self.merchantItem.productName:SetText(itemLink);
-                    self.merchantItem.name = itemName;
-                    self.merchantItem.itemLink = itemLink;
-                    self:UnregisterAllEvents();
-                end
-            end);
-            C_Item.RequestLoadItemDataByID(itemId);
-        end
-    end
-
-    return items;
-end
-
---初始化滚动窗体的布局
-function MerchantScorll_Create()
-    local scale = UIParent:GetEffectiveScale();
-    local height = GetScreenHeight() * scale - 30;
-
-    local scrollFrame = CreateFrame("ScrollFrame", nil, nil)
-    scrollFrame:SetSize(config.templateWidth * config.maxColum * 1.5, height)
-
-    --ScrollFade,0,0表示需要Play特定赋值
-    scrollFrame.animation_scroll = Animation:new(0.3, 0, 0, function(current)
-        scrollFrame:SetVerticalScroll(current);
-    end, nil, EasingFunctions.OutSine);
-
-    local enter_animation = Animation:new(0.8, 0, 1, function(current)
-        scrollFrame:SetAlpha(current);
-    end, nil, EasingFunctions.OutSine);
-    local enter_callback = function(frame)
-        frame:SetAlpha(0);
-        frame:Show();
-        enter_animation:Play();
-    end
-    local leave_callback = function(frame)
-        frame:Hide();
-    end
-
-    local scrollChildFrame = CreateFrame("Frame", nil, scrollFrame);
-    scrollFrame.OnEnter = enter_callback;
-    scrollFrame.OnLeave = leave_callback;
-    scrollFrame:SetScrollChild(scrollChildFrame)
-    scrollChildFrame:SetSize(config.templateWidth * config.maxColum * 1.5, height);
-
-    scrollFrame:SetPoint("TOP", UIParent, 0, -40);
-    return scrollFrame, scrollChildFrame;
-end
-
---初始化幻化框体的布局
-function MerchantDressUpFrame_Create(bodyFrame)
-    local frame = CreateFrame("Frame", nil, nil, "DressupFrameTemplate");
-    frame:ClearAllPoints();
-    frame:SetPoint("RIGHT", bodyFrame, 0, 0);
-    local scale = UIParent:GetEffectiveScale();
-    frame:SetWidth(300);
-    frame:SetHeight(GetScreenHeight() * scale - 100);
-    frame:SetFrameStrata("DIALOG");
-    frame:Hide();
     return frame;
 end
 
